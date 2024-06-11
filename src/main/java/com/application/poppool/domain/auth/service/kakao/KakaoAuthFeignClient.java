@@ -15,7 +15,7 @@ public interface KakaoAuthFeignClient {
     /**
      * 카카오 토큰 정보 얻기
      */
-    @GetMapping("/v1/user/access_token_info")
+    @GetMapping(value = "/v1/user/access_token_info")
     KakaoTokenInfoResponse getKakaoTokenInfo(@RequestHeader("Authorization") String accessToken);
 
 

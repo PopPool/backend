@@ -30,27 +30,33 @@ public class AuthService {
         if (!user.isPresent()) {
             
             // ios 클라이언트로 전달 받은 카카오 엑세스토큰이 유효한지 검증
-            validateKakaoAccessToken(kakaoUserId,kakaoLoginRequest.getKakaoAccessToken());
-            
-            UserEntity userEntity = UserEntity.builder()
-                    .userId(kakaoUserId)
-                    .socialType(SocialType.KAKAO)
-                    .build();
+            if (validateKakaoAccessToken(kakaoUserId,kakaoLoginRequest.getKakaoAccessToken())) {
 
-            // 회원가입
-            userRepository.save(userEntity);
+                UserEntity userEntity = UserEntity.builder()
+                        .userId(kakaoUserId)
+                        .socialType(SocialType.KAKAO)
+                        .build();
 
-            // 로그인 응답
-            LoginResponse loginResponse = jwtService.createJwtToken(userEntity.getUserId());
-            return LoginResponse.builder()
-                    .userId(userEntity.getUserId())
-                    .grantType(loginResponse.getGrantType())
-                    .accessToken(loginResponse.getAccessToken())
-                    .accessTokenExpiresIn(loginResponse.getAccessTokenExpiresIn())
-                    .refreshToken(loginResponse.getRefreshToken())
-                    .refreshTokenExpiresIn(loginResponse.getRefreshTokenExpiresIn())
-                    .socialType(SocialType.KAKAO) // 자체 로그인이므로 소셜 타입은 null
-                    .build();
+                // 회원가입
+                userRepository.save(userEntity);
+
+                // 로그인 응답
+                LoginResponse loginResponse = jwtService.createJwtToken(userEntity.getUserId());
+                return LoginResponse.builder()
+                        .userId(userEntity.getUserId())
+                        .grantType(loginResponse.getGrantType())
+                        .accessToken(loginResponse.getAccessToken())
+                        .accessTokenExpiresIn(loginResponse.getAccessTokenExpiresIn())
+                        .refreshToken(loginResponse.getRefreshToken())
+                        .refreshTokenExpiresIn(loginResponse.getRefreshTokenExpiresIn())
+                        .socialType(SocialType.KAKAO) // 자체 로그인이므로 소셜 타입은 null
+                        .build();
+            }
+            else{
+                /**
+                 * TO - DO
+                 */
+            }
         }
 
         /**
@@ -59,7 +65,9 @@ public class AuthService {
 
         // 클라이언트로부터 넘어온 카카오 userId 값과 DB 유저 테이블에 있는 userId 비교
         if (!kakaoUserId.equals(user.get().getUserId())) {
-            return null;
+            /**
+             * TO - DO
+             */
         }
 
         LoginResponse loginResponse = jwtService.createJwtToken(user.get().getUserId());
@@ -76,9 +84,10 @@ public class AuthService {
     }
 
     public boolean validateKakaoAccessToken(String kakaoUserId, String kakaoAccessToken) {
+
         KakaoTokenInfoResponse response = kakaoAuthFeignClient.getKakaoTokenInfo("Bearer " + kakaoAccessToken);
         if (response != null && response.getId() != null
-                && response.getExpiresIn() > 0 && response.getId().equals(kakaoUserId)) {
+                && response.getExpires_in() > 0 && (String.valueOf(response.getId()) + "@kakao").equals(kakaoUserId)) {
             return true;
         }
         return false;
