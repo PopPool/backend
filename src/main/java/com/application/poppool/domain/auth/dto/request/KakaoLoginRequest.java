@@ -6,8 +6,8 @@ import lombok.Getter;
 @Getter
 public class KakaoLoginRequest {
 
-    @NotBlank
-    private String kakaoUserId;
+    private Long kakaoUserId;
     private String kakaoAccessToken;
+
 
 }
