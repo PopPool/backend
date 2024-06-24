@@ -1,0 +1,7 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${DB_LOCAL_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+    #만들어진 sql 보여줌
