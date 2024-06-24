@@ -30,7 +30,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     private static final String[] PERMIT_URL = {
-            "/oauth/**","/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html"
+            "/auth/**","/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html"
     };
 
     private static final String[] GetMethodPermitURL = {
@@ -48,7 +48,7 @@ public class SecurityConfig {
                 .httpBasic(AbstractHttpConfigurer::disable)
                 //== URL별 권한 관리 옵션 ==//
                 .authorizeHttpRequests((authorize) -> authorize
-                    .requestMatchers("/users/**").hasRole("USER")
+                    //.requestMatchers("/users/**").hasRole("USER")
                     .requestMatchers(PERMIT_URL).permitAll()
                     .requestMatchers(HttpMethod.GET, GetMethodPermitURL).permitAll()
                     .anyRequest().authenticated()
