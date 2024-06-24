@@ -1,6 +1,6 @@
 package com.application.poppool.domain.auth.dto.response;
 
-import com.application.poppool.domain.auth.SocialType;
+import com.application.poppool.domain.auth.enums.SocialType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,5 +19,6 @@ public class LoginResponse {
     private Long accessTokenExpiresIn;
     private Long refreshTokenExpiresIn;
     private SocialType socialType;
+    private boolean isRegisteredUser;
 
 }
