@@ -1,4 +1,4 @@
-package com.application.poppool.domain.user;
+package com.application.poppool.domain.user.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
