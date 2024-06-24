@@ -1,7 +1,9 @@
 package com.application.poppool.domain.user.entity;
 
-import com.application.poppool.domain.auth.SocialType;
-import com.application.poppool.domain.user.Role;
+import com.application.poppool.domain.Interest.entity.InterestEntity;
+import com.application.poppool.domain.auth.enums.SocialType;
+import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.domain.user.enums.Role;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -9,9 +11,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Entity
 @Table(name = "user")
@@ -27,16 +27,18 @@ public class UserEntity implements UserDetails {
     private String userId; // 회원 ID
 
     @Column(name = "PASSWORD")
+    @Builder.Default
     private String password = ""; // Default 값으로 빈 문자열 설정
 
     @Column(name = "NICKNAME")
     private String nickName; // 닉네임
 
     @Column(name = "GENDER")
-    private String gender; // 성별
+    @Enumerated(EnumType.STRING)
+    private Gender gender; // 성별
 
     @Column(name = "AGE")
-    private Integer age;
+    private Integer age; // 연령
 
     @Column(name = "TERM_AGREE_YN")
     private String termAgreeYn; // 약관동의 여부
@@ -49,6 +51,10 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
+    private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
@@ -60,6 +66,13 @@ public class UserEntity implements UserDetails {
     public void updateNickname(String nickName){
         this.nickName = nickName;
     }
+
+
+    // 유저의 관심사 추가
+    public void addInterest(UserInterestEntity userInterestEntity) {
+        userInterestEntities.add(userInterestEntity);
+    }
+
 
     @Override
     public String getUsername() {
