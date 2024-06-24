@@ -1,5 +1,6 @@
 package com.application.poppool.domain.auth.service.kakao;
 
+import com.application.poppool.domain.auth.dto.info.KakaoToken;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +17,7 @@ public interface KakaoAuthFeignClient {
      * 카카오 토큰 정보 얻기
      */
     @GetMapping(value = "/v1/user/access_token_info")
-    KakaoTokenInfoResponse getKakaoTokenInfo(@RequestHeader("Authorization") String accessToken);
+    KakaoToken getKakaoTokenInfo(@RequestHeader("Authorization") String accessToken);
 
 
 }

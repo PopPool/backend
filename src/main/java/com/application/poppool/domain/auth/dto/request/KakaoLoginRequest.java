@@ -9,5 +9,4 @@ public class KakaoLoginRequest {
     private Long kakaoUserId;
     private String kakaoAccessToken;
 
-
 }
