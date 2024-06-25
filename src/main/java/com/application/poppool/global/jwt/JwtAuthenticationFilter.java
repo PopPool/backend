@@ -20,7 +20,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     private final JwtService jwtService;
 
     public static final String[] TEMPORARY_TOKEN_ALLOWED_URLS = {
-            "/signup"
+            "/signup/**"
     };
 
     @Override
