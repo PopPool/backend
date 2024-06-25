@@ -1,11 +1,11 @@
 package com.application.poppool.domain.sign_up.service;
 
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.interest.entity.InterestEntity;
 import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
+import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
 import com.application.poppool.domain.user.enums.Gender;
@@ -30,6 +30,7 @@ public class SignUpService {
 
     /**
      * 회원가입
+     *
      * @param signUpRequest
      */
     @Transactional
@@ -58,6 +59,7 @@ public class SignUpService {
 
     /**
      * 회원가입 시, 관심사 등록 (회원가입에서만 쓰는 함수) - 책임 분리 원칙
+     *
      * @param userInterests
      * @param userEntity
      */
@@ -89,6 +91,7 @@ public class SignUpService {
 
     /**
      * 성별 후보군 목록 조회
+     *
      * @return
      */
     @Transactional(readOnly = true)
@@ -102,6 +105,7 @@ public class SignUpService {
 
     /**
      * 관심사 후보군(목록) 전체 조회
+     *
      * @return
      */
     @Transactional(readOnly = true)

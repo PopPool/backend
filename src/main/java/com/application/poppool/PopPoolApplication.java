@@ -8,8 +8,8 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 @SpringBootApplication
 public class PopPoolApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(PopPoolApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(PopPoolApplication.class, args);
+    }
 
 }

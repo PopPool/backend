@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
  * 프로젝트에서 발생한 예외를 처리할 때 사용하는 Base Exception.
  * 모든 Exception의 기반이 된다.
  */
-public class BaseException extends RuntimeException{
+public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     @Getter
@@ -17,7 +17,7 @@ public class BaseException extends RuntimeException{
     @Getter
     public String causeData;
 
-    public BaseException(String message){
+    public BaseException(String message) {
         super(message);
         this.code = 5000;
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
@@ -44,6 +44,7 @@ public class BaseException extends RuntimeException{
 
     /**
      * ExceptionAdvise Common
+     *
      * @return
      */
     public ExceptionResponse buildExceptionResponseDTO() {

@@ -62,7 +62,7 @@ public class UserEntity implements UserDetails {
     }
 
     // 닉네임 변경
-    public void updateNickname(String nickName){
+    public void updateNickname(String nickName) {
         this.nickName = nickName;
     }
 

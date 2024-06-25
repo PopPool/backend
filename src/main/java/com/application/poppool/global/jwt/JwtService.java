@@ -1,7 +1,7 @@
 package com.application.poppool.global.jwt;
 
-import com.application.poppool.domain.auth.enums.TokenType;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
+import com.application.poppool.domain.auth.enums.TokenType;
 import com.application.poppool.global.security.CustomUserDetailsService;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
@@ -37,7 +37,7 @@ public class JwtService {
 
     }
 
-    public LoginResponse createJwtToken(String userId, boolean isTemporary){
+    public LoginResponse createJwtToken(String userId, boolean isTemporary) {
 
         long now = (new Date()).getTime();
 
@@ -66,7 +66,7 @@ public class JwtService {
         return claims;
     }
 
-    public String createAccessToken(String userId, boolean isTemporary, Date expirationTime){
+    public String createAccessToken(String userId, boolean isTemporary, Date expirationTime) {
 
         // 클레임 설정
         Map<String, Object> claims = this.setClaims(userId, isTemporary);
@@ -135,7 +135,7 @@ public class JwtService {
     public String getAccessToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(jwtProperties.getAccess().getHeader());
 
-        if(authorizationHeader != null && !authorizationHeader.equals("")){
+        if (authorizationHeader != null && !authorizationHeader.equals("")) {
             if (authorizationHeader.startsWith("Bearer") && authorizationHeader.length() > 7) {
                 String accessToken = authorizationHeader.substring(7); // accesstoken 추출
                 return accessToken;
@@ -149,7 +149,7 @@ public class JwtService {
     public String getRefreshToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(jwtProperties.getRefresh().getHeader());
 
-        if(authorizationHeader != null && !authorizationHeader.equals("")){
+        if (authorizationHeader != null && !authorizationHeader.equals("")) {
             if (authorizationHeader.startsWith("Bearer") && authorizationHeader.length() > 7) {
                 String refreshToken = authorizationHeader.substring(7); // refresh 추출
                 return refreshToken;

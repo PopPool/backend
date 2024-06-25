@@ -1,8 +1,8 @@
 package com.application.poppool.domain.sign_up.controller;
 
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
+import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;

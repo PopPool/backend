@@ -11,7 +11,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@Tag(name =  "인증/인가 - 회원가입/로그인 API")
+@Tag(name = "인증/인가 - 회원가입/로그인 API")
 public interface AuthControllerDoc {
     @Operation(summary = "카카오 로그인", description = "카카오 로그인을 진행합니다.")
     ResponseEntity<LoginResponse> kakaoLogin(@RequestBody @Valid KakaoLoginRequest kakaoLoginRequest, HttpServletResponse response);

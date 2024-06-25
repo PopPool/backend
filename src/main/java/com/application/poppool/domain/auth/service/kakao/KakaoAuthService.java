@@ -25,6 +25,7 @@ public class KakaoAuthService {
 
     /**
      * 카카오 로그인
+     *
      * @param kakaoLoginRequest
      * @param response
      * @return
@@ -52,7 +53,7 @@ public class KakaoAuthService {
         }
 
         // 로그인 응답
-        LoginResponse loginResponse = jwtService.createJwtToken(userId,isTemporaryToken);
+        LoginResponse loginResponse = jwtService.createJwtToken(userId, isTemporaryToken);
         // 헤더에 토큰 싣기
         jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
         jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
@@ -72,6 +73,7 @@ public class KakaoAuthService {
 
     /**
      * 카카오 accessToken 검증
+     *
      * @param userId
      * @param kakaoAccessToken
      * @return

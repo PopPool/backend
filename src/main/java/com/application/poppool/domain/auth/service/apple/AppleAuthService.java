@@ -4,7 +4,6 @@ import com.application.poppool.domain.auth.dto.info.ApplePublicKeys;
 import com.application.poppool.domain.auth.dto.request.AppleLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.SocialType;
-import com.application.poppool.domain.auth.service.kakao.KakaoAuthFeignClient;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -42,6 +41,7 @@ public class AppleAuthService {
 
     /**
      * 애플 로그인
+     *
      * @param appleLoginRequest
      * @param response
      * @return
@@ -69,7 +69,7 @@ public class AppleAuthService {
         }
 
         // 로그인 응답
-        LoginResponse loginResponse = jwtService.createJwtToken(userId,isTemporaryToken);
+        LoginResponse loginResponse = jwtService.createJwtToken(userId, isTemporaryToken);
         // 헤더에 토큰 싣기
         jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
         jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
@@ -89,6 +89,7 @@ public class AppleAuthService {
 
     /**
      * 애플 ID 토큰 검증 및 애플 고유 식별자 추출
+     *
      * @param idToken
      * @return
      */
@@ -131,6 +132,7 @@ public class AppleAuthService {
 
     /**
      * 1. Apple PublicKey 요청
+     *
      * @return
      */
     private List<ApplePublicKeys.Key> getApplePublicKeys() {
@@ -141,6 +143,7 @@ public class AppleAuthService {
 
     /**
      * 2. Id Token 디코딩
+     *
      * @param idToken
      * @return
      * @throws JsonProcessingException
@@ -154,6 +157,7 @@ public class AppleAuthService {
 
     /**
      * 3. ID 토큰의 kid (Key ID)와 매칭되는 공개 키 찾기
+     *
      * @param keys
      * @param kid
      * @return
@@ -167,6 +171,7 @@ public class AppleAuthService {
 
     /**
      * 4. 공개 키 생성
+     *
      * @param matchingKey
      * @return
      * @throws NoSuchAlgorithmException
@@ -175,12 +180,13 @@ public class AppleAuthService {
     private PublicKey generatePublicKey(ApplePublicKeys.Key matchingKey) throws NoSuchAlgorithmException, InvalidKeySpecException {
         byte[] nBytes = Base64.getUrlDecoder().decode(matchingKey.getN());
         byte[] eBytes = Base64.getUrlDecoder().decode(matchingKey.getE());
-        return  KeyFactory.getInstance("RSA")
+        return KeyFactory.getInstance("RSA")
                 .generatePublic(new RSAPublicKeySpec(new BigInteger(1, nBytes), new BigInteger(1, eBytes)));
     }
 
     /**
      * 5. setSigningKey(publicKey)를 통해 검증 및 claim 생성
+     *
      * @param publicKey
      * @param idToken
      * @return

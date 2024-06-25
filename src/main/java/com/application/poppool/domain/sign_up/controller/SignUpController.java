@@ -1,8 +1,8 @@
 package com.application.poppool.domain.sign_up.controller;
 
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
+import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.sign_up.service.SignUpService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +22,7 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 회원가입
+     *
      * @param signUpRequest
      */
     @PostMapping("")
@@ -41,6 +42,7 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 성별 후보군 목록 조회
+     *
      * @return
      */
     @GetMapping("/genders")

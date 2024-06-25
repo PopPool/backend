@@ -17,6 +17,7 @@ public class InterestService {
 
     /**
      * 관리자가 관심사를 DB 테이블에 등록
+     *
      * @param interests
      */
     @Transactional

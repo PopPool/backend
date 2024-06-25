@@ -61,94 +61,86 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
     }
 
     /**
-    //공통예외처리 적용 개발시엔 주석처리후 디버깅 가능
-    @ExceptionHandler(NoSuchElementException.class)
-    public ResponseEntity<Object> handleNoSuchElementException(
-            NoSuchElementException ex, WebRequest request) {
-        BadRequestException badRequestFromViolation;
-        log.debug("handleNoSuchElementException : {}", ex.getMessage(), ex);
+     //공통예외처리 적용 개발시엔 주석처리후 디버깅 가능
+     @ExceptionHandler(NoSuchElementException.class) public ResponseEntity<Object> handleNoSuchElementException(
+     NoSuchElementException ex, WebRequest request) {
+     BadRequestException badRequestFromViolation;
+     log.debug("handleNoSuchElementException : {}", ex.getMessage(), ex);
 
-        badRequestFromViolation = new BadRequestException(ErrorCode.NO_SUCH_ELEMENT_EXCEPTION);
-        return handleException(badRequestFromViolation, request);
-    }
+     badRequestFromViolation = new BadRequestException(ErrorCode.NO_SUCH_ELEMENT_EXCEPTION);
+     return handleException(badRequestFromViolation, request);
+     }
 
-    @ExceptionHandler(IllegalArgumentException.class)
-    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+     @ExceptionHandler(IllegalArgumentException.class) public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
 
-        log.debug("handleIllegalArgumentException : {}", ex.getMessage(), ex);
+     log.debug("handleIllegalArgumentException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.ILLEGAL_ARGUMENT_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.ILLEGAL_ARGUMENT_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     }
 
-    @ExceptionHandler(NullPointerException.class)
-    public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest request) {
+     @ExceptionHandler(NullPointerException.class) public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest request) {
 
-        log.debug("handleNullPointerException : {}", ex.getMessage(), ex);
+     log.debug("handleNullPointerException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.NULL_POINT_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.NULL_POINT_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     }
 
-    @ExceptionHandler(IndexOutOfBoundsException.class)
-    public ResponseEntity<Object> handleIndexOutOfBoundsException(IndexOutOfBoundsException ex, WebRequest request) {
+     @ExceptionHandler(IndexOutOfBoundsException.class) public ResponseEntity<Object> handleIndexOutOfBoundsException(IndexOutOfBoundsException ex, WebRequest request) {
 
-        log.debug("handleIndexOutOfBoundsException : {}", ex.getMessage(), ex);
+     log.debug("handleIndexOutOfBoundsException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.INDEX_OUT_OF_BOUNDS_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.INDEX_OUT_OF_BOUNDS_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     }
 
-    @ExceptionHandler(ArithmeticException.class)
-    public ResponseEntity<Object> handleArithmeticException(ArithmeticException ex, WebRequest request) {
+     @ExceptionHandler(ArithmeticException.class) public ResponseEntity<Object> handleArithmeticException(ArithmeticException ex, WebRequest request) {
 
-        log.debug("handleArithmeticException : {}", ex.getMessage(), ex);
+     log.debug("handleArithmeticException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.ARITHMETIC_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.ARITHMETIC_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     }
 
-    @ExceptionHandler(MultipartException.class)
-    public ResponseEntity<Object> handleMultipartException(MultipartException ex, WebRequest request) {
+     @ExceptionHandler(MultipartException.class) public ResponseEntity<Object> handleMultipartException(MultipartException ex, WebRequest request) {
 
-        log.debug("handleMultipartException : {}", ex.getMessage(), ex);
+     log.debug("handleMultipartException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.MULTIPART_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-    }
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.MULTIPART_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     }
 
-    @ExceptionHandler({PersistenceException.class, JpaSystemException.class, RollbackException.class, DataIntegrityViolationException.class,
-            NonUniqueResultException.class, ConstraintViolationException.class, QueryException.class, TransactionException.class, DuplicateKeyException.class})
-    public ResponseEntity<Object> handleDataBaseException(Exception ex,  WebRequest request) {
-        log.debug("handleDatabaseException : {}", ex.getMessage(), ex);
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.DATABASE_EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+     @ExceptionHandler({PersistenceException.class, JpaSystemException.class, RollbackException.class, DataIntegrityViolationException.class,
+     NonUniqueResultException.class, ConstraintViolationException.class, QueryException.class, TransactionException.class, DuplicateKeyException.class})
+     public ResponseEntity<Object> handleDataBaseException(Exception ex,  WebRequest request) {
+     log.debug("handleDatabaseException : {}", ex.getMessage(), ex);
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.DATABASE_EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
 
-    }
+     }
 
-    @ExceptionHandler(RuntimeException.class)
-    public ResponseEntity<Object> handleRunTimeException(RuntimeException ex,  WebRequest request) {
-        log.debug("handleRuntimeException : {}", ex.getMessage(), ex);
+     @ExceptionHandler(RuntimeException.class) public ResponseEntity<Object> handleRunTimeException(RuntimeException ex,  WebRequest request) {
+     log.debug("handleRuntimeException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 
-    }
+     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
-        log.debug("handleException : {}", ex.getMessage(), ex);
+     @ExceptionHandler(Exception.class) public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
+     log.debug("handleException : {}", ex.getMessage(), ex);
 
-        ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-                .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
-        return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-    }
-    */
+     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
+     .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
+     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+     }
+     */
 }

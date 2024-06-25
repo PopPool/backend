@@ -6,8 +6,8 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
-      naming :
-        physical-strategy : org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
     format-sql: true
 
@@ -38,7 +38,7 @@ oauth:
     auth-url: https://appleid.apple.com
 
 server:
-  port : 8080
+  port: 8080
   servlet:
     encoding:
       charset: UTF-8
@@ -47,7 +47,7 @@ server:
 
 logging:
   level:
-    com.board : DEBUG
+    com.board: DEBUG
 
 ---
 spring:
