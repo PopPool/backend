@@ -9,5 +9,4 @@ public enum SocialType {
     KAKAO("@kakao"), APPLE("@apple");
 
     private final String socialSuffix;
-
 }
