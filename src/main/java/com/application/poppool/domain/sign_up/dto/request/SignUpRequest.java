@@ -1,6 +1,6 @@
-package com.application.poppool.domain.auth.dto.request;
+package com.application.poppool.domain.sign_up.dto.request;
 
-import com.application.poppool.domain.Interest.enums.InterestType;
+import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.user.enums.Gender;
 import lombok.Getter;

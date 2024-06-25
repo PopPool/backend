@@ -1,6 +1,5 @@
 package com.application.poppool.domain.user.entity;
 
-import com.application.poppool.domain.Interest.entity.InterestEntity;
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
