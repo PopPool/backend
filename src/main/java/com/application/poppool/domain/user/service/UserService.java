@@ -64,4 +64,9 @@ public class UserService {
 
 
     }
+
+    @Transactional(readOnly = true)
+    public boolean isNickNameDuplicate(String nickName) {
+        return userRepository.findByNickName(nickName).isPresent();
+    }
 }
