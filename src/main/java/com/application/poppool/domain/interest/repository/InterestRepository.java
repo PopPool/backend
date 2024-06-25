@@ -1,7 +1,7 @@
-package com.application.poppool.domain.Interest.repository;
+package com.application.poppool.domain.interest.repository;
 
-import com.application.poppool.domain.Interest.entity.InterestEntity;
-import com.application.poppool.domain.Interest.enums.InterestType;
+import com.application.poppool.domain.interest.entity.InterestEntity;
+import com.application.poppool.domain.interest.enums.InterestType;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

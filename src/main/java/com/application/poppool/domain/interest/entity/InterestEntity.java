@@ -1,7 +1,7 @@
-package com.application.poppool.domain.Interest.entity;
+package com.application.poppool.domain.interest.entity;
 
 
-import com.application.poppool.domain.Interest.enums.InterestType;
+import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
 import jakarta.persistence.*;
 import lombok.*;

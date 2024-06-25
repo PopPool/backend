@@ -1,4 +1,4 @@
-package com.application.poppool.domain.Interest.enums;
+package com.application.poppool.domain.interest.enums;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +19,6 @@ public enum InterestType {
     SPORTS("스포츠"),             // 스포츠
     GAMES("게임");                 // 게임
 
-    private final String name;
+    private final String interestName;
 
 }

@@ -1,9 +1,8 @@
-package com.application.poppool.domain.Interest.service;
+package com.application.poppool.domain.interest.service;
 
-import com.application.poppool.domain.Interest.entity.InterestEntity;
-import com.application.poppool.domain.Interest.enums.InterestType;
-import com.application.poppool.domain.Interest.repository.InterestRepository;
-import lombok.Getter;
+import com.application.poppool.domain.interest.entity.InterestEntity;
+import com.application.poppool.domain.interest.enums.InterestType;
+import com.application.poppool.domain.interest.repository.InterestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -16,6 +15,10 @@ public class InterestService {
 
     private final InterestRepository interestRepository;
 
+    /**
+     * 관리자가 관심사를 DB 테이블에 등록
+     * @param interests
+     */
     @Transactional
     public void addInterest(Set<InterestType> interests) {
         for (InterestType interestType : interests) {
@@ -23,7 +26,7 @@ public class InterestService {
                     .orElseGet(() -> interestRepository.save(
                             InterestEntity.builder()
                                     .interestId(interestType)
-                                    .interestName(interestType.getName())
+                                    .interestName(interestType.getInterestName())
                                     .build()
                     ));
         }
