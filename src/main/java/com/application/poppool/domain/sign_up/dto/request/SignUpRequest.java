@@ -14,6 +14,7 @@ public class SignUpRequest {
     private String nickName;
     private Gender gender;
     private Integer age;
+    private String socialEmail;
     private SocialType socialType;
     private Set<InterestType> interests;
 
