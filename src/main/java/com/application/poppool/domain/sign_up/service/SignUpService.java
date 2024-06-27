@@ -37,10 +37,10 @@ public class SignUpService {
     public void signUp(SignUpRequest signUpRequest) {
 
         if (userRepository.findByUserId(signUpRequest.getUserId()).isPresent()) {
-            throw new BadRequestException(ErrorCode.ALREADY_EXISTS_MEMBER_ID);
+            throw new BadRequestException(ErrorCode.ALREADY_EXISTS_USER_ID);
         }
 
-        UserEntity userEntity = UserEntity.builder()
+        UserEntity user = UserEntity.builder()
                 .userId(signUpRequest.getUserId())
                 .nickName(signUpRequest.getNickName())
                 .gender(signUpRequest.getGender())
@@ -50,10 +50,10 @@ public class SignUpService {
 
 
         // 사용자 관심사 추가
-        this.addUserInterest(signUpRequest.getInterests(), userEntity);
+        this.addUserInterest(signUpRequest.getInterests(), user);
 
         // 사용자 엔티티 저장(회원가입)
-        userRepository.save(userEntity);
+        userRepository.save(user);
     }
 
 
@@ -61,21 +61,21 @@ public class SignUpService {
      * 회원가입 시, 관심사 등록 (회원가입에서만 쓰는 함수) - 책임 분리 원칙
      *
      * @param userInterests
-     * @param userEntity
+     * @param user
      */
-    private void addUserInterest(Set<InterestType> userInterests, UserEntity userEntity) {
+    private void addUserInterest(Set<InterestType> userInterests, UserEntity user) {
 
         for (InterestType interestType : userInterests) {
-            InterestEntity interestEntity = interestRepository.findByInterestId(interestType)
+            InterestEntity interest = interestRepository.findByInterestId(interestType)
                     .orElseThrow(() -> new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR));
 
             UserInterestEntity userInterestEntity = UserInterestEntity.builder()
-                    .userEntity(userEntity)
-                    .interestEntity(interestEntity)
+                    .user(user)
+                    .interest(interest)
                     .build();
 
-            userEntity.addInterest(userInterestEntity);
-            interestEntity.addUser(userInterestEntity);
+            user.addInterest(userInterestEntity);
+            interest.addUser(userInterestEntity);
         }
 
 
@@ -112,12 +112,12 @@ public class SignUpService {
     public GetInterestListResponse getInterestList() {
 
         // 관심사 목록 전체 조회
-        List<InterestEntity> interestEntityList = interestRepository.findAll();
+        List<InterestEntity> interestList = interestRepository.findAll();
 
 
-        List<GetInterestListResponse.InterestResponse> interestResponse = interestEntityList.stream()
-                .map(interestEntity -> GetInterestListResponse.InterestResponse.builder()
-                        .interestName(interestEntity.getInterestName())
+        List<GetInterestListResponse.InterestResponse> interestResponse = interestList.stream()
+                .map(interest -> GetInterestListResponse.InterestResponse.builder()
+                        .interestName(interest.getInterestName())
                         .build())
                 .collect(Collectors.toList());
 

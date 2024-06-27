@@ -25,7 +25,7 @@ public class InterestEntity {
     @Column(name = "INTEREST_NAME")
     private String interestName;
 
-    @OneToMany(mappedBy = "interestEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
 
