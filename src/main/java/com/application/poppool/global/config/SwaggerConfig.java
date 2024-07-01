@@ -47,4 +47,15 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi userApi() {
+        final String name = "user";
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch("/users" + "/**")
+                .packagesToScan(BASE_PACKAGE + "user")
+                .build();
+    }
+
+
 }
