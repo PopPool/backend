@@ -25,6 +25,7 @@ public class SignUpController implements SignUpControllerDoc {
      *
      * @param signUpRequest
      */
+    @Override
     @PostMapping("")
     public void signUp(@RequestBody @Valid SignUpRequest signUpRequest) {
         log.info("회원가입");
@@ -34,6 +35,7 @@ public class SignUpController implements SignUpControllerDoc {
     /**
      * 닉네임 중복확인
      */
+    @Override
     @GetMapping("/check-nickname")
     public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName) {
         log.info("닉네임 중복 확인");

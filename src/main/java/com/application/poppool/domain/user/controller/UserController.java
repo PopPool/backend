@@ -29,11 +29,17 @@ public class UserController implements UserControllerDoc {
      * @param userId
      * @return
      */
-    @GetMapping("")
-    public ResponseEntity<GetMyPageResponse> getMyPage(@RequestParam String userId) {
+    @Override
+    @GetMapping("/{user-id}")
+    public ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable("user-id") String userId) {
         return ResponseEntity.ok(userService.getMyPage(userId));
     }
 
+    /**
+     *
+     * @param request
+     */
+    @Override
     @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
         String accessToken = jwtService.getAccessToken(request);

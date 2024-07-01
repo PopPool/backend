@@ -25,13 +25,14 @@ public class AuthController implements AuthControllerDoc {
     private final KakaoAuthService kakaoAuthService;
     private final AppleAuthService appleAuthService;
 
-
+    @Override
     @PostMapping("/kakao")
     public ResponseEntity<LoginResponse> kakaoLogin(@RequestBody @Valid KakaoLoginRequest kakaoLoginRequest, HttpServletResponse response) {
         log.info("카카오 로그인");
         return ResponseEntity.ok(kakaoAuthService.kakaoLogin(kakaoLoginRequest, response));
     }
 
+    @Override
     @PostMapping("/apple")
     public ResponseEntity<LoginResponse> appleLogin(@RequestBody @Valid AppleLoginRequest appleLoginRequest, HttpServletResponse response) {
         log.info("애플 로그인");
