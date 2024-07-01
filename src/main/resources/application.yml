@@ -6,6 +6,7 @@ spring:
     generate-ddl: true
     hibernate:
       ddl-auto: create
+      dialect: org.hibernate.dialect.MySQLDialect
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true
