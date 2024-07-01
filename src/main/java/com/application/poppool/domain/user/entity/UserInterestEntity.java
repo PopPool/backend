@@ -20,9 +20,9 @@ public class UserInterestEntity {
 
     @ManyToOne
     @JoinColumn(name = "USER_ID", nullable = false)
-    private UserEntity userEntity;
+    private UserEntity user;
 
     @ManyToOne
     @JoinColumn(name = "INTEREST_ID", nullable = false)
-    private InterestEntity interestEntity;
+    private InterestEntity interest;
 }
