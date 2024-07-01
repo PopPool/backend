@@ -32,6 +32,12 @@ public class UserEntity implements UserDetails {
 
     @Column(name = "NICKNAME")
     private String nickName; // 닉네임
+    
+    @Column(name = "EMAIL")
+    private String email; // 소셜로그인에서 받아온 이메일
+
+    @Column(name = "PROFILE_IMAGE")
+    private String profileImage;
 
     @Column(name = "GENDER")
     @Enumerated(EnumType.STRING)
@@ -46,8 +52,8 @@ public class UserEntity implements UserDetails {
     @Column(name = "INSTAGRAM_ID")
     private String instagramId;
 
-    @Column(name = "STATUS_MESSAGE")
-    private String statusMessage;
+    @Column(name = "INTRO")
+    private String intro; // 자기소개
 
     @Column(name = "SOCIAL_TYPE")
     @Enumerated(EnumType.STRING)
