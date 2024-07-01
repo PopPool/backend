@@ -43,6 +43,7 @@ public class SignUpService {
         UserEntity user = UserEntity.builder()
                 .userId(signUpRequest.getUserId())
                 .nickName(signUpRequest.getNickName())
+                .email(signUpRequest.getSocialEmail())
                 .gender(signUpRequest.getGender())
                 .age(signUpRequest.getAge())
                 .socialType(signUpRequest.getSocialType())
@@ -98,6 +99,7 @@ public class SignUpService {
     public List<GetGenderResponse> getGenderList() {
         return Arrays.stream(Gender.values())
                 .map(gender -> GetGenderResponse.builder()
+                        .gender(gender)
                         .label(gender.getLabel())
                         .build())
                 .collect(Collectors.toList());
@@ -117,6 +119,7 @@ public class SignUpService {
 
         List<GetInterestListResponse.InterestResponse> interestResponse = interestList.stream()
                 .map(interest -> GetInterestListResponse.InterestResponse.builder()
+                        .interestId(interest.getInterestId())
                         .interestName(interest.getInterestName())
                         .build())
                 .collect(Collectors.toList());
