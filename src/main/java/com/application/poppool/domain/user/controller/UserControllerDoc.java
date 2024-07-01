@@ -7,7 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@Tag(name = "사용자(유저) API")
+@Tag(name = "마이페이지의 회원 API")
 public interface UserControllerDoc {
 
     @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")
