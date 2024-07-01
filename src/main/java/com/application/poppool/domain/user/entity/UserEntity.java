@@ -2,7 +2,6 @@ package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.comment.entity.CommentEntity;
-import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import jakarta.persistence.*;

@@ -22,7 +22,7 @@ public class BlackListTokenService {
                 .expiryDateTime(expiryDateTime)
                 .build();
 
-        
+
         // 토큰 블랙리스트 추가
         blackListTokenRepository.save(blackListToken);
     }
@@ -30,9 +30,6 @@ public class BlackListTokenService {
     public boolean isTokenBlacklisted(String token) {
         return blackListTokenRepository.existsByToken(token);
     }
-
-
-
 
 
 }

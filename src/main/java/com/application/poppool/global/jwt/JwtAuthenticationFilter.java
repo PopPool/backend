@@ -2,8 +2,6 @@ package com.application.poppool.global.jwt;
 
 
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
-import com.application.poppool.domain.token.service.BlackListTokenService;
-import com.application.poppool.domain.token.service.RefreshTokenService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,7 +30,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
         /** AT가 null 이 아닌 경우 */
         if (accessToken != null && jwtService.validateToken(accessToken, request)) { // 1. 토큰이 헤더에 실려왔는지, 토큰이 유효한 토큰인지 확인
-            if (jwtService.isTokenBlacklisted(accessToken)){
+            if (jwtService.isTokenBlacklisted(accessToken)) {
                 return; // CustomAuthenticationEntryPoint가 예외 처리하도록 함
             }
             if (jwtService.getIsTemporary(accessToken)) {

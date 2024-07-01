@@ -17,6 +17,7 @@ public class RefreshTokenService {
 
     /**
      * 요청한 유저의 RefreshToken이 맞는지, 그리고 db 테이블에 있는 토큰이랑 동일한지 유효성 검증
+     *
      * @param userId
      * @param refreshToken
      * @return
@@ -33,20 +34,23 @@ public class RefreshTokenService {
 
     /**
      * 새로운 RefreshToken 발급하면서 db 테이블에도 새로운 RefreshToken으로 대체 (RTR)
+     *
      * @param userId
      * @param newRefreshToken
      */
     @Transactional
     public void replaceRefreshToken(String userId, String newRefreshToken) {
         refreshTokenRepository.findByUserId(userId)
-                .ifPresent(token -> {token.updateToken(newRefreshToken);
-                refreshTokenRepository.save(token);
+                .ifPresent(token -> {
+                    token.updateToken(newRefreshToken);
+                    refreshTokenRepository.save(token);
                 });
 
     }
 
     /**
      * 로그아웃 -> RefreshToken 삭제
+     *
      * @param userId
      */
     @Transactional

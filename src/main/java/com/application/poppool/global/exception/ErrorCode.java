@@ -20,6 +20,7 @@ public enum ErrorCode {
     EXCEPTION(4012, "EXCEPTION이 발생했습니다."),
     AUTEHNTICATION_FAIL_EXCEPTION(4013, "인증에 실패했습니다."),
     NOT_EXISTS_USER(4014, "존재하지 않는 회원입니다.");
+
     ErrorCode(int code, String message) {
         this.code = code;
         this.message = message;
