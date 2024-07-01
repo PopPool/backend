@@ -1,6 +1,8 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.auth.enums.SocialType;
+import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import jakarta.persistence.*;
@@ -40,7 +42,13 @@ public class UserEntity implements UserDetails {
     private Integer age; // 연령
 
     @Column(name = "TERM_AGREE_YN")
-    private String termAgreeYn; // 약관동의 여부
+    private String isTermAgree; // 약관동의 여부
+
+    @Column(name = "INSTAGRAM_ID")
+    private String instagramId;
+
+    @Column(name = "STATUS_MESSAGE")
+    private String statusMessage;
 
     @Column(name = "SOCIAL_TYPE")
     @Enumerated(EnumType.STRING)
@@ -50,9 +58,12 @@ public class UserEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
+
+    @OneToMany(mappedBy = "user")
+    private List<CommentEntity> comments;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
