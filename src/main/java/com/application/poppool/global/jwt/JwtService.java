@@ -2,7 +2,10 @@ package com.application.poppool.global.jwt;
 
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.TokenType;
+import com.application.poppool.domain.token.service.BlackListTokenService;
+import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.global.security.CustomUserDetailsService;
+import com.application.poppool.global.utils.TimeUtils;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.DecodingException;
@@ -16,6 +19,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,14 +31,18 @@ public class JwtService {
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtProperties jwtProperties;
+    private final BlackListTokenService blackListTokenService;
+    private final RefreshTokenService refreshTokenService;
 
     // application.yml에서 secret 값 가져와서 key에 저장
-    public JwtService(CustomUserDetailsService customUserDetailsService, JwtProperties jwtProperties) {
+    public JwtService(CustomUserDetailsService customUserDetailsService, JwtProperties jwtProperties,
+                      BlackListTokenService blackListTokenService, RefreshTokenService refreshTokenService) {
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.customUserDetailsService = customUserDetailsService;
         this.jwtProperties = jwtProperties;
-
+        this.blackListTokenService = blackListTokenService;
+        this.refreshTokenService = refreshTokenService;
     }
 
     public LoginResponse createJwtToken(String userId, boolean isTemporary) {
@@ -185,12 +193,12 @@ public class JwtService {
         return claims.get("isTemporary", Boolean.class);
     }
 
-    public Long getExpiration(String accessToken) {
+    public LocalDateTime getExpiration(String accessToken) {
         // accessToken 남은 유효시간
-        Date expiration = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
-        // 현재 시간
-        Long now = new Date().getTime();
-        return (expiration.getTime() - now);
+        Date expirationDate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+
+        // Date -> LocalDateTime 변환
+        return TimeUtils.convertDateToLocalDateTime(expirationDate);
     }
 
     // 응답 헤더에 accessToken 세팅
@@ -201,6 +209,18 @@ public class JwtService {
     // 응답 헤더에 refreshToken 세팅
     public void setHeaderRefreshToken(HttpServletResponse response, String refreshToken) {
         response.setHeader("Authorization-refresh", "Bearer " + refreshToken);
+    }
+
+    public boolean isTokenBlacklisted(String accessToken) {
+        return blackListTokenService.isTokenBlacklisted(accessToken);
+    }
+
+    public boolean isUserRefreshTokenValid(String userId, String refreshToken) {
+        return refreshTokenService.isUserRefreshTokenValid(userId, refreshToken);
+    }
+
+    public void replaceRefreshToken(String userId, String refreshToken) {
+        refreshTokenService.replaceRefreshToken(userId, refreshToken);
     }
 
 }
