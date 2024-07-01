@@ -54,6 +54,11 @@ public class UserService {
 
     }
 
+    /**
+     * 회원 로그아웃
+     * @param accessToken
+     * @param expiryDateTime
+     */
     @Transactional
     public void logout(String accessToken, LocalDateTime expiryDateTime) {
 
