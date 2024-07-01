@@ -1,0 +1,55 @@
+spring:
+  jpa:
+    generate-ddl: true
+    hibernate:
+      ddl-auto: create
+      dialect: org.hibernate.dialect.MySQLDialect
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    format-sql: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/poppool?serverTimezone=Asia/Seoul
+    username: root
+    password: mysql123!
+    #만들어진 sql 보여줌
+
+
+jwt:
+  secretKey: eyJhbGciOiJIUzUxMiJ9ew0KICAic3ViIjogIjEyMzQ1Njc4OTAiLA0KICAibmFtZSI6ICJBbmlzaCBOYXRoIiwNCiAgImlhdCI6IDE1MTYyMzkwMjINCn0xCKy6oxMmyoxq1VdAwedb3tftwXeovWqHUK6z6XRybO97QyGbcczwW2GYdV0jewQGnRok8IQTyDqQnkVdaLA
+  access:
+    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L(m -> h))
+    header: Authorization
+
+  refresh:
+    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?))
+    header: Authorization-refresh
+
+springdoc:
+  api-docs:
+    path: /v3/api-docs
+  swagger-ui:
+    path: /swagger-ui.html
+    enabled: true
+    tagsSorter: alpha
+    operations-sorter: alpha
+    display-request-duration: true
+
+oauth:
+  kakao:
+    auth-url: https://kapi.kakao.com
+  apple:
+    auth-url: https://appleid.apple.com
+
+server:
+  port: 8080
+  servlet:
+    encoding:
+      charset: UTF-8
+      enabled: true
+      force: true
+
+logging:
+  level:
+    com.board: DEBUG
