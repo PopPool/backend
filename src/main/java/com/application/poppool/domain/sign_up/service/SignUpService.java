@@ -9,6 +9,7 @@ import com.application.poppool.domain.sign_up.dto.response.GetInterestListRespon
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
 import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.domain.user.repository.UserInterestRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -26,6 +27,7 @@ import java.util.stream.Collectors;
 public class SignUpService {
 
     private final UserRepository userRepository;
+    private final UserInterestRepository userInterestRepository;
     private final InterestRepository interestRepository;
 
     /**
@@ -50,10 +52,10 @@ public class SignUpService {
                 .build();
 
 
-        // 사용자 관심사 추가
+        // 회원 관심 카테고리 추가
         this.addUserInterest(signUpRequest.getInterests(), user);
 
-        // 사용자 엔티티 저장(회원가입)
+        // 회원 엔티티 저장(회원가입)
         userRepository.save(user);
     }
 
@@ -74,6 +76,9 @@ public class SignUpService {
                     .user(user)
                     .interest(interest)
                     .build();
+
+            // 회원 관심 카테고리 저장
+            userInterestRepository.save(userInterestEntity);
 
             user.addInterest(userInterestEntity);
             interest.addUser(userInterestEntity);
