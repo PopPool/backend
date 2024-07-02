@@ -1,7 +1,13 @@
 package com.application.poppool.domain.user.service;
 
+import com.application.poppool.domain.interest.entity.InterestEntity;
+import com.application.poppool.domain.interest.enums.InterestType;
+import com.application.poppool.domain.interest.repository.InterestRepository;
+import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.domain.user.entity.UserInterestEntity;
+import com.application.poppool.domain.user.repository.UserInterestRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -17,6 +23,8 @@ import java.util.stream.Collectors;
 public class UserProfileService {
 
     private final UserRepository userRepository;
+    private final UserInterestRepository userInterestRepository;
+    private final InterestRepository interestRepository;
 
 
     /**
@@ -59,5 +67,45 @@ public class UserProfileService {
                         .build())
                 .collect(Collectors.toList());
     }
+
+    @Transactional
+    public void updateMyInterests(String userId, UpdateMyInterestRequest updateMyInterestRequest) {
+
+
+        // 유저 엔티티 조회
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+
+        // 삭제할 관심 카테고리 삭제
+        List<UserInterestEntity> interestsToDelete = user.getUserInterestEntities().stream()
+                .filter(myInterest -> updateMyInterestRequest.getInterestsToDelete().contains(myInterest.getInterest().getInterestId()))
+            .collect(Collectors.toList());
+
+        userInterestRepository.deleteAll(interestsToDelete);
+
+        // 추가할 관심 카테고리 추가
+        List<UserInterestEntity> interestsToAdd = updateMyInterestRequest.getInterestsToAdd().stream()
+                .map(interestToAdd -> createUserInterestEntity(user,interestToAdd))
+            .collect(Collectors.toList());
+
+        // 관심 카테고리 저장
+        userInterestRepository.saveAll(interestsToAdd);
+    }
+
+    /**
+     * 회원 관심 카테고리 추가를 위한 엔티티 생성
+     * @param user
+     * @param interestToAdd
+     * @return
+     */
+    private UserInterestEntity createUserInterestEntity(UserEntity user, InterestType interestToAdd) {
+        InterestEntity interest = interestRepository.findById(interestToAdd)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_INTEREST));
+        return UserInterestEntity.builder()
+                .user(user)
+                .interest(interest)
+                .build();
+    }
+
 }
     
