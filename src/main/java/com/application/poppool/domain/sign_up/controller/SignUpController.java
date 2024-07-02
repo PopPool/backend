@@ -22,7 +22,6 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 회원가입
-     *
      * @param signUpRequest
      */
     @Override
@@ -44,15 +43,20 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 성별 후보군 목록 조회
-     *
      * @return
      */
+    @Override
     @GetMapping("/genders")
     public ResponseEntity<List<GetGenderResponse>> getGenderList() {
         log.info("성별 후보군 목록 조회");
         return ResponseEntity.ok(signUpService.getGenderList());
     }
 
+    /**
+     * 관심사 후보군 목록 조회
+     * @return
+     */
+    @Override
     @GetMapping("/interests")
     public ResponseEntity<GetInterestListResponse> getInterestList() {
         log.info("관심사 후보군 목록 조회");
