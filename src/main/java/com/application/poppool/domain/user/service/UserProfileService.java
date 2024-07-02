@@ -4,6 +4,7 @@ import com.application.poppool.domain.interest.entity.InterestEntity;
 import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
@@ -68,12 +69,33 @@ public class UserProfileService {
                 .collect(Collectors.toList());
     }
 
+    /**
+     * 회원 프로필 수정
+     * @param userId
+     * @param updateMyProfileRequest
+     */
+    @Transactional
+    public void updateMyProfile(String userId, UpdateMyProfileRequest updateMyProfileRequest) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+
+        // 회원 프로필 항목 수정
+        user.updateMyProfile(updateMyProfileRequest);
+
+        // 회원 저장
+        userRepository.save(user);
+    }
+
+    /**
+     * 회원 관심 카테고리 수정
+     * @param userId
+     * @param updateMyInterestRequest
+     */
     @Transactional
     public void updateMyInterests(String userId, UpdateMyInterestRequest updateMyInterestRequest) {
 
-
         // 유저 엔티티 조회
-        UserEntity user = userRepository.findById(userId)
+        UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
 
         // 삭제할 관심 카테고리 삭제
@@ -99,7 +121,7 @@ public class UserProfileService {
      * @return
      */
     private UserInterestEntity createUserInterestEntity(UserEntity user, InterestType interestToAdd) {
-        InterestEntity interest = interestRepository.findById(interestToAdd)
+        InterestEntity interest = interestRepository.findByInterestId(interestToAdd)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_INTEREST));
         return UserInterestEntity.builder()
                 .user(user)

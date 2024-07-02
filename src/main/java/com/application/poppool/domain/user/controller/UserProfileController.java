@@ -25,8 +25,14 @@ public class UserProfileController implements UserProfileControllerDoc{
     }
 
     @Override
-    @PutMapping("/interests")
-    public void updateMyInterests(@RequestParam(name = "user-id") String userId,
+    @PutMapping("/{user-id}/profiles")
+    public void updateMyProfile(@PathVariable("user-id") String userId) {
+        userProfileService.getMyProfile(userId);
+    }
+
+    @Override
+    @PutMapping("/{user-id}/interests")
+    public void updateMyInterests(@PathVariable("user-id") String userId,
                                   @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest) {
         userProfileService.updateMyInterests(userId,updateMyInterestRequest);
     }

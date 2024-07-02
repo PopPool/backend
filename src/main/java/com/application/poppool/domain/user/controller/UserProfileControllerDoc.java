@@ -9,7 +9,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Tag(name = "회원 프로필 API")
 public interface UserProfileControllerDoc {
@@ -18,7 +18,10 @@ public interface UserProfileControllerDoc {
     ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable("user-id") String userId);
 
 
+    @Operation(summary = "회원 프로필 수정", description = "회원 프로필을 수정합니다.")
+    void updateMyProfile(@PathVariable("user-id") String userId);
+
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
-    void updateMyInterests(@RequestParam(name = "user-id") String userId,
-                                                         @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest);
+    void updateMyInterests(@PathVariable("user-id") String userId,
+                           @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest);
 }

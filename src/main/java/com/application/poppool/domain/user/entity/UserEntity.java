@@ -2,6 +2,7 @@ package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import jakarta.persistence.*;
@@ -69,6 +70,14 @@ public class UserEntity implements UserDetails {
 
     @OneToMany(mappedBy = "user")
     private List<CommentEntity> comments;
+
+    public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
+        this.profileImage = updateMyProfileRequest.getProfileImage();
+        this.nickName = updateMyProfileRequest.getNickName();
+        this.email = updateMyProfileRequest.getEmail();
+        this.instagramId = updateMyProfileRequest.getInstagramId();
+        this.intro = updateMyProfileRequest.getIntro();
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
