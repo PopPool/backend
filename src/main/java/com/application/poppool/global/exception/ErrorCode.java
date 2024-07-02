@@ -19,7 +19,8 @@ public enum ErrorCode {
     DATABASE_EXCEPTION(4011, "DATABASE_EXCEPTION이 발생했습니다."),
     EXCEPTION(4012, "EXCEPTION이 발생했습니다."),
     AUTEHNTICATION_FAIL_EXCEPTION(4013, "인증에 실패했습니다."),
-    NOT_EXISTS_USER(4014, "존재하지 않는 회원입니다.");
+    NOT_EXISTS_USER(4014, "존재하지 않는 회원입니다."),
+    NOT_EXISTS_INTEREST(4015,"존재하지 않는 관심 카테고리입니다.");
 
     ErrorCode(int code, String message) {
         this.code = code;
