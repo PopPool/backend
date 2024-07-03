@@ -2,6 +2,7 @@ package com.application.poppool.domain.user.controller;
 
 
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.service.UserProfileService;
 import jakarta.validation.Valid;
@@ -35,6 +36,13 @@ public class UserProfileController implements UserProfileControllerDoc{
     public void updateMyInterests(@PathVariable("user-id") String userId,
                                   @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest) {
         userProfileService.updateMyInterests(userId,updateMyInterestRequest);
+    }
+
+    @Override
+    @PutMapping("/{user-id}/tailored-info")
+    public void updateMyTailoredInfo(@PathVariable("user-id") String userId,
+                                     @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) {
+        userProfileService.updateMyTailoredInfo(userId,updateMyTailoredInfoRequest);
     }
 
 }

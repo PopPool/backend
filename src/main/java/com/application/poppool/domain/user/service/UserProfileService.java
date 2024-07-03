@@ -5,6 +5,7 @@ import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
@@ -127,6 +128,24 @@ public class UserProfileService {
                 .user(user)
                 .interest(interest)
                 .build();
+    }
+
+    /**
+     * 회원 맞춤 정보(성별,나이) 수정
+     * @param userId
+     * @param updateMyTailoredInfoRequest
+     */
+    @Transactional
+    public void updateMyTailoredInfo(String userId, UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) throws BadRequestException {
+        // 회원 엔티티 조회
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+
+        // 회원 맞춤 정보 수정
+        user.updateMyTailoredInfo(updateMyTailoredInfoRequest);
+
+        userRepository.save(user);
+
     }
 
 }

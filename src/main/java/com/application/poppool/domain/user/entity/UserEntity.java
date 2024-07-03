@@ -3,6 +3,7 @@ package com.application.poppool.domain.user.entity;
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import jakarta.persistence.*;
@@ -79,16 +80,16 @@ public class UserEntity implements UserDetails {
         this.intro = updateMyProfileRequest.getIntro();
     }
 
+    public void updateMyTailoredInfo(UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) {
+        this.gender = updateMyTailoredInfoRequest.getGender();
+        this.age = updateMyTailoredInfoRequest.getAge();
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role.name()));
         return authorities;
-    }
-
-    // 닉네임 변경
-    public void updateNickname(String nickName) {
-        this.nickName = nickName;
     }
 
 

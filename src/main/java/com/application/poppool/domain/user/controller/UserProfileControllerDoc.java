@@ -2,12 +2,14 @@ package com.application.poppool.domain.user.controller;
 
 
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
 
@@ -24,4 +26,8 @@ public interface UserProfileControllerDoc {
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
     void updateMyInterests(@PathVariable("user-id") String userId,
                            @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest);
+
+    @Operation(summary = "회원 맞춤 정보 수정", description = "회원 맞춤 정보를 수정합니다.")
+    public void updateMyTailoredInfo(@PathVariable("user-id") String userId,
+                                     @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest);
 }
