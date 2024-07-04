@@ -28,13 +28,13 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 비밀번호가 null인 경우 빈 문자열로 대체, 인증을 하기 위함
         String password = user.getPassword() != null ? user.getPassword() : "";
 
-        // 카카오 사용자 정보에서 권한을 설정합니다.
+        // 카카오 사용자 정보에서 권한을 설정
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
-        // UserDetails 객체를 생성합니다.
+        // UserDetails 객체를 생성
         return new org.springframework.security.core.userdetails.User(
                 user.getUserId(),
-                password, // 패스워드는 빈 문자열로 설정합니다.
+                password,
                 authorities
         );
     }
