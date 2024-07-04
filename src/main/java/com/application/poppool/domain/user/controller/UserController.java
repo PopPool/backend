@@ -46,6 +46,7 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 회원 로그아웃
+     *
      * @param request
      */
     @Override

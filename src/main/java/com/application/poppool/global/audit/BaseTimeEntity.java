@@ -11,7 +11,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 import java.time.LocalDateTime;
 
 @Getter
-@MappedSuperclass
+@MappedSuperclass //  상위 클래스인 BaseTimeEntity의 필드들을 하위 엔티티 클래스에 포함
 @EntityListeners(AuditingEntityListener.class)
 public abstract class BaseTimeEntity {
 

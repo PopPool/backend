@@ -31,6 +31,7 @@ public class UserProfileService {
 
     /**
      * 프로필 조회
+     *
      * @param userId
      * @return
      */
@@ -57,6 +58,7 @@ public class UserProfileService {
 
     /**
      * 회원 관심 카테고리 리스트
+     *
      * @param user
      * @return
      */
@@ -71,6 +73,7 @@ public class UserProfileService {
 
     /**
      * 회원 프로필 수정
+     *
      * @param userId
      * @param updateMyProfileRequest
      */
@@ -88,6 +91,7 @@ public class UserProfileService {
 
     /**
      * 회원 관심 카테고리 수정
+     *
      * @param userId
      * @param updateMyInterestRequest
      */
@@ -101,14 +105,14 @@ public class UserProfileService {
         // 삭제할 관심 카테고리 삭제
         List<UserInterestEntity> interestsToDelete = user.getUserInterestEntities().stream()
                 .filter(myInterest -> updateMyInterestRequest.getInterestsToDelete().contains(myInterest.getInterest().getInterestId()))
-            .collect(Collectors.toList());
+                .collect(Collectors.toList());
 
         userInterestRepository.deleteAll(interestsToDelete);
 
         // 추가할 관심 카테고리 추가
         List<UserInterestEntity> interestsToAdd = updateMyInterestRequest.getInterestsToAdd().stream()
-                .map(interestToAdd -> createUserInterestEntity(user,interestToAdd))
-            .collect(Collectors.toList());
+                .map(interestToAdd -> createUserInterestEntity(user, interestToAdd))
+                .collect(Collectors.toList());
 
         // 관심 카테고리 저장
         userInterestRepository.saveAll(interestsToAdd);
@@ -116,6 +120,7 @@ public class UserProfileService {
 
     /**
      * 회원 관심 카테고리 추가를 위한 엔티티 생성
+     *
      * @param user
      * @param interestToAdd
      * @return
@@ -131,6 +136,7 @@ public class UserProfileService {
 
     /**
      * 회원 맞춤 정보(성별,나이) 수정
+     *
      * @param userId
      * @param updateMyTailoredInfoRequest
      */

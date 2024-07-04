@@ -21,7 +21,7 @@ public enum ErrorCode {
     EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "EXCEPTION이 발생했습니다."),
     AUTEHNTICATION_FAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     NOT_EXISTS_USER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    NOT_EXISTS_INTEREST(HttpStatus.NOT_FOUND,"존재하지 않는 관심 카테고리입니다.");
+    NOT_EXISTS_INTEREST(HttpStatus.NOT_FOUND, "존재하지 않는 관심 카테고리입니다.");
 
     ErrorCode(HttpStatus status, String message) {
         this.status = status;

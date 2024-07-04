@@ -22,6 +22,7 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 회원가입
+     *
      * @param signUpRequest
      */
     @Override
@@ -43,6 +44,7 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 성별 후보군 목록 조회
+     *
      * @return
      */
     @Override
@@ -54,6 +56,7 @@ public class SignUpController implements SignUpControllerDoc {
 
     /**
      * 관심사 후보군 목록 조회
+     *
      * @return
      */
     @Override

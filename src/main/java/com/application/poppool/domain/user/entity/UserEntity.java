@@ -34,7 +34,7 @@ public class UserEntity implements UserDetails {
 
     @Column(name = "NICKNAME")
     private String nickName; // 닉네임
-    
+
     @Column(name = "EMAIL")
     private String email; // 소셜로그인에서 받아온 이메일
 

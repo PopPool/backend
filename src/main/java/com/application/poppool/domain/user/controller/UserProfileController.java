@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/users")
-public class UserProfileController implements UserProfileControllerDoc{
+public class UserProfileController implements UserProfileControllerDoc {
 
     private final UserProfileService userProfileService;
 
@@ -35,14 +35,14 @@ public class UserProfileController implements UserProfileControllerDoc{
     @PutMapping("/{userId}/interests")
     public void updateMyInterests(@PathVariable String userId,
                                   @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest) {
-        userProfileService.updateMyInterests(userId,updateMyInterestRequest);
+        userProfileService.updateMyInterests(userId, updateMyInterestRequest);
     }
 
     @Override
     @PutMapping("/{userId}/tailored-info")
     public void updateMyTailoredInfo(@PathVariable String userId,
                                      @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) {
-        userProfileService.updateMyTailoredInfo(userId,updateMyTailoredInfoRequest);
+        userProfileService.updateMyTailoredInfo(userId, updateMyTailoredInfoRequest);
     }
 
 }

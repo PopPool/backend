@@ -12,6 +12,7 @@ import java.util.Optional;
 @EnableJpaAuditing
 public class JpaAuditConfig implements AuditorAware<String> {
 
+    // 현재 Auditor를 반환
     @Override
     public Optional<String> getCurrentAuditor() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

@@ -30,6 +30,7 @@ public class UserService {
 
     /**
      * 마이페이지 조회
+     *
      * @param userId
      * @return
      */
@@ -57,6 +58,7 @@ public class UserService {
 
     /**
      * 회원 탈퇴
+     *
      * @param userId
      */
     @Transactional
@@ -87,6 +89,7 @@ public class UserService {
 
     /**
      * 회원 로그아웃
+     *
      * @param accessToken
      * @param expiryDateTime
      */
