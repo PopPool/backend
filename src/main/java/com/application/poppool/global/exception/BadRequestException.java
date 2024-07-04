@@ -4,7 +4,6 @@ import org.springframework.http.HttpStatus;
 
 public class BadRequestException extends BaseException {
 
-    private static final int ERR_CODE = 4000;
     private static final HttpStatus HTTP_STATUS = HttpStatus.BAD_REQUEST;
 
     public BadRequestException(String message) {
@@ -23,13 +22,13 @@ public class BadRequestException extends BaseException {
         super(errorCodes, HTTP_STATUS);
     }
 
-    public BadRequestException(int errCode, String defaultMessage) {
-        super(errCode, HTTP_STATUS, defaultMessage);
+    public BadRequestException(HttpStatus status, String defaultMessage) {
+        super(HTTP_STATUS, defaultMessage);
     }
 
     public ExceptionResponse buildBadRequestExceptionResponseDTO() {
         return ExceptionResponse.builder()
-                .code(this.code)
+                .httpStatus(this.httpStatus)
                 .message(getMessage())
                 .build();
     }

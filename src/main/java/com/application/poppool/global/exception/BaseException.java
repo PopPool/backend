@@ -11,34 +11,33 @@ public class BaseException extends RuntimeException {
     private static final long serialVersionUID = 1L;
 
     @Getter
-    protected final int code;
-    @Getter
     protected final HttpStatus httpStatus;
     @Getter
     public String causeData;
 
     public BaseException(String message) {
         super(message);
-        this.code = 5000;
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
     public BaseException(String message, Throwable cause) {
         super(message, cause);
-        this.code = 5000;
         this.httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
     }
 
-    protected BaseException(ErrorCode errorCode, HttpStatus httpStatus) {
+    protected BaseException(ErrorCode errorCode) {
         super(errorCode.getMessage());
-        this.code = errorCode.getCode();
-        this.httpStatus = httpStatus;
+        this.httpStatus = errorCode.getStatus();
     }
 
-    protected BaseException(int code, HttpStatus httpStatus, String message) {
+    protected BaseException(ErrorCode errorCode, HttpStatus status) {
+        super(errorCode.getMessage());
+        this.httpStatus = status;
+    }
+
+    protected BaseException(HttpStatus status, String message) {
         super(message);
-        this.code = code;
-        this.httpStatus = httpStatus;
+        this.httpStatus = status;
     }
 
 
@@ -49,9 +48,8 @@ public class BaseException extends RuntimeException {
      */
     public ExceptionResponse buildExceptionResponseDTO() {
         return ExceptionResponse.builder()
-                .code(this.code)
+                .httpStatus(this.httpStatus)
                 .message(getMessage())
                 .build();
     }
-
 }

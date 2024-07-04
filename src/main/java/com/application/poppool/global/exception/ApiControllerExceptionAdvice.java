@@ -51,7 +51,7 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
                 FieldError fieldError = fieldErrorList.get(0);
                 String msg = fieldError.getDefaultMessage();
                 if (!msg.isBlank()) {
-                    badRequestFromViolation = new BadRequestException(ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION.getCode(), fieldError.getDefaultMessage());
+                    badRequestFromViolation = new BadRequestException(ErrorCode.METHOD_ARGUMENT_NOT_VALID_EXCEPTION.getStatus(), fieldError.getDefaultMessage());
                     return handleException(badRequestFromViolation, request);
                 }
             }
