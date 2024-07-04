@@ -1,22 +1,20 @@
-package com.application.poppool.domain.user.dto.response;
+package com.application.poppool.domain.user.dto.request;
 
 import com.application.poppool.domain.user.enums.WithDrawlSurvey;
-import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-@Builder
-public class GetWithDrawlSurveyResponse {
+public class CheckedSurveyListRequest {
 
-    private List<Survey> withDrawlSurveyList;
+    List<CheckedSurvey> checkedSurveyList;
 
     @Getter
-    @Builder
-    public static class Survey {
+    public static class CheckedSurvey {
         private Long id;
         private WithDrawlSurvey survey;
         private String question;
     }
+
 }

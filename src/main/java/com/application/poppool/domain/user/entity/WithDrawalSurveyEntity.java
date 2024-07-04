@@ -1,9 +1,7 @@
 package com.application.poppool.domain.user.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.application.poppool.domain.user.enums.WithDrawlSurvey;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
@@ -18,7 +16,17 @@ public class WithDrawalSurveyEntity {
     @Column(name = "ID")
     private Long id;
 
+    @Column(name = "SURVEY")
+    @Enumerated(EnumType.STRING)
+    private WithDrawlSurvey survey;
+
     @Column(name = "QUESTION")
     private String question;
 
+    @Column(name = "COUNT")
+    private Long count;
+
+    public void incrementCount() {
+        this.count++;
+    }
 }

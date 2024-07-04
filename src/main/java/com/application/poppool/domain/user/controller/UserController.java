@@ -1,10 +1,12 @@
 package com.application.poppool.domain.user.controller;
 
+import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +36,14 @@ public class UserController implements UserControllerDoc {
     }
 
     @Override
-    @DeleteMapping("/{userId")
-    public void deleteUser(String userId) {
-        userService.deleteUser(userId);
+    @PostMapping("/{userId}/delete")
+    public void deleteUser(@PathVariable String userId,
+                           @RequestBody @Valid CheckedSurveyListRequest request) {
+        userService.deleteUser(userId, request);
     }
 
     @Override
+    @GetMapping("/withdrawl/surveys")
     public ResponseEntity<GetWithDrawlSurveyResponse> getWithDrawlSurvey() {
         return ResponseEntity.ok(userService.getWithDrawlSurvey());
     }

@@ -2,12 +2,14 @@ package com.application.poppool.domain.user.service;
 
 import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
+import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.WithDrawalSurveyEntity;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.domain.user.repository.WithDrawlRepository;
+import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.jwt.JwtService;
@@ -62,9 +64,23 @@ public class UserService {
      * @param userId
      */
     @Transactional
-    public void deleteUser(String userId) {
+    public void deleteUser(String userId, CheckedSurveyListRequest request) {
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_USER));
+
+        // 회원 탈퇴 설문 항목 수 증가
+        for (CheckedSurveyListRequest.CheckedSurvey checkedSurvey : request.getCheckedSurveyList()) {
+            WithDrawalSurveyEntity surveyEntity = withDrawlSurveyRepository.findById(checkedSurvey.getId())
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_DATA));
+
+            // survey id로 가져온 엔티티의 실제 survey와 요청으로 넘어온 survey가 같은지 비교
+            if (!surveyEntity.getSurvey().equals(checkedSurvey.getSurvey())) {
+                throw new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR);
+            }
+            // survey 해당 숫자 증가
+            surveyEntity.incrementCount();
+            withDrawlSurveyRepository.save(surveyEntity);
+        }
 
         // 회원 삭제
         userRepository.delete(user);
@@ -80,6 +96,7 @@ public class UserService {
         List<GetWithDrawlSurveyResponse.Survey> withDrawlSurveyList = surveyEntityList.stream()
                 .map(surveyEntity -> GetWithDrawlSurveyResponse.Survey.builder()
                         .id(surveyEntity.getId())
+                        .survey(surveyEntity.getSurvey())
                         .question(surveyEntity.getQuestion())
                         .build())
                 .toList();
