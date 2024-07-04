@@ -1,8 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
-
-import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
+import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +20,6 @@ public class UserController implements UserControllerDoc {
 
     private final UserService userService;
     private final JwtService jwtService;
-    private final BlackListTokenService blackListTokenService;
 
     /**
      * 마이페이지 조회
@@ -30,13 +28,24 @@ public class UserController implements UserControllerDoc {
      * @return
      */
     @Override
-    @GetMapping("/{user-id}")
-    public ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable("user-id") String userId) {
+    @GetMapping("/{userId}")
+    public ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId) {
         return ResponseEntity.ok(userService.getMyPage(userId));
     }
 
+    @Override
+    @DeleteMapping("/{userId")
+    public void deleteUser(String userId) {
+        userService.deleteUser(userId);
+    }
+
+    @Override
+    public ResponseEntity<GetWithDrawlSurveyResponse> getWithDrawlSurvey() {
+        return ResponseEntity.ok(userService.getWithDrawlSurvey());
+    }
+
     /**
-     *
+     * 회원 로그아웃
      * @param request
      */
     @Override

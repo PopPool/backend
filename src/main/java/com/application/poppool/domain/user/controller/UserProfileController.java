@@ -20,27 +20,27 @@ public class UserProfileController implements UserProfileControllerDoc{
     private final UserProfileService userProfileService;
 
     @Override
-    @GetMapping("/{user-id}/profiles")
-    public ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable("user-id") String userId) {
+    @GetMapping("/{userId}/profiles")
+    public ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable String userId) {
         return ResponseEntity.ok(userProfileService.getMyProfile(userId));
     }
 
     @Override
-    @PutMapping("/{user-id}/profiles")
-    public void updateMyProfile(@PathVariable("user-id") String userId) {
+    @PutMapping("/{userId}/profiles")
+    public void updateMyProfile(@PathVariable String userId) {
         userProfileService.getMyProfile(userId);
     }
 
     @Override
-    @PutMapping("/{user-id}/interests")
-    public void updateMyInterests(@PathVariable("user-id") String userId,
+    @PutMapping("/{userId}/interests")
+    public void updateMyInterests(@PathVariable String userId,
                                   @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest) {
         userProfileService.updateMyInterests(userId,updateMyInterestRequest);
     }
 
     @Override
-    @PutMapping("/{user-id}/tailored-info")
-    public void updateMyTailoredInfo(@PathVariable("user-id") String userId,
+    @PutMapping("/{userId}/tailored-info")
+    public void updateMyTailoredInfo(@PathVariable String userId,
                                      @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) {
         userProfileService.updateMyTailoredInfo(userId,updateMyTailoredInfoRequest);
     }

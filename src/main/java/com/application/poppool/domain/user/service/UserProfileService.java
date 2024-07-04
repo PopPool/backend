@@ -60,7 +60,6 @@ public class UserProfileService {
      * @param user
      * @return
      */
-    @Transactional(readOnly = true)
     private List<GetProfileResponse.MyInterestInfo> getMyInterestList(UserEntity user) {
         return user.getUserInterestEntities().stream()
                 .map(userInterestEntity -> GetProfileResponse.MyInterestInfo.builder()
