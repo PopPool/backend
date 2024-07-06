@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
+import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -16,6 +17,9 @@ public interface UserControllerDoc {
 
     @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")
     ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId);
+
+    @Operation(summary = "내가 쓴 일반 코멘트 조회", description = "내가 쓴 일반 코멘트를 조회합니다.")
+    ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId);
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
     void deleteUser(@PathVariable String userId, @RequestBody @Valid CheckedSurveyListRequest request);

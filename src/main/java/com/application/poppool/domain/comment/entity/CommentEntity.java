@@ -21,6 +21,9 @@ public class CommentEntity {
     @Column(name = "CONTENT")
     private String content;
 
+    @Column(name = "IMAGE")
+    private String image;
+
     @ManyToOne
     @JoinColumn(name = "USER_ID")
     private UserEntity user;

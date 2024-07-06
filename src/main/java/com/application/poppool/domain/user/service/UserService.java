@@ -3,6 +3,7 @@ package com.application.poppool.domain.user.service;
 import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
+import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -57,6 +58,30 @@ public class UserService {
                 .popUpInfoList(popUpInfoList)
                 .build();
     }
+
+    /**
+     * 내가 쓴 일반 코멘트 조회
+     * @param userId
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetMyCommentResponse getMyCommentList(String userId) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_USER));
+
+        List<GetMyCommentResponse.MyCommentInfo> myCommentList = user.getComments().stream()
+                .map(commentEntity -> GetMyCommentResponse.MyCommentInfo.builder()
+                        .commentId(commentEntity.getId())
+                        .content(commentEntity.getContent())
+                        .image(commentEntity.getImage())
+                        .build())
+                .toList();
+
+        return GetMyCommentResponse.builder().myCommentList(myCommentList).build();
+    }
+
+
+
 
     /**
      * 회원 탈퇴

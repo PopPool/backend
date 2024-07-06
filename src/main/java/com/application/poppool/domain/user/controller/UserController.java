@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
+import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
 import com.application.poppool.domain.user.service.UserService;
@@ -35,6 +36,23 @@ public class UserController implements UserControllerDoc {
         return ResponseEntity.ok(userService.getMyPage(userId));
     }
 
+    /**
+     * 내가 쓴 일반 코멘트 조회
+     * @param userId
+     * @return
+     */
+    @Override
+    @GetMapping("/{userId}/comments")
+    public ResponseEntity<GetMyCommentResponse> getMyCommentList(String userId) {
+        return ResponseEntity.ok(userService.getMyCommentList(userId));
+    }
+
+
+    /**
+     * 회원 탈퇴
+     * @param userId
+     * @param request - 체크된 설문 항목
+     */
     @Override
     @PostMapping("/{userId}/delete")
     public void deleteUser(@PathVariable String userId,
@@ -42,6 +60,10 @@ public class UserController implements UserControllerDoc {
         userService.deleteUser(userId, request);
     }
 
+    /**
+     * 설문 항목 리스트
+     * @return
+     */
     @Override
     @GetMapping("/withdrawl/surveys")
     public ResponseEntity<GetWithDrawlSurveyResponse> getWithDrawlSurvey() {
@@ -50,7 +72,6 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 회원 로그아웃
-     *
      * @param request
      */
     @Override
