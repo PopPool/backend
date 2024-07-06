@@ -53,7 +53,7 @@ public class AppleAuthService {
         String appleIdTokenSub = validateAppleIdTokenAndExtractSub(appleLoginRequest.getIdToken());
 
         if (appleIdTokenSub == null) {
-            throw new BadRequestException(ErrorCode.AUTEHNTICATION_FAIL_EXCEPTION);
+            throw new BadRequestException(ErrorCode.AUTHENTICATION_FAIL_EXCEPTION);
         }
 
         String userId = appleIdTokenSub + SocialType.APPLE.getSocialSuffix();

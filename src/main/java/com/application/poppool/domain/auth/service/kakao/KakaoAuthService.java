@@ -38,7 +38,7 @@ public class KakaoAuthService {
 
         // 서버에서 한 번 더 넘어온 유저 id와, 토큰이 유효한지 검증
         if (!validateKakaoAccessToken(userId, kakaoLoginRequest.getKakaoAccessToken())) {
-            throw new BadRequestException(ErrorCode.AUTEHNTICATION_FAIL_EXCEPTION);
+            throw new BadRequestException(ErrorCode.AUTHENTICATION_FAIL_EXCEPTION);
         }
 
         boolean isRegisteredUser = true;
