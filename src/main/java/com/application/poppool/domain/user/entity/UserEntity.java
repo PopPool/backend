@@ -69,7 +69,7 @@ public class UserEntity implements UserDetails {
     @Builder.Default
     private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
 
-    @OneToMany(mappedBy = "user", orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
     private List<CommentEntity> comments;
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
