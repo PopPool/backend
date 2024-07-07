@@ -1,7 +1,6 @@
 package com.application.poppool.domain.user.service;
 
 import com.application.poppool.domain.interest.entity.InterestEntity;
-import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
@@ -66,6 +65,7 @@ public class UserProfileService {
         return user.getUserInterestEntities().stream()
                 .map(userInterestEntity -> GetProfileResponse.MyInterestInfo.builder()
                         .interestId(userInterestEntity.getInterest().getInterestId())
+                        .interestCategory(userInterestEntity.getInterest().getInterestCategory())
                         .interestName(userInterestEntity.getInterest().getInterestName())
                         .build())
                 .collect(Collectors.toList());
@@ -125,7 +125,7 @@ public class UserProfileService {
      * @param interestToAdd
      * @return
      */
-    private UserInterestEntity createUserInterestEntity(UserEntity user, InterestType interestToAdd) {
+    private UserInterestEntity createUserInterestEntity(UserEntity user, Long interestToAdd) {
         InterestEntity interest = interestRepository.findByInterestId(interestToAdd)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_INTEREST));
         return UserInterestEntity.builder()

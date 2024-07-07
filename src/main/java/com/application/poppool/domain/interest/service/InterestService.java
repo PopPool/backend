@@ -1,7 +1,7 @@
 package com.application.poppool.domain.interest.service;
 
 import com.application.poppool.domain.interest.entity.InterestEntity;
-import com.application.poppool.domain.interest.enums.InterestType;
+import com.application.poppool.domain.interest.enums.InterestCategory;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -21,13 +21,13 @@ public class InterestService {
      * @param interests
      */
     @Transactional
-    public void addInterest(Set<InterestType> interests) {
-        for (InterestType interestType : interests) {
-            InterestEntity interestEntity = interestRepository.findByInterestId(interestType)
+    public void addInterest(Set<InterestCategory> interests) {
+        for (InterestCategory interestCategory : interests) {
+            InterestEntity interestEntity = interestRepository.findByInterestCategory(interestCategory)
                     .orElseGet(() -> interestRepository.save(
                             InterestEntity.builder()
-                                    .interestId(interestType)
-                                    .interestName(interestType.getInterestName())
+                                    .interestCategory(interestCategory)
+                                    .interestName(interestCategory.getInterestName())
                                     .build()
                     ));
         }

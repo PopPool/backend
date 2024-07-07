@@ -5,7 +5,7 @@ import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum InterestType {
+public enum InterestCategory {
     FASION("패션"),               // 패션
     LIFESTYLE("라이프스타일"),      // 라이프스타일
     BEAUTY("뷰티"),               // 뷰티

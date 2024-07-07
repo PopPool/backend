@@ -1,6 +1,6 @@
 package com.application.poppool.domain.user.dto.response;
 
-import com.application.poppool.domain.interest.enums.InterestType;
+import com.application.poppool.domain.interest.enums.InterestCategory;
 import com.application.poppool.domain.user.enums.Gender;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,7 +23,8 @@ public class GetProfileResponse {
     @Getter
     @Builder
     public static class MyInterestInfo {
-        private InterestType interestId;
+        private Long interestId;
+        private InterestCategory interestCategory;
         private String interestName;
     }
 

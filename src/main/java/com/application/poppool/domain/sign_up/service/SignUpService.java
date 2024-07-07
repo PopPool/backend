@@ -1,7 +1,6 @@
 package com.application.poppool.domain.sign_up.service;
 
 import com.application.poppool.domain.interest.entity.InterestEntity;
-import com.application.poppool.domain.interest.enums.InterestType;
 import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
@@ -66,10 +65,10 @@ public class SignUpService {
      * @param userInterests
      * @param user
      */
-    private void addUserInterest(Set<InterestType> userInterests, UserEntity user) {
+    private void addUserInterest(Set<Long> userInterests, UserEntity user) {
 
-        for (InterestType interestType : userInterests) {
-            InterestEntity interest = interestRepository.findByInterestId(interestType)
+        for (Long interestId : userInterests) {
+            InterestEntity interest = interestRepository.findByInterestId(interestId)
                     .orElseThrow(() -> new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR));
 
             UserInterestEntity userInterestEntity = UserInterestEntity.builder()
@@ -125,6 +124,7 @@ public class SignUpService {
         List<GetInterestListResponse.InterestResponse> interestResponse = interestList.stream()
                 .map(interest -> GetInterestListResponse.InterestResponse.builder()
                         .interestId(interest.getInterestId())
+                        .interestCategory(interest.getInterestCategory())
                         .interestName(interest.getInterestName())
                         .build())
                 .collect(Collectors.toList());
