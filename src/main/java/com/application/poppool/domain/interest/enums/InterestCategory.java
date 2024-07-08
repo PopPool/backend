@@ -1,11 +1,14 @@
 package com.application.poppool.domain.interest.enums;
 
+import com.application.poppool.global.enums.BaseEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum InterestCategory {
+public enum InterestCategory implements BaseEnum {
     FASION("패션"),               // 패션
     LIFESTYLE("라이프스타일"),      // 라이프스타일
     BEAUTY("뷰티"),               // 뷰티
@@ -19,6 +22,17 @@ public enum InterestCategory {
     SPORTS("스포츠"),             // 스포츠
     GAMES("게임");                 // 게임
 
-    private final String interestName;
+    @JsonValue
+    private final String value;
+
+    @JsonCreator
+    public static InterestCategory fromValueToEnum(String value) {
+        for (InterestCategory category : InterestCategory.values()) {
+            if (category.getValue().equals(value)) {
+                return category;
+            }
+        }
+        throw new IllegalArgumentException("유효하지 않은 값입니다.: " + value);
+    }
 
 }
