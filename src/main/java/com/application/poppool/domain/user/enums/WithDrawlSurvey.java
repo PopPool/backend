@@ -1,11 +1,14 @@
 package com.application.poppool.domain.user.enums;
 
+import com.application.poppool.global.enums.BaseEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
 @RequiredArgsConstructor
-public enum WithDrawlSurvey {
+public enum WithDrawlSurvey implements BaseEnum {
 
     NO_DESIRED_POPUP("원하는 팝업에 대한 정보가 없어요"),
     INSUFFICIENT_POPUP_INFO("팝업 정보가 적어요"),
@@ -14,6 +17,16 @@ public enum WithDrawlSurvey {
     FREQUENT_APP_ERRORS("앱에 오류가 많이 생겨요"),
     OTHER("기타");
 
-    private final String description;
+    @JsonValue
+    private final String value;
 
+    @JsonCreator
+    public static WithDrawlSurvey fromValueToEnum(String value) {
+        for (WithDrawlSurvey survey : WithDrawlSurvey.values()) {
+            if (survey.getValue().equals(value)) {
+                return survey;
+            }
+        }
+        return null;
+    }
 }
