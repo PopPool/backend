@@ -50,12 +50,13 @@ public class SignUpService {
                 .socialType(signUpRequest.getSocialType())
                 .build();
 
+        // 회원 엔티티 저장(회원가입) user 변수로 받아서 명시(변수로 받지 않으면 user 참조 못하는 에러남)
+        user = userRepository.save(user);
+
 
         // 회원 관심 카테고리 추가
         this.addUserInterest(signUpRequest.getInterests(), user);
 
-        // 회원 엔티티 저장(회원가입)
-        userRepository.save(user);
     }
 
 
@@ -74,13 +75,15 @@ public class SignUpService {
             UserInterestEntity userInterestEntity = UserInterestEntity.builder()
                     .user(user)
                     .interest(interest)
+                    .interestCategory(interest.getInterestCategory())
                     .build();
 
             // 회원 관심 카테고리 저장
-            userInterestRepository.save(userInterestEntity);
+            //userInterestRepository.save(userInterestEntity);
 
             user.addInterest(userInterestEntity);
             interest.addUser(userInterestEntity);
+
         }
 
 
@@ -104,7 +107,7 @@ public class SignUpService {
         return Arrays.stream(Gender.values())
                 .map(gender -> GetGenderResponse.builder()
                         .gender(gender)
-                        .label(gender.getLabel())
+                        .value(gender.getValue())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -125,7 +128,6 @@ public class SignUpService {
                 .map(interest -> GetInterestListResponse.InterestResponse.builder()
                         .interestId(interest.getInterestId())
                         .interestCategory(interest.getInterestCategory())
-                        .interestName(interest.getInterestName())
                         .build())
                 .collect(Collectors.toList());
 
