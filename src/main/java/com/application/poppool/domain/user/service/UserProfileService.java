@@ -66,7 +66,6 @@ public class UserProfileService {
                 .map(userInterestEntity -> GetProfileResponse.MyInterestInfo.builder()
                         .interestId(userInterestEntity.getInterest().getInterestId())
                         .interestCategory(userInterestEntity.getInterest().getInterestCategory())
-                        .interestName(userInterestEntity.getInterest().getInterestName())
                         .build())
                 .collect(Collectors.toList());
     }

@@ -14,7 +14,6 @@ public class CheckedSurveyListRequest {
     public static class CheckedSurvey {
         private Long id;
         private WithDrawlSurvey survey;
-        private String question;
     }
 
 }

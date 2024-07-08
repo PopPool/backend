@@ -9,6 +9,6 @@ import lombok.Getter;
 public class GetGenderResponse {
 
     private Gender gender;
-    private String label;
+    private String value;
 
 }

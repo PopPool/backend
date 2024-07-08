@@ -17,6 +17,5 @@ public class GetWithDrawlSurveyResponse {
     public static class Survey {
         private Long id;
         private WithDrawlSurvey survey;
-        private String question;
     }
 }

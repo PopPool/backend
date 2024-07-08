@@ -17,7 +17,6 @@ public class GetInterestListResponse {
     public static class InterestResponse {
         private Long interestId;
         private InterestCategory interestCategory;
-        private String interestName;
     }
 
 }

@@ -122,7 +122,6 @@ public class UserService {
                 .map(surveyEntity -> GetWithDrawlSurveyResponse.Survey.builder()
                         .id(surveyEntity.getId())
                         .survey(surveyEntity.getSurvey())
-                        .question(surveyEntity.getQuestion())
                         .build())
                 .toList();
 

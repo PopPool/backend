@@ -27,7 +27,6 @@ public class InterestService {
                     .orElseGet(() -> interestRepository.save(
                             InterestEntity.builder()
                                     .interestCategory(interestCategory)
-                                    .interestName(interestCategory.getInterestName())
                                     .build()
                     ));
         }

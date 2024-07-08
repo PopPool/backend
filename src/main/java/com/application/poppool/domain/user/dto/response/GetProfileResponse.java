@@ -25,7 +25,6 @@ public class GetProfileResponse {
     public static class MyInterestInfo {
         private Long interestId;
         private InterestCategory interestCategory;
-        private String interestName;
     }
 
 }
