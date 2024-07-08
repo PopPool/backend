@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.user.enums.WithDrawlSurvey;
+import com.application.poppool.global.converter.WithDrawlSurveyConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -17,11 +18,8 @@ public class WithDrawalSurveyEntity {
     private Long id;
 
     @Column(name = "SURVEY")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = WithDrawlSurveyConverter.class)
     private WithDrawlSurvey survey;
-
-    @Column(name = "QUESTION")
-    private String question;
 
     @Column(name = "COUNT")
     private Long count;

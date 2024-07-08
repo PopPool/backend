@@ -1,6 +1,8 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.interest.entity.InterestEntity;
+import com.application.poppool.domain.interest.enums.InterestCategory;
+import com.application.poppool.global.converter.InterestCategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -15,6 +17,7 @@ import lombok.*;
 public class UserInterestEntity {
 
     @Id
+    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -25,4 +28,8 @@ public class UserInterestEntity {
     @ManyToOne
     @JoinColumn(name = "INTEREST_ID", nullable = false)
     private InterestEntity interest;
+
+    @Column(name = "INTEREST_CATEGORY")
+    @Convert(converter = InterestCategoryConverter.class)
+    private InterestCategory interestCategory;
 }

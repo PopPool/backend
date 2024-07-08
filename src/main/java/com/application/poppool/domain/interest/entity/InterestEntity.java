@@ -3,6 +3,7 @@ package com.application.poppool.domain.interest.entity;
 
 import com.application.poppool.domain.interest.enums.InterestCategory;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
+import com.application.poppool.global.converter.InterestCategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,11 +24,8 @@ public class InterestEntity {
     private Long interestId;
 
     @Column(name = "INTEREST_CATEGORY", unique = true)
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = InterestCategoryConverter.class)
     private InterestCategory interestCategory;
-
-    @Column(name = "INTEREST_NAME")
-    private String interestName;
 
     @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
