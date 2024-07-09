@@ -20,9 +20,9 @@ public enum ErrorCode {
     DATABASE_EXCEPTION(HttpStatus.BAD_REQUEST, "DATABASE_EXCEPTION이 발생했습니다."),
     EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "EXCEPTION이 발생했습니다."),
     AUTHENTICATION_FAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
-    NOT_EXISTS_USER(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    NOT_EXISTS_INTEREST(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 관심 카테고리입니다."),
-    NOT_EXISTS_DATA(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
+    USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
+    INTEREST_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 관심 카테고리입니다."),
+    DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다");
 
     ErrorCode(HttpStatus status, String message) {
