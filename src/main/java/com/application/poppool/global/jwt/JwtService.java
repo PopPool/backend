@@ -167,8 +167,13 @@ public class JwtService {
     }
 
     // Authenticaiton 가져오기
-    public Authentication getAuthentication(String accessToken) {
-        UserDetails userDetails = customUserDetailsService.loadUserByUsername(this.getUserId(accessToken));
+    public Authentication getAuthentication(String accessToken, boolean isTemporary) {
+        String userId = this.getUserId(accessToken);
+
+        UserDetails userDetails = isTemporary
+                ? customUserDetailsService.loadUserByTemporaryToken(userId) // 임시 토큰인 경우
+                : customUserDetailsService.loadUserByUsername(userId); // 정식 토큰인 경우
+
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
     }
 

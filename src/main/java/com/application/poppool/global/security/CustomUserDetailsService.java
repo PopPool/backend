@@ -5,11 +5,13 @@ import com.application.poppool.domain.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -32,10 +34,20 @@ public class CustomUserDetailsService implements UserDetailsService {
         List<GrantedAuthority> authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
 
         // UserDetails 객체를 생성
-        return new org.springframework.security.core.userdetails.User(
+        return new User(
                 user.getUserId(),
                 password,
                 authorities
         );
     }
+
+    /**
+     * 임시 토큰으로 들어온 사용자 같은 경우에는 실제로 DB에 데이터가 없기 때문에 검증하지 않고 객체만 반환해줌
+     * @param userId
+     * @return
+     */
+    public UserDetails loadUserByTemporaryToken(String userId) {
+        return new User(userId, "", new ArrayList<>());
+    }
+
 }
