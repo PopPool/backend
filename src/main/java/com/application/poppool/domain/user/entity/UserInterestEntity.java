@@ -2,6 +2,7 @@ package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.interest.entity.InterestEntity;
 import com.application.poppool.domain.interest.enums.InterestCategory;
+import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.InterestCategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +15,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class UserInterestEntity {
+public class UserInterestEntity extends BaseEntity {
 
     @Id
     @Column(name = "ID")

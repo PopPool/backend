@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.user.enums.WithDrawlSurvey;
+import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.WithDrawlSurveyConverter;
 import jakarta.persistence.*;
 import lombok.*;
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class WithDrawalSurveyEntity {
+public class WithDrawalSurveyEntity extends BaseEntity {
 
     @Id
     @Column(name = "ID")

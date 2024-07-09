@@ -1,6 +1,7 @@
 package com.application.poppool.domain.popup.entity;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +13,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class PopUpStoreEntity {
+public class PopUpStoreEntity extends BaseEntity {
 
     @Id
     @Column(name = "POP_UP_STORE_ID")

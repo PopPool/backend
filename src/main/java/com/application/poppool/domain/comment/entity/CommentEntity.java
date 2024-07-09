@@ -2,6 +2,7 @@ package com.application.poppool.domain.comment.entity;
 
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class CommentEntity {
+public class CommentEntity extends BaseEntity {
 
     @Id
     @Column(name = "COMMENT_ID")
