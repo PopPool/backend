@@ -41,7 +41,7 @@ public class UserService {
     public GetMyPageResponse getMyPage(String userId) {
 
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
 
         List<GetMyPageResponse.PopUpInfo> popUpInfoList = user.getComments().stream()
@@ -67,7 +67,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public GetMyCommentResponse getMyCommentList(String userId) {
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         List<GetMyCommentResponse.MyCommentInfo> myCommentList = user.getComments().stream()
                 .map(commentEntity -> GetMyCommentResponse.MyCommentInfo.builder()
@@ -91,12 +91,12 @@ public class UserService {
     @Transactional
     public void deleteUser(String userId, CheckedSurveyListRequest request) {
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // 회원 탈퇴 설문 항목 수 증가
         for (CheckedSurveyListRequest.CheckedSurvey checkedSurvey : request.getCheckedSurveyList()) {
             WithDrawalSurveyEntity surveyEntity = withDrawlSurveyRepository.findById(checkedSurvey.getId())
-                    .orElseThrow(() -> new NotFoundException(ErrorCode.NOT_EXISTS_DATA));
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
 
             // survey id로 가져온 엔티티의 실제 survey와 요청으로 넘어온 survey가 같은지 비교
             if (!surveyEntity.getSurvey().equals(checkedSurvey.getSurvey())) {

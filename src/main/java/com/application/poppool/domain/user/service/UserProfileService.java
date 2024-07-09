@@ -37,7 +37,7 @@ public class UserProfileService {
     @Transactional(readOnly = true)
     public GetProfileResponse getMyProfile(String userId) {
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 회원의 관심 카테고리 목록 가져오기
         List<GetProfileResponse.MyInterestInfo> myInterestInfoList = this.getMyInterestList(user);
@@ -79,7 +79,7 @@ public class UserProfileService {
     @Transactional
     public void updateMyProfile(String userId, UpdateMyProfileRequest updateMyProfileRequest) {
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 회원 프로필 항목 수정
         user.updateMyProfile(updateMyProfileRequest);
@@ -99,7 +99,7 @@ public class UserProfileService {
 
         // 유저 엔티티 조회
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 삭제할 관심 카테고리 삭제
         List<UserInterestEntity> interestsToDelete = user.getUserInterestEntities().stream()
@@ -126,7 +126,7 @@ public class UserProfileService {
      */
     private UserInterestEntity createUserInterestEntity(UserEntity user, Long interestToAdd) {
         InterestEntity interest = interestRepository.findByInterestId(interestToAdd)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_INTEREST));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.INTEREST_NOT_FOUND));
         return UserInterestEntity.builder()
                 .user(user)
                 .interest(interest)
@@ -143,7 +143,7 @@ public class UserProfileService {
     public void updateMyTailoredInfo(String userId, UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) throws BadRequestException {
         // 회원 엔티티 조회
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.NOT_EXISTS_USER));
+                .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 회원 맞춤 정보 수정
         user.updateMyTailoredInfo(updateMyTailoredInfoRequest);
