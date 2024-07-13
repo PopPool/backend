@@ -52,8 +52,8 @@ public class SwaggerConfig {
         final String name = "user";
         return GroupedOpenApi.builder()
                 .group(name)
-                .pathsToMatch("/users" + "/**")
-                .packagesToScan(BASE_PACKAGE + "user")
+                .pathsToMatch("/users/**")
+                .packagesToScan(BASE_PACKAGE + ".user")
                 .build();
     }
 
