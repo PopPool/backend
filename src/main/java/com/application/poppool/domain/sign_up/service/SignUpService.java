@@ -83,7 +83,6 @@ public class SignUpService {
 
             user.addInterest(userInterestEntity);
             interest.addUser(userInterestEntity);
-
         }
 
 
@@ -121,7 +120,7 @@ public class SignUpService {
     public GetInterestListResponse getInterestList() {
 
         // 관심사 목록 전체 조회
-        List<InterestEntity> interestList = interestRepository.findAll();
+        List<InterestEntity> interestList = interestRepository.findAllByOrderByInterestId();
 
 
         List<GetInterestListResponse.InterestResponse> interestResponse = interestList.stream()
