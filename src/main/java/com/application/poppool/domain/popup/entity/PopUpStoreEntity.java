@@ -21,12 +21,12 @@ public class PopUpStoreEntity extends BaseEntity {
     @Id
     @Column(name = "POP_UP_STORE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     @Column(name = "POP_UP_STORE_NAME")
     private String name;
 
-    @Column(name = "DESC")
+    @Column(name = "DESCRIPTION")
     private String desc;
 
     @Column(name = "START_DT")
@@ -38,10 +38,12 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Builder.Default
     @OneToMany(mappedBy = "popUpStore")
-    private List<CommentEntity> comments;
+    private List<CommentEntity> comments = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookMarkPopupStoreEntity> bookmarkPopUpStores = new ArrayList<>();
+    private List<BookMarkPopupStoreEntity> bookMarkPopUpStores = new ArrayList<>();
 
 }
