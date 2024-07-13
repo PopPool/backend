@@ -8,6 +8,9 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -19,7 +22,8 @@ public interface UserControllerDoc {
     ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId);
 
     @Operation(summary = "내가 쓴 일반 코멘트 조회", description = "내가 쓴 일반 코멘트를 조회합니다.")
-    ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId);
+    ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
+                                                          Pageable pageable);
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
     void deleteUser(@PathVariable String userId, @RequestBody @Valid CheckedSurveyListRequest request);

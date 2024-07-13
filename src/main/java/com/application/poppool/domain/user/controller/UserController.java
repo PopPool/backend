@@ -10,6 +10,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -43,8 +46,9 @@ public class UserController implements UserControllerDoc {
      */
     @Override
     @GetMapping("/{userId}/comments")
-    public ResponseEntity<GetMyCommentResponse> getMyCommentList(String userId) {
-        return ResponseEntity.ok(userService.getMyCommentList(userId));
+    public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
+                                                                 @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyCommentList(userId, pageable));
     }
 
 

@@ -1,5 +1,7 @@
 package com.application.poppool.domain.user.service;
 
+import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
@@ -15,17 +17,22 @@ import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
     private final UserRepository userRepository;
+    private final CommentRepository commentRepository;
     private final WithDrawlRepository withDrawlSurveyRepository;
     private final BlackListTokenService blackListTokenService;
     private final RefreshTokenService refreshTokenService;
@@ -65,22 +72,27 @@ public class UserService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetMyCommentResponse getMyCommentList(String userId) {
+    public GetMyCommentResponse getMyCommentList(String userId, Pageable pageable) {
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        List<GetMyCommentResponse.MyCommentInfo> myCommentList = user.getComments().stream()
-                .map(commentEntity -> GetMyCommentResponse.MyCommentInfo.builder()
-                        .commentId(commentEntity.getId())
-                        .content(commentEntity.getContent())
-                        .image(commentEntity.getImage())
+        Page<CommentEntity> myCommentList = commentRepository.findByUser(user, pageable);
+
+        List<GetMyCommentResponse.MyCommentInfo> myCommentInfoList = myCommentList.stream()
+                .map(myComment -> GetMyCommentResponse.MyCommentInfo.builder()
+                        .commentId(myComment.getId())
+                        .content(myComment.getContent())
+                        .image(myComment.getImage())
+                        .likeCount(myComment.getLikeCount())
                         .build())
                 .toList();
 
-        return GetMyCommentResponse.builder().myCommentList(myCommentList).build();
+        return GetMyCommentResponse.builder()
+                .myCommentList(myCommentInfoList)
+                .totalPages(myCommentList.getTotalPages())
+                .totalElements(myCommentList.getTotalElements())
+                .build();
     }
-
-
 
 
     /**
