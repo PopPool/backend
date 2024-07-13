@@ -10,6 +10,8 @@ import java.util.List;
 public class GetMyCommentResponse{
     
     private List<MyCommentInfo> myCommentList;
+    private int totalPages;
+    private long totalElements;
 
     @Getter
     @Builder
@@ -17,7 +19,6 @@ public class GetMyCommentResponse{
         private Long commentId;
         private String content;
         private String image;
-
-
+        private int likeCount;
     }
 }
