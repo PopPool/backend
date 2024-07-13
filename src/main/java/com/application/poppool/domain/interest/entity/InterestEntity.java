@@ -8,8 +8,9 @@ import com.application.poppool.global.converter.InterestCategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Entity
 @Table(name = "interest")
@@ -28,9 +29,9 @@ public class InterestEntity extends BaseEntity {
     @Convert(converter = InterestCategoryConverter.class)
     private InterestCategory interestCategory;
 
-    @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
+    @OneToMany(mappedBy = "interest", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserInterestEntity> userInterestEntities = new ArrayList<>();
 
     public void addUser(UserInterestEntity userInterestEntity) {
         userInterestEntities.add(userInterestEntity);

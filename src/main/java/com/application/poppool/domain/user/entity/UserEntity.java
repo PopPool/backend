@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.auth.enums.SocialType;
+import com.application.poppool.domain.bookmark.entity.BookMarkPopupStoreEntity;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
@@ -66,12 +67,17 @@ public class UserEntity extends BaseEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     private Role role;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
-    private Set<UserInterestEntity> userInterestEntities = new HashSet<>();
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<UserInterestEntity> userInterestEntities = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
-    private List<CommentEntity> comments;
+    private List<CommentEntity> comments = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<BookMarkPopupStoreEntity> bookMarkPopupStores = new ArrayList<>();
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
         this.profileImage = updateMyProfileRequest.getProfileImage();
