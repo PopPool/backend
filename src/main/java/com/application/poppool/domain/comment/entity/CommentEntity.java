@@ -40,7 +40,7 @@ public class CommentEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "POP_UP_STORE_ID")
+    @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true) // 코멘트가 사라지면 좋아요도 없어져야함

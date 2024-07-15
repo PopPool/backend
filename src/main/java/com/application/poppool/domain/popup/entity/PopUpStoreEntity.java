@@ -19,11 +19,11 @@ import java.util.List;
 public class PopUpStoreEntity extends BaseEntity {
 
     @Id
-    @Column(name = "POP_UP_STORE_ID")
+    @Column(name = "POPUP_STORE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "POP_UP_STORE_NAME")
+    @Column(name = "POPUP_STORE_NAME")
     private String name;
 
     @Column(name = "DESCRIPTION")

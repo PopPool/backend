@@ -24,7 +24,7 @@ public class BookMarkPopupStoreEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne
-    @JoinColumn(name = "POP_UP_STORE_ID")
+    @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 
 
