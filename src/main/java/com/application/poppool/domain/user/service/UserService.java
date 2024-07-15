@@ -2,14 +2,15 @@ package com.application.poppool.domain.user.service;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
+import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
+import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
-import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
-import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
-import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
+import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.WithDrawalSurveyEntity;
+import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.domain.user.repository.WithDrawlRepository;
 import com.application.poppool.global.exception.BadRequestException;
@@ -18,14 +19,13 @@ import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.stream.Collectors;
+
 
 @Service
 @RequiredArgsConstructor
@@ -34,9 +34,12 @@ public class UserService {
     private final UserRepository userRepository;
     private final CommentRepository commentRepository;
     private final WithDrawlRepository withDrawlSurveyRepository;
+    private final PopUpStoreRepository popUpStoreRepository;
+    private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
     private final BlackListTokenService blackListTokenService;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
+
 
     /**
      * 마이페이지 조회
@@ -51,6 +54,9 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
 
+        /***
+         * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
+         */
         List<GetMyPageResponse.PopUpInfo> popUpInfoList = user.getComments().stream()
                 .map(comment -> comment.getPopUpStore())
                 .map(popUpStore -> GetMyPageResponse.PopUpInfo.builder()
@@ -76,8 +82,10 @@ public class UserService {
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+        // 회원의 코멘트 조회
         Page<CommentEntity> myCommentList = commentRepository.findByUser(user, pageable);
 
+        // Entity to Dto
         List<GetMyCommentResponse.MyCommentInfo> myCommentInfoList = myCommentList.stream()
                 .map(myComment -> GetMyCommentResponse.MyCommentInfo.builder()
                         .commentId(myComment.getId())
@@ -94,6 +102,62 @@ public class UserService {
                 .build();
     }
 
+    /**
+     * 내가 코멘트 단 팝업스토어 전체 조회
+     */
+    @Transactional(readOnly = true)
+    public GetMyCommentedPopUpStoreListResponse getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 회원이 코멘트 단 팝업 스토어 전체 조회
+        Page<PopUpStoreEntity> popUpStores = popUpStoreRepository.findAllByUserComment(userId, pageable);
+
+
+        // Entity to Dto
+        List<GetMyCommentedPopUpStoreListResponse.PopUpInfo> popUpInfoList = popUpStores.stream()
+                .map(popUpStore -> GetMyCommentedPopUpStoreListResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStore.getId())
+                        .popUpStoreName(popUpStore.getName())
+                        .desc(popUpStore.getDesc())
+                        .startDate(popUpStore.getStartDate())
+                        .endDate(popUpStore.getEndDate())
+                        .address(popUpStore.getAddress())
+                        .closedYn(popUpStore.getClosedYn())
+                        .build())
+                .toList();
+
+        return GetMyCommentedPopUpStoreListResponse.builder().popUpInfoList(popUpInfoList).build();
+    }
+
+    /**
+     * 최근 본 팝업스토어 조회
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetMyRecentViewPopUpStoreListResponse getMyRecentViewPopUpStoreList(String userId, Pageable pageable) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        // 최근 본 팝업스토어 조회
+        Page<PopUpStoreEntity> recentViewPopUpStores = userPopUpStoreViewRepository.findRecentViewPopUpStoresByUserId(userId, pageable);
+
+        List<GetMyRecentViewPopUpStoreListResponse.PopUpInfo> popUpInfoList = recentViewPopUpStores.stream()
+                .map(popUpStoreEntity -> GetMyRecentViewPopUpStoreListResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStoreEntity.getId())
+                        .popUpStoreName(popUpStoreEntity.getName())
+                        .desc(popUpStoreEntity.getDesc())
+                        .startDate(popUpStoreEntity.getStartDate())
+                        .endDate(popUpStoreEntity.getEndDate())
+                        .address(popUpStoreEntity.getAddress())
+                        .closedYn(popUpStoreEntity.getClosedYn())
+                        .build())
+                .toList();
+
+        return GetMyRecentViewPopUpStoreListResponse.builder().popUpInfoList(popUpInfoList).build();
+    }
 
     /**
      * 회원 탈퇴

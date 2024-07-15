@@ -1,9 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
-import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
-import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
-import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
+import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,6 +47,20 @@ public class UserController implements UserControllerDoc {
     public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
                                                                  @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getMyCommentList(userId, pageable));
+    }
+
+    @Override
+    @GetMapping("/{userId}/popupstores/with-comments")
+    public ResponseEntity<GetMyCommentedPopUpStoreListResponse> getMyCommentedPopUpStoreList(@PathVariable String userId,
+                                                                                             @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyCommentedPopUpStoreList(userId, pageable));
+    }
+
+    @Override
+    @GetMapping("/{userId}/recent-popupstores")
+    public ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
+                                                                                               @PageableDefault(page = 0, size = 10, sort = "viewedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyRecentViewPopUpStoreList(userId, pageable));
     }
 
 

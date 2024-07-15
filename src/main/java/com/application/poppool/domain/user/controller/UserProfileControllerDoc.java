@@ -16,17 +16,17 @@ import org.springframework.web.bind.annotation.RequestBody;
 public interface UserProfileControllerDoc {
 
     @Operation(summary = "회원 프로필 조회", description = "회원 프로필을 조회합니다.")
-    ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable("user-id") String userId);
+    ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable("userId") String userId);
 
 
     @Operation(summary = "회원 프로필 수정", description = "회원 프로필을 수정합니다.")
-    void updateMyProfile(@PathVariable("user-id") String userId);
+    void updateMyProfile(@PathVariable("userId") String userId);
 
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
-    void updateMyInterests(@PathVariable("user-id") String userId,
+    void updateMyInterests(@PathVariable("userId") String userId,
                            @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest);
 
     @Operation(summary = "회원 맞춤 정보 수정", description = "회원 맞춤 정보를 수정합니다.")
-    public void updateMyTailoredInfo(@PathVariable("user-id") String userId,
+    public void updateMyTailoredInfo(@PathVariable("userId") String userId,
                                      @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest);
 }

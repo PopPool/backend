@@ -1,9 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
-import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
-import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
-import com.application.poppool.domain.user.dto.response.GetWithDrawlSurveyResponse;
+import com.application.poppool.domain.user.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,6 +22,14 @@ public interface UserControllerDoc {
     @Operation(summary = "내가 쓴 일반 코멘트 조회", description = "내가 쓴 일반 코멘트를 조회합니다.")
     ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
                                                           Pageable pageable);
+
+    @Operation(summary = "내가 코멘트 단 팝업 스토어 리스트 조회", description = "내가 코멘트 단 팝업 스토어 리스트를 조회합니다.")
+    ResponseEntity<GetMyCommentedPopUpStoreListResponse> getMyCommentedPopUpStoreList(@PathVariable String userId,
+                                                                                      @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+
+    @Operation(summary = "최근 본 팝업 스토어 리스트 조회", description = "최근 본 팝업 스토어 리스트를 조회합니다.")
+    ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
+                                                                                        @PageableDefault(page = 0, size = 10, sort = "viewedAt",direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
     void deleteUser(@PathVariable String userId, @RequestBody @Valid CheckedSurveyListRequest request);
