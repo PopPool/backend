@@ -38,6 +38,9 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "CLOSED_YN")
+    private String closedYn;
+
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore")
     private List<CommentEntity> comments = new ArrayList<>();
