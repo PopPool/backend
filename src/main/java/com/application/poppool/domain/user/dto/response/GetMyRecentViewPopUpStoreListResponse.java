@@ -11,6 +11,8 @@ import java.util.List;
 public class GetMyRecentViewPopUpStoreListResponse {
 
     private List<PopUpInfo> popUpInfoList;
+    private int totalPages;
+    private long totalElements;
 
     @Getter
     @Builder

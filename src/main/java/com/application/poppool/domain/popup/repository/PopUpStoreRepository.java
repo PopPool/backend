@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface PopUpStoreRepository extends JpaRepository<PopUpStoreEntity,Long> {
-    @Query("SELECT DISTINCT p FROM PopUpStoreEntity p JOIN p.comments c WHERE c.user.userId = :userId")
-    Page<PopUpStoreEntity> findAllByUserComment(@Param("userId") String userId, Pageable pageable);
+
 }

@@ -111,7 +111,7 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         // 회원이 코멘트 단 팝업 스토어 전체 조회
-        Page<PopUpStoreEntity> popUpStores = popUpStoreRepository.findAllByUserComment(userId, pageable);
+        Page<PopUpStoreEntity> popUpStores = commentRepository.findPopUpStoresByUserComment(userId, pageable);
 
 
         // Entity to Dto
@@ -127,7 +127,11 @@ public class UserService {
                         .build())
                 .toList();
 
-        return GetMyCommentedPopUpStoreListResponse.builder().popUpInfoList(popUpInfoList).build();
+        return GetMyCommentedPopUpStoreListResponse.builder()
+                .popUpInfoList(popUpInfoList)
+                .totalPages(popUpStores.getTotalPages())
+                .totalElements(popUpStores.getTotalElements())
+                .build();
     }
 
     /**
@@ -156,7 +160,11 @@ public class UserService {
                         .build())
                 .toList();
 
-        return GetMyRecentViewPopUpStoreListResponse.builder().popUpInfoList(popUpInfoList).build();
+        return GetMyRecentViewPopUpStoreListResponse.builder()
+                .popUpInfoList(popUpInfoList)
+                .totalPages(recentViewPopUpStores.getTotalPages())
+                .totalElements(recentViewPopUpStores.getTotalElements())
+                .build();
     }
 
     /**
