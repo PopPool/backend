@@ -1,5 +1,6 @@
 package com.application.poppool.global.security;
 
+import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtAuthenticationFilter;
 import com.application.poppool.global.jwt.JwtService;
 import lombok.RequiredArgsConstructor;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.logout.LogoutHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -26,6 +28,7 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final JwtService jwtService;
+    private final UserService userService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
@@ -59,7 +62,10 @@ public class SecurityConfig {
                                 .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService),
-                        UsernamePasswordAuthenticationFilter.class);
+                        UsernamePasswordAuthenticationFilter.class)
+                .logout((logout) -> logout
+                        .logoutUrl("/users/logout")
+                        .addLogoutHandler(customLogoutHandler()));
         return http.build();
     }
 
@@ -79,6 +85,11 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 
+    }
+
+    @Bean
+    public LogoutHandler customLogoutHandler() {
+        return new CustomLogoutHandler(jwtService,userService);
     }
 
     @Bean
