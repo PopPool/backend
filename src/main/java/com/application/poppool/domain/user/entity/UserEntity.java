@@ -35,7 +35,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
     private String password = ""; // Default 값으로 빈 문자열 설정
 
     @Column(name = "NICKNAME")
-    private String nickName; // 닉네임
+    private String nickname; // 닉네임
 
     @Column(name = "EMAIL")
     private String email; // 소셜로그인에서 받아온 이메일
@@ -81,7 +81,7 @@ public class UserEntity extends BaseEntity implements UserDetails {
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
         this.profileImage = updateMyProfileRequest.getProfileImage();
-        this.nickName = updateMyProfileRequest.getNickName();
+        this.nickname = updateMyProfileRequest.getNickname();
         this.email = updateMyProfileRequest.getEmail();
         this.instagramId = updateMyProfileRequest.getInstagramId();
         this.intro = updateMyProfileRequest.getIntro();

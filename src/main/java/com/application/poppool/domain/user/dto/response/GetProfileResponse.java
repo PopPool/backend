@@ -12,7 +12,7 @@ import java.util.List;
 public class GetProfileResponse {
 
     private String profileImage;
-    private String nickName;
+    private String nickname;
     private String email;
     private String instagramId;
     private String intro;

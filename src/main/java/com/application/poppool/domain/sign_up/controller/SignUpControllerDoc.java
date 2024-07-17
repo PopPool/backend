@@ -19,7 +19,7 @@ public interface SignUpControllerDoc {
     void signUp(@RequestBody @Valid SignUpRequest signUpRequest);
 
     @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 확인을 진행합니다.")
-    ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName);
+    ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickName);
 
     @Operation(summary = "성별 후보군 목록 조회", description = "성별 후보군 목록을 조회합니다.")
     ResponseEntity<List<GetGenderResponse>> getGenderList();

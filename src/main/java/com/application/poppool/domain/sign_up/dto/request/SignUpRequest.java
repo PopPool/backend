@@ -11,7 +11,7 @@ import java.util.Set;
 public class SignUpRequest {
 
     private String userId;
-    private String nickName;
+    private String nickname;
     private Gender gender;
     private Integer age;
     private String socialEmail;

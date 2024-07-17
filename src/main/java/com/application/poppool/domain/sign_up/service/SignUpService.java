@@ -43,7 +43,7 @@ public class SignUpService {
 
         UserEntity user = UserEntity.builder()
                 .userId(signUpRequest.getUserId())
-                .nickName(signUpRequest.getNickName())
+                .nickname(signUpRequest.getNickname())
                 .email(signUpRequest.getSocialEmail())
                 .gender(signUpRequest.getGender())
                 .age(signUpRequest.getAge())
@@ -92,8 +92,8 @@ public class SignUpService {
      * 닉네임 중복확인
      */
     @Transactional(readOnly = true)
-    public boolean isNickNameDuplicate(String nickName) {
-        return userRepository.findByNickName(nickName).isPresent();
+    public boolean isNicknameDuplicate(String nickName) {
+        return userRepository.findByNickname(nickName).isPresent();
     }
 
     /**

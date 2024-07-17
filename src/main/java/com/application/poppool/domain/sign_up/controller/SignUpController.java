@@ -37,9 +37,9 @@ public class SignUpController implements SignUpControllerDoc {
      */
     @Override
     @GetMapping("/check-nickname")
-    public ResponseEntity<Boolean> checkNickNameDuplicate(@RequestParam String nickName) {
+    public ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickName) {
         log.info("닉네임 중복 확인");
-        return ResponseEntity.ok(signUpService.isNickNameDuplicate(nickName));
+        return ResponseEntity.ok(signUpService.isNicknameDuplicate(nickName));
     }
 
     /**

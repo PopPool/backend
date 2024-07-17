@@ -9,7 +9,7 @@ import java.util.List;
 @Builder
 public class GetMyPageResponse {
 
-    private String nickName;
+    private String nickname;
     private String instagramId;
     private List<PopUpInfo> popUpInfoList;
 
