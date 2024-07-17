@@ -2,6 +2,7 @@ package com.application.poppool.domain.user.controller;
 
 
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.service.UserProfileService;
@@ -27,8 +28,9 @@ public class UserProfileController implements UserProfileControllerDoc {
 
     @Override
     @PutMapping("/{userId}/profiles")
-    public void updateMyProfile(@PathVariable String userId) {
-        userProfileService.getMyProfile(userId);
+    public void updateMyProfile(@PathVariable String userId,
+                                @RequestBody UpdateMyProfileRequest request) {
+        userProfileService.updateMyProfile(userId, request);
     }
 
     @Override

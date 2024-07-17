@@ -2,6 +2,7 @@ package com.application.poppool.domain.user.controller;
 
 
 import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -20,7 +21,8 @@ public interface UserProfileControllerDoc {
 
 
     @Operation(summary = "회원 프로필 수정", description = "회원 프로필을 수정합니다.")
-    void updateMyProfile(@PathVariable("userId") String userId);
+    void updateMyProfile(@PathVariable String userId,
+                         @RequestBody UpdateMyProfileRequest request);
 
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
     void updateMyInterests(@PathVariable("userId") String userId,

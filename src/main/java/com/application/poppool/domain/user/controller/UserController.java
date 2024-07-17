@@ -65,6 +65,33 @@ public class UserController implements UserControllerDoc {
 
 
     /**
+     * 차단한 사용자 목록 조회
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    @Override
+    @GetMapping("/blocked")
+    public ResponseEntity<GetBlockedUserListResponse> getBlockedUserList(@RequestParam String userId,
+                                                         @PageableDefault(page = 0, size = 10, sort = "blockedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getBlockedUserList(userId, pageable));
+    }
+
+    @Override
+    @PostMapping("/block")
+    public void blockUser(@RequestParam String blockerUserId, @RequestParam String blockedUserId) {
+        userService.blockUser(blockerUserId, blockedUserId);
+    }
+
+
+    @Override
+    @DeleteMapping("/unblock")
+    public void unblockUser(@RequestParam String userId, @RequestParam String blockedUserId) {
+        userService.unblockUser(userId, blockedUserId);
+    }
+
+
+    /**
      * 회원 탈퇴
      * @param userId
      * @param request - 체크된 설문 항목
