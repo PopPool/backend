@@ -32,7 +32,6 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
                 userEntity.instagramId.as("instagramId")
         ))
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.user,userEntity)
                 .join(blockedUserEntity.blockedUser,userEntity)
                 .where(eqUserId(userId))
                 .offset(pageable.getOffset())
@@ -52,7 +51,7 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
     }
 
     private BooleanExpression eqUserId(String userId) {
-        return userId != null ? userEntity.userId.eq(userId) : null;
+        return userId != null ? blockedUserEntity.user.userId.eq(userId) : null;
     }
 
 }
