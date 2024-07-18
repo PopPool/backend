@@ -57,5 +57,15 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi noticeApi() {
+        final String name = "notice";
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch("/notice/**")
+                .packagesToScan(BASE_PACKAGE + ".notice")
+                .build();
+    }
+
 
 }
