@@ -23,7 +23,9 @@ public enum ErrorCode {
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
     INTEREST_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 관심 카테고리입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
-    DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다");
+    DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
+    
+    NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요");
 
     ErrorCode(HttpStatus status, String message) {
         this.status = status;
