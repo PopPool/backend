@@ -16,13 +16,14 @@ public class WithDrawalSurveyEntity extends BaseEntity {
 
     @Id
     @Column(name = "ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "SURVEY")
     @Convert(converter = WithDrawlSurveyConverter.class)
     private WithDrawlSurvey survey;
 
-    @Column(name = "COUNT")
+    @Column(name = "CNT")
     private Long count;
 
     public void incrementCount() {
