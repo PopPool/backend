@@ -1,5 +1,6 @@
 package com.application.poppool.global.security;
 
+import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtAuthenticationFilter;
 import com.application.poppool.global.jwt.JwtService;
@@ -53,6 +54,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((authorize) -> authorize
                         //.requestMatchers("/users/**").hasRole("USER")
                         .requestMatchers(PERMIT_URL).permitAll()
+                        .requestMatchers("/admin/**").hasRole(Role.ADMIN.name())
                         .requestMatchers(HttpMethod.GET, GetMethodPermitURL).permitAll()
                         .anyRequest().authenticated()
                 )
