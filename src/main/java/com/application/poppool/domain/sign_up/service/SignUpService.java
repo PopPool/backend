@@ -5,13 +5,18 @@ import com.application.poppool.domain.interest.repository.InterestRepository;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
+import com.application.poppool.domain.user.entity.RoleEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestEntity;
+import com.application.poppool.domain.user.entity.UserRoleEntity;
 import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.domain.user.enums.Role;
+import com.application.poppool.domain.user.repository.RoleRepository;
 import com.application.poppool.domain.user.repository.UserInterestRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
+import com.application.poppool.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -27,6 +32,7 @@ public class SignUpService {
 
     private final UserRepository userRepository;
     private final UserInterestRepository userInterestRepository;
+    private final RoleRepository roleRepository;
     private final InterestRepository interestRepository;
 
     /**
@@ -54,11 +60,32 @@ public class SignUpService {
         user = userRepository.save(user);
 
 
+        // 회원 권한 부여
+        this.addUserRole(user);
         // 회원 관심 카테고리 추가
         this.addUserInterest(signUpRequest.getInterests(), user);
 
     }
 
+
+    /**
+     * 회원 권한 부여 (일반 사용자)
+     * @param user
+     */
+    private void addUserRole(UserEntity user) {
+
+        // 일반 사용자 권한 부여
+        RoleEntity role = roleRepository.findByRole(Role.USER)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
+        // 회원 권한 엔티티 생성
+        UserRoleEntity userRole = UserRoleEntity.builder()
+                .user(user)
+                .role(role)
+                .build();
+
+        user.addUserRole(userRole);
+    }
 
     /**
      * 회원가입 시, 관심사 등록 (회원가입에서만 쓰는 함수) - 책임 분리 원칙

@@ -96,5 +96,9 @@ public class UserEntity extends BaseEntity {
         userInterestEntities.add(userInterestEntity);
     }
 
+    // 권한 부여
+    public void addUserRole(UserRoleEntity userRole) {
+        this.userRoles.add(userRole);
+    }
 
 }
