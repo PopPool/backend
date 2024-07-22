@@ -14,7 +14,6 @@ public interface InterestRepository extends JpaRepository<InterestEntity, Long> 
     List<InterestEntity> findAllByOrderByInterestId();
 
     Optional<InterestEntity> findByInterestId(Long interestId);
-
     Optional<InterestEntity> findByInterestCategory(InterestCategory interestCategory);
 
 }

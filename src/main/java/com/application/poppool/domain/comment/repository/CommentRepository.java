@@ -12,12 +12,12 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface CommentRepository extends JpaRepository<CommentEntity, Long> {
-    @Lock(LockModeType.OPTIMISTIC)
-        // 조회시점부터 트랜잭션 끝날 때까지 다른 트랜잭션에 의해 변경되지 않음을 보장
+public interface CommentRepository extends JpaRepository<CommentEntity,Long> {
+    @Lock(LockModeType.OPTIMISTIC) // 조회시점부터 트랜잭션 끝날 때까지 다른 트랜잭션에 의해 변경되지 않음을 보장
     Optional<CommentEntity> findById(Long id);
 
     Page<CommentEntity> findByUser(UserEntity user, Pageable pageable);

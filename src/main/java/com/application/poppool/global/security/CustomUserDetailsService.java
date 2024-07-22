@@ -47,7 +47,6 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     /**
      * 임시 토큰으로 들어온 사용자 같은 경우에는 실제로 DB에 데이터가 없기 때문에 검증하지 않고 객체만 반환해줌
-     *
      * @param userId
      * @return
      */

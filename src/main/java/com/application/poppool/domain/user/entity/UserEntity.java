@@ -6,14 +6,16 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Entity
 @Table(name = "user")

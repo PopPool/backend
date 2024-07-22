@@ -9,10 +9,9 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BlockedUserRepository extends JpaRepository<BlockedUserEntity, Long> {
+public interface BlockedUserRepository extends JpaRepository<BlockedUserEntity,Long> {
 
     Optional<BlockedUserEntity> findByUserAndBlockedUser(UserEntity user, UserEntity blockedUser);
-
     List<BlockedUserEntity> findAllByUser(UserEntity user);
 
 }

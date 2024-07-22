@@ -91,7 +91,7 @@ public class SecurityConfig {
 
     @Bean
     public LogoutHandler customLogoutHandler() {
-        return new CustomLogoutHandler(jwtService, userService);
+        return new CustomLogoutHandler(jwtService,userService);
     }
 
     @Bean

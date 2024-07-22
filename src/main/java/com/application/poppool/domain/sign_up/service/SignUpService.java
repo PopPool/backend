@@ -70,7 +70,6 @@ public class SignUpService {
 
     /**
      * 회원 권한 부여 (일반 사용자)
-     *
      * @param user
      */
     private void addUserRole(UserEntity user) {
