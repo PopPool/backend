@@ -64,7 +64,7 @@ public class UserEntity extends BaseEntity {
     private SocialType socialType; // KAKAO, APPLE
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<UserRoleEntity> userRoles;
+    private Set<UserRoleEntity> userRoles = new HashSet<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
