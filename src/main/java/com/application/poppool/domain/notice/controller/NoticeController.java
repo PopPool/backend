@@ -16,7 +16,7 @@ import org.springframework.web.service.annotation.DeleteExchange;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/notice")
-public class NoticeController implements NoticeControllerDoc{
+public class NoticeController implements NoticeControllerDoc {
 
     private final NoticeService noticeService;
 

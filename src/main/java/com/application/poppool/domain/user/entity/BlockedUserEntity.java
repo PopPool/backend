@@ -8,11 +8,11 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "blocked_users",
         uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"USER_ID", "BLOCKED_USER_ID"})},
+                @UniqueConstraint(columnNames = {"USER_ID", "BLOCKED_USER_ID"})},
         indexes = {
-        @Index(name = "idx_user_id", columnList = "USER_ID"),
-        @Index(name = "idx_blocked_user_id", columnList = "BLOCKED_USER_ID"),
-        @Index(name = "idx_user_blocked_user", columnList = "USER_ID, BLOCKED_USER_ID")}
+                @Index(name = "idx_user_id", columnList = "USER_ID"),
+                @Index(name = "idx_blocked_user_id", columnList = "BLOCKED_USER_ID"),
+                @Index(name = "idx_user_blocked_user", columnList = "USER_ID, BLOCKED_USER_ID")}
 )
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

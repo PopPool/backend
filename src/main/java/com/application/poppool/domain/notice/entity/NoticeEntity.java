@@ -6,8 +6,6 @@ import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Table(name = "notice")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

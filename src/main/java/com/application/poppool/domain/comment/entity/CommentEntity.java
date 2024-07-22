@@ -50,15 +50,15 @@ public class CommentEntity extends BaseEntity {
     /**
      * 좋아요 수 증가
      */
-    public void addLike(){
+    public void addLike() {
         this.likeCount++;
     }
 
     /**
      * 좋아요 수 감소
      */
-    public void reduceLike(){
+    public void reduceLike() {
         this.likeCount--;
     }
-    
+
 }

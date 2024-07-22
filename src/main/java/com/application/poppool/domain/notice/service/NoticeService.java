@@ -24,6 +24,7 @@ public class NoticeService {
 
     /**
      * 공지사항 리스트 조회
+     *
      * @return
      */
     @Transactional(readOnly = true)
@@ -42,7 +43,8 @@ public class NoticeService {
     }
 
     /**
-     * 공지사항 상세 조회 
+     * 공지사항 상세 조회
+     *
      * @param id
      * @return
      */
@@ -61,6 +63,7 @@ public class NoticeService {
 
     /**
      * 공지사항 작성
+     *
      * @param request
      */
     @Transactional
@@ -75,6 +78,7 @@ public class NoticeService {
 
     /**
      * 공지사항 수정
+     *
      * @param id
      * @param request
      */
@@ -89,6 +93,7 @@ public class NoticeService {
 
     /**
      * 공지사항 삭제
+     *
      * @param id
      * @param adminId
      */
@@ -98,10 +103,10 @@ public class NoticeService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
 
         // 관리자만 삭제할 수 있도록 검증
-        if (!adminId.equals(notice.getCreator()) || !adminId.equals("admin")){
+        if (!adminId.equals(notice.getCreator()) || !adminId.equals("admin")) {
             throw new BadRequestException(ErrorCode.NOT_ADMIN);
         }
-        
+
         // 공지사항 삭제
         noticeRepository.delete(notice);
     }

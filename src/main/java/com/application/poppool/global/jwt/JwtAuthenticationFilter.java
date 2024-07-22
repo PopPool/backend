@@ -40,7 +40,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 }
             }
             // accessToken이 유효하면 Context에 Authentication 저장 (임시/정식 모두)
-            this.setAuthentication(accessToken,isTemporary);
+            this.setAuthentication(accessToken, isTemporary);
 
         } else {
             /** AT가 헤더에 없거나, 만료되었거나, 유효하지 않은 경우
@@ -67,7 +67,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     }
                 }
                 // accessToken이 유효하면 Context에 Authentication 저장 (임시/정식 모두)
-                this.setAuthentication(loginResponse.getAccessToken(),isTemporary);
+                this.setAuthentication(loginResponse.getAccessToken(), isTemporary);
             }
         }
         filterChain.doFilter(request, response);

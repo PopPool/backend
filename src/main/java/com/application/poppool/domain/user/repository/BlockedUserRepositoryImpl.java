@@ -26,13 +26,13 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
     @Override
     public Page<GetBlockedUserListResponse.BlockedUserInfo> getBlockedUserList(String userId, Pageable pageable) {
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = queryFactory.select(Projections.bean(GetBlockedUserListResponse.BlockedUserInfo.class,
-                userEntity.userId.as("userId"),
-                userEntity.profileImage.as("profileImage"),
-                userEntity.nickname.as("nickname"),
-                userEntity.instagramId.as("instagramId")
-        ))
+                        userEntity.userId.as("userId"),
+                        userEntity.profileImage.as("profileImage"),
+                        userEntity.nickname.as("nickname"),
+                        userEntity.instagramId.as("instagramId")
+                ))
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.blockedUser,userEntity)
+                .join(blockedUserEntity.blockedUser, userEntity)
                 .where(eqUserId(userId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -42,8 +42,8 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(blockedUserEntity.count())
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.user,userEntity)
-                .join(blockedUserEntity.blockedUser,userEntity)
+                .join(blockedUserEntity.user, userEntity)
+                .join(blockedUserEntity.blockedUser, userEntity)
                 .where(eqUserId(userId));
 
         // Page 객체 생성
