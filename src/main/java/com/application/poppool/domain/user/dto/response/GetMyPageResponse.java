@@ -10,6 +10,7 @@ import java.util.List;
 public class GetMyPageResponse {
 
     private String nickname;
+    private String profileImage;
     private String instagramId;
     private List<PopUpInfo> popUpInfoList;
 
