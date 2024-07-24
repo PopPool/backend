@@ -25,4 +25,8 @@ public class UserRoleEntity extends BaseEntity {
     @JoinColumn(name = "ROLE_ID")
     private RoleEntity role;
 
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
+
 }

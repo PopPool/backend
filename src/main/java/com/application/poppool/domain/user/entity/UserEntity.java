@@ -6,14 +6,11 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.enums.Gender;
-import com.application.poppool.domain.user.enums.Role;
+
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.*;
 
@@ -41,7 +38,7 @@ public class UserEntity extends BaseEntity {
     private String email; // 소셜로그인에서 받아온 이메일
 
     @Column(name = "PROFILE_IMAGE")
-    private String profileImage;
+    private String profileImage; // 프로필 이미지
 
     @Column(name = "GENDER")
     @Enumerated(EnumType.STRING)
@@ -54,7 +51,7 @@ public class UserEntity extends BaseEntity {
     private String isTermAgree; // 약관동의 여부
 
     @Column(name = "INSTAGRAM_ID")
-    private String instagramId;
+    private String instagramId; // 인스타 ID
 
     @Column(name = "INTRO")
     private String intro; // 자기소개
@@ -92,13 +89,17 @@ public class UserEntity extends BaseEntity {
     }
 
     // 유저의 관심사 추가
-    public void addInterest(UserInterestEntity userInterestEntity) {
-        userInterestEntities.add(userInterestEntity);
+    public void addInterest(UserInterestEntity userInterest) {
+        // db에 아직 저장되지 않은 상태에서는 user.getInterest()하면 컬렉션을 1차캐시에서 순수한 객체 그대로 가져오기 때문에 빈 컬렉션이 반환된다.
+        // 따라서 양방향 매핑에서는 양 쪽 다 값을 셋팅해주어야함
+        userInterestEntities.add(userInterest); 
+        userInterest.setUser(this);
     }
 
     // 권한 부여
     public void addUserRole(UserRoleEntity userRole) {
         this.userRoles.add(userRole);
+        userRole.setUser(this);
     }
 
 }

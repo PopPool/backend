@@ -33,4 +33,8 @@ public class UserInterestEntity extends BaseEntity {
     @Column(name = "INTEREST_CATEGORY")
     @Convert(converter = InterestCategoryConverter.class)
     private InterestCategory interestCategory;
+
+    public void setUser(UserEntity user) {
+        this.user = user;
+    }
 }
