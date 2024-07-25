@@ -28,6 +28,11 @@ public interface UserControllerDoc {
     ResponseEntity<GetMyCommentedPopUpStoreListResponse> getMyCommentedPopUpStoreList(@PathVariable String userId,
                                                                                       @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
 
+
+    @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
+    ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
+                                                                                  @PageableDefault(page = 0, size = 10, sort = "updateDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+
     @Operation(summary = "최근 본 팝업 스토어 리스트 조회", description = "최근 본 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
                                                                                         @PageableDefault(page = 0, size = 10, sort = "viewedAt",direction = Sort.Direction.DESC) Pageable pageable);

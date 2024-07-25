@@ -8,6 +8,7 @@ import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.BlockedUserEntity;
+import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.WithDrawalSurveyEntity;
 import com.application.poppool.domain.user.repository.*;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
+import javax.imageio.stream.IIOByteBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class UserService {
     private final BlockedUserRepository blockedUserRepository;
     private final BlockedUserRepositoryCustom blockedUserRepositoryCustom;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
+    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
     private final BlackListTokenService blackListTokenService;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
@@ -130,6 +133,44 @@ public class UserService {
                 .totalPages(popUpStores.getTotalPages())
                 .totalElements(popUpStores.getTotalElements())
                 .build();
+    }
+
+    /**
+     * 찜한 팝업스토어 목록 조회
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetBookMarkPopUpStoreListResponse getBookMarkedPopUpStoreList(String userId, Pageable pageable) {
+        UserEntity user = this.findUserByUserId(userId);
+
+        // 찜한 팝업스토어 목록 조회
+        Page<BookMarkPopUpStoreEntity> bookMarkPopUpStorePage = bookMarkPopUpStoreRepository
+                .findBookMarkPopUpStoresByUser(user, pageable);
+
+        List<PopUpStoreEntity> bookMarkPopUpStores = bookMarkPopUpStorePage.stream()
+                .map(BookMarkPopUpStoreEntity::getPopUpStore)
+                .toList();
+
+        List<GetBookMarkPopUpStoreListResponse.PopUpInfo> bookMarkPopUpInfoList = bookMarkPopUpStores.stream()
+                .map(popUpStoreEntity -> GetBookMarkPopUpStoreListResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStoreEntity.getId())
+                        .popUpStoreName(popUpStoreEntity.getName())
+                        .desc(popUpStoreEntity.getDesc())
+                        .startDate(popUpStoreEntity.getStartDate())
+                        .endDate(popUpStoreEntity.getEndDate())
+                        .address(popUpStoreEntity.getAddress())
+                        .closedYn(popUpStoreEntity.getClosedYn())
+                        .build())
+                .toList();
+
+        return GetBookMarkPopUpStoreListResponse.builder()
+                .popUpInfoList(bookMarkPopUpInfoList)
+                .totalPages(bookMarkPopUpStorePage.getTotalPages())
+                .totalElements(bookMarkPopUpStorePage.getTotalElements())
+                .build();
+
     }
 
     /**
