@@ -1,4 +1,4 @@
-package com.application.poppool.domain.bookmark.entity;
+package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -12,10 +12,10 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class BookMarkPopupStoreEntity extends BaseEntity {
+public class BookMarkPopUpStoreEntity extends BaseEntity {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "BOOKMARK_POPUP_STORE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
