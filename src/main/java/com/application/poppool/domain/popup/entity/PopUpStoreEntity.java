@@ -1,7 +1,7 @@
 package com.application.poppool.domain.popup.entity;
 
-import com.application.poppool.domain.bookmark.entity.BookMarkPopupStoreEntity;
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -47,6 +47,6 @@ public class PopUpStoreEntity extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookMarkPopupStoreEntity> bookMarkPopUpStores = new ArrayList<>();
+    private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
 
 }
