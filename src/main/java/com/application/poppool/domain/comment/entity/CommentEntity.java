@@ -35,11 +35,11 @@ public class CommentEntity extends BaseEntity {
     @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
     private Long version;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 

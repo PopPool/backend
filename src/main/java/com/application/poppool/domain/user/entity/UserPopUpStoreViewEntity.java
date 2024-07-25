@@ -26,11 +26,11 @@ public class UserPopUpStoreViewEntity {
     @Column(name = "VIEWED_AT")
     private LocalDateTime viewedAt;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID")
     private UserEntity user;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 
