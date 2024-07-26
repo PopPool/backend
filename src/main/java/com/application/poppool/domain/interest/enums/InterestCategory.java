@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum InterestCategory implements BaseEnum {
     FASION("패션"),               // 패션
     LIFESTYLE("라이프스타일"),      // 라이프스타일
@@ -24,6 +23,10 @@ public enum InterestCategory implements BaseEnum {
 
     @JsonValue
     private final String value;
+
+    InterestCategory(String value) {
+        this.value = value;
+    }
 
     @JsonCreator
     public static InterestCategory fromValueToEnum(String value) {

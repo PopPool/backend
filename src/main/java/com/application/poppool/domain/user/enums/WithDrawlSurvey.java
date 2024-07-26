@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum WithDrawlSurvey implements BaseEnum {
 
     NO_DESIRED_POPUP("원하는 팝업에 대한 정보가 없어요"),
@@ -19,6 +18,10 @@ public enum WithDrawlSurvey implements BaseEnum {
 
     @JsonValue
     private final String value;
+
+    WithDrawlSurvey(String value) {
+        this.value = value;
+    }
 
     @JsonCreator
     public static WithDrawlSurvey fromValueToEnum(String value) {

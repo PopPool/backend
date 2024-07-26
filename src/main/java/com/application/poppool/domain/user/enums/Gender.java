@@ -7,7 +7,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum Gender implements BaseEnum {
     MALE("남성"),
     FEMALE("여성"),
@@ -15,6 +14,10 @@ public enum Gender implements BaseEnum {
 
     @JsonValue
     private final String value;
+
+    Gender(String value) {
+        this.value = value;
+    }
 
     @JsonCreator
     public static Gender fromValueToEnum(String value) {

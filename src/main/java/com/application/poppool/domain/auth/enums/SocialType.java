@@ -4,9 +4,12 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Getter
-@RequiredArgsConstructor
 public enum SocialType {
     KAKAO("@kakao"), APPLE("@apple");
 
     private final String socialSuffix;
+
+    SocialType(String socialSuffix) {
+        this.socialSuffix = socialSuffix;
+    }
 }
