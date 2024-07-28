@@ -32,8 +32,9 @@ public class UserController implements UserControllerDoc {
      * @return
      */
     @Override
-    @GetMapping("/{userId}")
+    @GetMapping("/{userId}/my-page")
     public ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId) {
+        log.info("마이페이지 조회");
         return ResponseEntity.ok(userService.getMyPage(userId));
     }
 
