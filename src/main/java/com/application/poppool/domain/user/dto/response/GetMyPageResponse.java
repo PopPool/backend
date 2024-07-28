@@ -13,6 +13,7 @@ public class GetMyPageResponse {
     private String profileImage;
     private String instagramId;
     private List<PopUpInfo> popUpInfoList;
+    private boolean isLogin;
 
     @Getter
     @Builder
