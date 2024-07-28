@@ -16,8 +16,8 @@ public class LoginResponse {
     private String grantType;
     private String accessToken;
     private String refreshToken;
-    private Long accessTokenExpiresIn;
-    private Long refreshTokenExpiresIn;
+    private String accessTokenExpiresAt;
+    private String refreshTokenExpiresAt;
     private SocialType socialType;
     private boolean isRegisteredUser;
 
