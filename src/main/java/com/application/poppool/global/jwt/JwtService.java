@@ -20,6 +20,9 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -47,42 +50,52 @@ public class JwtService {
 
     public LoginResponse createJwtToken(String userId, boolean isTemporary) {
 
-        long now = (new Date()).getTime();
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime accessTokenExpiresAt = now.plus(jwtProperties.getAccess().getExpiration(), ChronoUnit.MILLIS);
+        LocalDateTime refreshTokenExpiresAt = now.plus(jwtProperties.getRefresh().getExpiration(), ChronoUnit.MILLIS);
 
-        Date accessTokenExpiresIn = new Date(now + jwtProperties.getAccess().getExpiration());
-        Date refreshTokenExpiresIn = new Date(now + jwtProperties.getRefresh().getExpiration());
+        // LocalDateTime을 Date로 변환
+        Date accessTokenExpiresDate = Date.from(accessTokenExpiresAt.atZone(ZoneId.systemDefault()).toInstant());
+        Date refreshTokenExpiresDate = Date.from(refreshTokenExpiresAt.atZone(ZoneId.systemDefault()).toInstant());
+
 
         // Access Token 생성
-        String accessToken = createAccessToken(userId, isTemporary, accessTokenExpiresIn);
+        String accessToken = createAccessToken(userId, isTemporary, accessTokenExpiresDate);
         // Refresh Token 생성
-        String refreshToken = createRefreshToken(userId, isTemporary, refreshTokenExpiresIn);
+        String refreshToken = createRefreshToken(userId, isTemporary, refreshTokenExpiresDate);
+
+        // ISO 8601 형식으로 변환
+        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
+        String accessTokenExpiresAtStr = accessTokenExpiresAt.format(formatter);
+        String refreshTokenExpiresAtStr = refreshTokenExpiresAt.format(formatter);
 
         return LoginResponse.builder()
                 .grantType("Bearer ")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpiresIn(accessTokenExpiresIn.getTime())
-                .refreshTokenExpiresIn(refreshTokenExpiresIn.getTime())
+                .accessTokenExpiresAt(accessTokenExpiresAtStr)
+                .refreshTokenExpiresAt(refreshTokenExpiresAtStr)
                 .build();
     }
 
-    public Map<String, Object> setClaims(String userId, boolean isTemporary) {
+    public Map<String, Object> setClaims(Date expirationDate, String userId, boolean isTemporary) {
         // 클레임 설정
         Map<String, Object> claims = new HashMap<>();
-        claims.put("userId", userId);
-        claims.put("isTemporary", isTemporary);
+        claims.put("sub", TokenType.ACCESS.name()); // 토큰 제목
+        claims.put("iat", new Date());              // 토큰 발급 시간
+        claims.put("exp", expirationDate);          // 토큰 만료 시간
+        claims.put("userId", userId);               // 사용자 ID
+        claims.put("isTemporary", isTemporary);     // 임시 여부
+        // 추가적인 클레임을 여기에 설정할 수 있습니다.
         return claims;
     }
 
-    public String createAccessToken(String userId, boolean isTemporary, Date expirationTime) {
+    public String createAccessToken(String userId, boolean isTemporary, Date expirationDate) {
 
         // 클레임 설정
-        Map<String, Object> claims = this.setClaims(userId, isTemporary);
+        Map<String, Object> claims = this.setClaims(expirationDate, userId, isTemporary);
 
         return Jwts.builder()
-                .setSubject(TokenType.ACCESS.name())    // 토큰 제목
-                .setIssuedAt(new Date())                // 토큰 발급 시간
-                .setExpiration(expirationTime)          // 토큰 만료 시간
                 .setClaims(claims)                  // 클레임 설정
                 .signWith(key)
                 .compact();
@@ -91,14 +104,11 @@ public class JwtService {
 
     public String createRefreshToken(String userId, boolean isTemporary, Date expirationTime) {
         // 클레임 설정
-        Map<String, Object> claims = this.setClaims(userId, isTemporary);
+        Map<String, Object> claims = this.setClaims(expirationTime, userId, isTemporary);
+
         return Jwts.builder()
-                .setSubject(TokenType.REFRESH.name())   // 토큰 제목
-                .setIssuedAt(new Date())                // 토큰 발급 시간
-                .setExpiration(expirationTime)          // 토큰 만료 시간
                 .setClaims(claims)      // 클레임 설정
                 .signWith(key)
-                .setHeaderParam("typ", "JWT")
                 .compact();
     }
 
@@ -200,6 +210,7 @@ public class JwtService {
 
     public LocalDateTime getExpiration(String accessToken) {
         // accessToken 남은 유효시간
+        System.out.println("힝" + Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody());
         Date expirationDate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
 
         // Date -> LocalDateTime 변환
