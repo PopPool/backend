@@ -59,6 +59,7 @@ public class UserEntity extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private SocialType socialType; // KAKAO, APPLE
 
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRoleEntity> userRoles = new HashSet<>();
 
@@ -97,7 +98,8 @@ public class UserEntity extends BaseEntity {
 
     // 권한 부여
     public void addUserRole(UserRoleEntity userRole) {
-        this.userRoles.add(userRole);
+        System.out.println(this);
+        userRoles.add(userRole);
         userRole.setUser(this);
     }
 
