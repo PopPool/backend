@@ -16,6 +16,7 @@ import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.jwt.JwtService;
+import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +24,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.imageio.stream.IIOByteBuffer;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -55,6 +55,11 @@ public class UserService {
 
         UserEntity user = this.findUserByUserId(userId);
 
+        boolean isLogin = false;
+
+        if (SecurityUtils.isAuthenticated()) {
+            isLogin = true;
+        }
 
         /***
          * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
@@ -72,6 +77,7 @@ public class UserService {
                 .profileImage(user.getProfileImage())
                 .instagramId(user.getInstagramId())
                 .popUpInfoList(popUpInfoList)
+                .isLogin(isLogin)
                 .build();
     }
 
