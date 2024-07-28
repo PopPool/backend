@@ -4,7 +4,8 @@ import com.application.poppool.domain.auth.dto.info.KakaoToken;
 import com.application.poppool.domain.auth.dto.request.KakaoLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.SocialType;
-import com.application.poppool.domain.auth.service.apple.AppleAuthFeignClient;
+import com.application.poppool.domain.token.entity.RefreshTokenEntity;
+import com.application.poppool.domain.token.repository.RefreshTokenRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -21,7 +22,7 @@ public class KakaoAuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final KakaoAuthFeignClient kakaoAuthFeignClient;
-    private final AppleAuthFeignClient appleAuthFeignClient;
+    private final RefreshTokenRepository refreshTokenRepository;
 
     /**
      * 카카오 로그인
@@ -58,13 +59,22 @@ public class KakaoAuthService {
         jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
         jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
 
+        // 리프레쉬 토큰 엔티티 생성
+        RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
+                .userId(userId)
+                .token(loginResponse.getRefreshToken())
+                .build();
+
+        // 리프레쉬 토큰 저장
+        refreshTokenRepository.save(refreshToken);
+
         return LoginResponse.builder()
                 .userId(userId)
                 .grantType(loginResponse.getGrantType())
                 .accessToken(loginResponse.getAccessToken())
-                .accessTokenExpiresIn(loginResponse.getAccessTokenExpiresIn())
+                .accessTokenExpiresAt(loginResponse.getAccessTokenExpiresAt())
                 .refreshToken(loginResponse.getRefreshToken())
-                .refreshTokenExpiresIn(loginResponse.getRefreshTokenExpiresIn())
+                .refreshTokenExpiresAt(loginResponse.getRefreshTokenExpiresAt())
                 .socialType(SocialType.KAKAO) // 자체 로그인이므로 소셜 타입은 null
                 .isRegisteredUser(isRegisteredUser)
                 .build();
