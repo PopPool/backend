@@ -33,8 +33,8 @@ public class SecurityConfig {
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
-    private static final String[] PERMIT_URL = {
-            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html"
+    public static final String[] PERMIT_URL = {
+            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/users/*/my-page"
     };
 
     private static final String[] GetMethodPermitURL = {
@@ -63,7 +63,7 @@ public class SecurityConfig {
                                 .authenticationEntryPoint(customAuthenticationEntryPoint)
                                 .accessDeniedHandler(customAccessDeniedHandler)
                 )
-                .addFilterBefore(new JwtAuthenticationFilter(jwtService),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtService, customAuthenticationEntryPoint),
                         UsernamePasswordAuthenticationFilter.class)
                 .logout((logout) -> logout
                         .logoutUrl("/users/logout")
