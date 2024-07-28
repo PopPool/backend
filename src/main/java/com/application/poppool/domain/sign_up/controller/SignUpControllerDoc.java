@@ -5,6 +5,7 @@ import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +17,7 @@ import java.util.List;
 public interface SignUpControllerDoc {
 
     @Operation(summary = "회원가입", description = "회원가입을 진행합니다.")
-    void signUp(@RequestBody @Valid SignUpRequest signUpRequest);
+    void signUp(@RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response);
 
     @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 확인을 진행합니다.")
     ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickName);
