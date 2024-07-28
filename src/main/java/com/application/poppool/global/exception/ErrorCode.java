@@ -24,6 +24,9 @@ public enum ErrorCode {
     INTEREST_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 관심 카테고리입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
+    TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),
+    NOT_TEMPORARY_TOKEN_ALLOWED_URL_EXCEPTION(HttpStatus.UNAUTHORIZED, "임시 토큰으로 접근할 수 없는 URL입니다."),
+    REFRESH_TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token 입니다."),
 
     NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요");
 
