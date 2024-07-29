@@ -6,6 +6,8 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
+
 @Getter
 @Builder
 @AllArgsConstructor
@@ -16,8 +18,8 @@ public class LoginResponse {
     private String grantType;
     private String accessToken;
     private String refreshToken;
-    private String accessTokenExpiresAt;
-    private String refreshTokenExpiresAt;
+    private LocalDateTime accessTokenExpiresAt;
+    private LocalDateTime refreshTokenExpiresAt;
     private SocialType socialType;
     private boolean isRegisteredUser;
 

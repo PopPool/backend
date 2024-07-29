@@ -60,17 +60,12 @@ public class JwtService {
         // Refresh Token 생성
         String refreshToken = createRefreshToken(userId, isTemporary, refreshTokenExpiresDate);
 
-        // ISO 8601 형식으로 변환
-        DateTimeFormatter formatter = DateTimeFormatter.ISO_DATE_TIME;
-        String accessTokenExpiresAtStr = accessTokenExpiresAt.format(formatter);
-        String refreshTokenExpiresAtStr = refreshTokenExpiresAt.format(formatter);
-
         return LoginResponse.builder()
                 .grantType("Bearer ")
                 .accessToken(accessToken)
                 .refreshToken(refreshToken)
-                .accessTokenExpiresAt(accessTokenExpiresAtStr)
-                .refreshTokenExpiresAt(refreshTokenExpiresAtStr)
+                .accessTokenExpiresAt(accessTokenExpiresAt)
+                .refreshTokenExpiresAt(refreshTokenExpiresAt)
                 .build();
     }
 
@@ -236,8 +231,8 @@ public class JwtService {
         return refreshTokenService.isUserRefreshTokenValid(userId, refreshToken);
     }
 
-    public void replaceRefreshToken(String userId, String refreshToken) {
-        refreshTokenService.replaceRefreshToken(userId, refreshToken);
+    public void saveOrReplaceRefreshToken(String userId, String refreshToken, LocalDateTime expiresAt) {
+        refreshTokenService.saveOrReplaceRefreshToken(userId, refreshToken, expiresAt);
     }
 
 }
