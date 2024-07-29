@@ -7,7 +7,9 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "black_list_token")
+@Table(name = "black_list_token", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"TOKEN"})
+})
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -18,7 +20,7 @@ public class BlackListTokenEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "TOKEN", unique = true, nullable = false)
+    @Column(name = "TOKEN", nullable = false)
     private String token;
 
     @Column(name = "EXPIRY_DATE_TIME")
