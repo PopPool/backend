@@ -12,20 +12,19 @@ import org.springframework.stereotype.Component;
 public class JwtProperties {
 
     private String secretKey;
-    private AccessTokenProperties access;
-    private RefreshTokenProperties refresh;
+    private TokenProperties token;
 
     @Getter
     @Setter
-    public static class AccessTokenProperties {
-        private long expiration;
+    public static class TokenProperties {
         private String header;
+        private ExpirationProperties access;
+        private ExpirationProperties refresh;
     }
 
     @Getter
     @Setter
-    public static class RefreshTokenProperties {
+    public static class ExpirationProperties {
         private long expiration;
-        private String header;
     }
 }
