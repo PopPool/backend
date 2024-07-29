@@ -32,8 +32,6 @@ import java.util.Collections;
 public class SecurityConfig {
 
     private final JwtService jwtService;
-    private final ObjectMapper objectMapper;
-    private final UserService userService;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
@@ -68,11 +66,7 @@ public class SecurityConfig {
                                 .accessDeniedHandler(customAccessDeniedHandler)
                 )
                 .addFilterBefore(new JwtAuthenticationFilter(jwtService, customAuthenticationEntryPoint),
-                        UsernamePasswordAuthenticationFilter.class)
-                .logout((logout) -> logout
-                        .logoutUrl("/users/logout")
-                        .addLogoutHandler(customLogoutHandler())
-                        .logoutSuccessHandler(new CustomLogoutSuccessHandler(objectMapper)));
+                        UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 
@@ -92,16 +86,6 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
 
-    }
-
-    @Bean
-    public LogoutHandler customLogoutHandler() {
-        return new CustomLogoutHandler(jwtService, userService);
-    }
-
-    @Bean
-    public LogoutSuccessHandler customLogoutSuccessHandler() {
-        return new CustomLogoutSuccessHandler(objectMapper);
     }
 
     @Bean
