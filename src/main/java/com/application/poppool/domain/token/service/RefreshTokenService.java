@@ -4,6 +4,7 @@ import com.application.poppool.domain.token.entity.RefreshTokenEntity;
 import com.application.poppool.domain.token.repository.RefreshTokenRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
+import com.application.poppool.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,7 +30,7 @@ public class RefreshTokenService {
                 .orElseThrow(() -> new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR));
 
         // 같은지 비교
-        return storedRefreshToken.equals(refreshToken);
+        return storedRefreshToken.getToken().equals(refreshToken);
     }
 
     /**
@@ -46,6 +47,14 @@ public class RefreshTokenService {
                     refreshTokenRepository.save(token);
                 });
 
+    }
+
+    @Transactional(readOnly = true)
+    public String getRefreshToken(String userId) {
+        RefreshTokenEntity refreshToken = refreshTokenRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
+        return refreshToken.getToken();
     }
 
     /**
