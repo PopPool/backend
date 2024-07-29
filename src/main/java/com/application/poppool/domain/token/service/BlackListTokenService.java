@@ -16,9 +16,9 @@ public class BlackListTokenService {
     private final BlackListTokenRepository blackListTokenRepository;
 
     @Transactional
-    public void addTokenToBlackList(String accessToken, LocalDateTime expiryDateTime) {
+    public void addTokenToBlackList(String refreshToken, LocalDateTime expiryDateTime) {
         BlackListTokenEntity blackListToken = BlackListTokenEntity.builder()
-                .token(accessToken)
+                .token(refreshToken)
                 .expiryDateTime(expiryDateTime)
                 .build();
 
