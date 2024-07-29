@@ -2,7 +2,6 @@ package com.application.poppool.global.jwt;
 
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.TokenType;
-import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.global.security.CustomUserDetailsService;
 import com.application.poppool.global.utils.TimeUtils;
@@ -34,25 +33,22 @@ public class JwtService {
     private final Key key;
     private final CustomUserDetailsService customUserDetailsService;
     private final JwtProperties jwtProperties;
-    private final BlackListTokenService blackListTokenService;
     private final RefreshTokenService refreshTokenService;
 
     // application.yml에서 secret 값 가져와서 key에 저장
-    public JwtService(CustomUserDetailsService customUserDetailsService, JwtProperties jwtProperties,
-                      BlackListTokenService blackListTokenService, RefreshTokenService refreshTokenService) {
+    public JwtService(CustomUserDetailsService customUserDetailsService, JwtProperties jwtProperties, RefreshTokenService refreshTokenService) {
         byte[] keyBytes = Decoders.BASE64.decode(jwtProperties.getSecretKey());
         this.key = Keys.hmacShaKeyFor(keyBytes);
         this.customUserDetailsService = customUserDetailsService;
         this.jwtProperties = jwtProperties;
-        this.blackListTokenService = blackListTokenService;
         this.refreshTokenService = refreshTokenService;
     }
 
     public LoginResponse createJwtToken(String userId, boolean isTemporary) {
 
         LocalDateTime now = LocalDateTime.now();
-        LocalDateTime accessTokenExpiresAt = now.plus(jwtProperties.getAccess().getExpiration(), ChronoUnit.MILLIS);
-        LocalDateTime refreshTokenExpiresAt = now.plus(jwtProperties.getRefresh().getExpiration(), ChronoUnit.MILLIS);
+        LocalDateTime accessTokenExpiresAt = now.plus(jwtProperties.getToken().getAccess().getExpiration(), ChronoUnit.MILLIS);
+        LocalDateTime refreshTokenExpiresAt = now.plus(jwtProperties.getToken().getRefresh().getExpiration(), ChronoUnit.MILLIS);
 
         // LocalDateTime을 Date로 변환
         Date accessTokenExpiresDate = Date.from(accessTokenExpiresAt.atZone(ZoneId.systemDefault()).toInstant());
@@ -78,25 +74,24 @@ public class JwtService {
                 .build();
     }
 
-    public Map<String, Object> setClaims(Date expirationDate, String userId, boolean isTemporary) {
+    public Map<String, Object> setClaims(String userId, boolean isTemporary) {
         // 클레임 설정
         Map<String, Object> claims = new HashMap<>();
-        claims.put("sub", TokenType.ACCESS.name()); // 토큰 제목
-        claims.put("iat", new Date());              // 토큰 발급 시간
-        claims.put("exp", expirationDate);          // 토큰 만료 시간
         claims.put("userId", userId);               // 사용자 ID
         claims.put("isTemporary", isTemporary);     // 임시 여부
-        // 추가적인 클레임을 여기에 설정할 수 있습니다.
         return claims;
     }
 
     public String createAccessToken(String userId, boolean isTemporary, Date expirationDate) {
 
         // 클레임 설정
-        Map<String, Object> claims = this.setClaims(expirationDate, userId, isTemporary);
+        Map<String, Object> claims = this.setClaims(userId, isTemporary);
 
         return Jwts.builder()
-                .setClaims(claims)                  // 클레임 설정
+                .setSubject(TokenType.ACCESS.name())    // 토큰 제목
+                .setIssuedAt(new Date())                // 토큰 발급 시간
+                .setExpiration(expirationDate)          // 토큰 만료 시간
+                .addClaims(claims)                      // 클레임 추가
                 .signWith(key)
                 .compact();
 
@@ -104,10 +99,13 @@ public class JwtService {
 
     public String createRefreshToken(String userId, boolean isTemporary, Date expirationTime) {
         // 클레임 설정
-        Map<String, Object> claims = this.setClaims(expirationTime, userId, isTemporary);
+        Map<String, Object> claims = this.setClaims(userId, isTemporary);
 
         return Jwts.builder()
-                .setClaims(claims)      // 클레임 설정
+                .setSubject(TokenType.REFRESH.name())    // 토큰 제목
+                .setIssuedAt(new Date())                // 토큰 발급 시간
+                .setExpiration(expirationTime)          // 토큰 만료 시간
+                .addClaims(claims)                      // 클레임 추가     // 클레임 설정
                 .signWith(key)
                 .compact();
     }
@@ -150,8 +148,8 @@ public class JwtService {
         }
     }
 
-    public String getAccessToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader(jwtProperties.getAccess().getHeader());
+    public String getToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(jwtProperties.getToken().getHeader());
 
         if (authorizationHeader != null && !authorizationHeader.equals("")) {
             if (authorizationHeader.startsWith("Bearer") && authorizationHeader.length() > 7) {
@@ -160,19 +158,6 @@ public class JwtService {
             }
         }
 
-        return null; // 헤더 비어있으면 null 리턴
-    }
-
-
-    public String getRefreshToken(HttpServletRequest request) {
-        String authorizationHeader = request.getHeader(jwtProperties.getRefresh().getHeader());
-
-        if (authorizationHeader != null && !authorizationHeader.equals("")) {
-            if (authorizationHeader.startsWith("Bearer") && authorizationHeader.length() > 7) {
-                String refreshToken = authorizationHeader.substring(7); // refresh 추출
-                return refreshToken;
-            }
-        }
         return null; // 헤더 비어있으면 null 리턴
     }
 
@@ -208,14 +193,29 @@ public class JwtService {
         return claims.get("isTemporary", Boolean.class);
     }
 
-    public LocalDateTime getExpiration(String accessToken) {
+    public LocalDateTime getExpiration(String token) {
         // accessToken 남은 유효시간
-        System.out.println("힝" + Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody());
-        Date expirationDate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accessToken).getBody().getExpiration();
+        Date expirationDate = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getExpiration();
 
         // Date -> LocalDateTime 변환
         return TimeUtils.convertDateToLocalDateTime(expirationDate);
     }
+
+    // access 토큰 여부
+    public boolean isAccessToken(String token) {
+        Claims claims = parseClaims(token);
+        String subject = claims.getSubject();
+        return TokenType.ACCESS.name().equals(subject);
+    }
+
+
+    // refresh 토큰 여부
+    public boolean isRefreshToken(String token) {
+        Claims claims = parseClaims(token);
+        String subject = claims.getSubject();
+        return TokenType.REFRESH.name().equals(subject);
+    }
+
 
     // 응답 헤더에 accessToken 세팅
     public void setHeaderAccessToken(HttpServletResponse response, String accessToken) {
@@ -227,9 +227,10 @@ public class JwtService {
         response.setHeader("Authorization-refresh", "Bearer " + refreshToken);
     }
 
-    public boolean isTokenBlacklisted(String accessToken) {
-        return blackListTokenService.isTokenBlacklisted(accessToken);
-    }
+    /** 일단 사용 X
+    public boolean isTokenBlacklisted(String refreshToken) {
+        return blackListTokenService.isTokenBlacklisted(refreshToken);
+    }*/
 
     public boolean isUserRefreshTokenValid(String userId, String refreshToken) {
         return refreshTokenService.isUserRefreshTokenValid(userId, refreshToken);
