@@ -98,7 +98,6 @@ public class UserEntity extends BaseEntity {
 
     // 권한 부여
     public void addUserRole(UserRoleEntity userRole) {
-        System.out.println(this);
         userRoles.add(userRole);
         userRole.setUser(this);
     }

@@ -8,12 +8,9 @@ public class SecurityUtils {
 
     public static boolean isAuthenticated() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        System.out.println("authority " + authentication.getAuthorities());
-        System.out.println(authentication.getName());
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
             return false;
         }
-        System.out.println("authority " + authentication.getAuthorities());
         return true;
     }
 
