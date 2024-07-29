@@ -24,10 +24,11 @@ public class RefreshTokenEntity {
     private String token; // 리프레시 토큰 값, 고유 제약 조건 설정
 
     @Column(name = "EXPIRY_DATE_TIME", nullable = false)
-    private LocalDateTime expiryDateTime; // 만료 시간
+    private LocalDateTime expiresAt; // 만료 시간
 
-    public void updateToken(String newToken) {
+    public void updateToken(String newToken, LocalDateTime expiresAt) {
         this.token = newToken;
+        this.expiresAt= expiresAt;
     }
 
 
