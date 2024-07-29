@@ -9,6 +9,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
+
 
 @Service
 @RequiredArgsConstructor
@@ -40,13 +42,21 @@ public class RefreshTokenService {
      * @param newRefreshToken
      */
     @Transactional
-    public void replaceRefreshToken(String userId, String newRefreshToken) {
+    public void saveOrReplaceRefreshToken(String userId, String newRefreshToken, LocalDateTime expiresAt) {
         refreshTokenRepository.findByUserId(userId)
-                .ifPresent(token -> {
-                    token.updateToken(newRefreshToken);
-                    refreshTokenRepository.save(token);
-                });
-
+                .ifPresentOrElse(
+                        token -> {
+                            token.updateToken(newRefreshToken, expiresAt);
+                        },
+                        () -> {
+                            RefreshTokenEntity newToken = RefreshTokenEntity.builder()
+                                    .userId(userId)
+                                    .token(newRefreshToken)
+                                    .expiresAt(expiresAt)
+                                    .build();
+                            refreshTokenRepository.save(newToken);
+                        }
+                );
     }
 
     @Transactional(readOnly = true)
