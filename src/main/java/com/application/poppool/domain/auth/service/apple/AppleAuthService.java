@@ -4,8 +4,7 @@ import com.application.poppool.domain.auth.dto.info.ApplePublicKeys;
 import com.application.poppool.domain.auth.dto.request.AppleLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.SocialType;
-import com.application.poppool.domain.token.entity.RefreshTokenEntity;
-import com.application.poppool.domain.token.repository.RefreshTokenRepository;
+import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -37,7 +36,7 @@ public class AppleAuthService {
     private final UserRepository userRepository;
     private final JwtService jwtService;
     private final AppleAuthFeignClient appleAuthFeignClient;
-    private final RefreshTokenRepository refreshTokenRepository;
+    private final RefreshTokenService refreshTokenService;
 
     @Value("${oauth.apple.auth-url}")
     private String appleAuthUrl;
@@ -77,14 +76,8 @@ public class AppleAuthService {
         jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
         jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
 
-        // 리프레쉬 토큰 엔티티 생성
-        RefreshTokenEntity refreshToken = RefreshTokenEntity.builder()
-                .userId(userId)
-                .token(loginResponse.getRefreshToken())
-                .build();
-
-        // 리프레쉬 토큰 저장
-        refreshTokenRepository.save(refreshToken);
+        // refresh token이 이미 있으면 새로운 것으로 업데이트, 없으면 insert
+        refreshTokenService.saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt());
 
         return LoginResponse.builder()
                 .userId(userId)
