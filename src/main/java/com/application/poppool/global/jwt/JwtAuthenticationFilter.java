@@ -34,7 +34,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
         String token = jwtService.getToken(request);
-
         /** 토큰이 null 이 아니고 유효한 경우 */
         if (token != null && jwtService.validateToken(token, request)) { // 1. 토큰이 헤더에 실려왔는지, 토큰이 유효한 토큰인지 확인
             /** 토큰이 AT인 경우 */
@@ -69,7 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken()); // AT 발급
                 jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken()); // RT 발급
 
-                jwtService.replaceRefreshToken(userId, loginResponse.getRefreshToken()); // RT 테이블에 새로운 RT로 기존 RT 대체
+                jwtService.saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt()); // RT 테이블에 새로운 RT로 기존 RT 대체
                 if (isTemporary) { // 임시 토큰인 경우
                     // 모든 접근이 허용된 url이 아니면서, 임시토큰 url 아닌 경우 즉, 정식 토큰만 접근 가능한 url인 경우
                     if (isNotTemporaryTokenAllowedUrl(request.getRequestURI())) { // 나머지 URL은 임시 토큰으로 접근 불가, 임시 토큰인 경우 회원가입 요청만 허용
