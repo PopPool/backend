@@ -27,7 +27,8 @@ public enum ErrorCode {
     TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),
     NOT_TEMPORARY_TOKEN_ALLOWED_URL_EXCEPTION(HttpStatus.UNAUTHORIZED, "임시 토큰으로 접근할 수 없는 URL입니다."),
     REFRESH_TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token 입니다."),
-
+    TOKEN_NOT_VALID(HttpStatus.BAD_REQUEST, "토큰이 유효하지 않습니다."),
+    LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "로그아웃에 실패했습니다."),
     NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요");
 
     ErrorCode(HttpStatus status, String message) {
