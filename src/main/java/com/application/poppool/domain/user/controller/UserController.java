@@ -129,9 +129,9 @@ public class UserController implements UserControllerDoc {
     @Override
     @PostMapping("/logout")
     public void logout(HttpServletRequest request) {
-        String accessToken = jwtService.getAccessToken(request);
+        String accessToken = jwtService.getToken(request);
         LocalDateTime expiryDateTime = jwtService.getExpiration(accessToken);
-        userService.logout(accessToken, expiryDateTime);
+        userService.logout(accessToken);
     }
 
 }

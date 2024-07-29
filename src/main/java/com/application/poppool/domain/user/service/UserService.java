@@ -3,7 +3,6 @@ package com.application.poppool.domain.user.service;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
-import com.application.poppool.domain.token.service.BlackListTokenService;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
@@ -39,7 +38,6 @@ public class UserService {
     private final BlockedUserRepositoryCustom blockedUserRepositoryCustom;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
     private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
-    private final BlackListTokenService blackListTokenService;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
 
@@ -326,17 +324,16 @@ public class UserService {
     /**
      * 회원 로그아웃
      *
-     * @param accessToken
-     * @param expiryDateTime
+     * @param refreshToken
      */
     @Transactional
-    public void logout(String accessToken, LocalDateTime expiryDateTime) {
+    public void logout(String refreshToken) {
 
-        // accessToken 블랙리스트에 추가
-        blackListTokenService.addTokenToBlackList(accessToken, expiryDateTime);
+        // refreshToken 블랙리스트에 추가 - 일단 사용 X , JWT의 Stateless가 없어지기 때문
+        // blackListTokenService.addTokenToBlackList(refreshToken, expiryDateTime);
 
         // refreshToken DB에서 삭제
-        refreshTokenService.deleteRefreshToken(jwtService.getUserId(accessToken));
+        refreshTokenService.deleteRefreshToken(jwtService.getUserId(refreshToken));
 
     }
 
