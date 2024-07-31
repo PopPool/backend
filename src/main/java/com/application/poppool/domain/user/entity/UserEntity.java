@@ -65,7 +65,7 @@ public class UserEntity extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<UserInterestEntity> userInterestEntities = new ArrayList<>();
+    private List<UserInterestCategoryEntity> userInterestCategories = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
@@ -89,11 +89,11 @@ public class UserEntity extends BaseEntity {
     }
 
     // 유저의 관심사 추가
-    public void addInterest(UserInterestEntity userInterest) {
-        // db에 아직 저장되지 않은 상태에서는 user.getInterest()하면 컬렉션을 1차캐시에서 순수한 객체 그대로 가져오기 때문에 빈 컬렉션이 반환된다.
+    public void addInterestCategory(UserInterestCategoryEntity userInterestCategory) {
+        // db에 아직 저장되지 않은 상태에서는 user.getInterestCategory()하면 컬렉션을 1차캐시에서 순수한 객체 그대로 가져오기 때문에 빈 컬렉션이 반환된다.
         // 따라서 양방향 매핑에서는 양 쪽 다 값을 셋팅해주어야함
-        userInterestEntities.add(userInterest); 
-        userInterest.setUser(this);
+        userInterestCategories.add(userInterestCategory);
+        userInterestCategory.setUser(this);
     }
 
     // 권한 부여

@@ -2,8 +2,8 @@ package com.application.poppool.domain.sign_up.controller;
 
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
+import com.application.poppool.domain.sign_up.dto.response.GetCategoryListResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.sign_up.service.SignUpService;
 import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
@@ -70,10 +70,10 @@ public class SignUpController implements SignUpControllerDoc {
      * @return
      */
     @Override
-    @GetMapping("/interests")
-    public ResponseEntity<GetInterestListResponse> getInterestList() {
-        log.info("관심사 후보군 목록 조회");
-        return ResponseEntity.ok(signUpService.getInterestList());
+    @GetMapping("/categories")
+    public ResponseEntity<GetCategoryListResponse> getCategoryList() {
+        log.info("카테고리 목록 조회");
+        return ResponseEntity.ok(signUpService.getCategoryList());
     }
 
 }

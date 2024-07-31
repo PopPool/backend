@@ -1,18 +1,18 @@
 package com.application.poppool.domain.sign_up.service;
 
-import com.application.poppool.domain.interest.entity.InterestEntity;
-import com.application.poppool.domain.interest.repository.InterestRepository;
+import com.application.poppool.domain.category.entity.CategoryEntity;
+import com.application.poppool.domain.category.repository.CategoryRepository;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
+import com.application.poppool.domain.sign_up.dto.response.GetCategoryListResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import com.application.poppool.domain.user.entity.RoleEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.UserInterestEntity;
+import com.application.poppool.domain.user.entity.UserInterestCategoryEntity;
 import com.application.poppool.domain.user.entity.UserRoleEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.repository.RoleRepository;
-import com.application.poppool.domain.user.repository.UserInterestRepository;
+import com.application.poppool.domain.user.repository.UserInterestCategoryRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -31,9 +31,9 @@ import java.util.stream.Collectors;
 public class SignUpService {
 
     private final UserRepository userRepository;
-    private final UserInterestRepository userInterestRepository;
+    private final UserInterestCategoryRepository userInterestCategoryRepository;
     private final RoleRepository roleRepository;
-    private final InterestRepository interestRepository;
+    private final CategoryRepository categoryRepository;
 
     /**
      * 회원가입
@@ -63,7 +63,7 @@ public class SignUpService {
         // 회원 권한 부여
         this.addUserRole(user);
         // 회원 관심 카테고리 추가
-        this.addUserInterest(signUpRequest.getInterests(), user);
+        this.addUserInterestCategory(signUpRequest.getInterestCategories(), user);
 
     }
 
@@ -90,26 +90,22 @@ public class SignUpService {
     /**
      * 회원가입 시, 관심사 등록 (회원가입에서만 쓰는 함수) - 책임 분리 원칙
      *
-     * @param userInterests
+     * @param userInterestCategories
      * @param user
      */
-    private void addUserInterest(Set<Long> userInterests, UserEntity user) {
+    private void addUserInterestCategory(Set<Long> userInterestCategories, UserEntity user) {
 
-        for (Long interestId : userInterests) {
-            InterestEntity interest = interestRepository.findByInterestId(interestId)
+        for (Long categoryId : userInterestCategories) {
+            CategoryEntity category = categoryRepository.findByCategoryId(categoryId)
                     .orElseThrow(() -> new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR));
 
-            UserInterestEntity userInterestEntity = UserInterestEntity.builder()
+            UserInterestCategoryEntity userInterestCategory = UserInterestCategoryEntity.builder()
                     .user(user)
-                    .interest(interest)
-                    .interestCategory(interest.getInterestCategory())
+                    .category(category)
+                    .interestCategory(category.getCategory())
                     .build();
 
-            // 회원 관심 카테고리 저장
-            //userInterestRepository.save(userInterestEntity);
-
-            user.addInterest(userInterestEntity);
-            interest.addUser(userInterestEntity);
+            user.addInterestCategory(userInterestCategory);
         }
 
 
@@ -144,20 +140,20 @@ public class SignUpService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetInterestListResponse getInterestList() {
+    public GetCategoryListResponse getCategoryList() {
 
         // 관심사 목록 전체 조회
-        List<InterestEntity> interestList = interestRepository.findAllByOrderByInterestId();
+        List<CategoryEntity> categoryList = categoryRepository.findAllByOrderByCategoryId();
 
 
-        List<GetInterestListResponse.InterestResponse> interestResponse = interestList.stream()
-                .map(interest -> GetInterestListResponse.InterestResponse.builder()
-                        .interestId(interest.getInterestId())
-                        .interestCategory(interest.getInterestCategory())
+        List<GetCategoryListResponse.CategoryResponse> interestResponse = categoryList.stream()
+                .map(category -> GetCategoryListResponse.CategoryResponse.builder()
+                        .categoryId(category.getCategoryId())
+                        .category(category.getCategory())
                         .build())
                 .collect(Collectors.toList());
 
-        return GetInterestListResponse.builder().interestResponseList(interestResponse).build();
+        return GetCategoryListResponse.builder().categoryResponseList(interestResponse).build();
     }
 
 }

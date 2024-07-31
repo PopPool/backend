@@ -1,8 +1,8 @@
 package com.application.poppool.domain.sign_up.controller;
 
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
+import com.application.poppool.domain.sign_up.dto.response.GetCategoryListResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
-import com.application.poppool.domain.sign_up.dto.response.GetInterestListResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
@@ -25,7 +25,7 @@ public interface SignUpControllerDoc {
     @Operation(summary = "성별 후보군 목록 조회", description = "성별 후보군 목록을 조회합니다.")
     ResponseEntity<List<GetGenderResponse>> getGenderList();
 
-    @Operation(summary = "관심사 후보군 목록 조회", description = "관심사 후보군 목록을 조회합니다.")
-    ResponseEntity<GetInterestListResponse> getInterestList();
+    @Operation(summary = "카테고리 목록 조회", description = "카테고리 목록을 조회합니다.")
+    ResponseEntity<GetCategoryListResponse> getCategoryList();
 
 }

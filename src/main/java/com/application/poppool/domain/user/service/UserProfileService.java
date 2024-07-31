@@ -1,14 +1,14 @@
 package com.application.poppool.domain.user.service;
 
-import com.application.poppool.domain.interest.entity.InterestEntity;
-import com.application.poppool.domain.interest.repository.InterestRepository;
-import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.category.entity.CategoryEntity;
+import com.application.poppool.domain.category.repository.CategoryRepository;
+import com.application.poppool.domain.user.dto.request.UpdateMyInterestCategoryRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.UserInterestEntity;
-import com.application.poppool.domain.user.repository.UserInterestRepository;
+import com.application.poppool.domain.user.entity.UserInterestCategoryEntity;
+import com.application.poppool.domain.user.repository.UserInterestCategoryRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -24,8 +24,8 @@ import java.util.stream.Collectors;
 public class UserProfileService {
 
     private final UserRepository userRepository;
-    private final UserInterestRepository userInterestRepository;
-    private final InterestRepository interestRepository;
+    private final UserInterestCategoryRepository userInterestCategoryRepository;
+    private final CategoryRepository categoryRepository;
 
 
     /**
@@ -40,7 +40,7 @@ public class UserProfileService {
                 .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 회원의 관심 카테고리 목록 가져오기
-        List<GetProfileResponse.MyInterestInfo> myInterestInfoList = this.getMyInterestList(user);
+        List<GetProfileResponse.MyInterestCategoryInfo> myInterestCategoryInfoList = this.getMyInterestCategoryList(user);
 
         return GetProfileResponse.builder()
                 .profileImage(user.getProfileImage())
@@ -50,7 +50,7 @@ public class UserProfileService {
                 .intro(user.getIntro())
                 .gender(user.getGender())
                 .age(user.getAge())
-                .interestList(myInterestInfoList)
+                .interestCategoryList(myInterestCategoryInfoList)
                 .build();
     }
 
@@ -61,11 +61,11 @@ public class UserProfileService {
      * @param user
      * @return
      */
-    private List<GetProfileResponse.MyInterestInfo> getMyInterestList(UserEntity user) {
-        return user.getUserInterestEntities().stream()
-                .map(userInterestEntity -> GetProfileResponse.MyInterestInfo.builder()
-                        .interestId(userInterestEntity.getInterest().getInterestId())
-                        .interestCategory(userInterestEntity.getInterest().getInterestCategory())
+    private List<GetProfileResponse.MyInterestCategoryInfo> getMyInterestCategoryList(UserEntity user) {
+        return user.getUserInterestCategories().stream()
+                .map(userInterestCategory -> GetProfileResponse.MyInterestCategoryInfo.builder()
+                        .categoryId(userInterestCategory.getCategory().getCategoryId())
+                        .interestCategory(userInterestCategory.getCategory().getCategory())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -92,44 +92,44 @@ public class UserProfileService {
      * 회원 관심 카테고리 수정
      *
      * @param userId
-     * @param updateMyInterestRequest
+     * @param request
      */
     @Transactional
-    public void updateMyInterests(String userId, UpdateMyInterestRequest updateMyInterestRequest) {
+    public void updateMyInterestCategory(String userId, UpdateMyInterestCategoryRequest request) {
 
         // 유저 엔티티 조회
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
         // 삭제할 관심 카테고리 삭제
-        List<UserInterestEntity> interestsToDelete = user.getUserInterestEntities().stream()
-                .filter(myInterest -> updateMyInterestRequest.getInterestsToDelete().contains(myInterest.getInterest().getInterestId()))
+        List<UserInterestCategoryEntity> interestCategoriesToDelete = user.getUserInterestCategories().stream()
+                .filter(myInterest -> request.getInterestCategoriesToDelete().contains(myInterest.getCategory().getCategoryId()))
                 .collect(Collectors.toList());
 
-        userInterestRepository.deleteAll(interestsToDelete);
+        userInterestCategoryRepository.deleteAll(interestCategoriesToDelete);
 
         // 추가할 관심 카테고리 추가
-        List<UserInterestEntity> interestsToAdd = updateMyInterestRequest.getInterestsToAdd().stream()
-                .map(interestToAdd -> createUserInterestEntity(user, interestToAdd))
+        List<UserInterestCategoryEntity> interestCategoriesToAdd = request.getInterestCategoriesToAdd().stream()
+                .map(categoryToAdd -> createUserInterestCategoryEntity(user, categoryToAdd))
                 .collect(Collectors.toList());
 
         // 관심 카테고리 저장
-        userInterestRepository.saveAll(interestsToAdd);
+        userInterestCategoryRepository.saveAll(interestCategoriesToAdd);
     }
 
     /**
      * 회원 관심 카테고리 추가를 위한 엔티티 생성
      *
      * @param user
-     * @param interestToAdd
+     * @param interestCategoryToAdd
      * @return
      */
-    private UserInterestEntity createUserInterestEntity(UserEntity user, Long interestToAdd) {
-        InterestEntity interest = interestRepository.findByInterestId(interestToAdd)
-                .orElseThrow(() -> new BadRequestException(ErrorCode.INTEREST_NOT_FOUND));
-        return UserInterestEntity.builder()
+    private UserInterestCategoryEntity createUserInterestCategoryEntity(UserEntity user, Long interestCategoryToAdd) {
+        CategoryEntity category = categoryRepository.findByCategoryId(interestCategoryToAdd)
+                .orElseThrow(() -> new BadRequestException(ErrorCode.CATEGORY_NOT_FOUND));
+        return UserInterestCategoryEntity.builder()
                 .user(user)
-                .interest(interest)
+                .category(category)
                 .build();
     }
 

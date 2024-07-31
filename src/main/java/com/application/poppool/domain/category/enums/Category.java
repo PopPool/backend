@@ -1,13 +1,12 @@
-package com.application.poppool.domain.interest.enums;
+package com.application.poppool.domain.category.enums;
 
 import com.application.poppool.global.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
-public enum InterestCategory implements BaseEnum {
+public enum Category implements BaseEnum {
     FASION("패션"),               // 패션
     LIFESTYLE("라이프스타일"),      // 라이프스타일
     BEAUTY("뷰티"),               // 뷰티
@@ -24,13 +23,13 @@ public enum InterestCategory implements BaseEnum {
     @JsonValue
     private final String value;
 
-    InterestCategory(String value) {
+    Category(String value) {
         this.value = value;
     }
 
     @JsonCreator
-    public static InterestCategory fromValueToEnum(String value) {
-        for (InterestCategory category : InterestCategory.values()) {
+    public static Category fromValueToEnum(String value) {
+        for (Category category : Category.values()) {
             if (category.getValue().equals(value)) {
                 return category;
             }

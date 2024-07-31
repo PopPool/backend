@@ -21,7 +21,7 @@ public enum ErrorCode {
     EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "EXCEPTION이 발생했습니다."),
     AUTHENTICATION_FAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    INTEREST_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 관심 카테고리입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 카테고리입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
     TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),

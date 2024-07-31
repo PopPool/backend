@@ -1,7 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 
-import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyInterestCategoryRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
@@ -25,8 +25,8 @@ public interface UserProfileControllerDoc {
                          @RequestBody UpdateMyProfileRequest request);
 
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
-    void updateMyInterests(@PathVariable("userId") String userId,
-                           @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest);
+    void updateMyInterestCategory(@PathVariable("userId") String userId,
+                           @RequestBody @Valid UpdateMyInterestCategoryRequest request);
 
     @Operation(summary = "회원 맞춤 정보 수정", description = "회원 맞춤 정보를 수정합니다.")
     public void updateMyTailoredInfo(@PathVariable("userId") String userId,

@@ -1,7 +1,7 @@
 package com.application.poppool.domain.user.controller;
 
 
-import com.application.poppool.domain.user.dto.request.UpdateMyInterestRequest;
+import com.application.poppool.domain.user.dto.request.UpdateMyInterestCategoryRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.dto.response.GetProfileResponse;
@@ -35,16 +35,16 @@ public class UserProfileController implements UserProfileControllerDoc {
 
     @Override
     @PutMapping("/{userId}/interests")
-    public void updateMyInterests(@PathVariable String userId,
-                                  @RequestBody @Valid UpdateMyInterestRequest updateMyInterestRequest) {
-        userProfileService.updateMyInterests(userId, updateMyInterestRequest);
+    public void updateMyInterestCategory(@PathVariable String userId,
+                                         @RequestBody @Valid UpdateMyInterestCategoryRequest request) {
+        userProfileService.updateMyInterestCategory(userId, request);
     }
 
     @Override
     @PutMapping("/{userId}/tailored-info")
     public void updateMyTailoredInfo(@PathVariable String userId,
-                                     @RequestBody @Valid UpdateMyTailoredInfoRequest updateMyTailoredInfoRequest) {
-        userProfileService.updateMyTailoredInfo(userId, updateMyTailoredInfoRequest);
+                                     @RequestBody @Valid UpdateMyTailoredInfoRequest request) {
+        userProfileService.updateMyTailoredInfo(userId, request);
     }
 
 }
