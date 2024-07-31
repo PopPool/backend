@@ -14,7 +14,7 @@ spring:
     defer-datasource-initialization: true
   sql:
     init:
-      mode: always # data.sql 스크립트 사용
+      mode: never # data.sql 스크립트 사용
       encoding: UTF-8
 
 jwt:
