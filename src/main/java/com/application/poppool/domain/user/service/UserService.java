@@ -128,7 +128,7 @@ public class UserService {
                         .startDate(popUpStore.getStartDate())
                         .endDate(popUpStore.getEndDate())
                         .address(popUpStore.getAddress())
-                        .closedYn(popUpStore.getClosedYn())
+                        .isClosed(popUpStore.isClosed())
                         .build())
                 .toList();
 
@@ -165,7 +165,7 @@ public class UserService {
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
                         .address(popUpStoreEntity.getAddress())
-                        .closedYn(popUpStoreEntity.getClosedYn())
+                        .isClosed(popUpStoreEntity.isClosed())
                         .build())
                 .toList();
 
@@ -198,7 +198,7 @@ public class UserService {
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
                         .address(popUpStoreEntity.getAddress())
-                        .closedYn(popUpStoreEntity.getClosedYn())
+                        .isClosed(popUpStoreEntity.isClosed())
                         .build())
                 .toList();
 

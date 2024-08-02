@@ -3,6 +3,7 @@ package com.application.poppool.domain.popup.entity;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
+import com.application.poppool.global.converter.BooleanToYNConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "pop_up_store")
+@Table(name = "popup_store")
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -42,7 +43,8 @@ public class PopUpStoreEntity extends BaseEntity {
     private String address;
 
     @Column(name = "CLOSED_YN")
-    private String closedYn;
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean isClosed;
 
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore")

@@ -23,7 +23,7 @@ public class GetMyCommentedPopUpStoreListResponse {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String address;
-        private String closedYn;
+        private boolean isClosed;
     }
 
 }
