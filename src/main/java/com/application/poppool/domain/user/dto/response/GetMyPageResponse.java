@@ -11,6 +11,7 @@ public class GetMyPageResponse {
 
     private String nickname;
     private String profileImage;
+    private String intro;
     private String instagramId;
     private List<PopUpInfo> popUpInfoList;
     private boolean isLogin;

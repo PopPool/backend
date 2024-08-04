@@ -73,6 +73,7 @@ public class UserService {
         return GetMyPageResponse.builder()
                 .nickname(user.getNickname())
                 .profileImage(user.getProfileImage())
+                .intro(user.getIntro())
                 .instagramId(user.getInstagramId())
                 .popUpInfoList(popUpInfoList)
                 .isLogin(isLogin)
