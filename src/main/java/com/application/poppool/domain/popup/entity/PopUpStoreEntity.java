@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.entity;
 
+import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
@@ -42,9 +43,24 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "ADDRESS")
     private String address;
 
+    @Column(name = "CATEGORY")
+    private Category category;
+
     @Column(name = "CLOSED_YN")
     @Convert(converter = BooleanToYNConverter.class)
     private boolean isClosed;
+
+    @Column(name = "VIEW_CNT")
+    @Builder.Default
+    private long viewCount = 0;
+
+    @Column(name = "BOOKMARK_CNT")
+    @Builder.Default
+    private long bookmarkCount = 0;
+
+    @Column(name = "COMMNET_CNT")
+    @Builder.Default
+    private long commentCount = 0;
 
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore")
