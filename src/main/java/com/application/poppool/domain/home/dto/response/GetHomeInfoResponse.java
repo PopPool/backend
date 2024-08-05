@@ -22,13 +22,15 @@ public class GetHomeInfoResponse {
      */
     @Getter
     @Builder
-    private static class CustomPopUpStores {
+    public static class CustomPopUpStores {
         private Category category;
         private String name;
         private String address;
         private String image;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private int totalPages;
+        private long totalElements;
     }
 
 
@@ -44,6 +46,8 @@ public class GetHomeInfoResponse {
         private String image;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private int totalPages;
+        private long totalElements;
     }
 
     /**
@@ -58,6 +62,8 @@ public class GetHomeInfoResponse {
         private String image;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private int totalPages;
+        private long totalElements;
     }
 
 }

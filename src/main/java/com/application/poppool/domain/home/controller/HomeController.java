@@ -4,6 +4,9 @@ import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,9 +23,10 @@ public class HomeController implements HomeControllerDoc{
 
     @Override
     @GetMapping("/{userId}")
-    public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@PathVariable String userId) {
+    public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@PathVariable String userId,
+                                                           @PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("홈 화면 조회");
-        return ResponseEntity.ok(homeService.getHomeInfo(userId));
+        return ResponseEntity.ok(homeService.getHomeInfo(userId, pageable));
     }
 
 }
