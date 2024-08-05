@@ -9,7 +9,9 @@ import lombok.*;
 
 
 @Entity
-@Table(name = "category")
+@Table(name = "category", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"CATEGORY"})
+})
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -21,7 +23,7 @@ public class CategoryEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @Column(name = "CATEGORY", unique = true)
+    @Column(name = "CATEGORY")
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
