@@ -7,6 +7,10 @@ import java.util.Date;
 
 public class TimeUtils {
 
+    private TimeUtils () {
+
+    }
+
     /**
      * Date -> LocalDateTime 변환
      *
