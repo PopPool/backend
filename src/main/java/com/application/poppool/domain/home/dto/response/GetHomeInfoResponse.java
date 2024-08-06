@@ -23,6 +23,7 @@ public class GetHomeInfoResponse {
     @Getter
     @Builder
     public static class CustomPopUpStore {
+        private Long id;
         private Category category;
         private String name;
         private String address;
@@ -40,6 +41,7 @@ public class GetHomeInfoResponse {
     @Getter
     @Builder
     public static class PopularPopUpStore {
+        private Long id;
         private Category category;
         private String name;
         private String address;
@@ -56,6 +58,7 @@ public class GetHomeInfoResponse {
     @Getter
     @Builder
     public static class NewPopUpStore {
+        private Long id;
         private Category category;
         private String name;
         private String address;

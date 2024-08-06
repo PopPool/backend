@@ -47,6 +47,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
 
         List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.CustomPopUpStore.class,
+                        popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.as("category"),
                         popUpStoreEntity.name.as("name"),
                         popUpStoreEntity.address.as("address"),
@@ -83,6 +84,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public Page<GetHomeInfoResponse.PopularPopUpStore> getPopularPopUpStoreList(Pageable pageable) {
         List<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.PopularPopUpStore.class,
+                    popUpStoreEntity.id.as("id"),
                     popUpStoreEntity.category.as("category"),
                     popUpStoreEntity.name.as("name"),
                     popUpStoreEntity.address.as("address"),
@@ -119,6 +121,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
 
         List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.NewPopUpStore.class,
+                    popUpStoreEntity.id.as("id"),
                     popUpStoreEntity.category.as("category"),
                     popUpStoreEntity.name.as("name"),
                     popUpStoreEntity.address.as("address"),

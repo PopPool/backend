@@ -39,6 +39,7 @@ public class HomeService {
         /** 추천 팝업 리스트 (Page -> List 변환) */
         List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = customPopUpStorePage.stream()
                 .map(customPopUpStore -> GetHomeInfoResponse.CustomPopUpStore.builder()
+                        .id(customPopUpStore.getId())
                         .category(customPopUpStore.getCategory())
                         .name(customPopUpStore.getName())
                         .address(customPopUpStore.getAddress())
@@ -57,6 +58,7 @@ public class HomeService {
         /** 인기 팝업 리스트 (Page -> List 변환) */
         List<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStoreList = popularPopUpStorePage.stream()
                 .map(popularPopUpStore -> GetHomeInfoResponse.PopularPopUpStore.builder()
+                        .id(popularPopUpStore.getId())
                         .category(popularPopUpStore.getCategory())
                         .name(popularPopUpStore.getName())
                         .address(popularPopUpStore.getAddress())
@@ -77,6 +79,7 @@ public class HomeService {
         /** 신규 팝업 리스트 (Page -> List 변환) */
         List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = newPopUpStorePage.stream()
                 .map(newPopUpStore -> GetHomeInfoResponse.NewPopUpStore.builder()
+                        .id(newPopUpStore.getId())
                         .category(newPopUpStore.getCategory())
                         .name(newPopUpStore.getName())
                         .address(newPopUpStore.getAddress())
