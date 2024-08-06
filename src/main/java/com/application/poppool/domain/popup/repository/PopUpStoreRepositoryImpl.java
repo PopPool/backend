@@ -2,9 +2,9 @@ package com.application.poppool.domain.popup.repository;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
-import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.UserInterestCategoryEntity;
+import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.global.utils.AgeGroupUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -20,7 +20,9 @@ import java.util.List;
 
 import static com.application.poppool.domain.category.entity.QCategoryEntity.categoryEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
+import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
 import static com.application.poppool.domain.user.entity.QUserInterestCategoryEntity.userInterestCategoryEntity;
+import static com.application.poppool.domain.user.entity.QUserPopUpStoreViewEntity.userPopUpStoreViewEntity;
 
 @Repository
 @RequiredArgsConstructor
@@ -31,7 +33,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     @Override
     public List<Category> getUserInterestCategoryList(String userId) {
-        List<Category> userInterestCategoryList = queryFactory.select(categoryEntity.category)
+        return queryFactory.select(categoryEntity.category)
                 .from(userInterestCategoryEntity)
                 .join(userInterestCategoryEntity.category, categoryEntity)
                 .where(userIdEq(userId))
@@ -39,36 +41,54 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public Page<GetHomeInfoResponse.CustomPopUpStores> getCustomPopUpStoreListByCategory(String userId, Pageable pageable) {
+    public Page<GetHomeInfoResponse.CustomPopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
 
-        List<Category> userInterestCategoryList = getUserInterestCategoryList(userId);
+        List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
 
 
-        List<PopUpStoreEntity>  = queryFactory.selectFrom(popup)
-                .where(categoryIn(userInterestCategoryList))
-                .orderBy(popup.pageViews.desc(), popup.commentsCount.desc(), popup.likesCount.desc())
+        List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.CustomPopUpStore.class,
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.image.as("image"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate")
+                ))
+                .from(userPopUpStoreViewEntity)
+                .innerJoin(userPopUpStoreViewEntity.popUpStore, popUpStoreEntity)
+                .innerJoin(userPopUpStoreViewEntity.user, userEntity)
+                .where(categoryIn(userInterestCategoryList),
+                        ageGroupEq(user.getAge()),
+                        genderEq(user.getGender()))
+                .orderBy(popUpStoreEntity.viewCount.desc(),
+                        popUpStoreEntity.commentCount.desc(),
+                        popUpStoreEntity.bookmarkCount.desc(),
+                        userPopUpStoreViewEntity.viewCount.desc(),
+                        userPopUpStoreViewEntity.commentCount.desc(),
+                        userPopUpStoreViewEntity.bookmarkCount.desc())
                 .fetch();
+
+        JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
+                .from(popUpStoreEntity)
+                .orderBy(popUpStoreEntity.viewCount.desc(),
+                        popUpStoreEntity.commentCount.desc(),
+                        popUpStoreEntity.bookmarkCount.desc(),
+                        userPopUpStoreViewEntity.popUpStore.viewCount.desc(),
+                        userPopUpStoreViewEntity.popUpStore.commentCount.desc(),
+                        userPopUpStoreViewEntity.popUpStore.bookmarkCount.desc());
+
+        return PageableExecutionUtils.getPage(customPopUpStoreList, pageable, countQuery::fetchOne);
     }
 
     @Override
-    public Page<GetHomeInfoResponse.CustomPopUpStores> getCustomPopUpStoreListByGenderAndAge(UserEntity user, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<GetHomeInfoResponse.CustomPopUpStores> getCustomPopUpStoreListByAge(UserEntity user, Pageable pageable) {
-        return null;
-    }
-
-    @Override
-    public Page<GetHomeInfoResponse.PopularPopUpStores> getPopularPopUpStoreList(Pageable pageable) {
-        List<GetHomeInfoResponse.PopularPopUpStores> popularPopUpStoresList = queryFactory.select(Projections.bean(GetHomeInfoResponse.PopularPopUpStores.class,
-                popUpStoreEntity.category.as("category"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.address.as("address"),
-                popUpStoreEntity.image.as("image"),
-                popUpStoreEntity.startDate.as("startDate"),
-                popUpStoreEntity.endDate.as("endDate")
+    public Page<GetHomeInfoResponse.PopularPopUpStore> getPopularPopUpStoreList(Pageable pageable) {
+        List<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.PopularPopUpStore.class,
+                    popUpStoreEntity.category.as("category"),
+                    popUpStoreEntity.name.as("name"),
+                    popUpStoreEntity.address.as("address"),
+                    popUpStoreEntity.image.as("image"),
+                    popUpStoreEntity.startDate.as("startDate"),
+                    popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
                 .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
@@ -80,12 +100,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc());
 
-        return PageableExecutionUtils.getPage(popularPopUpStoresList, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(popularPopUpStoreList, pageable, countQuery::fetchOne);
 
     }
 
     @Override
-    public Page<GetHomeInfoResponse.NewPopUpStores> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable) {
+    public Page<GetHomeInfoResponse.NewPopUpStore> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable) {
 
         int newPopUpStorePeriod = 14;
 
@@ -98,13 +118,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         );
 
 
-        List<GetHomeInfoResponse.NewPopUpStores> newPopUpStoresList = queryFactory.select(Projections.bean(GetHomeInfoResponse.NewPopUpStores.class,
-                popUpStoreEntity.category.as("category"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.address.as("address"),
-                popUpStoreEntity.image.as("image"),
-                popUpStoreEntity.startDate.as("startDate"),
-                popUpStoreEntity.endDate.as("endDate")
+        List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.NewPopUpStore.class,
+                    popUpStoreEntity.category.as("category"),
+                    popUpStoreEntity.name.as("name"),
+                    popUpStoreEntity.address.as("address"),
+                    popUpStoreEntity.image.as("image"),
+                    popUpStoreEntity.startDate.as("startDate"),
+                    popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
                 .where(isNewPopUpStore(popUpStoreEntity.startDate, newPopUpDueDate, currentDate))
@@ -116,7 +136,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .where(isNewPopUpStore(popUpStoreEntity.startDate, newPopUpDueDate, currentDate));
 
-        return PageableExecutionUtils.getPage(newPopUpStoresList, pageable, countQuery::fetchOne);
+        return PageableExecutionUtils.getPage(newPopUpStoreList, pageable, countQuery::fetchOne);
 
     }
 
@@ -138,5 +158,16 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
             return null;
         }
         return popUpStoreEntity.category.in(userInterestCategoryList);
+    }
+
+    private BooleanExpression ageGroupEq(int age) {
+        return userEntity.age.between(AgeGroupUtils.getStartAge(age), AgeGroupUtils.getEndAge(age));
+    }
+
+    private BooleanExpression genderEq(Gender gender) {
+        if (gender == Gender.NONE) {
+            return null;
+        }
+        return userEntity.gender.eq(gender);
     }
 }
