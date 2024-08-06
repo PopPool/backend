@@ -15,7 +15,7 @@ import lombok.*;
 public class LikeEntity extends BaseEntity {
 
     @Id
-    @Column(name = "ID")
+    @Column(name = "LIKE_ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
