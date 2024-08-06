@@ -17,7 +17,7 @@ public class GetProfileResponse {
     private String instagramId;
     private String intro;
     private Gender gender;
-    private Integer age;
+    private int age;
     private List<MyInterestCategoryInfo> interestCategoryList;
 
     @Getter

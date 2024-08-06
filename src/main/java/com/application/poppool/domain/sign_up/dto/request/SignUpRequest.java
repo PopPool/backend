@@ -12,7 +12,7 @@ public class SignUpRequest {
     private String userId;
     private String nickname;
     private Gender gender;
-    private Integer age;
+    private int age;
     private String socialEmail;
     private SocialType socialType;
     private Set<Long> interestCategories;

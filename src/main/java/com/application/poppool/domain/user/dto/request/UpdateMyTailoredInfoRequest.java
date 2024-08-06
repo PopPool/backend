@@ -7,5 +7,5 @@ import lombok.Getter;
 public class UpdateMyTailoredInfoRequest {
 
     private Gender gender;
-    private Integer age;
+    private int age;
 }

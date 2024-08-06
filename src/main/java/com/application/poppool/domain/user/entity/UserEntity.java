@@ -44,7 +44,7 @@ public class UserEntity extends BaseEntity {
     private Gender gender; // 성별
 
     @Column(name = "AGE")
-    private Integer age; // 연령
+    private int age; // 연령
 
     @Column(name = "TERM_AGREE_YN")
     private String isTermAgree; // 약관동의 여부
