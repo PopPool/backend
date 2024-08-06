@@ -3,7 +3,6 @@ package com.application.poppool.domain.home.service;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.UserInterestCategoryEntity;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -34,50 +33,58 @@ public class HomeService {
 
         UserEntity user = userService.findUserByUserId(userId);
 
-        /** 유저의 관심 카테고리 조회 */
-        List<UserInterestCategoryEntity> userInterestCategories = user.getUserInterestCategories();
+        /** 추천 팝업 페이지 */
+        Page<GetHomeInfoResponse.CustomPopUpStore> customPopUpStorePage = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
 
-
-        if (user.getGender().name().equals("NONE")) {
-            Page<GetHomeInfoResponse.CustomPopUpStores> customPopUpStoresPage = popUpStoreRepository.getCustomPopUpStoreList(userId, pageable, userInterestCategories);
-        }
-        else{
-            Page<GetHomeInfoResponse.CustomPopUpStores> customPopUpStoresPage = popUpStoreRepository.getCustomPopUpStoreList(userId, pageable);
-        }
-
-
-
-        Page<GetHomeInfoResponse.PopularPopUpStores> popularPopUpStoresPage = popUpStoreRepository.getPopularPopUpStoreList(pageable);
-
-        /** 인기 팝업 리스트 */
-        List<GetHomeInfoResponse.PopularPopUpStores> popularPopUpStoresList = popularPopUpStoresPage.stream()
-                .map(popularPopUpStores -> GetHomeInfoResponse.PopularPopUpStores.builder()
-                        .category(popularPopUpStores.getCategory())
-                        .name(popularPopUpStores.getName())
-                        .address(popularPopUpStores.getAddress())
-                        .image(popularPopUpStores.getImage())
-                        .startDate(popularPopUpStores.getStartDate())
-                        .endDate(popularPopUpStores.getEndDate())
-                        .totalPages(popularPopUpStores.getTotalPages())
-                        .totalElements(popularPopUpStores.getTotalElements())
+        /** 추천 팝업 리스트 (Page -> List 변환) */
+        List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = customPopUpStorePage.stream()
+                .map(customPopUpStore -> GetHomeInfoResponse.CustomPopUpStore.builder()
+                        .category(customPopUpStore.getCategory())
+                        .name(customPopUpStore.getName())
+                        .address(customPopUpStore.getAddress())
+                        .image(customPopUpStore.getImage())
+                        .startDate(customPopUpStore.getStartDate())
+                        .endDate(customPopUpStore.getEndDate())
+                        .totalPages(customPopUpStore.getTotalPages())
+                        .totalElements(customPopUpStore.getTotalElements())
                         .build())
                 .toList();
 
-        // 현재 시간
-        LocalDateTime currentDate = LocalDateTime.now();
-        Page<GetHomeInfoResponse.NewPopUpStores> newPopUpStoresPage = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
 
-        /** 신규 팝업 리스트 */
-        List<GetHomeInfoResponse.NewPopUpStores> newPopUpStoresList = newPopUpStoresPage.stream()
-                .map(newPopUpStores -> GetHomeInfoResponse.NewPopUpStores.builder()
-                        .category(newPopUpStores.getCategory())
-                        .name(newPopUpStores.getName())
-                        .address(newPopUpStores.getAddress())
-                        .image(newPopUpStores.getImage())
-                        .startDate(newPopUpStores.getStartDate())
-                        .endDate(newPopUpStores.getEndDate())
-                        .totalPages(newPopUpStores.getTotalPages())
-                        .totalElements(newPopUpStores.getTotalElements())
+        /** 인기 팝업 페이지 */
+        Page<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStorePage = popUpStoreRepository.getPopularPopUpStoreList(pageable);
+
+        /** 인기 팝업 리스트 (Page -> List 변환) */
+        List<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStoreList = popularPopUpStorePage.stream()
+                .map(popularPopUpStore -> GetHomeInfoResponse.PopularPopUpStore.builder()
+                        .category(popularPopUpStore.getCategory())
+                        .name(popularPopUpStore.getName())
+                        .address(popularPopUpStore.getAddress())
+                        .image(popularPopUpStore.getImage())
+                        .startDate(popularPopUpStore.getStartDate())
+                        .endDate(popularPopUpStore.getEndDate())
+                        .totalPages(popularPopUpStore.getTotalPages())
+                        .totalElements(popularPopUpStore.getTotalElements())
+                        .build())
+                .toList();
+
+        /** 현재 시간 */
+        LocalDateTime currentDate = LocalDateTime.now();
+
+        /**신규 팝업 페이지 */
+        Page<GetHomeInfoResponse.NewPopUpStore> newPopUpStorePage = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
+
+        /** 신규 팝업 리스트 (Page -> List 변환) */
+        List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = newPopUpStorePage.stream()
+                .map(newPopUpStore -> GetHomeInfoResponse.NewPopUpStore.builder()
+                        .category(newPopUpStore.getCategory())
+                        .name(newPopUpStore.getName())
+                        .address(newPopUpStore.getAddress())
+                        .image(newPopUpStore.getImage())
+                        .startDate(newPopUpStore.getStartDate())
+                        .endDate(newPopUpStore.getEndDate())
+                        .totalPages(newPopUpStore.getTotalPages())
+                        .totalElements(newPopUpStore.getTotalElements())
                         .build())
                 .toList();
 
@@ -90,8 +97,9 @@ public class HomeService {
 
         return GetHomeInfoResponse.builder()
                 .nickname(user.getNickname())
-                .popularPopUpStoresList(popularPopUpStoresList)
-                .newPopUpStoresList(newPopUpStoresList)
+                .customPopUpStoreList(customPopUpStoreList)
+                .popularPopUpStoreList(popularPopUpStoreList)
+                .newPopUpStoreList(newPopUpStoreList)
                 .isLogin(isLogin)
                 .build();
     }
