@@ -12,9 +12,9 @@ import java.util.List;
 public class GetHomeInfoResponse {
 
     private String nickname;
-    private List<CustomPopUpStores> customPopUpStoresList;
-    private List<PopularPopUpStores> popularPopUpStoresList;
-    private List<NewPopUpStores> newPopUpStoresList;
+    private List<CustomPopUpStore> customPopUpStoreList;
+    private List<PopularPopUpStore> popularPopUpStoreList;
+    private List<NewPopUpStore> newPopUpStoreList;
     private boolean isLogin;
 
     /**
@@ -22,7 +22,7 @@ public class GetHomeInfoResponse {
      */
     @Getter
     @Builder
-    public static class CustomPopUpStores {
+    public static class CustomPopUpStore {
         private Category category;
         private String name;
         private String address;
@@ -39,7 +39,7 @@ public class GetHomeInfoResponse {
      */
     @Getter
     @Builder
-    public static class PopularPopUpStores {
+    public static class PopularPopUpStore {
         private Category category;
         private String name;
         private String address;
@@ -55,7 +55,7 @@ public class GetHomeInfoResponse {
      */
     @Getter
     @Builder
-    public static class NewPopUpStores {
+    public static class NewPopUpStore {
         private Category category;
         private String name;
         private String address;
