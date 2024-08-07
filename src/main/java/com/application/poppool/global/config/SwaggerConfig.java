@@ -94,7 +94,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.HOME.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".notice")
+                .packagesToScan(BASE_PACKAGE + ".home")
                 .build();
     }
 
@@ -104,7 +104,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.POPUP_STORE.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + "popup")
+                .packagesToScan(BASE_PACKAGE + ".popup")
                 .build();
     }
 
