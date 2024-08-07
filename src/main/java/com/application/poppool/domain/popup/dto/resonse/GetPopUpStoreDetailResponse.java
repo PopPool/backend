@@ -15,17 +15,35 @@ public class GetPopUpStoreDetailResponse {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String address;
-    private List<Comment> commentList;
     private boolean isLogin;
+    private String popUpStoreMainImageUrl;
+    private List<PopUpStoreImage> popUpStoreImageList;
+    private List<Comment> commentList;
 
     @Getter
     @Builder
     public static class Comment {
         private String nickname;
-        private String profileImage;
+        private String profileImageUrl;
         private String content;
         private boolean isLiked;
+        private long likeCount;
         private LocalDateTime createDateTime;
+        private List<CommentImage> commentImageList;
+    }
+
+    @Getter
+    @Builder
+    public static class PopUpStoreImage {
+        private Long id;
+        private String imageUrl;
+    }
+
+    @Getter
+    @Builder
+    public static class CommentImage {
+        private Long id;
+        private String imageUrl;
     }
 
 }
