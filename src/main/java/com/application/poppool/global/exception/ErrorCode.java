@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 public enum ErrorCode {
 
     ALREADY_EXISTS_USER_ID(HttpStatus.BAD_REQUEST, "이미 존재하는 회원아이디입니다."),
+    ALREADY_EXISTS_DATA(HttpStatus.BAD_REQUEST, "이미 존재하는 데이터입니다."),
     DATA_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "데이터가 유효하지 않습니다."),
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(HttpStatus.BAD_REQUEST, "HTTP 요청 본문 변환 중 에러가 발생했습니다."),
     METHOD_ARGUMENT_NOT_VALID_EXCEPTION(HttpStatus.BAD_REQUEST, "메서드 파라미터가 유효하지 않습니다."),
@@ -21,7 +22,13 @@ public enum ErrorCode {
     EXCEPTION(HttpStatus.INTERNAL_SERVER_ERROR, "EXCEPTION이 발생했습니다."),
     AUTHENTICATION_FAIL_EXCEPTION(HttpStatus.UNAUTHORIZED, "인증에 실패했습니다."),
     USER_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 회원입니다."),
-    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "목록에 존재하지 않는 카테고리입니다."),
+    CATEGORY_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 카테고리입니다."),
+    POPUP_STORE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 팝업스토어입니다."),
+    POPUP_STORE_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 팝업스토어 이미지입니다."),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 코멘트입니다."),
+    COMMENT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 코멘트 이미지입니다."),
+    NOT_MY_COMMENT(HttpStatus.NOT_FOUND, "내가 작성한 코멘트가 아닙니다."),
+    LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요(도움돼요)입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
     TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),
