@@ -22,7 +22,10 @@ public class SwaggerConfig {
         SIGN_UP("/signup"),
         USER("/users"),
         NOTICE("/notice"),
-        HOME("/home");
+        HOME("/home"),
+        POPUP_STORE("/popup"),
+        COMMENT("/comments"),
+        LIKE("/likes");
 
         private final String urlPrefix;
 
@@ -90,6 +93,36 @@ public class SwaggerConfig {
                 .group(name)
                 .pathsToMatch(ApiUrl.HOME.getUrlPrefix() + "/**")
                 .packagesToScan(BASE_PACKAGE + ".notice")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi popUpStoreApi() {
+        final String name = ApiUrl.POPUP_STORE.getUrlPrefix();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.POPUP_STORE.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + "popup")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi commentApi() {
+        final String name = ApiUrl.COMMENT.getUrlPrefix();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.COMMENT.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + ".comment")
+                .build();
+    }
+
+    @Bean
+    public GroupedOpenApi likeApi() {
+        final String name = ApiUrl.LIKE.getUrlPrefix();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.LIKE.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + ".like")
                 .build();
     }
 
