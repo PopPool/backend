@@ -1,5 +1,6 @@
 package com.application.poppool.domain.comment.entity;
 
+import com.application.poppool.domain.image.entity.CommentImageEntity;
 import com.application.poppool.domain.like.entity.LikeEntity;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -26,9 +27,6 @@ public class CommentEntity extends BaseEntity {
     @Column(name = "CONTENT")
     private String content;
 
-    @Column(name = "IMAGE")
-    private String image;
-
     @Column(name = "LIKE_COUNT")
     private int likeCount;
 
@@ -46,6 +44,18 @@ public class CommentEntity extends BaseEntity {
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true) // 코멘트가 사라지면 좋아요도 없어져야함
     private List<LikeEntity> likes = new ArrayList<>();
 
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<CommentImageEntity> images = new ArrayList<>();
+
+    public void addImage(CommentImageEntity image) {
+        images.add(image);
+        image.setComment(this);
+    }
+
+    /** 코멘트 수정 */
+    public void updateComment(String content) {
+        this.content = content;
+    }
 
     /**
      * 좋아요 수 증가
