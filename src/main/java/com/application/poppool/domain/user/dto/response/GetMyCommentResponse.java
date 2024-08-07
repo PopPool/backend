@@ -18,7 +18,7 @@ public class GetMyCommentResponse{
     public static class MyCommentInfo {
         private Long commentId;
         private String content;
-        private String image;
+        private String imageUrl;
         private int likeCount;
     }
 }

@@ -43,7 +43,7 @@ public class UserProfileService {
         List<GetProfileResponse.MyInterestCategoryInfo> myInterestCategoryInfoList = this.getMyInterestCategoryList(user);
 
         return GetProfileResponse.builder()
-                .profileImage(user.getProfileImage())
+                .profileImageUrl(user.getProfileImageUrl())
                 .nickname(user.getNickname())
                 .email(user.getEmail())
                 .instagramId(user.getInstagramId())

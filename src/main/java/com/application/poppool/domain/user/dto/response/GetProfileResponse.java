@@ -11,7 +11,7 @@ import java.util.List;
 @Builder
 public class GetProfileResponse {
 
-    private String profileImage;
+    private String profileImageUrl;
     private String nickname;
     private String email;
     private String instagramId;

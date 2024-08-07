@@ -27,7 +27,7 @@ public class GetHomeInfoResponse {
         private Category category;
         private String name;
         private String address;
-        private String image;
+        private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private int totalPages;
@@ -45,7 +45,7 @@ public class GetHomeInfoResponse {
         private Category category;
         private String name;
         private String address;
-        private String image;
+        private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private int totalPages;
@@ -62,7 +62,7 @@ public class GetHomeInfoResponse {
         private Category category;
         private String name;
         private String address;
-        private String image;
+        private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private int totalPages;

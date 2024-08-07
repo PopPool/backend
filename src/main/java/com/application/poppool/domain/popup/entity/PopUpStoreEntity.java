@@ -31,8 +31,8 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "DESCRIPTION")
     private String desc;
 
-    @Column(name = "IMAGE")
-    private String image;
+    @Column(name = "MAIN_IMAGE_URL")
+    private String mainImageUrl;
 
     @Column(name = "START_DT")
     private LocalDateTime startDate;

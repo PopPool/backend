@@ -5,7 +5,7 @@ import lombok.Getter;
 @Getter
 public class UpdateMyProfileRequest {
 
-    private String profileImage;
+    private String profileImageUrl;
     private String nickname;
     private String email;
     private String instagramId;

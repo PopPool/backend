@@ -27,7 +27,7 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
     public Page<GetBlockedUserListResponse.BlockedUserInfo> getBlockedUserList(String userId, Pageable pageable) {
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = queryFactory.select(Projections.bean(GetBlockedUserListResponse.BlockedUserInfo.class,
                 userEntity.userId.as("userId"),
-                userEntity.profileImage.as("profileImage"),
+                userEntity.profileImageUrl.as("profileImageUrl"),
                 userEntity.nickname.as("nickname"),
                 userEntity.instagramId.as("instagramId")
         ))

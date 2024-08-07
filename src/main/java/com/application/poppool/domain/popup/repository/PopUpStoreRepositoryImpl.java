@@ -51,7 +51,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.category.as("category"),
                         popUpStoreEntity.name.as("name"),
                         popUpStoreEntity.address.as("address"),
-                        popUpStoreEntity.image.as("image"),
+                        popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate")
                 ))
@@ -88,7 +88,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.category.as("category"),
                     popUpStoreEntity.name.as("name"),
                     popUpStoreEntity.address.as("address"),
-                    popUpStoreEntity.image.as("image"),
+                    popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
                     popUpStoreEntity.startDate.as("startDate"),
                     popUpStoreEntity.endDate.as("endDate")
                 ))
@@ -125,7 +125,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.category.as("category"),
                     popUpStoreEntity.name.as("name"),
                     popUpStoreEntity.address.as("address"),
-                    popUpStoreEntity.image.as("image"),
+                    popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
                     popUpStoreEntity.startDate.as("startDate"),
                     popUpStoreEntity.endDate.as("endDate")
                 ))

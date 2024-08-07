@@ -72,7 +72,7 @@ public class UserService {
 
         return GetMyPageResponse.builder()
                 .nickname(user.getNickname())
-                .profileImage(user.getProfileImage())
+                .profileImageUrl(user.getProfileImageUrl())
                 .intro(user.getIntro())
                 .instagramId(user.getInstagramId())
                 .popUpInfoList(popUpInfoList)
@@ -97,7 +97,6 @@ public class UserService {
                 .map(myComment -> GetMyCommentResponse.MyCommentInfo.builder()
                         .commentId(myComment.getId())
                         .content(myComment.getContent())
-                        .image(myComment.getImage())
                         .likeCount(myComment.getLikeCount())
                         .build())
                 .toList();
@@ -225,7 +224,7 @@ public class UserService {
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = blockedUserInfoPage.stream()
                 .map(blockedUserInfo -> GetBlockedUserListResponse.BlockedUserInfo.builder()
                         .userId(blockedUserInfo.getUserId())
-                        .profileImage(blockedUserInfo.getProfileImage())
+                        .profileImageUrl(blockedUserInfo.getProfileImageUrl())
                         .nickname(blockedUserInfo.getNickname())
                         .instagramId(blockedUserInfo.getInstagramId())
                         .build())

@@ -19,7 +19,7 @@ public class GetBlockedUserListResponse {
     @Builder
     public static class BlockedUserInfo {
         private String userId;
-        private String profileImage;
+        private String profileImageUrl;
         private String nickname;
         private String instagramId;
     }

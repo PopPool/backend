@@ -36,8 +36,8 @@ public class UserEntity extends BaseEntity {
     @Column(name = "EMAIL")
     private String email; // 소셜로그인에서 받아온 이메일
 
-    @Column(name = "PROFILE_IMAGE")
-    private String profileImage; // 프로필 이미지
+    @Column(name = "PROFILE_IMAGE_URL")
+    private String profileImageUrl; // 프로필 이미지
 
     @Column(name = "GENDER")
     @Enumerated(EnumType.STRING)
@@ -76,7 +76,7 @@ public class UserEntity extends BaseEntity {
     private List<BookMarkPopUpStoreEntity> bookMarkPopupStores = new ArrayList<>();
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
-        this.profileImage = updateMyProfileRequest.getProfileImage();
+        this.profileImageUrl = updateMyProfileRequest.getProfileImageUrl();
         this.nickname = updateMyProfileRequest.getNickname();
         this.email = updateMyProfileRequest.getEmail();
         this.instagramId = updateMyProfileRequest.getInstagramId();
