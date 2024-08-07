@@ -1,4 +1,4 @@
-package com.application.poppool.domain.like;
+package com.application.poppool.domain.like.repository;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.like.entity.LikeEntity;

@@ -2,7 +2,7 @@ package com.application.poppool.domain.like.service;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
-import com.application.poppool.domain.like.LikeRepository;
+import com.application.poppool.domain.like.repository.LikeRepository;
 import com.application.poppool.domain.like.entity.LikeEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.repository.UserRepository;
