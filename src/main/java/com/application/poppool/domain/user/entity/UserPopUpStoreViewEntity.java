@@ -48,8 +48,6 @@ public class UserPopUpStoreViewEntity {
     @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 
-    @OneToMany(mappedBy = "userPopUpStoreView")
-    private List<CommentEntity> comments;
 
 
 }

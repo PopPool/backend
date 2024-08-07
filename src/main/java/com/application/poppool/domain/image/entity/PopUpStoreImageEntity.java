@@ -20,13 +20,13 @@ public class PopUpStoreImageEntity extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "POPUP_STORE_ID", nullable = false)
-    private PopUpStoreEntity popupStore;
+    private PopUpStoreEntity popUpStore;
 
     @Column(name = "IMAGE_URL")
     private String url;
 
     public void setPopupStore(PopUpStoreEntity popUpStore) {
-        this.popupStore = popUpStore;
+        this.popUpStore = popUpStore;
     }
 
 }

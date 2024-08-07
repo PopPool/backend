@@ -18,18 +18,20 @@ public class SwaggerConfig {
 
     @Getter
     public enum ApiUrl {
-        AUTH("/auth"),
-        SIGN_UP("/signup"),
-        USER("/users"),
-        NOTICE("/notice"),
-        HOME("/home"),
-        POPUP_STORE("/popup"),
-        COMMENT("/comments"),
-        LIKE("/likes");
+        AUTH("auth","/auth"),
+        SIGN_UP("signup","/signup"),
+        USER("users","/users"),
+        NOTICE("notice","/notice"),
+        HOME("home","/home"),
+        POPUP_STORE("popup","/popup"),
+        COMMENT("comments","/comments"),
+        LIKE("likes","/likes");
 
+        private final String group;
         private final String urlPrefix;
 
-        ApiUrl(String urlPrefix) {
+        ApiUrl(String group, String urlPrefix) {
+            this.group = group;
             this.urlPrefix = urlPrefix;
         }
     }
@@ -48,7 +50,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi authApi() {
-        final String name = ApiUrl.AUTH.getUrlPrefix();
+        final String name = ApiUrl.AUTH.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.AUTH.getUrlPrefix() + "/**")
@@ -58,7 +60,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi signUpApi() {
-        final String name = ApiUrl.SIGN_UP.getUrlPrefix();
+        final String name = ApiUrl.SIGN_UP.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.SIGN_UP.getUrlPrefix() + "/**")
@@ -68,7 +70,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi userApi() {
-        final String name = ApiUrl.USER.getUrlPrefix();
+        final String name = ApiUrl.USER.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.USER.getUrlPrefix() + "/**")
@@ -78,7 +80,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi noticeApi() {
-        final String name = ApiUrl.NOTICE.getUrlPrefix();
+        final String name = ApiUrl.NOTICE.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.NOTICE.getUrlPrefix() + "/**")
@@ -88,7 +90,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi homeApi() {
-        final String name = ApiUrl.HOME.getUrlPrefix();
+        final String name = ApiUrl.HOME.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.HOME.getUrlPrefix() + "/**")
@@ -98,7 +100,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi popUpStoreApi() {
-        final String name = ApiUrl.POPUP_STORE.getUrlPrefix();
+        final String name = ApiUrl.POPUP_STORE.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.POPUP_STORE.getUrlPrefix() + "/**")
@@ -108,7 +110,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi commentApi() {
-        final String name = ApiUrl.COMMENT.getUrlPrefix();
+        final String name = ApiUrl.COMMENT.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.COMMENT.getUrlPrefix() + "/**")
@@ -118,7 +120,7 @@ public class SwaggerConfig {
 
     @Bean
     public GroupedOpenApi likeApi() {
-        final String name = ApiUrl.LIKE.getUrlPrefix();
+        final String name = ApiUrl.LIKE.getGroup();
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.LIKE.getUrlPrefix() + "/**")
