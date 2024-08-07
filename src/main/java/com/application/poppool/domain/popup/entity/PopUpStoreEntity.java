@@ -2,6 +2,8 @@ package com.application.poppool.domain.popup.entity;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.image.entity.CommentImageEntity;
+import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
@@ -69,5 +71,14 @@ public class PopUpStoreEntity extends BaseEntity {
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
+
+    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PopUpStoreImageEntity> images = new ArrayList<>();
+
+    public void addImage(PopUpStoreImageEntity image) {
+        images.add(image);
+        image.setPopupStore(this);
+    }
+
 
 }
