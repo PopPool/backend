@@ -2,6 +2,7 @@ package com.application.poppool.domain.popup.repository;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
+import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.utils.AgeGroupUtils;
@@ -42,9 +43,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     @Override
     public Page<GetHomeInfoResponse.CustomPopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
-
+        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
-
 
         List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.CustomPopUpStore.class,
                         popUpStoreEntity.id.as("id"),
@@ -61,12 +61,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(categoryIn(userInterestCategoryList),
                         ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
+                .groupBy(popUpStoreEntity.id, popUpStoreEntity.category, popUpStoreEntity.name, popUpStoreEntity.address, popUpStoreEntity.mainImageUrl, popUpStoreEntity.startDate, popUpStoreEntity.endDate)
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
                         popUpStoreEntity.bookmarkCount.desc(),
-                        userPopUpStoreViewEntity.viewCount.desc(),
-                        userPopUpStoreViewEntity.commentCount.desc(),
-                        userPopUpStoreViewEntity.bookmarkCount.desc())
+                        userPopUpStoreViewEntity.viewCount.sum().desc(),
+                        userPopUpStoreViewEntity.commentCount.sum().desc(),
+                        userPopUpStoreViewEntity.bookmarkCount.sum().desc())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
@@ -74,9 +75,9 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
                         popUpStoreEntity.bookmarkCount.desc(),
-                        userPopUpStoreViewEntity.popUpStore.viewCount.desc(),
-                        userPopUpStoreViewEntity.popUpStore.commentCount.desc(),
-                        userPopUpStoreViewEntity.popUpStore.bookmarkCount.desc());
+                        userPopUpStoreViewEntity.viewCount.sum().desc(),
+                        userPopUpStoreViewEntity.commentCount.sum().desc(),
+                        userPopUpStoreViewEntity.bookmarkCount.sum().desc());
 
         return PageableExecutionUtils.getPage(customPopUpStoreList, pageable, countQuery::fetchOne);
     }
@@ -103,7 +104,6 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc());
 
         return PageableExecutionUtils.getPage(popularPopUpStoreList, pageable, countQuery::fetchOne);
-
     }
 
     @Override
@@ -130,21 +130,21 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
-                .where(isNewPopUpStore(popUpStoreEntity.startDate, newPopUpDueDate, currentDate))
+                .where(isNewPopUpStore(newPopUpDueDate, currentDate))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
                 .from(popUpStoreEntity)
-                .where(isNewPopUpStore(popUpStoreEntity.startDate, newPopUpDueDate, currentDate));
+                .where(isNewPopUpStore(newPopUpDueDate, currentDate));
 
         return PageableExecutionUtils.getPage(newPopUpStoreList, pageable, countQuery::fetchOne);
 
     }
 
 
-    private BooleanExpression isNewPopUpStore(DateTimeExpression<LocalDateTime> startDate, DateTimeExpression<LocalDateTime> newPopUpDueDate, LocalDateTime currentDate) {
+    private BooleanExpression isNewPopUpStore(DateTimeExpression<LocalDateTime> newPopUpDueDate, LocalDateTime currentDate) {
         return popUpStoreEntity.startDate.loe(currentDate)
                 .and(newPopUpDueDate.goe(currentDate));
     }
