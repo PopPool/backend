@@ -1,13 +1,14 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
-import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_bookmark_pop_up_store")
+@Table(name = "user_bookmark_pop_up_store", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"USER_ID", "POPUP_STORE_ID"})
+})
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
