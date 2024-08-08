@@ -1,12 +1,10 @@
 package com.application.poppool.domain.user.entity;
 
-import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 
 @Entity
@@ -48,6 +46,28 @@ public class UserPopUpStoreViewEntity {
     @JoinColumn(name = "POPUP_STORE_ID")
     private PopUpStoreEntity popUpStore;
 
+    public void updateViewedAt(LocalDateTime viewedAt) {
+        this.viewedAt = viewedAt;
+    }
 
+    public void incrementViewCount() {
+        this.viewCount++;
+    }
+
+    public void incrementCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decrementCommentCount() {
+        this.commentCount--;
+    }
+
+    public void incrementBookmarkCount() {
+        this.bookmarkCount++;
+    }
+
+    public void decrementBookmarkCount() {
+        this.bookmarkCount--;
+    }
 
 }
