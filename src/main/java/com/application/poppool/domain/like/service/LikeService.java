@@ -41,6 +41,9 @@ public class LikeService {
 
         // 좋아요 저장
         likeRepository.save(like);
+
+        // 코멘트 좋아요 수 + 1
+        comment.incrementLikeCount();
     }
 
     @Transactional
@@ -56,6 +59,9 @@ public class LikeService {
         
         // 좋아요 취소
         likeRepository.delete(like);
+
+        // 코멘트 좋아요 수 - 1
+        comment.decrementLikeCount();
         
     }
 
