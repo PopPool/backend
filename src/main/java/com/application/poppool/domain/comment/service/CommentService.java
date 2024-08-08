@@ -55,6 +55,7 @@ public class CommentService {
                 .user(user)
                 .popUpStore(popUpStore)
                 .content(request.getContent())
+                .isInstagram(request.isInstagram())
                 .build();
 
         /** 코멘트 이미지 엔티티 생성 및 저장 */

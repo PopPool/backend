@@ -39,15 +39,16 @@ public class UserController implements UserControllerDoc {
     }
 
     /**
-     * 내가 쓴 일반 코멘트 조회
+     * 내가 쓴 일반/인스타 코멘트 조회
      * @param userId
      * @return
      */
     @Override
     @GetMapping("/{userId}/comments")
     public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
+                                                                 @RequestParam boolean isInstagram,
                                                                  @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyCommentList(userId, pageable));
+        return ResponseEntity.ok(userService.getMyCommentList(userId, isInstagram, pageable));
     }
 
     @Override

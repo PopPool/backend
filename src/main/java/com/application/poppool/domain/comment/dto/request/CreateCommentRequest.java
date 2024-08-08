@@ -11,5 +11,6 @@ public class CreateCommentRequest {
     private String userId;
     private Long popUpStoreId;
     private String content;
+    private boolean isInstagram;
     private List<String> imageUrlList = new ArrayList<>();
 }

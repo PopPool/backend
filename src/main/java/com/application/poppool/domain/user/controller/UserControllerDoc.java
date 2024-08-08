@@ -20,8 +20,9 @@ public interface UserControllerDoc {
     @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")
     ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId);
 
-    @Operation(summary = "내가 쓴 일반 코멘트 조회", description = "내가 쓴 일반 코멘트를 조회합니다.")
+    @Operation(summary = "내가 쓴 일반/인스타 코멘트 조회", description = "내가 쓴 일반/인스타 코멘트를 조회합니다.")
     ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
+                                                          @RequestParam boolean isInstagram,
                                                           Pageable pageable);
 
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
