@@ -15,6 +15,7 @@ public class GetPopUpStoreDetailResponse {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String address;
+    private long commentCount;
     private boolean isBookmarked;
     private boolean isLogin;
     private String popUpStoreMainImageUrl;

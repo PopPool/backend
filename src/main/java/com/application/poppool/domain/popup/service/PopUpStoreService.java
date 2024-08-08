@@ -89,6 +89,7 @@ public class PopUpStoreService {
                 .startDate(popUpStore.getStartDate())
                 .endDate(popUpStore.getEndDate())
                 .address(popUpStore.getAddress())
+                .commentCount(popUpStore.getCommentCount())
                 .isBookmarked(isBookmarked)
                 .isLogin(isLogin)
                 .commentList(commentList)
