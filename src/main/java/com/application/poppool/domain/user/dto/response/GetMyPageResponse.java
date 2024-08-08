@@ -13,14 +13,15 @@ public class GetMyPageResponse {
     private String profileImageUrl;
     private String intro;
     private String instagramId;
-    private List<PopUpInfo> popUpInfoList;
     private boolean isLogin;
+    private List<MyCommentedPopUpInfo> myCommentedPopUpList;
 
     @Getter
     @Builder
-    public static class PopUpInfo {
+    public static class MyCommentedPopUpInfo {
         private Long popUpStoreId;
         private String popUpStoreName;
+        private String mainImageUrl;
     }
 
 }
