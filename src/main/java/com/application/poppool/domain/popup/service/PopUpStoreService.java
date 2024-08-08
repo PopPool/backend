@@ -6,6 +6,9 @@ import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailRespo
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
+import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
+import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
@@ -14,6 +17,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -23,27 +27,40 @@ public class PopUpStoreService {
     private final UserRepository userRepository;
     private final PopUpStoreRepository popUpStoreRepository;
     private final CommentService commentService;
+    private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
+    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
 
 
+    /**
+     * 팝업 상세 조회
+     * @param userId
+     * @param popUpStoreId
+     * @return
+     */
     @Transactional(readOnly = true)
     public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, Long popUpStoreId) {
 
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-        boolean isLogin = false;
+        PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
+
+        /** 찜 여부 체크 */
+        boolean isBookmarked = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
 
         /** 로그인 여부 체크 */
+        boolean isLogin = false;
         if (SecurityUtils.isAuthenticated()) {
             isLogin = true;
         }
 
-        PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
-
-
         /** 댓글 조회 */
-        List<CommentEntity> comments = commentService.getPopUpStoreComments(popUpStoreId);
+        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, popUpStoreId);
 
 
         /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
@@ -53,11 +70,18 @@ public class PopUpStoreService {
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
                         .content(comment.getContent())
                         .isLiked(commentService.isCommentLikedByUser(user, comment))
-                        .likeCount(commentService.getLikeCount(comment))
+                        .likeCount(comment.getLikeCount())
                         .createDateTime(comment.getCreateDateTime())
                         .build())
                 .toList();
 
+
+        /** 팝업스토어 조회 수 + 1*/
+        popUpStore.incrementViewCount();
+
+        /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
+        userPopUpStoreView.updateViewedAt(LocalDateTime.now());
+        userPopUpStoreView.incrementViewCount();
 
         return GetPopUpStoreDetailResponse.builder()
                 .name(popUpStore.getName())
@@ -65,6 +89,7 @@ public class PopUpStoreService {
                 .startDate(popUpStore.getStartDate())
                 .endDate(popUpStore.getEndDate())
                 .address(popUpStore.getAddress())
+                .isBookmarked(isBookmarked)
                 .isLogin(isLogin)
                 .commentList(commentList)
                 .build();
