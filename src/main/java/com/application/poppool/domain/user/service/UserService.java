@@ -58,21 +58,11 @@ public class UserService {
             isLogin = true;
         }
 
-        // 회원의 코멘트 조회
-        List<CommentEntity> myCommentList = commentRepository.findMyCommentedWithPopUpStoreList(userId);
-
         /***
          * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
          */
-        List<GetMyPageResponse.MyCommentedPopUpInfo> myCommentedPopUpList = myCommentList.stream()
-                .map(comment -> comment.getPopUpStore())
-                .distinct()
-                .map(popUpStore -> GetMyPageResponse.MyCommentedPopUpInfo.builder()
-                        .popUpStoreId(popUpStore.getId())
-                        .popUpStoreName(popUpStore.getName())
-                        .mainImageUrl(popUpStore.getMainImageUrl())
-                        .build())
-                .toList();
+        // 회원의 코멘트 조회
+        List<GetMyPageResponse.MyCommentedPopUpInfo> myCommentedPopUpList = commentRepository.findMyCommentedPopUpInfo(userId);
 
         return GetMyPageResponse.builder()
                 .nickname(user.getNickname())
@@ -85,37 +75,27 @@ public class UserService {
     }
 
     /**
-     * 내가 쓴 일반 코멘트 조회
+     * 내가 쓴 일반/인스타 코멘트 조회
      * @param userId
      * @return
      */
     @Transactional(readOnly = true)
-    public GetMyCommentResponse getMyCommentList(String userId, Pageable pageable) {
+    public GetMyCommentResponse getMyCommentList(String userId, boolean isInstagram, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        Page<CommentEntity> myCommentList = commentRepository.findByMyCommentsWithPopUpStorePage(userId, pageable);
+        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, isInstagram, pageable);
 
-        // Entity to Dto
-        List<GetMyCommentResponse.MyCommentInfo> myCommentInfoList = myCommentList.stream()
-                .map(myComment -> GetMyCommentResponse.MyCommentInfo.builder()
-                        .commentId(myComment.getId())
-                        .content(myComment.getContent())
-                        .likeCount(myComment.getLikeCount())
-                        .createDateTime(myComment.getCreateDateTime())
-                        .popUpStoreInfo(GetMyCommentResponse.MyCommentedPopUpInfo.builder()
-                                .popUpStoreId(myComment.getPopUpStore().getId())
-                                .popUpStoreName(myComment.getPopUpStore().getName())
-                                .mainImageUrl(myComment.getPopUpStore().getMainImageUrl())
-                                .isClosed(myComment.getPopUpStore().isClosed())
-                                .build())
-                        .build())
-                .toList();
+        // 전체 레코드 수를 계산하는 카운트 쿼리
+        long totalElements = commentRepository.countMyComments(userId);
+
+        // 전체 페이지 수
+        int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
 
         return GetMyCommentResponse.builder()
-                .myCommentList(myCommentInfoList)
-                .totalPages(myCommentList.getTotalPages())
-                .totalElements(myCommentList.getTotalElements())
+                .myCommentList(myCommentList)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
                 .build();
     }
 

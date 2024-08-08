@@ -1,14 +1,19 @@
 package com.application.poppool.domain.comment.repository;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
+import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
+import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QBlockedUserEntity.blockedUserEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
 
@@ -30,12 +35,68 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .fetch();
     }
 
+    @Override
+    public List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId) {
+        return queryFactory
+                .select(Projections.bean(
+                        GetMyPageResponse.MyCommentedPopUpInfo.class,
+                        popUpStoreEntity.id.as("popUpStoreId"),
+                        popUpStoreEntity.name.as("popUpStoreName"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl")
+                ))
+                .from(commentEntity)
+                .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
+                .where(commentEntity.user.userId.eq(userId))
+                .fetch();
+    }
+
+    @Override
+    public List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, boolean isInstagram, Pageable pageable) {
+        return queryFactory.select(Projections.bean(GetMyCommentResponse.MyCommentInfo.class,
+                        commentEntity.id.as("commentId"),
+                        commentEntity.content.as("content"),
+                        commentEntity.likeCount.as("likeCount"),
+                        commentEntity.createDateTime.as("createDateTime"),
+                        Projections.bean(
+                                GetMyCommentResponse.MyCommentedPopUpInfo.class,
+                                popUpStoreEntity.id.as("popUpStoreId"),
+                                popUpStoreEntity.name.as("popUpStoreName"),
+                                popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                                popUpStoreEntity.isClosed.as("isClosed")
+                        ).as("popUpStoreInfo")
+                ))
+                .from(commentEntity)
+                .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
+                .where(commentUserIdEq(userId),
+                        isInstagramEq(isInstagram))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public long countMyComments(String userId) {
+        return queryFactory
+                .select(commentEntity.count())
+                .from(commentEntity)
+                .where(commentEntity.user.userId.eq(userId))
+                .fetchOne();
+    }
+
     private BooleanExpression userIdEq(String userId) {
         return userId != null ? blockedUserEntity.user.userId.eq(userId) : null;
     }
 
     private BooleanExpression popUpStoreIdEq(Long popUpStoreId) {
         return popUpStoreId != null ? commentEntity.popUpStore.id.eq(popUpStoreId) : null;
+    }
+
+    private BooleanExpression commentUserIdEq(String userId) {
+        return userId != null ? commentEntity.user.userId.eq(userId) : null;
+    }
+
+    private BooleanExpression isInstagramEq(boolean isInstagram) {
+        return commentEntity.isInstagram.eq(isInstagram);
     }
 
 

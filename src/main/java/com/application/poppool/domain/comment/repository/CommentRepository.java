@@ -22,12 +22,4 @@ public interface CommentRepository extends JpaRepository<CommentEntity,Long>, Co
     @NonNull
     Optional<CommentEntity> findById(@NonNull Long id);
 
-    Page<CommentEntity> findByUser(UserEntity user, Pageable pageable);
-
-    @Query("SELECT c FROM CommentEntity c JOIN FETCH c.popUpStore WHERE c.user.userId = :userId")
-    List<CommentEntity> findMyCommentedWithPopUpStoreList(@Param("userId") String userId);
-
-    @Query("SELECT c FROM CommentEntity c JOIN FETCH c.popUpStore WHERE c.user.userId = :userId")
-    Page<CommentEntity> findByMyCommentsWithPopUpStorePage(@Param("userId") String userId, Pageable pageable);
-
 }
