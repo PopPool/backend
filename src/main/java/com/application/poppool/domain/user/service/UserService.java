@@ -1,6 +1,5 @@
 package com.application.poppool.domain.user.service;
 
-import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
@@ -99,38 +98,6 @@ public class UserService {
                 .build();
     }
 
-    /**
-     * 내가 코멘트 단 팝업스토어 전체 조회
-     */
-    /**
-    @Transactional(readOnly = true)
-    public GetMyCommentedPopUpStoreListResponse getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
-        UserEntity user = this.findUserByUserId(userId);
-
-        // 회원이 코멘트 단 팝업 스토어 전체 조회
-        Page<PopUpStoreEntity> popUpStores = commentRepository.findPopUpStoresByUserComment(userId, pageable);
-
-
-        // Entity to Dto
-        List<GetMyCommentedPopUpStoreListResponse.PopUpInfo> popUpInfoList = popUpStores.stream()
-                .map(popUpStore -> GetMyCommentedPopUpStoreListResponse.PopUpInfo.builder()
-                        .popUpStoreId(popUpStore.getId())
-                        .popUpStoreName(popUpStore.getName())
-                        .desc(popUpStore.getDesc())
-                        .startDate(popUpStore.getStartDate())
-                        .endDate(popUpStore.getEndDate())
-                        .address(popUpStore.getAddress())
-                        .isClosed(popUpStore.isClosed())
-                        .build())
-                .toList();
-
-        return GetMyCommentedPopUpStoreListResponse.builder()
-                .popUpInfoList(popUpInfoList)
-                .totalPages(popUpStores.getTotalPages())
-                .totalElements(popUpStores.getTotalElements())
-                .build();
-    }
-*/
     /**
      * 찜한 팝업스토어 목록 조회
      * @param userId
