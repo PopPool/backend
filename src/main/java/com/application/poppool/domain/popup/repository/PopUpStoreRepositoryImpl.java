@@ -6,8 +6,11 @@ import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.utils.AgeGroupUtils;
+import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
+import com.querydsl.jpa.JPAExpressions;
+import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -48,12 +51,22 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
         List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.CustomPopUpStore.class,
                         popUpStoreEntity.id.as("id"),
-                        popUpStoreEntity.category.as("category"),
-                        popUpStoreEntity.name.as("name"),
-                        popUpStoreEntity.address.as("address"),
-                        popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
-                        popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate")
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.category)
+                                .from(popUpStoreEntitySub)
+                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                ,"category"),
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.name)
+                                .from(popUpStoreEntitySub)
+                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                ,"name"),
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.address)
+                                .from(popUpStoreEntitySub)
+                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                ,"address"),
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.mainImageUrl)
+                                .from(popUpStoreEntitySub)
+                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                ,"mainImageUrl")
                 ))
                 .from(userPopUpStoreViewEntity)
                 .innerJoin(userPopUpStoreViewEntity.popUpStore, popUpStoreEntity)
@@ -61,7 +74,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(categoryIn(userInterestCategoryList),
                         ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
-                .groupBy(popUpStoreEntity.id, popUpStoreEntity.category, popUpStoreEntity.name, popUpStoreEntity.address, popUpStoreEntity.mainImageUrl, popUpStoreEntity.startDate, popUpStoreEntity.endDate)
+                .groupBy(popUpStoreEntity.id)
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
                         popUpStoreEntity.bookmarkCount.desc(),
