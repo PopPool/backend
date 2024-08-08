@@ -10,7 +10,6 @@ import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.*;
 import com.querydsl.jpa.JPAExpressions;
-import com.querydsl.jpa.JPQLQuery;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -81,6 +80,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         userPopUpStoreViewEntity.viewCount.sum().desc(),
                         userPopUpStoreViewEntity.commentCount.sum().desc(),
                         userPopUpStoreViewEntity.bookmarkCount.sum().desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
