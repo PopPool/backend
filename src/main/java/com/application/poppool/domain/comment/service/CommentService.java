@@ -10,6 +10,8 @@ import com.application.poppool.domain.like.service.LikeService;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
+import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -29,11 +31,12 @@ public class CommentService {
     private final UserRepository userRepository;
     private final PopUpStoreRepository popUpStoreRepository;
     private final CommentImageRepository commentImageRepository;
+    private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
 
 
     @Transactional(readOnly = true)
-    public List<CommentEntity> getPopUpStoreComments(Long popUpStoreId) {
-        return commentRepository.findAllCommentsByPopUpStoreWithUser(popUpStoreId);
+    public List<CommentEntity> getPopUpStoreComments(String userId, Long popUpStoreId) {
+        return commentRepository.findAllPopUpStoreComments(userId, popUpStoreId);
     }
 
     @Transactional
@@ -44,13 +47,15 @@ public class CommentService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(request.getPopUpStoreId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
         /** 코멘트 생성 및 저장 */
         CommentEntity comment = CommentEntity.builder()
                 .user(user)
                 .popUpStore(popUpStore)
                 .content(request.getContent())
                 .build();
-
 
         /** 코멘트 이미지 엔티티 생성 및 저장 */
         for (String url : request.getImageUrlList()) {
@@ -64,6 +69,13 @@ public class CommentService {
 
         // 코멘트 저장
         commentRepository.save(comment);
+        
+        // 팝업스토어의 코멘트 수 + 1
+        popUpStore.incrementCommentCount();;
+
+        // 팝업 스토어 뷰 코멘트 수 - 1
+        userPopUpStoreView.incrementCommentCount();
+        
     }
 
     @Transactional
@@ -102,11 +114,17 @@ public class CommentService {
 
     @Transactional
     public void deleteComment(String userId, Long popUpStoreId, Long commentId) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
         CommentEntity comment = commentRepository.findById(commentId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.COMMENT_NOT_FOUND));
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
 
         if (!comment.getUser().getUserId().equals(userId)) {
             throw new BadRequestException(ErrorCode.NOT_MY_COMMENT);
@@ -114,6 +132,12 @@ public class CommentService {
 
         /** 코멘트 삭제, CASCADE 설정으로 코멘트와 관련된 이미지들도 모두 삭제됨 */
         commentRepository.delete(comment);
+
+        // 팝업 스토어 코멘트 수 - 1
+        popUpStore.decrementCommentCount();
+
+        // 팝업 스토어 뷰 코멘트 수 - 1
+        userPopUpStoreView.decrementCommentCount();
     }
 
     @Transactional(readOnly = true)
