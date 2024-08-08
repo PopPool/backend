@@ -5,6 +5,7 @@ import com.application.poppool.domain.like.entity.LikeEntity;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.global.audit.BaseEntity;
+import com.application.poppool.global.converter.BooleanToYNConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -30,6 +31,10 @@ public class CommentEntity extends BaseEntity {
 
     @Column(name = "LIKE_COUNT")
     private long likeCount;
+
+    @Column(name = "INSTARGRAM_YN")
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean isInstagram;
 
     @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
     private Long version;
