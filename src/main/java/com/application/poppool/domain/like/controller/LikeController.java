@@ -19,6 +19,6 @@ public class LikeController implements LikeControllerDoc {
 
     @DeleteMapping("/likes")
     public void unlikeComment(@RequestParam(name = "userId") String userId, @RequestParam(name = "commentId") Long commentId) {
-        likeService.likeComment(userId, commentId);
+        likeService.unlikeComment(userId, commentId);
     }
 }
