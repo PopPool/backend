@@ -29,6 +29,7 @@ public enum ErrorCode {
     COMMENT_IMAGE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 코멘트 이미지입니다."),
     NOT_MY_COMMENT(HttpStatus.NOT_FOUND, "내가 작성한 코멘트가 아닙니다."),
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요(도움돼요)입니다."),
+    BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 찜입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
     TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),
