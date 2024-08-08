@@ -2,7 +2,6 @@ package com.application.poppool.domain.image.entity;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.global.audit.BaseEntity;
-import com.application.poppool.global.converter.BooleanToYNConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
