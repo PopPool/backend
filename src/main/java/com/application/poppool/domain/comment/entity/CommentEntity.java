@@ -24,11 +24,12 @@ public class CommentEntity extends BaseEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Lob
     @Column(name = "CONTENT")
     private String content;
 
     @Column(name = "LIKE_COUNT")
-    private int likeCount;
+    private long likeCount;
 
     @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
     private Long version;
@@ -60,14 +61,14 @@ public class CommentEntity extends BaseEntity {
     /**
      * 좋아요 수 증가
      */
-    public void addLike(){
+    public void incrementLikeCount(){
         this.likeCount++;
     }
 
     /**
      * 좋아요 수 감소
      */
-    public void reduceLike(){
+    public void decrementLikeCount(){
         this.likeCount--;
     }
 

@@ -30,6 +30,7 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "POPUP_STORE_NAME")
     private String name;
 
+    @Lob
     @Column(name = "DESCRIPTION")
     private String desc;
 
@@ -78,6 +79,26 @@ public class PopUpStoreEntity extends BaseEntity {
     public void addImage(PopUpStoreImageEntity image) {
         images.add(image);
         image.setPopupStore(this);
+    }
+
+    public void incrementViewCount() {
+        this.viewCount++;
+    }
+
+    public void incrementCommentCount() {
+        this.commentCount++;
+    }
+
+    public void decrementCommentCount() {
+        this.commentCount--;
+    }
+
+    public void incrementBookmarkCount() {
+        this.bookmarkCount++;
+    }
+
+    public void decrementBookmarkCount() {
+        this.bookmarkCount--;
     }
 
 
