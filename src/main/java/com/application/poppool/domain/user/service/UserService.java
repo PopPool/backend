@@ -3,13 +3,11 @@ package com.application.poppool.domain.user.service;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
+import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
-import com.application.poppool.domain.user.entity.BlockedUserEntity;
-import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
-import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.WithDrawalSurveyEntity;
+import com.application.poppool.domain.user.entity.*;
 import com.application.poppool.domain.user.repository.*;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -40,6 +38,7 @@ public class UserService {
     private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
+    private final PopUpStoreRepository popUpStoreRepository;
 
 
     /**
@@ -59,14 +58,19 @@ public class UserService {
             isLogin = true;
         }
 
+        // 회원의 코멘트 조회
+        List<CommentEntity> myCommentList = commentRepository.findMyCommentedWithPopUpStoreList(userId);
+
         /***
          * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
          */
-        List<GetMyPageResponse.PopUpInfo> popUpInfoList = user.getComments().stream()
+        List<GetMyPageResponse.MyCommentedPopUpInfo> myCommentedPopUpList = myCommentList.stream()
                 .map(comment -> comment.getPopUpStore())
-                .map(popUpStore -> GetMyPageResponse.PopUpInfo.builder()
+                .distinct()
+                .map(popUpStore -> GetMyPageResponse.MyCommentedPopUpInfo.builder()
                         .popUpStoreId(popUpStore.getId())
                         .popUpStoreName(popUpStore.getName())
+                        .mainImageUrl(popUpStore.getMainImageUrl())
                         .build())
                 .toList();
 
@@ -75,7 +79,7 @@ public class UserService {
                 .profileImageUrl(user.getProfileImageUrl())
                 .intro(user.getIntro())
                 .instagramId(user.getInstagramId())
-                .popUpInfoList(popUpInfoList)
+                .myCommentedPopUpList(myCommentedPopUpList)
                 .isLogin(isLogin)
                 .build();
     }
@@ -90,7 +94,7 @@ public class UserService {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        Page<CommentEntity> myCommentList = commentRepository.findByUser(user, pageable);
+        Page<CommentEntity> myCommentList = commentRepository.findByMyCommentsWithPopUpStorePage(userId, pageable);
 
         // Entity to Dto
         List<GetMyCommentResponse.MyCommentInfo> myCommentInfoList = myCommentList.stream()
@@ -98,6 +102,13 @@ public class UserService {
                         .commentId(myComment.getId())
                         .content(myComment.getContent())
                         .likeCount(myComment.getLikeCount())
+                        .createDateTime(myComment.getCreateDateTime())
+                        .popUpStoreInfo(GetMyCommentResponse.MyCommentedPopUpInfo.builder()
+                                .popUpStoreId(myComment.getPopUpStore().getId())
+                                .popUpStoreName(myComment.getPopUpStore().getName())
+                                .mainImageUrl(myComment.getPopUpStore().getMainImageUrl())
+                                .isClosed(myComment.getPopUpStore().isClosed())
+                                .build())
                         .build())
                 .toList();
 
@@ -111,6 +122,7 @@ public class UserService {
     /**
      * 내가 코멘트 단 팝업스토어 전체 조회
      */
+    /**
     @Transactional(readOnly = true)
     public GetMyCommentedPopUpStoreListResponse getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
@@ -138,7 +150,7 @@ public class UserService {
                 .totalElements(popUpStores.getTotalElements())
                 .build();
     }
-
+*/
     /**
      * 찜한 팝업스토어 목록 조회
      * @param userId
@@ -176,6 +188,64 @@ public class UserService {
                 .build();
 
     }
+
+    /**
+     * 팝업스토어 찜
+     * @param userId
+     * @param popUpStoreId
+     */
+    @Transactional
+    public void addPopUpStoreBookmark(String userId, Long popUpStoreId) {
+        UserEntity user = findUserByUserId(userId);
+        PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
+        BookMarkPopUpStoreEntity bookMarkPopUpStore = BookMarkPopUpStoreEntity.builder()
+                .user(user)
+                .popUpStore(popUpStore)
+                .build();
+
+        // 찜 저장
+        bookMarkPopUpStoreRepository.save(bookMarkPopUpStore);
+
+        // 팝업 스토어 찜 수 + 1
+        popUpStore.incrementBookmarkCount();
+
+        // 팝업 스토어 뷰 찜 수 + 1
+        userPopUpStoreView.incrementBookmarkCount();
+    }
+
+    /**
+     * 팝업스토어 찜 취소
+     * @param userId
+     * @param popUpStoreId
+     */
+    @Transactional
+    public void deletePopUpStoreBookmark(String userId, Long popUpStoreId) {
+        UserEntity user = findUserByUserId(userId);
+        PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+
+        BookMarkPopUpStoreEntity bookMarkPopUpStore = bookMarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.BOOKMARK_NOT_FOUND));
+
+        // 찜 삭제
+        bookMarkPopUpStoreRepository.delete(bookMarkPopUpStore);
+
+        // 팝업 스토어 찜 수 - 1
+        popUpStore.decrementBookmarkCount();
+
+        // 팝업 스토어 뷰 찜 수 - 1
+        userPopUpStoreView.decrementBookmarkCount();
+
+    }
+
 
     /**
      * 최근 본 팝업스토어 조회

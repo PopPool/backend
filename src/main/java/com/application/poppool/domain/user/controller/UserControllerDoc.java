@@ -24,14 +24,15 @@ public interface UserControllerDoc {
     ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
                                                           Pageable pageable);
 
-    @Operation(summary = "내가 코멘트 단 팝업 스토어 리스트 조회", description = "내가 코멘트 단 팝업 스토어 리스트를 조회합니다.")
-    ResponseEntity<GetMyCommentedPopUpStoreListResponse> getMyCommentedPopUpStoreList(@PathVariable String userId,
-                                                                                      @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
-
-
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
                                                                                   @PageableDefault(page = 0, size = 10, sort = "updateDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+
+    @Operation(summary = "팝업 스토어 찜", description = "팝업 스토어를 찜합니다.")
+    void addPopUpStoreBookmark(@PathVariable String userId, @RequestParam Long popUpStoreId);
+
+    @Operation(summary = "팝업 스토어 찜 취소", description = "팝업 스토어 찜을 취소합니다.")
+    void deletePopUpStoreBookmark(@PathVariable String userId, @RequestParam Long popUpStoreId);
 
     @Operation(summary = "최근 본 팝업 스토어 리스트 조회", description = "최근 본 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,

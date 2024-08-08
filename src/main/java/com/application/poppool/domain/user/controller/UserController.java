@@ -51,18 +51,22 @@ public class UserController implements UserControllerDoc {
     }
 
     @Override
-    @GetMapping("/{userId}/popupstores/with-comments")
-    public ResponseEntity<GetMyCommentedPopUpStoreListResponse> getMyCommentedPopUpStoreList(@PathVariable String userId,
-                                                                                             @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyCommentedPopUpStoreList(userId, pageable));
-    }
-
-
-    @Override
     @GetMapping("/{userId}/bookmark-popupstores")
     public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
                                                                                          @PageableDefault(page = 0, size = 10, sort = "updateDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getBookMarkedPopUpStoreList(userId, pageable));
+    }
+
+    @Override
+    @PostMapping("/{userId}/bookmark-popupstores")
+    public void addPopUpStoreBookmark(String userId, Long popUpStoreId) {
+        userService.addPopUpStoreBookmark(userId, popUpStoreId);
+    }
+
+    @Override
+    @DeleteMapping("/{userId}/bookmark-popupstores")
+    public void deletePopUpStoreBookmark(String userId, Long popUpStoreId) {
+        userService.deletePopUpStoreBookmark(userId, popUpStoreId);
     }
 
     @Override
