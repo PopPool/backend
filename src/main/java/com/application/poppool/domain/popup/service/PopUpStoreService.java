@@ -38,7 +38,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, Long popUpStoreId) {
+    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, boolean isInstagram, Long popUpStoreId) {
 
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -60,7 +60,7 @@ public class PopUpStoreService {
         }
 
         /** 댓글 조회 */
-        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, popUpStoreId);
+        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, isInstagram, popUpStoreId);
 
 
         /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */

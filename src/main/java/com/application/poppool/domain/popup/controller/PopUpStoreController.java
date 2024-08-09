@@ -21,9 +21,9 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/detail")
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
+                                                                          @RequestParam(name = "isInstagram") boolean isInstagram,
                                                                           @RequestParam(name = "popupStoreId") Long popUpStoreId) {
-        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, popUpStoreId));
+        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, isInstagram, popUpStoreId));
     }
-
 
 }

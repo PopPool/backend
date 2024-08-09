@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface PopUpStoreControllerDoc {
 
     ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
+                                                                    @RequestParam(name = "isInstagram") boolean isInstagram,
                                                                     @RequestParam(name = "popUpStoreId") Long popUpStoreId);
 
 }

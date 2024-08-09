@@ -35,8 +35,8 @@ public class CommentService {
 
 
     @Transactional(readOnly = true)
-    public List<CommentEntity> getPopUpStoreComments(String userId, Long popUpStoreId) {
-        return commentRepository.findAllPopUpStoreComments(userId, popUpStoreId);
+    public List<CommentEntity> getPopUpStoreComments(String userId, boolean isInstagram, Long popUpStoreId) {
+        return commentRepository.findAllPopUpStoreComments(userId, isInstagram, popUpStoreId);
     }
 
     @Transactional

@@ -3,6 +3,8 @@ package com.application.poppool.domain.comment.repository;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
+import com.application.poppool.global.utils.QueryDslUtils;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -24,14 +26,15 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CommentEntity> findAllPopUpStoreComments(String userId, Long popUpStoreId) {
+    public List<CommentEntity> findAllPopUpStoreComments(String userId, boolean isInstagram, Long popUpStoreId) {
         return queryFactory.selectFrom(commentEntity)
                 .join(commentEntity.user, userEntity).fetchJoin()
                 .leftJoin(blockedUserEntity)
-                .on(userIdEq(userId),
+                .on(blockUserIdEq(userId),
                         blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
                 .where(popUpStoreIdEq(popUpStoreId),
-                        blockedUserEntity.id.isNull()) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                        blockedUserEntity.id.isNull(),
+                        isInstagramEq(isInstagram)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
                 .fetch();
     }
 
@@ -47,6 +50,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .from(commentEntity)
                 .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
                 .where(commentEntity.user.userId.eq(userId))
+                .orderBy(commentEntity.createDateTime.desc())
                 .fetch();
     }
 
@@ -69,6 +73,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
                 .where(commentUserIdEq(userId),
                         isInstagramEq(isInstagram))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, commentEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -76,14 +81,15 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     @Override
     public long countMyComments(String userId) {
-        return queryFactory
+        Long count = queryFactory
                 .select(commentEntity.count())
                 .from(commentEntity)
                 .where(commentEntity.user.userId.eq(userId))
                 .fetchOne();
+        return count != null ? count : 0L;
     }
 
-    private BooleanExpression userIdEq(String userId) {
+    private BooleanExpression blockUserIdEq(String userId) {
         return userId != null ? blockedUserEntity.user.userId.eq(userId) : null;
     }
 
