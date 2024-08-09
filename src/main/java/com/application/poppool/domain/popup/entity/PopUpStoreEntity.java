@@ -7,6 +7,7 @@ import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
+import com.application.poppool.global.converter.CategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -47,6 +48,7 @@ public class PopUpStoreEntity extends BaseEntity {
     private String address;
 
     @Column(name = "CATEGORY")
+    @Convert(converter = CategoryConverter.class)
     private Category category;
 
     @Column(name = "CLOSED_YN")
