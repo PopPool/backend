@@ -1,5 +1,6 @@
 package com.application.poppool.domain.home.service;
 
+import com.application.poppool.domain.home.dto.response.GetCustomPopUpStoreResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -106,4 +107,11 @@ public class HomeService {
                 .isLogin(isLogin)
                 .build();
     }
+
+    @Transactional(readOnly = true)
+    public GetCustomPopUpStoreResponse getCustomPopUpStoreList() {
+        return null;
+    }
+
+
 }
