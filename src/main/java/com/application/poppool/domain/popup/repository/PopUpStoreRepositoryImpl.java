@@ -127,13 +127,14 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
         int newPopUpStorePeriod = 14;
 
+        /**
         // DATE_ADD SQL 함수를 사용하여 14일을 더한 날짜를 계산
         DateTimeExpression<LocalDateTime> newPopUpDueDate = Expressions.dateTimeTemplate(
                 LocalDateTime.class,
                 "DATE_ADD({0}, INTERVAL {1} DAY)",
                 popUpStoreEntity.startDate,
-                newPopUpStorePeriod
-        );
+                Expressions.constant(newPopUpStorePeriod)
+        );*/
 
 
         List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = queryFactory.select(Projections.bean(GetHomeInfoResponse.NewPopUpStore.class,
@@ -146,14 +147,14 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
-                .where(isNewPopUpStore(newPopUpDueDate, currentDate))
+                //.where(isNewPopUpStore(newPopUpDueDate, currentDate))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
-                .from(popUpStoreEntity)
-                .where(isNewPopUpStore(newPopUpDueDate, currentDate));
+                .from(popUpStoreEntity);
+        //        .where(isNewPopUpStore(newPopUpDueDate, currentDate));
 
         return PageableExecutionUtils.getPage(newPopUpStoreList, pageable, countQuery::fetchOne);
 
