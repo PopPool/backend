@@ -26,6 +26,7 @@ public class GetPopUpStoreDetailResponse {
     @Builder
     public static class Comment {
         private String nickname;
+        private String instagramId;
         private String profileImageUrl;
         private String content;
         private boolean isLiked;

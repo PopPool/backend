@@ -67,6 +67,7 @@ public class PopUpStoreService {
         List<GetPopUpStoreDetailResponse.Comment> commentList = comments.stream()
                 .map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
                         .nickname(comment.getUser().getNickname())
+                        .instagramId(comment.getUser().getInstagramId())
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
                         .content(comment.getContent())
                         .isLiked(commentService.isCommentLikedByUser(user, comment))
