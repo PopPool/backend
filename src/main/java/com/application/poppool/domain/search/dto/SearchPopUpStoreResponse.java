@@ -1,7 +1,6 @@
 package com.application.poppool.domain.search.dto;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
@@ -11,8 +10,10 @@ public class SearchPopUpStoreResponse {
 
     private List<PopUpStore> popUpStoreList;
 
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class PopUpStore {
         private Long id;
         private String name;

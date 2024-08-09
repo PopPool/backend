@@ -1,8 +1,7 @@
 package com.application.poppool.domain.home.dto.response;
 
 import com.application.poppool.domain.category.enums.Category;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -20,8 +19,10 @@ public class GetHomeInfoResponse {
     /**
      * 맞춤 팝업
      */
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class CustomPopUpStore {
         private Long id;
         private Category category;
@@ -38,8 +39,10 @@ public class GetHomeInfoResponse {
     /**
      * 인기 팝업
      */
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class PopularPopUpStore {
         private Long id;
         private Category category;
@@ -55,8 +58,10 @@ public class GetHomeInfoResponse {
     /**
      * 신규 팝업
      */
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class NewPopUpStore {
         private Long id;
         private Category category;

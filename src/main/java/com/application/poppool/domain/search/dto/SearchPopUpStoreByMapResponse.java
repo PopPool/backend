@@ -1,8 +1,7 @@
 package com.application.poppool.domain.search.dto;
 
 import com.application.poppool.domain.category.enums.Category;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -13,8 +12,10 @@ public class SearchPopUpStoreByMapResponse {
 
     private List<PopUpStore> popUpStoreList;
 
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class PopUpStore {
         private Long id;
         private Category category;

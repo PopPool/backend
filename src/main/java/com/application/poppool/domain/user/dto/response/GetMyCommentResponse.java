@@ -1,7 +1,6 @@
 package com.application.poppool.domain.user.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,8 +13,10 @@ public class GetMyCommentResponse{
     private int totalPages;
     private long totalElements;
 
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MyCommentInfo {
         private Long commentId;
         private String content;
@@ -24,8 +25,10 @@ public class GetMyCommentResponse{
         private MyCommentedPopUpInfo popUpStoreInfo;
     }
 
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MyCommentedPopUpInfo {
         private Long popUpStoreId;
         private String popUpStoreName;

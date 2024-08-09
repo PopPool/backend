@@ -1,7 +1,6 @@
 package com.application.poppool.domain.user.dto.response;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.List;
 
@@ -16,8 +15,10 @@ public class GetMyPageResponse {
     private boolean isLogin;
     private List<MyCommentedPopUpInfo> myCommentedPopUpList;
 
-    @Getter
+    @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class MyCommentedPopUpInfo {
         private Long popUpStoreId;
         private String popUpStoreName;
