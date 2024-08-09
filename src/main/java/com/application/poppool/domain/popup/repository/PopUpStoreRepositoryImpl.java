@@ -3,6 +3,8 @@ package com.application.poppool.domain.popup.repository;
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
+import com.application.poppool.domain.search.dto.SearchPopUpStoreByMapResponse;
+import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.utils.AgeGroupUtils;
@@ -157,6 +159,35 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     }
 
+    @Override
+    public List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String query) {
+        return queryFactory.select(Projections.bean(SearchPopUpStoreResponse.PopUpStore.class,
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address")
+                ))
+                .from(popUpStoreEntity)
+                .where(popUpStoreEntity.name.containsIgnoreCase(query)
+                        .or(popUpStoreEntity.address.containsIgnoreCase(query)))
+                .fetch();
+    }
+
+    @Override
+    public List<SearchPopUpStoreByMapResponse.PopUpStore> searchPopUpStoreByMap(Category category, String query) {
+        return queryFactory.select(Projections.bean(SearchPopUpStoreByMapResponse.PopUpStore.class,
+                        popUpStoreEntity.id,
+                        popUpStoreEntity.category,
+                        popUpStoreEntity.name,
+                        popUpStoreEntity.address,
+                        popUpStoreEntity.startDate,
+                        popUpStoreEntity.endDate))
+                .from(popUpStoreEntity)
+                .where(categoryEq(category),
+                        popUpStoreEntity.name.containsIgnoreCase(query))
+                .fetch();
+
+    }
+
 
     private BooleanExpression isNewPopUpStore(DateTimeExpression<LocalDateTime> newPopUpDueDate, LocalDateTime currentDate) {
         return popUpStoreEntity.startDate.loe(currentDate)
@@ -186,5 +217,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
             return null;
         }
         return userEntity.gender.eq(gender);
+    }
+
+    private BooleanExpression categoryEq(Category category) {
+        if (category == null) {
+            return null;
+        }
+        return popUpStoreEntity.category.eq(category);
     }
 }
