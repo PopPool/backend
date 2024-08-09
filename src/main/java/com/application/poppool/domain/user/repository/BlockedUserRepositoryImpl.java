@@ -1,6 +1,8 @@
 package com.application.poppool.domain.user.repository;
 
 import com.application.poppool.domain.user.dto.response.GetBlockedUserListResponse;
+import com.application.poppool.global.utils.QueryDslUtils;
+import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -34,6 +36,7 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
                 .from(blockedUserEntity)
                 .join(blockedUserEntity.blockedUser,userEntity)
                 .where(eqUserId(userId))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, blockedUserEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
