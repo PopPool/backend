@@ -81,11 +81,12 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public long countMyComments(String userId) {
+    public long countMyComments(String userId, boolean isInstagram) {
         Long count = queryFactory
                 .select(commentEntity.count())
                 .from(commentEntity)
-                .where(commentEntity.user.userId.eq(userId))
+                .where(commentUserIdEq(userId),
+                        isInstagramEq(isInstagram))
                 .fetchOne();
         return count != null ? count : 0L;
     }

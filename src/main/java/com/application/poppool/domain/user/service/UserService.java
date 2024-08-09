@@ -86,7 +86,7 @@ public class UserService {
         List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, isInstagram, pageable);
 
         // 전체 레코드 수를 계산하는 카운트 쿼리
-        long totalElements = commentRepository.countMyComments(userId);
+        long totalElements = commentRepository.countMyComments(userId, isInstagram);
 
         // 전체 페이지 수
         int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());

@@ -12,6 +12,6 @@ public interface CommentRepositoryCustom {
     List<CommentEntity> findAllPopUpStoreComments(String userId, boolean isInstagram, Long popUpStoreId);
     List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId);
     List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, boolean isInstagram, Pageable pageable);
-    long countMyComments(String userId);
+    long countMyComments(String userId, boolean isInstagram);
 
 }
