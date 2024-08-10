@@ -11,9 +11,15 @@ import java.util.List;
 public class GetHomeInfoResponse {
 
     private String nickname;
-    private List<CustomPopUpStore> customPopUpStoreList;
-    private List<PopularPopUpStore> popularPopUpStoreList;
-    private List<NewPopUpStore> newPopUpStoreList;
+    private List<PopUpStore> customPopUpStoreList;
+    private int customPopUpStoreTotalPages; // 맞춤 팝업 리스트 페이지 수
+    private long customPopUpStoreTotalElements; // 맞춤 팝업 리스트 전체 개수
+    private List<PopUpStore> popularPopUpStoreList;
+    private int popularPopUpStoreTotalPages; // 인기 팝업 리스트 페이지 수
+    private long popularPopUpStoreTotalElements; // 인기 팝업 리스트 전체 개수
+    private List<PopUpStore> newPopUpStoreList;
+    private int newPopUpStoreTotalPages; // 신규 팝업 리스트 페이지 수
+    private long newPopUpStoreTotalElements; // 신규 팝업 리스트 전체 개수
     private boolean isLogin;
 
     /**
@@ -23,7 +29,7 @@ public class GetHomeInfoResponse {
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
-    public static class CustomPopUpStore {
+    public static class PopUpStore {
         private Long id;
         private Category category;
         private String name;
@@ -31,47 +37,6 @@ public class GetHomeInfoResponse {
         private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
-        private int totalPages;
-        private long totalElements;
-    }
-
-
-    /**
-     * 인기 팝업
-     */
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class PopularPopUpStore {
-        private Long id;
-        private Category category;
-        private String name;
-        private String address;
-        private String mainImageUrl;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
-        private int totalPages;
-        private long totalElements;
-    }
-
-    /**
-     * 신규 팝업
-     */
-    @Data
-    @Builder
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class NewPopUpStore {
-        private Long id;
-        private Category category;
-        private String name;
-        private String address;
-        private String mainImageUrl;
-        private LocalDateTime startDate;
-        private LocalDateTime endDate;
-        private int totalPages;
-        private long totalElements;
     }
 
 }
