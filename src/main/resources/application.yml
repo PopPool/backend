@@ -5,7 +5,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -13,12 +13,6 @@ spring:
         dialect: org.hibernate.dialect.MySQLDialect
         show_sql: true
         format_sql: true
-
-    defer-datasource-initialization: true
-  sql:
-    init:
-      mode: never # data.sql 스크립트 사용
-      encoding: UTF-8
 
 jwt:
   secretKey: ${JWT_SECRET_KEY}
@@ -55,7 +49,7 @@ server:
 
 logging:
   level:
-    com.board: DEBUG
+    com.application.poppool: DEBUG
 
 ---
 spring:
