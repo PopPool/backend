@@ -24,7 +24,7 @@ public class LikeEntity extends BaseEntity {
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMMENT_ID") //외래 키가 생성될 테이블의 컬럼명을 지정
+    @JoinColumn(name = "COMMENT_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT)) //외래 키가 생성될 테이블의 컬럼명을 지정
     private CommentEntity comment;
 
 }

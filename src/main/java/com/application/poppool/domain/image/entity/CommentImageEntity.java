@@ -19,7 +19,7 @@ public class CommentImageEntity extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "COMMENT_ID", nullable = false)
+    @JoinColumn(name = "COMMENT_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private CommentEntity comment;
 
     @Column(name = "IMAGE_URL")
