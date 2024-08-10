@@ -88,6 +88,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
         JPAQuery<Long> countQuery = queryFactory.select(popUpStoreEntity.count())
                 .from(popUpStoreEntity)
+                .innerJoin(userPopUpStoreViewEntity.popUpStore, popUpStoreEntity)
+                .innerJoin(userPopUpStoreViewEntity.user, userEntity)
+                .where(categoryIn(userInterestCategoryList),
+                        ageGroupEq(user.getAge()),
+                        genderEq(user.getGender()))
+                .groupBy(popUpStoreEntity.id)
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
                         popUpStoreEntity.bookmarkCount.desc(),
