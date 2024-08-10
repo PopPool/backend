@@ -85,7 +85,7 @@ public class UserService {
         // 회원의 코멘트 조회
         List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, isInstagram, pageable);
 
-        // 전체 레코드 수를 계산하는 카운트 쿼리
+        // 전체 코멘트 수
         long totalElements = commentRepository.countMyComments(userId, isInstagram);
 
         // 전체 페이지 수
