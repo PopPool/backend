@@ -67,11 +67,10 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                                 popUpStoreEntity.name.as("popUpStoreName"),
                                 popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                                 popUpStoreEntity.isClosed.as("isClosed")
-                        ).as("popUpStoreInfo"),
-                commentEntity
+                        ).as("popUpStoreInfo")
                 ))
                 .from(commentEntity)
-                .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
+                .join(commentEntity.popUpStore, popUpStoreEntity)
                 .where(commentUserIdEq(userId),
                         isInstagramEq(isInstagram))
                 .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, commentEntity).toArray(OrderSpecifier[]::new))
