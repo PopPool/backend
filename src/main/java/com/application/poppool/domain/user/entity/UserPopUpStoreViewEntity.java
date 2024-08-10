@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "user_popupstore_view"
+@Table(name = "user_popup_store_view"
         , uniqueConstraints = {
         @UniqueConstraint(columnNames = {"USER_ID", "POPUP_STORE_ID"})
 })
