@@ -34,63 +34,36 @@ public class HomeService {
 
         UserEntity user = userService.findUserByUserId(userId);
 
-        /** 추천 팝업 페이지 */
-        Page<GetHomeInfoResponse.CustomPopUpStore> customPopUpStorePage = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
+        /** 추천 팝업 리스트 */
+        List<GetHomeInfoResponse.PopUpStore> customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
 
-        /** 추천 팝업 리스트 (Page -> List 변환) */
-        List<GetHomeInfoResponse.CustomPopUpStore> customPopUpStoreList = customPopUpStorePage.stream()
-                .map(customPopUpStore -> GetHomeInfoResponse.CustomPopUpStore.builder()
-                        .id(customPopUpStore.getId())
-                        .category(customPopUpStore.getCategory())
-                        .name(customPopUpStore.getName())
-                        .address(customPopUpStore.getAddress())
-                        .mainImageUrl(customPopUpStore.getMainImageUrl())
-                        .startDate(customPopUpStore.getStartDate())
-                        .endDate(customPopUpStore.getEndDate())
-                        .totalPages(customPopUpStore.getTotalPages())
-                        .totalElements(customPopUpStore.getTotalElements())
-                        .build())
-                .toList();
+        // 전체 맞춤 팝업 데이터 수
+        long customPopUpStoreTotalElements = popUpStoreRepository.countCustomPopUpStores(user);
+
+        // 전체 맞춤 팝업 페이지 수
+        int customPopUpStoreTotalPages = (int) Math.ceil((double) customPopUpStoreTotalElements / pageable.getPageSize());
 
 
-        /** 인기 팝업 페이지 */
-        Page<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStorePage = popUpStoreRepository.getPopularPopUpStoreList(pageable);
+        /** 인기 팝업 리스트 */
+        List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(pageable);
 
-        /** 인기 팝업 리스트 (Page -> List 변환) */
-        List<GetHomeInfoResponse.PopularPopUpStore> popularPopUpStoreList = popularPopUpStorePage.stream()
-                .map(popularPopUpStore -> GetHomeInfoResponse.PopularPopUpStore.builder()
-                        .id(popularPopUpStore.getId())
-                        .category(popularPopUpStore.getCategory())
-                        .name(popularPopUpStore.getName())
-                        .address(popularPopUpStore.getAddress())
-                        .mainImageUrl(popularPopUpStore.getMainImageUrl())
-                        .startDate(popularPopUpStore.getStartDate())
-                        .endDate(popularPopUpStore.getEndDate())
-                        .totalPages(popularPopUpStore.getTotalPages())
-                        .totalElements(popularPopUpStore.getTotalElements())
-                        .build())
-                .toList();
+        // 전체 인기 팝업 수
+        long popularPopUpStoreTotalElements = popUpStoreRepository.countPopularPopUpStores();
+
+        // 전체 인기 팝업 페이지 수
+        int popularPopUpStoreTotalPages = (int) Math.ceil((double) popularPopUpStoreTotalElements / pageable.getPageSize());
 
         /** 현재 시간 */
         LocalDateTime currentDate = LocalDateTime.now();
 
-        /**신규 팝업 페이지 */
-        Page<GetHomeInfoResponse.NewPopUpStore> newPopUpStorePage = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
+        /**신규 팝업 리스트 */
+        List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
+        
+        // 전체 신규 팝업 데이터 수
+        long newPopUpStoreTotalElements = popUpStoreRepository.countNewPopUpStores();
 
-        /** 신규 팝업 리스트 (Page -> List 변환) */
-        List<GetHomeInfoResponse.NewPopUpStore> newPopUpStoreList = newPopUpStorePage.stream()
-                .map(newPopUpStore -> GetHomeInfoResponse.NewPopUpStore.builder()
-                        .id(newPopUpStore.getId())
-                        .category(newPopUpStore.getCategory())
-                        .name(newPopUpStore.getName())
-                        .address(newPopUpStore.getAddress())
-                        .mainImageUrl(newPopUpStore.getMainImageUrl())
-                        .startDate(newPopUpStore.getStartDate())
-                        .endDate(newPopUpStore.getEndDate())
-                        .totalPages(newPopUpStore.getTotalPages())
-                        .totalElements(newPopUpStore.getTotalElements())
-                        .build())
-                .toList();
+        // 전체 신규 팝업 페이지 수
+        int newPopUpStoreTotalPages = (int) Math.ceil((double) newPopUpStoreTotalElements / pageable.getPageSize());
 
         /** 로그인 여부 */
         boolean isLogin = false;
@@ -102,14 +75,21 @@ public class HomeService {
         return GetHomeInfoResponse.builder()
                 .nickname(user.getNickname())
                 .customPopUpStoreList(customPopUpStoreList)
+                .customPopUpStoreTotalPages(customPopUpStoreTotalPages)
+                .customPopUpStoreTotalElements(customPopUpStoreTotalElements)
                 .popularPopUpStoreList(popularPopUpStoreList)
+                .popularPopUpStoreTotalPages(popularPopUpStoreTotalPages)
+                .popularPopUpStoreTotalElements(popularPopUpStoreTotalElements)
                 .newPopUpStoreList(newPopUpStoreList)
+                .newPopUpStoreTotalPages(newPopUpStoreTotalPages)
+                .newPopUpStoreTotalElements(newPopUpStoreTotalElements)
                 .isLogin(isLogin)
                 .build();
     }
 
     @Transactional(readOnly = true)
     public GetCustomPopUpStoreResponse getCustomPopUpStoreList() {
+
         return null;
     }
 
