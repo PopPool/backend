@@ -48,7 +48,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl")
                 ))
                 .from(commentEntity)
-                .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
+                .join(commentEntity.popUpStore, popUpStoreEntity)
                 .where(commentEntity.user.userId.eq(userId))
                 .orderBy(commentEntity.createDateTime.desc())
                 .fetch();
