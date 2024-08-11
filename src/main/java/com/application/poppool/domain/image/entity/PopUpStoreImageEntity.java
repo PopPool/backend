@@ -19,7 +19,7 @@ public class PopUpStoreImageEntity extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POPUP_STORE_ID", nullable = false)
+    @JoinColumn(name = "POPUP_STORE_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PopUpStoreEntity popUpStore;
 
     @Column(name = "IMAGE_URL")

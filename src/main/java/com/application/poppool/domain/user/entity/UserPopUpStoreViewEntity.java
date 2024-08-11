@@ -39,11 +39,11 @@ public class UserPopUpStoreViewEntity {
     private long bookmarkCount = 0;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "USER_ID")
+    @JoinColumn(name = "USER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private UserEntity user;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "POPUP_STORE_ID")
+    @JoinColumn(name = "POPUP_STORE_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PopUpStoreEntity popUpStore;
 
     public void updateViewedAt(LocalDateTime viewedAt) {
