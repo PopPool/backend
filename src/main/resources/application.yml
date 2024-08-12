@@ -23,6 +23,13 @@ jwt:
     refresh:
       expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?))
 
+aws:
+  accessKeyId: ${ACCESS_KEY_ID}
+  secretAccessKey: ${SECRET_ACCESS_KEY}
+  region: ${YOUR_AWS_REGION}
+  s3:
+    bucketName: ${BUCKET_NAME}
+
 springdoc:
   api-docs:
     path: /v3/api-docs
