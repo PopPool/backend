@@ -1,11 +1,8 @@
 package com.application.poppool.global.security;
 
-import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.enums.Role;
-import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.jwt.JwtAuthenticationFilter;
 import com.application.poppool.global.jwt.JwtService;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -19,8 +16,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutHandler;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -36,7 +31,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     public static final String[] PERMIT_URL = {
-            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/users/*/my-page"
+            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html","/users/*/my-page","/health-check"
     };
 
     private static final String[] GetMethodPermitURL = {
