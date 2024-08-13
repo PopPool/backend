@@ -1,13 +1,11 @@
 package com.application.poppool.domain.home.service;
 
-import com.application.poppool.domain.home.dto.response.GetCustomPopUpStoreResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
