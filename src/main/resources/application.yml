@@ -5,7 +5,7 @@ spring:
   jpa:
     generate-ddl: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -24,11 +24,11 @@ jwt:
       expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?))
 
 aws:
-  accessKeyId: ${ACCESS_KEY_ID}
-  secretAccessKey: ${SECRET_ACCESS_KEY}
-  region: ${YOUR_AWS_REGION}
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${AWS_REGION}
   s3:
-    bucketName: ${BUCKET_NAME}
+    bucketName: ${AWS_BUCKET_NAME}
 
 springdoc:
   api-docs:
