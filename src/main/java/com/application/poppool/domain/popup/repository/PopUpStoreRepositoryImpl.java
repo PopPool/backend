@@ -130,17 +130,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable) {
 
-        int newPopUpStorePeriod = 14;
-
-        /**
         // DATE_ADD SQL 함수를 사용하여 14일을 더한 날짜를 계산
-        DateTimeExpression<LocalDateTime> newPopUpDueDate = Expressions.dateTimeTemplate(
-                LocalDateTime.class,
-                "DATE_ADD({0}, INTERVAL {1} DAY)",
-                popUpStoreEntity.startDate,
-                Expressions.constant(newPopUpStorePeriod)
-        );*/
-
+        DateTimeExpression<LocalDateTime> newPopUpDueDate = getNewPopUpDueDate();
 
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                     popUpStoreEntity.id.as("id"),
@@ -152,7 +143,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
-                //.where(isNewPopUpStore(newPopUpDueDate, currentDate))
+                .where(isNewPopUpStore(newPopUpDueDate, currentDate))
                 .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -160,12 +151,27 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public long countNewPopUpStores() {
+    public long countNewPopUpStores(LocalDateTime currentDate) {
+
+        // DATE_ADD SQL 함수를 사용하여 14일을 더한 날짜를 계산
+        DateTimeExpression<LocalDateTime> newPopUpDueDate = getNewPopUpDueDate();
+
         Long count = queryFactory.select(popUpStoreEntity.count())
                 .from(popUpStoreEntity)
-        //        .where(isNewPopUpStore(newPopUpDueDate, currentDate));
+                .where(isNewPopUpStore(newPopUpDueDate, currentDate))
                 .fetchOne();
         return count != null ? count : 0L;
+    }
+
+    private DateTimeTemplate<LocalDateTime> getNewPopUpDueDate() {
+        int newPopUpStorePeriod = 14;
+
+        // DATE_ADD SQL 함수를 사용하여 14일을 더한 날짜를 계산
+        return Expressions.dateTimeTemplate(
+                LocalDateTime.class,
+                "ADDDATE({0}, {1})",
+                popUpStoreEntity.startDate,
+                Expressions.constant(newPopUpStorePeriod));
     }
 
     @Override
