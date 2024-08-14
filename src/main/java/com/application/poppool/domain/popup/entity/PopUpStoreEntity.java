@@ -67,6 +67,9 @@ public class PopUpStoreEntity extends BaseEntity {
     @Builder.Default
     private long commentCount = 0;
 
+    @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
+    private Long version;
+
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore")
     private List<CommentEntity> comments = new ArrayList<>();
