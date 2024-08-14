@@ -1,9 +1,13 @@
 package com.application.poppool.domain.popup.controller;
 
+import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.service.PopUpStoreService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,6 +28,13 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
                                                                           @RequestParam(name = "isInstagram") boolean isInstagram,
                                                                           @RequestParam(name = "popupStoreId") Long popUpStoreId) {
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, isInstagram, popUpStoreId));
+    }
+
+    @Override
+    @GetMapping("/list")
+    public ResponseEntity<GetAllPopUpListResponse> getAllPopUpList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(popUpStoreService.getAllPopUpList(pageable));
+
     }
 
 }
