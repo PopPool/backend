@@ -9,10 +9,12 @@ import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.*;
 import com.application.poppool.domain.user.repository.*;
 import com.application.poppool.global.exception.BadRequestException;
+import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.jwt.JwtService;
 import com.application.poppool.global.utils.SecurityUtils;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -158,9 +160,22 @@ public class UserService {
         // 찜 저장
         bookMarkPopUpStoreRepository.save(bookMarkPopUpStore);
 
-        // 팝업 스토어 찜 수 + 1
-        popUpStore.incrementBookmarkCount();
+        /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
+        int retryCount = 0;
+        int maxRetryCount = 3; // 최대 재시도 횟수
 
+        while (retryCount < maxRetryCount) {
+            try {
+                // 팝업 스토어 찜 수 + 1
+                popUpStore.incrementBookmarkCount();
+                break;
+            } catch (OptimisticLockException e) {
+                retryCount++;
+                if (retryCount >= maxRetryCount) {
+                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                }
+            }
+        }
         // 팝업 스토어 뷰 찜 수 + 1
         userPopUpStoreView.incrementBookmarkCount();
     }
@@ -185,9 +200,22 @@ public class UserService {
         // 찜 삭제
         bookMarkPopUpStoreRepository.delete(bookMarkPopUpStore);
 
-        // 팝업 스토어 찜 수 - 1
-        popUpStore.decrementBookmarkCount();
+        /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
+        int retryCount = 0;
+        int maxRetryCount = 3; // 최대 재시도 횟수
 
+        while (retryCount < maxRetryCount) {
+            try {
+                // 팝업 스토어 찜 수 - 1
+                popUpStore.decrementBookmarkCount();
+                break;
+            } catch (OptimisticLockException e) {
+                retryCount++;
+                if (retryCount >= maxRetryCount) {
+                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                }
+            }
+        }
         // 팝업 스토어 뷰 찜 수 - 1
         userPopUpStoreView.decrementBookmarkCount();
 
