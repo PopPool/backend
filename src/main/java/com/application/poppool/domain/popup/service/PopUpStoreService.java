@@ -2,6 +2,7 @@ package com.application.poppool.domain.popup.service;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.service.CommentService;
+import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
@@ -10,10 +11,14 @@ import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
 import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
+import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.utils.SecurityUtils;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -77,8 +82,22 @@ public class PopUpStoreService {
                 .toList();
 
 
-        /** 팝업스토어 조회 수 + 1*/
-        popUpStore.incrementViewCount();
+        /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
+        int retryCount = 0;
+        int maxRetryCount = 3; // 최대 재시도 횟수
+
+        while (retryCount < maxRetryCount) {
+            try {
+                /** 팝업스토어 조회 수 + 1*/
+                popUpStore.incrementViewCount();
+                break;
+            } catch (OptimisticLockException e) {
+                retryCount++;
+                if (retryCount >= maxRetryCount) {
+                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                }
+            }
+        }
 
         /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
         userPopUpStoreView.updateViewedAt(LocalDateTime.now());
@@ -96,6 +115,30 @@ public class PopUpStoreService {
                 .commentList(commentList)
                 .build();
 
+    }
+
+    /**
+     * 전체 팝업 리스트 조회
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetAllPopUpListResponse getAllPopUpList(Pageable pageable) {
+        Page<PopUpStoreEntity> popUpStorePage = popUpStoreRepository.findAll(pageable);
+
+        List<GetAllPopUpListResponse.PopUpStore> popUpStoreList = popUpStorePage.stream()
+                .map(popUpStore -> GetAllPopUpListResponse.PopUpStore.builder()
+                        .id(popUpStore.getId())
+                        .category(popUpStore.getCategory())
+                        .name(popUpStore.getName())
+                        .address(popUpStore.getAddress())
+                        .mainImageUrl(popUpStore.getMainImageUrl())
+                        .startDate(popUpStore.getStartDate())
+                        .endDate(popUpStore.getEndDate())
+                        .build())
+                .toList();
+
+        return GetAllPopUpListResponse.builder().popUpStoreList(popUpStoreList).build();
     }
 
 }
