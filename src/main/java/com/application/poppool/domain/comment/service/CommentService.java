@@ -14,8 +14,10 @@ import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
 import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
+import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
+import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -70,9 +72,23 @@ public class CommentService {
 
         // 코멘트 저장
         commentRepository.save(comment);
-        
-        // 팝업스토어의 코멘트 수 + 1
-        popUpStore.incrementCommentCount();;
+
+        /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
+        int retryCount = 0;
+        int maxRetryCount = 3; // 최대 재시도 횟수
+
+        while (retryCount < maxRetryCount) {
+            try {
+                // 팝업스토어의 코멘트 수 + 1
+                popUpStore.incrementCommentCount();
+                break;
+            } catch (OptimisticLockException e) {
+                retryCount++;
+                if (retryCount >= maxRetryCount) {
+                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                }
+            }
+        }
 
         // 팝업 스토어 뷰 코멘트 수 - 1
         userPopUpStoreView.incrementCommentCount();
@@ -134,9 +150,22 @@ public class CommentService {
         /** 코멘트 삭제, CASCADE 설정으로 코멘트와 관련된 이미지들도 모두 삭제됨 */
         commentRepository.delete(comment);
 
-        // 팝업 스토어 코멘트 수 - 1
-        popUpStore.decrementCommentCount();
+        /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
+        int retryCount = 0;
+        int maxRetryCount = 3; // 최대 재시도 횟수
 
+        while (retryCount < maxRetryCount) {
+            try {
+                // 팝업 스토어 코멘트 수 - 1
+                popUpStore.decrementCommentCount();
+                break;
+            } catch (OptimisticLockException e) {
+                retryCount++;
+                if (retryCount >= maxRetryCount) {
+                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                }
+            }
+        }
         // 팝업 스토어 뷰 코멘트 수 - 1
         userPopUpStoreView.decrementCommentCount();
     }
