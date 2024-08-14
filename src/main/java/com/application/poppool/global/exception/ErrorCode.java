@@ -37,7 +37,8 @@ public enum ErrorCode {
     REFRESH_TOKEN_NOT_VALID(HttpStatus.UNAUTHORIZED, "유효하지 않은 Refresh Token 입니다."),
     TOKEN_NOT_VALID(HttpStatus.BAD_REQUEST, "토큰이 유효하지 않습니다."),
     LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "로그아웃에 실패했습니다."),
-    NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요");
+    NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요"),
+    CONCURRENCY_ERROR(HttpStatus.CONFLICT, "동시에 리소스에 접근하여 에러가 발생하였습니다.");
 
     ErrorCode(HttpStatus status, String message) {
         this.status = status;
