@@ -1,8 +1,6 @@
 package com.application.poppool.domain.search.service;
 
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
-import com.application.poppool.domain.search.dto.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -30,19 +28,6 @@ public class SearchService {
         List<SearchPopUpStoreResponse.PopUpStore> popUpStoreList = popUpStoreRepository.searchPopUpStore(query);
 
         return SearchPopUpStoreResponse.builder().popUpStoreList(popUpStoreList).build();
-    }
-
-    /**
-     * 지도로 팝업스토어 검색
-     * @param category
-     * @param query
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(Category category, String query) {
-        List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreRepository.searchPopUpStoreByMap(category, query);
-
-        return SearchPopUpStoreByMapResponse.builder().popUpStoreList(popUpStoreList).build();
     }
 
 }
