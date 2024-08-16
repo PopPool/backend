@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/search")
-public class SearchController {
+public class SearchController implements SearchControllerDoc {
 
     private final SearchService searchService;
 
