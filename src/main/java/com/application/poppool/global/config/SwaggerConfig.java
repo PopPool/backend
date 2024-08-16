@@ -25,7 +25,10 @@ public class SwaggerConfig {
         HOME("home","/home"),
         POPUP_STORE("popup","/popup"),
         COMMENT("comments","/comments"),
-        LIKE("likes","/likes");
+        LIKE("likes","/likes"),
+        FILE("file","/files"),
+        SEARCH("search","/search"),
+        LOCATION("location","/locations");
 
         private final String group;
         private final String urlPrefix;
@@ -127,6 +130,34 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + ".like")
                 .build();
     }
+    @Bean
+    public GroupedOpenApi fileApi() {
+        final String name = ApiUrl.FILE.getGroup();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.FILE.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + ".file")
+                .build();
+    }
+    @Bean
+    public GroupedOpenApi searchApi() {
+        final String name = ApiUrl.SEARCH.getGroup();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.SEARCH.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + ".search")
+                .build();
+    }
+    @Bean
+    public GroupedOpenApi locationApi() {
+        final String name = ApiUrl.LOCATION.getGroup();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.LOCATION.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + ".location")
+                .build();
+    }
+
 
 
 }
