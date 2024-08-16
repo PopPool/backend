@@ -1,4 +1,4 @@
-package com.application.poppool.domain.search.dto;
+package com.application.poppool.domain.location.dto.response;
 
 import com.application.poppool.domain.category.enums.Category;
 import lombok.*;
@@ -23,6 +23,11 @@ public class SearchPopUpStoreByMapResponse {
         private String address;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private double latitude;
+        private double longitude;
+        private Long markerId;
+        private String markerTitle;
+        private String markerSnippet;
     }
 
 }
