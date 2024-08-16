@@ -35,12 +35,14 @@ public class HomeController implements HomeControllerDoc{
     }
 
     @Override
+    @GetMapping("/popular/popup-stores")
     public ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("인기 팝업 전체 보기");
         return ResponseEntity.ok(homeService.getPopularPopUpStoreList(pageable));
     }
 
     @Override
+    @GetMapping("/new/popup-stores")
     public ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("신규 팝업 전체 보기");
         return ResponseEntity.ok(homeService.getNewPopUpStoreList(pageable));
