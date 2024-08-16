@@ -2,8 +2,8 @@ package com.application.poppool.domain.popup.entity;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
-import com.application.poppool.domain.image.entity.CommentImageEntity;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
+import com.application.poppool.domain.location.entity.LocationEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
@@ -66,6 +66,10 @@ public class PopUpStoreEntity extends BaseEntity {
     @Column(name = "COMMNET_CNT")
     @Builder.Default
     private long commentCount = 0;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LOCATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private LocationEntity location;
 
     @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
     private Long version;
