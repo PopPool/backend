@@ -2,8 +2,9 @@ package com.application.poppool.domain.popup.repository;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
+import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
-import com.application.poppool.domain.search.dto.SearchPopUpStoreByMapResponse;
+import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.application.poppool.domain.category.entity.QCategoryEntity.categoryEntity;
+import static com.application.poppool.domain.location.entity.QLocationEntity.locationEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
 import static com.application.poppool.domain.user.entity.QUserInterestCategoryEntity.userInterestCategoryEntity;
@@ -189,20 +191,24 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<SearchPopUpStoreByMapResponse.PopUpStore> searchPopUpStoreByMap(Category category, String query) {
-        return queryFactory.select(Projections.bean(SearchPopUpStoreByMapResponse.PopUpStore.class,
-                        popUpStoreEntity.id,
-                        popUpStoreEntity.category,
-                        popUpStoreEntity.name,
-                        popUpStoreEntity.address,
-                        popUpStoreEntity.startDate,
-                        popUpStoreEntity.endDate))
-                .from(popUpStoreEntity)
+    public List<PopUpStoreEntity> searchPopUpStoreByMap(Category category, String query) {
+        return queryFactory.selectFrom(popUpStoreEntity)
+                .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(categoryEq(category),
                         popUpStoreEntity.name.containsIgnoreCase(query))
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
 
+    }
+
+    @Override
+    public List<PopUpStoreEntity> getViewBoundPopUpStoreList(Category category, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
+        return queryFactory.selectFrom(popUpStoreEntity)
+                .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
+                .where(categoryEq(category),
+                        latitudeBetween(southWestLat, northEastLat),
+                        longitudeBetween(southWestLon, northEastLon))
+                .fetch();
     }
 
 
@@ -242,4 +248,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         }
         return popUpStoreEntity.category.eq(category);
     }
+
+    private BooleanExpression latitudeBetween(double southWestLat, double northEastLat) {
+        return locationEntity.latitude.between(southWestLat, northEastLat);
+    }
+
+    private BooleanExpression longitudeBetween(double southWestLon, double northEastLon) {
+        return locationEntity.longitude.between(southWestLon, northEastLon);
+    }
+
 }
