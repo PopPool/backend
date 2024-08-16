@@ -1,7 +1,5 @@
 package com.application.poppool.domain.search.controller;
 
-import com.application.poppool.domain.category.enums.Category;
-import com.application.poppool.domain.search.dto.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.search.service.SearchService;
 import lombok.RequiredArgsConstructor;
@@ -26,11 +24,5 @@ public class SearchController {
         return ResponseEntity.ok(searchService.searchPopUpStore(query));
     }
 
-    @GetMapping("/map/popup-stores")
-    public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@RequestParam Category category,
-                                                                               @RequestParam String query) {
-        log.info("지도에서 팝업스토어 검색");
-        return ResponseEntity.ok(searchService.searchPopUpStoreByMap(category, query));
-    }
 
 }
