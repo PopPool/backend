@@ -1,5 +1,6 @@
 package com.application.poppool.domain.user.entity;
 
+import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -25,6 +26,9 @@ public class UserRoleEntity extends BaseEntity {
     @JoinColumn(name = "ROLE_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private RoleEntity role;
 
+    @Column(name = "ROLE")
+    @Enumerated(EnumType.STRING)
+    private Role userRole;
     public void setUser(UserEntity user) {
         this.user = user;
     }
