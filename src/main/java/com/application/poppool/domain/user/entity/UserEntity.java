@@ -7,6 +7,7 @@ import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoReque
 import com.application.poppool.domain.user.enums.Gender;
 
 import com.application.poppool.global.audit.BaseEntity;
+import com.application.poppool.global.converter.GenderConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -40,7 +41,7 @@ public class UserEntity extends BaseEntity {
     private String profileImageUrl; // 프로필 이미지
 
     @Column(name = "GENDER")
-    @Enumerated(EnumType.STRING)
+    @Convert(converter = GenderConverter.class)
     private Gender gender; // 성별
 
     @Column(name = "AGE")
