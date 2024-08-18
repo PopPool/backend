@@ -1,8 +1,8 @@
 spring:
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -17,16 +17,21 @@ spring:
     password: ${DB_PASSWORD}
     #만들어진 sql 보여줌
 
-
 jwt:
   secretKey: ${JWT_SECRET_KEY}
-  access:
-    expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L(m -> h))
+  token:
     header: Authorization
+    access:
+      expiration: 1800000 # 30? (1000L(ms -> s) * 60L(s -> m) * 30L(m -> h))
+    refresh:
+      expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?))
 
-  refresh:
-    expiration: 1209600000 #  (1000L(ms -> s) * 60L(s -> m) * 60L(m -> h) * 24L(h -> ??) * 14(2?))
-    header: Authorization-refresh
+aws:
+  accessKeyId: ${AWS_ACCESS_KEY_ID}
+  secretAccessKey: ${AWS_SECRET_ACCESS_KEY}
+  region: ${AWS_REGION}
+  s3:
+    bucketName: ${AWS_BUCKET_NAME}
 
 springdoc:
   api-docs:
@@ -54,4 +59,4 @@ server:
 
 logging:
   level:
-    com.board: DEBUG
+    com.application.poppool: DEBUG
