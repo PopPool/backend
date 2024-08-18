@@ -7,7 +7,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "likes")
+@Table(name = "likes", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"USER_ID", "COMMENT_ID"})
+})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Getter
