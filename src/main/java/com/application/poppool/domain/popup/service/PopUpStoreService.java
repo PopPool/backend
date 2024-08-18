@@ -1,6 +1,7 @@
 package com.application.poppool.domain.popup.service;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.service.CommentService;
 import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
@@ -42,8 +43,8 @@ public class PopUpStoreService {
      * @param popUpStoreId
      * @return
      */
-    @Transactional(readOnly = true)
-    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, boolean isInstagram, Long popUpStoreId) {
+    @Transactional
+    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, CommentType commentType, Long popUpStoreId) {
 
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
@@ -52,8 +53,17 @@ public class PopUpStoreService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
         UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
-
+                .orElseGet(() -> {
+                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
+                            .user(user)
+                            .popUpStore(popUpStore)
+                            .viewedAt(LocalDateTime.now())
+                            .viewCount(0)
+                            .commentCount(0)
+                            .bookmarkCount(0)
+                            .build();
+                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
+                });
 
         /** 찜 여부 체크 */
         boolean isBookmarked = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
@@ -65,8 +75,7 @@ public class PopUpStoreService {
         }
 
         /** 댓글 조회 */
-        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, isInstagram, popUpStoreId);
-
+        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, commentType, popUpStoreId);
 
         /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
         List<GetPopUpStoreDetailResponse.Comment> commentList = comments.stream()
