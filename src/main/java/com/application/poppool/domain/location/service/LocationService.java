@@ -36,11 +36,11 @@ public class LocationService {
                         .address(popUpStoreEntity.getAddress())
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
-                        .latitude(popUpStoreEntity.getLocation().getLatitude())
-                        .longitude(popUpStoreEntity.getLocation().getLongitude())
-                        .markerId(popUpStoreEntity.getLocation().getId())
-                        .markerTitle(popUpStoreEntity.getLocation().getMarkerTitle())
-                        .markerSnippet(popUpStoreEntity.getLocation().getMarkerSnippet())
+                        .latitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLatitude() : 0.0)
+                        .longitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLongitude() : 0.0)
+                        .markerId((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getId() : null)
+                        .markerTitle((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerTitle() : null)
+                        .markerSnippet((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerSnippet() : null)
                         .build())
                 .toList();
 
@@ -69,11 +69,11 @@ public class LocationService {
                         .address(popUpStoreEntity.getAddress())
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
-                        .latitude(popUpStoreEntity.getLocation().getLatitude())
-                        .longitude(popUpStoreEntity.getLocation().getLongitude())
-                        .markerId(popUpStoreEntity.getLocation().getId())
-                        .markerTitle(popUpStoreEntity.getLocation().getMarkerTitle())
-                        .markerSnippet(popUpStoreEntity.getLocation().getMarkerSnippet())
+                        .latitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLatitude() : 0.0)
+                        .longitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLongitude() : 0.0)
+                        .markerId((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getId() : null)
+                        .markerTitle((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerTitle() : null)
+                        .markerSnippet((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerSnippet() : null)
                         .build())
                 .toList();
 
