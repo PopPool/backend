@@ -49,13 +49,15 @@ public class CommentEntity extends BaseEntity {
     private PopUpStoreEntity popUpStore;
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true) // 코멘트가 사라지면 좋아요도 없어져야함
+    @Builder.Default
     private List<LikeEntity> likes = new ArrayList<>();
 
     @OneToMany(mappedBy = "comment", cascade = CascadeType.ALL, orphanRemoval = true)
+    @Builder.Default
     private List<CommentImageEntity> images = new ArrayList<>();
 
     public void addImage(CommentImageEntity image) {
-        images.add(image);
+        this.images.add(image);
         image.setComment(this);
     }
 
