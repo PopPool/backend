@@ -5,7 +5,7 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.location.entity.LocationEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
-import com.application.poppool.global.audit.BaseEntity;
+import com.application.poppool.global.audit.BaseAdminEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
 import com.application.poppool.global.converter.CategoryConverter;
 import jakarta.persistence.*;
@@ -21,7 +21,7 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class PopUpStoreEntity extends BaseEntity {
+public class PopUpStoreEntity extends BaseAdminEntity {
 
     @Id
     @Column(name = "POPUP_STORE_ID")
@@ -109,6 +109,5 @@ public class PopUpStoreEntity extends BaseEntity {
     public void decrementBookmarkCount() {
         this.bookmarkCount--;
     }
-
 
 }
