@@ -3,6 +3,7 @@ package com.application.poppool.domain.comment.service;
 import com.application.poppool.domain.comment.dto.request.CreateCommentRequest;
 import com.application.poppool.domain.comment.dto.request.UpdateCommentRequest;
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.image.entity.CommentImageEntity;
 import com.application.poppool.domain.image.repository.CommentImageRepository;
@@ -37,8 +38,8 @@ public class CommentService {
 
 
     @Transactional(readOnly = true)
-    public List<CommentEntity> getPopUpStoreComments(String userId, boolean isInstagram, Long popUpStoreId) {
-        return commentRepository.findAllPopUpStoreComments(userId, isInstagram, popUpStoreId);
+    public List<CommentEntity> getPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId) {
+        return commentRepository.findAllPopUpStoreComments(userId, commentType, popUpStoreId);
     }
 
     @Transactional
@@ -57,7 +58,7 @@ public class CommentService {
                 .user(user)
                 .popUpStore(popUpStore)
                 .content(request.getContent())
-                .isInstagram(request.isInstagram())
+                .commentType(request.getCommentType())
                 .build();
 
         /** 코멘트 이미지 엔티티 생성 및 저장 */

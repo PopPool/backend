@@ -1,5 +1,6 @@
 package com.application.poppool.domain.user.service;
 
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
@@ -81,14 +82,14 @@ public class UserService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetMyCommentResponse getMyCommentList(String userId, boolean isInstagram, Pageable pageable) {
+    public GetMyCommentResponse getMyCommentList(String userId, CommentType commentType, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, isInstagram, pageable);
+        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, pageable);
 
         // 전체 코멘트 수
-        long totalElements = commentRepository.countMyComments(userId, isInstagram);
+        long totalElements = commentRepository.countMyComments(userId, commentType);
 
         // 전체 페이지 수
         int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());

@@ -1,5 +1,6 @@
 package com.application.poppool.domain.user.controller;
 
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import io.swagger.v3.oas.annotations.Operation;
@@ -22,7 +23,7 @@ public interface UserControllerDoc {
 
     @Operation(summary = "내가 쓴 일반/인스타 코멘트 조회", description = "내가 쓴 일반/인스타 코멘트를 조회합니다.")
     ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
-                                                          @RequestParam boolean isInstagram,
+                                                          @RequestParam CommentType commentType,
                                                           Pageable pageable);
 
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")

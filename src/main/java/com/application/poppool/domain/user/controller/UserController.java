@@ -1,5 +1,6 @@
 package com.application.poppool.domain.user.controller;
 
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.service.UserService;
@@ -14,7 +15,6 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
 
 @Slf4j
 @RestController
@@ -46,9 +46,9 @@ public class UserController implements UserControllerDoc {
     @Override
     @GetMapping("/{userId}/comments")
     public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
-                                                                 @RequestParam boolean isInstagram,
+                                                                 @RequestParam CommentType commentType,
                                                                  @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyCommentList(userId, isInstagram, pageable));
+        return ResponseEntity.ok(userService.getMyCommentList(userId, commentType, pageable));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.controller;
 
+import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.service.PopUpStoreService;
@@ -25,9 +26,9 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/detail")
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
-                                                                          @RequestParam(name = "isInstagram") boolean isInstagram,
+                                                                          @RequestParam(name = "commentType") CommentType commentType,
                                                                           @RequestParam(name = "popupStoreId") Long popUpStoreId) {
-        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, isInstagram, popUpStoreId));
+        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, commentType, popUpStoreId));
     }
 
     @Override
