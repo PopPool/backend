@@ -4,7 +4,6 @@ import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
-import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
@@ -70,12 +69,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                                 .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
                                 ,"mainImageUrl")
                 ))
-                .from(userPopUpStoreViewEntity)
-                .innerJoin(userPopUpStoreViewEntity.popUpStore, popUpStoreEntity)
-                .innerJoin(userPopUpStoreViewEntity.user, userEntity)
-                .where(categoryIn(userInterestCategoryList),
-                        ageGroupEq(user.getAge()),
+                .from(popUpStoreEntity)
+                .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
+                .leftJoin(userPopUpStoreViewEntity.user, userEntity)
+                .on(ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
+                .where(categoryIn(userInterestCategoryList))
                 .groupBy(popUpStoreEntity.id)
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
@@ -91,13 +90,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public long countCustomPopUpStores(UserEntity user) {
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
-        Long count = queryFactory.select(popUpStoreEntity.count())
+        Long count = queryFactory.select(popUpStoreEntity.countDistinct())
                 .from(popUpStoreEntity)
-                .innerJoin(userPopUpStoreViewEntity.popUpStore, popUpStoreEntity)
-                .innerJoin(userPopUpStoreViewEntity.user, userEntity)
-                .where(categoryIn(userInterestCategoryList),
-                        ageGroupEq(user.getAge()),
+                .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
+                .leftJoin(userPopUpStoreViewEntity.user, userEntity)
+                .on(ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
+                .where(categoryIn(userInterestCategoryList))
                 .fetchOne();
         return count != null ? count : 0L;
     }
@@ -232,14 +231,14 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression ageGroupEq(int age) {
-        return userEntity.age.between(AgeGroupUtils.getStartAge(age), AgeGroupUtils.getEndAge(age));
+        return userPopUpStoreViewEntity.user.age.between(AgeGroupUtils.getStartAge(age), AgeGroupUtils.getEndAge(age));
     }
 
     private BooleanExpression genderEq(Gender gender) {
         if (gender == Gender.NONE) {
             return null;
         }
-        return userEntity.gender.eq(gender);
+        return userPopUpStoreViewEntity.user.gender.eq(gender);
     }
 
     private BooleanExpression categoryEq(Category category) {
