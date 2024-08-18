@@ -81,7 +81,7 @@ public class LikeService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
 
         LikeEntity like = likeRepository.findByUserAndComment(user, comment)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.LIKE_NOT_FOUND));
 
         // 좋아요 취소
         likeRepository.delete(like);
