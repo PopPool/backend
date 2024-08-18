@@ -82,11 +82,12 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PopUpStoreImageEntity> images = new ArrayList<>();
 
     public void addImage(PopUpStoreImageEntity image) {
-        images.add(image);
+        this.images.add(image);
         image.setPopupStore(this);
     }
 
