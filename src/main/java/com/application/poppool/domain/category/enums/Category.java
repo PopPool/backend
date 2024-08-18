@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Getter
 public enum Category implements BaseEnum {
-    FASION("패션"),               // 패션
+    FASHION("패션"),               // 패션
     LIFESTYLE("라이프스타일"),      // 라이프스타일
     BEAUTY("뷰티"),               // 뷰티
     FOOD_COOKING("음식/요리"),     // 음식/요리
