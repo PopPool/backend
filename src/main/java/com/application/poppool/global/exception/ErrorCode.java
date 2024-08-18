@@ -9,6 +9,7 @@ public enum ErrorCode {
 
     ALREADY_EXISTS_USER_ID(HttpStatus.BAD_REQUEST, "이미 존재하는 회원아이디입니다."),
     ALREADY_EXISTS_DATA(HttpStatus.BAD_REQUEST, "이미 존재하는 데이터입니다."),
+    ALREADY_EXISTS_LIKE(HttpStatus.BAD_REQUEST, "이미 존재하는 좋아요(도움돼요)입니다."),
     DATA_VALIDATION_ERROR(HttpStatus.BAD_REQUEST, "데이터가 유효하지 않습니다."),
     HTTP_MESSAGE_NOT_READABLE_EXCEPTION(HttpStatus.BAD_REQUEST, "HTTP 요청 본문 변환 중 에러가 발생했습니다."),
     METHOD_ARGUMENT_NOT_VALID_EXCEPTION(HttpStatus.BAD_REQUEST, "메서드 파라미터가 유효하지 않습니다."),
