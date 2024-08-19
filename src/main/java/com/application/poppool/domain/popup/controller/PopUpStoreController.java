@@ -33,7 +33,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
 
     @Override
     @GetMapping("/list")
-    public ResponseEntity<GetAllPopUpListResponse> getAllPopUpList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<GetAllPopUpListResponse> getAllPopUpList(@PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getAllPopUpList(pageable));
 
     }

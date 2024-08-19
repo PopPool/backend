@@ -15,16 +15,16 @@ public interface HomeControllerDoc {
 
     @Operation(summary = "홈 화면 조회", description = "홈 화면을 조회합니다.")
     ResponseEntity<GetHomeInfoResponse> getHomeInfo(@PathVariable String userId,
-                                                    @PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+                                                    @PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable);
 
 
     @Operation(summary = "맞춤 팝업 스토어 전체 보기", description = "전체 맞춤 팝업 스토어를 조회합니다.")
     ResponseEntity<GetHomeInfoResponse> getCustomPopUpStoreList(@RequestParam String userId,
-                                                                @PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+                                                                @PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "인기 팝업 스토어 전체 보기", description = "전체 인기 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "신규 팝업 스토어 전체 보기", description = "전체 신규 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable);
 }
