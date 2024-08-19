@@ -36,6 +36,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
 
+
     @Override
     public List<Category> getUserInterestCategoryList(String userId) {
         return queryFactory.select(categoryEntity.category)
@@ -190,10 +191,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<PopUpStoreEntity> searchPopUpStoreByMap(Category category, String query) {
+    public List<PopUpStoreEntity> searchPopUpStoreByMap(List<Category> categories, String query) {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
-                .where(categoryEq(category),
+                .where(categoryIn(categories),
                         popUpStoreEntity.name.containsIgnoreCase(query))
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
@@ -201,10 +202,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<PopUpStoreEntity> getViewBoundPopUpStoreList(Category category, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
+    public List<PopUpStoreEntity> getViewBoundPopUpStoreList(List<Category> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
-                .where(categoryEq(category),
+                .where(categoryIn(categories),
                         latitudeBetween(southWestLat, northEastLat),
                         longitudeBetween(southWestLon, northEastLon))
                 .fetch();
@@ -223,11 +224,11 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return userInterestCategoryEntity.user.userId.eq(userId);
     }
 
-    private BooleanExpression categoryIn(List<Category> userInterestCategoryList) {
-        if (userInterestCategoryList.isEmpty()) { /** 만약 유저의 관심 카테고리가 등록되어 있지 않다면 모든 카테고리를 대상으로 함 */
+    private BooleanExpression categoryIn(List<Category> categories) {
+        if (categories.isEmpty()) { /** 만약 유저의 관심 카테고리가 등록되어 있지 않다면 모든 카테고리를 대상으로 함 */
             return null;
         }
-        return popUpStoreEntity.category.in(userInterestCategoryList);
+        return popUpStoreEntity.category.in(categories);
     }
 
     private BooleanExpression ageGroupEq(int age) {

@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -23,21 +25,21 @@ public class LocationController implements LocationControllerDoc {
 
     @Override
     @GetMapping("/search")
-    public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@RequestParam Category category,
+    public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@RequestParam List<Category> categories,
                                                                                @RequestParam String query) {
         log.info("지도에서 팝업스토어 검색");
-        return ResponseEntity.ok(locationService.searchPopUpStoreByMap(category, query));
+        return ResponseEntity.ok(locationService.searchPopUpStoreByMap(categories, query));
     }
 
     @Override
     @GetMapping("/popup-stores")
-    public ResponseEntity<GetViewBoundPopUpStoreListResponse> getViewBoundPopUpStoreList(@RequestParam Category category,
+    public ResponseEntity<GetViewBoundPopUpStoreListResponse> getViewBoundPopUpStoreList(@RequestParam List<Category> categories,
                                                                                          @RequestParam double northEastLat,
                                                                                          @RequestParam double northEastLon,
                                                                                          @RequestParam double southWestLat,
                                                                                          @RequestParam double southWestLon) {
         log.info("뷰 바운즈 내에 있는 팝업 스토어 정보 조회");
-        return ResponseEntity.ok(locationService.getViewBoundPopUpStoreList(category, northEastLat, northEastLon, southWestLat, southWestLon));
+        return ResponseEntity.ok(locationService.getViewBoundPopUpStoreList(categories, northEastLat, northEastLon, southWestLat, southWestLon));
 
     }
 

@@ -26,9 +26,9 @@ public interface PopUpStoreRepositoryCustom {
     List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String query);
 
     /** 지도 */
-    List<PopUpStoreEntity> searchPopUpStoreByMap(Category category, String query);
+    List<PopUpStoreEntity> searchPopUpStoreByMap(List<Category> categories, String query);
 
-    List<PopUpStoreEntity> getViewBoundPopUpStoreList(Category category, double northEastLat, double northEastLon, double southWestLat, double southWestLon);
+    List<PopUpStoreEntity> getViewBoundPopUpStoreList(List<Category> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon);
 
 
 

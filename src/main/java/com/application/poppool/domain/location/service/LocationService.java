@@ -24,8 +24,8 @@ public class LocationService {
      * @return
      */
     @Transactional(readOnly = true)
-    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(Category category, String query) {
-        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(category, query);
+    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(List<Category> categories, String query) {
+        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(categories, query);
 
 
         List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
@@ -58,8 +58,8 @@ public class LocationService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetViewBoundPopUpStoreListResponse getViewBoundPopUpStoreList(Category category, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
-        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.getViewBoundPopUpStoreList(category, northEastLat, northEastLon, southWestLat, southWestLon);
+    public GetViewBoundPopUpStoreListResponse getViewBoundPopUpStoreList(List<Category> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
+        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.getViewBoundPopUpStoreList(categories, northEastLat, northEastLon, southWestLat, southWestLon);
 
         List<GetViewBoundPopUpStoreListResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
                 .map(popUpStoreEntity -> GetViewBoundPopUpStoreListResponse.PopUpStore.builder()
