@@ -24,7 +24,8 @@ public class WithDrawalSurveyEntity extends BaseEntity {
     private WithDrawlSurvey survey;
 
     @Column(name = "CNT")
-    private Long count;
+    @Builder.Default
+    private long count = 0;
 
     public void incrementCount() {
         this.count++;
