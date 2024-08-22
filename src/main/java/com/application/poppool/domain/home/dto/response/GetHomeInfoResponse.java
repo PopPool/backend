@@ -20,7 +20,7 @@ public class GetHomeInfoResponse {
     private List<PopUpStore> newPopUpStoreList;
     private int newPopUpStoreTotalPages; // 신규 팝업 리스트 페이지 수
     private long newPopUpStoreTotalElements; // 신규 팝업 리스트 전체 개수
-    private boolean isLogin;
+    private boolean loginYn;
 
     /**
      * 맞춤 팝업

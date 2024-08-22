@@ -12,7 +12,7 @@ public class GetMyPageResponse {
     private String profileImageUrl;
     private String intro;
     private String instagramId;
-    private boolean isLogin;
+    private boolean loginYn;
     private List<MyCommentedPopUpInfo> myCommentedPopUpList;
 
     @Data

@@ -54,10 +54,10 @@ public class UserService {
 
         UserEntity user = this.findUserByUserId(userId);
 
-        boolean isLogin = false;
+        boolean loginYn = false;
 
         if (SecurityUtils.isAuthenticated()) {
-            isLogin = true;
+            loginYn = true;
         }
 
         /***
@@ -72,7 +72,7 @@ public class UserService {
                 .intro(user.getIntro())
                 .instagramId(user.getInstagramId())
                 .myCommentedPopUpList(myCommentedPopUpList)
-                .isLogin(isLogin)
+                .loginYn(loginYn)
                 .build();
     }
 

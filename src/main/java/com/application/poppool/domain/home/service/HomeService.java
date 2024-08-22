@@ -64,10 +64,10 @@ public class HomeService {
         int newPopUpStoreTotalPages = (int) Math.ceil((double) newPopUpStoreTotalElements / pageable.getPageSize());
 
         /** 로그인 여부 */
-        boolean isLogin = false;
+        boolean loginYn = false;
 
         if (SecurityUtils.isAuthenticated()) {
-            isLogin = true;
+            loginYn = true;
         }
 
         return GetHomeInfoResponse.builder()
@@ -81,7 +81,7 @@ public class HomeService {
                 .newPopUpStoreList(newPopUpStoreList)
                 .newPopUpStoreTotalPages(newPopUpStoreTotalPages)
                 .newPopUpStoreTotalElements(newPopUpStoreTotalElements)
-                .isLogin(isLogin)
+                .loginYn(loginYn)
                 .build();
     }
 

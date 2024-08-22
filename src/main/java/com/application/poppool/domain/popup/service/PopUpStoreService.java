@@ -69,9 +69,9 @@ public class PopUpStoreService {
         boolean isBookmarked = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
 
         /** 로그인 여부 체크 */
-        boolean isLogin = false;
+        boolean loginYn = false;
         if (SecurityUtils.isAuthenticated()) {
-            isLogin = true;
+            loginYn = true;
         }
 
         /** 댓글 조회 */
@@ -120,7 +120,7 @@ public class PopUpStoreService {
                 .address(popUpStore.getAddress())
                 .commentCount(popUpStore.getCommentCount())
                 .isBookmarked(isBookmarked)
-                .isLogin(isLogin)
+                .loginYn(loginYn)
                 .commentList(commentList)
                 .build();
 
