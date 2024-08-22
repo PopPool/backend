@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -101,35 +102,52 @@ public class UserProfileService {
         UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.USER_NOT_FOUND));
 
-        // 삭제할 관심 카테고리 삭제
-        List<UserInterestCategoryEntity> interestCategoriesToDelete = user.getUserInterestCategories().stream()
-                .filter(myInterest -> request.getInterestCategoriesToDelete().contains(myInterest.getCategory().getCategoryId()))
-                .collect(Collectors.toList());
 
-        userInterestCategoryRepository.deleteAll(interestCategoriesToDelete);
+        // 삭제할 관심 카테고리 id 리스트 가져오기
+        List<Long> interestCategoriesToDelete = user.getUserInterestCategories().stream()
+                .filter(myInterest -> request.getInterestCategoriesToDelete().contains(myInterest.getCategory().getCategoryId()))
+                .map(UserInterestCategoryEntity::getId)
+                .toList();
+
+        // 유저 관심 카테고리 삭제
+        userInterestCategoryRepository.deleteAllByUserInterestId(interestCategoriesToDelete);
+
+        List<CategoryEntity> allCategories = categoryRepository.findAllById(request.getInterestCategoriesToAdd());
+        Set<Long> validCategoryIdList = allCategories.stream()
+                .map(CategoryEntity::getCategoryId)
+                .collect(Collectors.toSet());
+
+        // DB 에서 현재 사용자의 관심 카테고리 조회
+        List<UserInterestCategoryEntity> existingInterestCategories = userInterestCategoryRepository.findAllByUser(user);
+        Set<Long> existingCategoryIdList = existingInterestCategories.stream()
+                .map(uc -> uc.getCategory().getCategoryId())
+                .collect(Collectors.toSet());
 
         // 추가할 관심 카테고리 추가
         List<UserInterestCategoryEntity> interestCategoriesToAdd = request.getInterestCategoriesToAdd().stream()
-                .map(categoryToAdd -> createUserInterestCategoryEntity(user, categoryToAdd))
-                .collect(Collectors.toList());
-
+                .filter(id -> validCategoryIdList.contains(id))  // 유효한 카테고리 ID만 포함
+                .filter(id -> !existingCategoryIdList.contains(id))  // 이미 존재하지 않는 카테고리만 포함
+                .map(id -> createUserInterestCategoryEntity(user, id))
+                .toList();
         // 관심 카테고리 저장
         userInterestCategoryRepository.saveAll(interestCategoriesToAdd);
+
     }
 
     /**
      * 회원 관심 카테고리 추가를 위한 엔티티 생성
      *
      * @param user
-     * @param interestCategoryToAdd
+     * @param id
      * @return
      */
-    private UserInterestCategoryEntity createUserInterestCategoryEntity(UserEntity user, Long interestCategoryToAdd) {
-        CategoryEntity category = categoryRepository.findByCategoryId(interestCategoryToAdd)
+    private UserInterestCategoryEntity createUserInterestCategoryEntity(UserEntity user, Long id) {
+        CategoryEntity category = categoryRepository.findByCategoryId(id)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.CATEGORY_NOT_FOUND));
         return UserInterestCategoryEntity.builder()
                 .user(user)
                 .category(category)
+                .interestCategory(category.getCategory())
                 .build();
     }
 
