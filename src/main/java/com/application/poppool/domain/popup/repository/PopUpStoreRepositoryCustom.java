@@ -2,6 +2,7 @@ package com.application.poppool.domain.popup.repository;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -20,8 +21,6 @@ public interface PopUpStoreRepositoryCustom {
     List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable);
     long countNewPopUpStores(LocalDateTime currentDate);
 
-
-
     // 팝업스토어 검색
     List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String query);
 
@@ -31,5 +30,7 @@ public interface PopUpStoreRepositoryCustom {
     List<PopUpStoreEntity> getViewBoundPopUpStoreList(List<Category> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon);
 
 
+    /** 팝업 스토어 찾아가는 길*/
+    GetPopUpStoreDirectionResponse getPopUpStoreDirection(Long popUpStoreId);
 
 }

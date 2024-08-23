@@ -5,6 +5,7 @@ import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.service.CommentService;
 import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -148,6 +149,11 @@ public class PopUpStoreService {
                 .toList();
 
         return GetAllPopUpListResponse.builder().popUpStoreList(popUpStoreList).build();
+    }
+
+    @Transactional(readOnly = true)
+    public GetPopUpStoreDirectionResponse getPopUpStoreDirection(Long popUpStoreId) {
+        return popUpStoreRepository.getPopUpStoreDirection(popUpStoreId);
     }
 
 }
