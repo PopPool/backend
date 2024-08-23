@@ -33,7 +33,7 @@ public class GetMyCommentResponse{
         private Long popUpStoreId;
         private String popUpStoreName;
         private String mainImageUrl;
-        private boolean isClosed;
+        private boolean closeYn;
     }
 
 }

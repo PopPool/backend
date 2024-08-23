@@ -66,7 +66,7 @@ public class PopUpStoreService {
                 });
 
         /** 찜 여부 체크 */
-        boolean isBookmarked = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
+        boolean bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -84,7 +84,7 @@ public class PopUpStoreService {
                         .instagramId(comment.getUser().getInstagramId())
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
                         .content(comment.getContent())
-                        .isLiked(commentService.isCommentLikedByUser(user, comment))
+                        .likeYnd(commentService.isCommentLikedByUser(user, comment))
                         .likeCount(comment.getLikeCount())
                         .createDateTime(comment.getCreateDateTime())
                         .build())
@@ -119,7 +119,7 @@ public class PopUpStoreService {
                 .endDate(popUpStore.getEndDate())
                 .address(popUpStore.getAddress())
                 .commentCount(popUpStore.getCommentCount())
-                .isBookmarked(isBookmarked)
+                .bookmarkYn(bookmarkYn)
                 .loginYn(loginYn)
                 .commentList(commentList)
                 .build();

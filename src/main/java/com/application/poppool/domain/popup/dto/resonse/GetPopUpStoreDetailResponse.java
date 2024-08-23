@@ -16,7 +16,7 @@ public class GetPopUpStoreDetailResponse {
     private LocalDateTime endDate;
     private String address;
     private long commentCount;
-    private boolean isBookmarked;
+    private boolean bookmarkYn;
     private boolean loginYn;
     private String popUpStoreMainImageUrl;
     private List<PopUpStoreImage> popUpStoreImageList;
@@ -29,7 +29,7 @@ public class GetPopUpStoreDetailResponse {
         private String instagramId;
         private String profileImageUrl;
         private String content;
-        private boolean isLiked;
+        private boolean likeYnd;
         private long likeCount;
         private LocalDateTime createDateTime;
         private List<CommentImage> commentImageList;

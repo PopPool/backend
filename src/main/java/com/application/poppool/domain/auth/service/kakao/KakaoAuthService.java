@@ -41,14 +41,14 @@ public class KakaoAuthService {
             throw new BadRequestException(ErrorCode.AUTHENTICATION_FAIL_EXCEPTION);
         }
 
-        boolean isRegisteredUser = true;
+        boolean registeredUserYn = true;
         boolean isTemporaryToken = false;
 
         /**
          * 기존 회원이 아닌 경우, 회원가입 대상 -> isUser 구분 값 false 설정 및 임시토큰 설정
          */
         if (!userRepository.findByUserId(userId).isPresent()) {
-            isRegisteredUser = false;
+            registeredUserYn = false;
             isTemporaryToken = true;
         }
 
@@ -69,7 +69,7 @@ public class KakaoAuthService {
                 .refreshToken(loginResponse.getRefreshToken())
                 .refreshTokenExpiresAt(loginResponse.getRefreshTokenExpiresAt())
                 .socialType(SocialType.KAKAO) // 자체 로그인이므로 소셜 타입은 null
-                .isRegisteredUser(isRegisteredUser)
+                .registeredUserYn(registeredUserYn)
                 .build();
 
     }

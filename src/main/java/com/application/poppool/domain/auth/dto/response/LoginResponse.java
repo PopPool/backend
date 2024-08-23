@@ -21,6 +21,6 @@ public class LoginResponse {
     private LocalDateTime accessTokenExpiresAt;
     private LocalDateTime refreshTokenExpiresAt;
     private SocialType socialType;
-    private boolean isRegisteredUser;
+    private boolean registeredUserYn;
 
 }

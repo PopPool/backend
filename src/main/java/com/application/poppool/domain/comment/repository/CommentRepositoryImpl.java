@@ -67,7 +67,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                                 popUpStoreEntity.id.as("popUpStoreId"),
                                 popUpStoreEntity.name.as("popUpStoreName"),
                                 popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
-                                popUpStoreEntity.isClosed.as("isClosed")
+                                popUpStoreEntity.closeYn.as("closeYn")
                         ).as("popUpStoreInfo")
                 ))
                 .from(commentEntity)

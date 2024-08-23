@@ -59,14 +59,14 @@ public class AppleAuthService {
         }
 
         String userId = appleIdTokenSub + SocialType.APPLE.getSocialSuffix();
-        boolean isRegisteredUser = true;
+        boolean registeredUserYn = true;
         boolean isTemporaryToken = false;
 
         /**
          * 기존 회원이 아닌 경우, 회원가입 대상 -> isUser 구분 값 false 설정 및 임시토큰 설정
          */
         if (!userRepository.findByUserId(userId).isPresent()) {
-            isRegisteredUser = false;
+            registeredUserYn = false;
             isTemporaryToken = true;
         }
 
@@ -87,7 +87,7 @@ public class AppleAuthService {
                 .refreshToken(loginResponse.getRefreshToken())
                 .refreshTokenExpiresAt(loginResponse.getRefreshTokenExpiresAt())
                 .socialType(SocialType.APPLE)
-                .isRegisteredUser(isRegisteredUser)
+                .registeredUserYn(registeredUserYn)
                 .build();
 
     }

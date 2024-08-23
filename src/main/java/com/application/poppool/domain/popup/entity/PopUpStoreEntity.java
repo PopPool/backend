@@ -53,7 +53,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
 
     @Column(name = "CLOSED_YN")
     @Convert(converter = BooleanToYNConverter.class)
-    private boolean isClosed;
+    private boolean closeYn;
 
     @Column(name = "VIEW_CNT")
     @Builder.Default
