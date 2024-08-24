@@ -29,7 +29,7 @@ public class GetPopUpStoreDetailResponse {
         private String instagramId;
         private String profileImageUrl;
         private String content;
-        private boolean likeYnd;
+        private boolean likeYn;
         private long likeCount;
         private LocalDateTime createDateTime;
         private List<CommentImage> commentImageList;
