@@ -85,7 +85,7 @@ public class PopUpStoreService {
                         .instagramId(comment.getUser().getInstagramId())
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
                         .content(comment.getContent())
-                        .likeYnd(commentService.isCommentLikedByUser(user, comment))
+                        .likeYn(commentService.isCommentLikedByUser(user, comment))
                         .likeCount(comment.getLikeCount())
                         .createDateTime(comment.getCreateDateTime())
                         .build())
