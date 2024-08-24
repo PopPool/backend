@@ -31,7 +31,8 @@ public class CommentEntity extends BaseEntity {
     private String content;
 
     @Column(name = "LIKE_COUNT")
-    private long likeCount;
+    @Builder.Default
+    private long likeCount = 0;
 
     @Column(name = "TYPE")
     @Convert(converter = CommentTypeConverter.class)
