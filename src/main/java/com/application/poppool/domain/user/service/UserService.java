@@ -150,8 +150,22 @@ public class UserService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
+        if (bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore)) {
+            throw new BadRequestException(ErrorCode.ALREADY_EXISTS_BOOKMARK);
+        }
+
         UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+                .orElseGet(() -> {
+                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
+                            .user(user)
+                            .popUpStore(popUpStore)
+                            .viewedAt(LocalDateTime.now())
+                            .viewCount(0)
+                            .commentCount(0)
+                            .bookmarkCount(0)
+                            .build();
+                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
+                });
 
         BookMarkPopUpStoreEntity bookMarkPopUpStore = BookMarkPopUpStoreEntity.builder()
                 .user(user)
@@ -193,7 +207,17 @@ public class UserService {
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
         UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+                .orElseGet(() -> {
+                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
+                            .user(user)
+                            .popUpStore(popUpStore)
+                            .viewedAt(LocalDateTime.now())
+                            .viewCount(0)
+                            .commentCount(0)
+                            .bookmarkCount(0)
+                            .build();
+                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
+                });
 
         BookMarkPopUpStoreEntity bookMarkPopUpStore = bookMarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BOOKMARK_NOT_FOUND));
@@ -316,7 +340,7 @@ public class UserService {
         UserEntity blocked = this.findUserByUserId(BlockedUserId);
 
         BlockedUserEntity blockedUser = blockedUserRepository.findByUserAndBlockedUser(blocker, blocked)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.BLOCKED_USER_NOT_FOUND));
 
         // 차단 해제
         blockedUserRepository.delete(blockedUser);
