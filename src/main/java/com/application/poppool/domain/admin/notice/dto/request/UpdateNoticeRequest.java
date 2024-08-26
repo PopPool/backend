@@ -1,4 +1,4 @@
-package com.application.poppool.domain.notice.dto.request;
+package com.application.poppool.domain.admin.notice.dto.request;
 
 import lombok.Getter;
 
