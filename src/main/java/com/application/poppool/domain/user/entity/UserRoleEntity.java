@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_roles")
+@Table(name = "user_roles" ,uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"USER_ID", "ROLE_ID"})
+})
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
@@ -29,6 +31,7 @@ public class UserRoleEntity extends BaseEntity {
     @Column(name = "ROLE")
     @Enumerated(EnumType.STRING)
     private Role userRole;
+
     public void setUser(UserEntity user) {
         this.user = user;
     }
