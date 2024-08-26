@@ -2,7 +2,7 @@ package com.application.poppool.domain.notice.entity;
 
 
 import com.application.poppool.domain.admin.notice.dto.request.UpdateNoticeRequest;
-import com.application.poppool.global.audit.BaseEntity;
+import com.application.poppool.global.audit.BaseAdminEntity;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,7 +12,7 @@ import lombok.*;
 @AllArgsConstructor
 @Builder
 @Getter
-public class NoticeEntity extends BaseEntity {
+public class NoticeEntity extends BaseAdminEntity {
 
     @Id
     @Column(name = "NOTICE_ID")
