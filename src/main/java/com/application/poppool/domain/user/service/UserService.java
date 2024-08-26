@@ -35,7 +35,6 @@ public class UserService {
     private final CommentRepository commentRepository;
     private final WithDrawlRepository withDrawlSurveyRepository;
     private final BlockedUserRepository blockedUserRepository;
-    private final BlockedUserRepositoryCustom blockedUserRepositoryCustom;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
     private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
     private final RefreshTokenService refreshTokenService;
@@ -291,7 +290,7 @@ public class UserService {
     public GetBlockedUserListResponse getBlockedUserList(String userId, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
-        Page<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoPage = blockedUserRepositoryCustom.getBlockedUserList(userId, pageable);
+        Page<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoPage = blockedUserRepository.getBlockedUserList(userId, pageable);
 
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = blockedUserInfoPage.stream()
                 .map(blockedUserInfo -> GetBlockedUserListResponse.BlockedUserInfo.builder()
@@ -319,6 +318,10 @@ public class UserService {
     public void blockUser(String userId, String blockedUserId) {
         UserEntity user = this.findUserByUserId(userId);
         UserEntity blocked = this.findUserByUserId(blockedUserId);
+
+        if (blockedUserRepository.existsByUserAndBlockedUser(user, blocked)) {
+            throw new BadRequestException(ErrorCode.ALREADY_BLOCKED_USER);
+        }
 
         BlockedUserEntity blockedUser = BlockedUserEntity.builder()
                 .user(user)
