@@ -1,5 +1,6 @@
 package com.application.poppool.domain.location.entity;
 
+import com.application.poppool.domain.admin.popup.dto.request.UpdatePopUpStoreRequest;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
@@ -28,4 +29,12 @@ public class LocationEntity extends BaseEntity {
 
     @Column(name = "MARKER_SNIPPET")
     private String markerSnippet;
+
+    public void updateLocation(UpdatePopUpStoreRequest.Location request) {
+        this.latitude = request.getLatitude();
+        this.longitude = request.getLongitude();
+        this.markerTitle = request.getMarkerTitle();
+        this.markerSnippet = request.getMarkerSnippet();
+    }
+
 }
