@@ -28,7 +28,8 @@ public class SwaggerConfig {
         LIKE("likes","/likes"),
         FILE("file","/files"),
         SEARCH("search","/search"),
-        LOCATION("location","/locations");
+        LOCATION("location","/locations"),
+        ADMIN("admin","/admin");
 
         private final String group;
         private final String urlPrefix;
@@ -57,7 +58,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.AUTH.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".auth")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.AUTH.getGroup())
                 .build();
     }
 
@@ -67,7 +68,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.SIGN_UP.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".sign_up")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.SIGN_UP.getGroup())
                 .build();
     }
 
@@ -77,7 +78,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.USER.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".user")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.USER.getGroup())
                 .build();
     }
 
@@ -87,7 +88,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.NOTICE.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".notice")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.NOTICE.getGroup())
                 .build();
     }
 
@@ -97,7 +98,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.HOME.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".home")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.HOME.getGroup())
                 .build();
     }
 
@@ -107,7 +108,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.POPUP_STORE.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".popup")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.POPUP_STORE.getGroup())
                 .build();
     }
 
@@ -117,7 +118,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.COMMENT.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".comment")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.COMMENT.getGroup())
                 .build();
     }
 
@@ -127,7 +128,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.LIKE.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".like")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.LIKE.getGroup())
                 .build();
     }
     @Bean
@@ -136,7 +137,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.FILE.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".file")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.FILE.getGroup())
                 .build();
     }
     @Bean
@@ -145,7 +146,7 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.SEARCH.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".search")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.SEARCH.getGroup())
                 .build();
     }
     @Bean
@@ -154,7 +155,18 @@ public class SwaggerConfig {
         return GroupedOpenApi.builder()
                 .group(name)
                 .pathsToMatch(ApiUrl.LOCATION.getUrlPrefix() + "/**")
-                .packagesToScan(BASE_PACKAGE + ".location")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.LOCATION.getGroup())
+                .build();
+    }
+
+
+    @Bean
+    public GroupedOpenApi adminApi() {
+        final String name = ApiUrl.ADMIN.getGroup();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.ADMIN.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.ADMIN.getGroup())
                 .build();
     }
 
