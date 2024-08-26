@@ -18,6 +18,7 @@ public class GetAdminPopUpStoreDetailResponse {
     private String address;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private String createUserId;
     private LocalDateTime createDateTime;
     private String mainImageUrl;
     private List<String> imageUrlList;

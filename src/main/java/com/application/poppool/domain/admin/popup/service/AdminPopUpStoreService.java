@@ -74,6 +74,7 @@ public class AdminPopUpStoreService {
                 .address(popUpStore.getAddress())
                 .startDate(popUpStore.getStartDate())
                 .endDate(popUpStore.getEndDate())
+                .createUserId(popUpStore.getCreator())
                 .createDateTime(popUpStore.getCreateDateTime())
                 .mainImageUrl(popUpStore.getMainImageUrl())
                 .imageUrlList(popUpStoreImageList)
