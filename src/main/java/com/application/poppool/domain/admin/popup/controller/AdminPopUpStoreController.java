@@ -24,14 +24,14 @@ public class AdminPopUpStoreController implements AdminPopUpStoreControllerDoc{
     private final AdminPopUpStoreService adminPopUpStoreService;
 
     @Override
-    @GetMapping("")
+    @GetMapping("/list")
     public ResponseEntity<GetAdminPopUpStoreListResponse> getAdminPopUpStoreList(@RequestParam(required = false) String query,
                                                                                  @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable){
         return ResponseEntity.ok(adminPopUpStoreService.getAdminPopUpStoreList(query, pageable));
     }
 
     @Override
-    @GetMapping("/detail")
+    @GetMapping("")
     public ResponseEntity<GetAdminPopUpStoreDetailResponse> getAdminPopUpStoreDetail(Long popUpStoreId) {
         return ResponseEntity.ok(adminPopUpStoreService.getAdminPopUpStoreDetail(popUpStoreId));
     }

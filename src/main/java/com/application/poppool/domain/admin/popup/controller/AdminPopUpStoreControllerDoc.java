@@ -21,7 +21,7 @@ public interface AdminPopUpStoreControllerDoc {
     ResponseEntity<GetAdminPopUpStoreListResponse> getAdminPopUpStoreList(@RequestParam(required = false) String query,
                                                                           @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable);
 
-    @Operation(summary = "팝업 스토어 상세 조회", description = "팝업 스토어 상세를 조회합니다.")
+    @Operation(summary = "팝업 스토어 조회", description = "팝업 스토어를 조회합니다.")
     ResponseEntity<GetAdminPopUpStoreDetailResponse> getAdminPopUpStoreDetail(@RequestParam Long popUpStoreId);
 
     @Operation(summary = "팝업 스토어 등록", description = "팝업 스토어를 등록합니다.")
