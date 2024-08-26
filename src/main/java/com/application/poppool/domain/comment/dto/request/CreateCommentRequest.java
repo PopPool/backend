@@ -14,5 +14,5 @@ public class CreateCommentRequest {
     private Long popUpStoreId;
     private String content;
     private CommentType commentType;
-    private List<String> imageUrlList = new ArrayList<>();
+    private List<String> imageUrlList;
 }
