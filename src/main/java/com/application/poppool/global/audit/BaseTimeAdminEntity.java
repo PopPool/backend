@@ -23,6 +23,9 @@ public abstract class BaseTimeAdminEntity {
     @Column(nullable = false, name = "UPDATE_DTM")
     private LocalDateTime updateDateTime;   // 수정일시
 
+    protected void setCreateDateTime(LocalDateTime createDateTime) {
+        this.createDateTime = createDateTime;
+    }
     protected void setUpdateDateTime(LocalDateTime updateDateTime) {
         this.updateDateTime = updateDateTime;
     }

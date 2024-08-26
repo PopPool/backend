@@ -1,22 +1,35 @@
 package com.application.poppool.global.audit;
 
-import com.application.poppool.domain.user.entity.UserEntity;
-import com.application.poppool.domain.user.entity.UserRoleEntity;
-import com.application.poppool.domain.user.repository.UserRepository;
-import com.application.poppool.global.exception.ErrorCode;
-import com.application.poppool.global.exception.NotFoundException;
+
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
-import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
-@RequiredArgsConstructor
+
+@Component
 public class AdminEntityListener {
 
-    private final UserRepository userRepository;
+
+    @PrePersist
+    public void prePersist(BaseAdminEntity entity) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        // 생성자 설정
+        entity.setCreator(authentication.getName());
+        
+        // 수정자 설정
+        entity.setUpdater(authentication.getName());
+
+        // 생성 시에 생성일시 설정
+        entity.setCreateDateTime(LocalDateTime.now());
+
+        // 수정일시도 생성 시에 설정
+        entity.setUpdateDateTime(LocalDateTime.now());
+    }
 
     @PreUpdate
     public void preUpdate(BaseAdminEntity entity) {
@@ -30,14 +43,8 @@ public class AdminEntityListener {
     private boolean isAdmin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
-        UserEntity user = userRepository.findByUserId(authentication.getName())
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-
-        // 해당 유저의 권한 가져오기
-        Set<UserRoleEntity> userRoleList = user.getUserRoles();
-
-        // 관리자 여부 체크
-        return userRoleList.stream().anyMatch(role -> role.getUserRole().name().equals("ADMIN"));
+        return authentication.getAuthorities().stream()
+                .anyMatch(grantedAuthority -> grantedAuthority.getAuthority().equals("ROLE_ADMIN"));
     }
 
 }
