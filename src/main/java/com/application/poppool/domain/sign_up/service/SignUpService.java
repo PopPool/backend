@@ -82,6 +82,7 @@ public class SignUpService {
         UserRoleEntity userRole = UserRoleEntity.builder()
                 .user(user)
                 .role(role)
+                .userRole(role.getRole())
                 .build();
 
         user.addUserRole(userRole);
