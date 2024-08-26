@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.repository;
 
+import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
@@ -33,4 +34,8 @@ public interface PopUpStoreRepositoryCustom {
     /** 팝업 스토어 찾아가는 길*/
     GetPopUpStoreDirectionResponse getPopUpStoreDirection(Long popUpStoreId);
 
+    /** 관리자 페이지 팝업 스토어 리스트 조회 */
+    List<GetAdminPopUpStoreListResponse.PopUpStore> getAdminPopUpStoreList(String query, Pageable pageable);
+
+    long countAdminPopUpStores(String query);
 }

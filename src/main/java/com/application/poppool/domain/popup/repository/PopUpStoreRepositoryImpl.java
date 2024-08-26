@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.repository;
 
+import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
@@ -190,8 +191,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.address.as("address")
                 ))
                 .from(popUpStoreEntity)
-                .where(popUpStoreEntity.name.containsIgnoreCase(query)
-                        .or(popUpStoreEntity.address.containsIgnoreCase(query)),
+                .where(nameContains(query)
+                        .or(addressContains(query)),
                         isActivePopup())
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
@@ -202,7 +203,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(categoryIn(categories),
-                        popUpStoreEntity.name.containsIgnoreCase(query),
+                        nameContains(query),
                         isActivePopup())
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
@@ -241,6 +242,31 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(popUpStoreIdEq(popUpStoreId),
                         isActivePopup())
                 .fetchOne();
+    }
+
+    @Override
+    public List<GetAdminPopUpStoreListResponse.PopUpStore> getAdminPopUpStoreList(String query, Pageable pageable) {
+        return queryFactory.select(Projections.bean(GetAdminPopUpStoreListResponse.PopUpStore.class,
+                popUpStoreEntity.id.as("id"),
+                popUpStoreEntity.name.as("name"),
+                popUpStoreEntity.category.as("category"),
+                popUpStoreEntity.mainImageUrl.as("mainImageUrl")
+                ))
+                .from(popUpStoreEntity)
+                .where(nameContains(query))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public long countAdminPopUpStores(String query) {
+        Long count = queryFactory.select(popUpStoreEntity.count())
+                .from(popUpStoreEntity)
+                .where(nameContains(query))
+                .fetchOne();
+        return count != null ? count : 0L;
     }
 
 
@@ -301,6 +327,20 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
    private BooleanExpression isActivePopup() {
         LocalDateTime now = LocalDateTime.now();
         return popUpStoreEntity.endDate.goe(now);
+    }
+
+    private BooleanExpression nameContains(String query) {
+        if (query == null) {
+            return null;
+        }
+        return popUpStoreEntity.name.containsIgnoreCase(query);
+    }
+
+    private BooleanExpression addressContains(String query) {
+        if (query == null) {
+            return null;
+        }
+        return popUpStoreEntity.address.containsIgnoreCase(query);
     }
 
 }
