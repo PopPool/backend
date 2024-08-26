@@ -32,13 +32,11 @@ public class CustomUserDetailsService implements UserDetailsService {
         // 비밀번호가 null인 경우 빈 문자열로 대체, 인증을 하기 위함
         String password = user.getPassword() != null ? user.getPassword() : "";
 
-
         // DB에 저장된 사용자 권한 가져옴
         Set<GrantedAuthority> authorities = user.getUserRoles()
                 .stream()
-                .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getRole()))
+                .map(userRole -> new SimpleGrantedAuthority("ROLE_" + userRole.getUserRole()))
                 .collect(Collectors.toSet());
-
 
         return new User(
                 user.getUserId(),
