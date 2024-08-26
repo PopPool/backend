@@ -1,6 +1,7 @@
 package com.application.poppool.domain.user.repository;
 
 import com.application.poppool.domain.user.dto.response.GetBlockedUserListResponse;
+import com.application.poppool.domain.user.entity.QUserEntity;
 import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
@@ -27,14 +28,16 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
 
     @Override
     public Page<GetBlockedUserListResponse.BlockedUserInfo> getBlockedUserList(String userId, Pageable pageable) {
+        QUserEntity blockedUser = new QUserEntity("blockedUser");
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = queryFactory.select(Projections.bean(GetBlockedUserListResponse.BlockedUserInfo.class,
-                userEntity.userId.as("userId"),
-                userEntity.profileImageUrl.as("profileImageUrl"),
-                userEntity.nickname.as("nickname"),
-                userEntity.instagramId.as("instagramId")
+                blockedUser.userId.as("userId"),
+                blockedUser.profileImageUrl.as("profileImageUrl"),
+                blockedUser.nickname.as("nickname"),
+                blockedUser.instagramId.as("instagramId")
         ))
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.blockedUser,userEntity)
+                .join(blockedUserEntity.user,userEntity)
+                .join(blockedUserEntity.blockedUser,blockedUser)
                 .where(eqUserId(userId))
                 .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, blockedUserEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
@@ -46,7 +49,7 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
                 .select(blockedUserEntity.count())
                 .from(blockedUserEntity)
                 .join(blockedUserEntity.user,userEntity)
-                .join(blockedUserEntity.blockedUser,userEntity)
+                .join(blockedUserEntity.blockedUser,blockedUser)
                 .where(eqUserId(userId));
 
         // Page 객체 생성
