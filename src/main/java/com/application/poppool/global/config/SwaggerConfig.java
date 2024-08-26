@@ -19,13 +19,13 @@ public class SwaggerConfig {
     @Getter
     public enum ApiUrl {
         AUTH("auth","/auth"),
-        SIGN_UP("signup","/signup"),
-        USER("users","/users"),
+        SIGN_UP("sign_up","/signup"),
+        USER("user","/users"),
         NOTICE("notice","/notice"),
         HOME("home","/home"),
         POPUP_STORE("popup","/popup"),
-        COMMENT("comments","/comments"),
-        LIKE("likes","/likes"),
+        COMMENT("comment","/comments"),
+        LIKE("like","/likes"),
         FILE("file","/files"),
         SEARCH("search","/search"),
         LOCATION("location","/locations"),
