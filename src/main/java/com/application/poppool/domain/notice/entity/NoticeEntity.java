@@ -1,12 +1,10 @@
 package com.application.poppool.domain.notice.entity;
 
 
-import com.application.poppool.domain.notice.dto.request.UpdateNoticeRequest;
+import com.application.poppool.domain.admin.notice.dto.request.UpdateNoticeRequest;
 import com.application.poppool.global.audit.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
-
-import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "notice")
