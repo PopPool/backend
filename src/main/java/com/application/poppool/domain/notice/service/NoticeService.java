@@ -1,13 +1,10 @@
 package com.application.poppool.domain.notice.service;
 
 
-import com.application.poppool.domain.notice.dto.request.CreateNoticeRequest;
-import com.application.poppool.domain.notice.dto.request.UpdateNoticeRequest;
 import com.application.poppool.domain.notice.dto.response.GetNoticeDetailResponse;
 import com.application.poppool.domain.notice.dto.response.GetNoticeListResponse;
 import com.application.poppool.domain.notice.entity.NoticeEntity;
 import com.application.poppool.domain.notice.repository.NoticeRepository;
-import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -57,53 +54,6 @@ public class NoticeService {
                 .content(notice.getContent())
                 .createDateTime(notice.getCreateDateTime())
                 .build();
-    }
-
-    /**
-     * 공지사항 작성
-     * @param request
-     */
-    @Transactional
-    public void createNotice(CreateNoticeRequest request) {
-        NoticeEntity notice = NoticeEntity.builder()
-                .title(request.getTitle())
-                .content(request.getContent())
-                .build();
-
-        noticeRepository.save(notice);
-    }
-
-    /**
-     * 공지사항 수정
-     * @param id
-     * @param request
-     */
-    @Transactional
-    public void updateNotice(Long id, UpdateNoticeRequest request) {
-        NoticeEntity notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
-
-        // 공지사항 수정
-        notice.updateNotice(request);
-    }
-
-    /**
-     * 공지사항 삭제
-     * @param id
-     * @param adminId
-     */
-    @Transactional
-    public void deleteNotice(Long id, String adminId) {
-        NoticeEntity notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
-
-        // 관리자만 삭제할 수 있도록 검증
-        if (!adminId.equals(notice.getCreator()) || !adminId.equals("admin")){
-            throw new BadRequestException(ErrorCode.NOT_ADMIN);
-        }
-
-        // 공지사항 삭제
-        noticeRepository.delete(notice);
     }
 
 }
