@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.entity;
 
+import com.application.poppool.domain.admin.popup.dto.request.UpdatePopUpStoreRequest;
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
@@ -67,7 +68,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @Builder.Default
     private long commentCount = 0;
 
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "LOCATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private LocationEntity location;
 
@@ -88,7 +89,17 @@ public class PopUpStoreEntity extends BaseAdminEntity {
 
     public void addImage(PopUpStoreImageEntity image) {
         this.images.add(image);
-        image.setPopupStore(this);
+        image.setPopUpStore(this);
+    }
+
+    public void updatePopUpStore(UpdatePopUpStoreRequest.PopUpStore request) {
+        this.name = request.getName();
+        this.category = request.getCategory();
+        this.desc = request.getDesc();
+        this.address = request.getAddress();
+        this.startDate = request.getStartDate();
+        this.endDate = request.getEndDate();
+        this.mainImageUrl = request.getMainImageUrl();
     }
 
     public void incrementViewCount() {
