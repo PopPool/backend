@@ -25,7 +25,7 @@ public class PopUpStoreImageEntity extends BaseEntity {
     @Column(name = "IMAGE_URL")
     private String url;
 
-    public void setPopupStore(PopUpStoreEntity popUpStore) {
+    public void setPopUpStore(PopUpStoreEntity popUpStore) {
         this.popUpStore = popUpStore;
     }
 
