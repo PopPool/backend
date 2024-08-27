@@ -91,7 +91,7 @@ public class CommentService {
             }
         }
 
-        // 팝업 스토어 뷰 코멘트 수 - 1
+        // 팝업 스토어 뷰 코멘트 수 + 1
         userPopUpStoreView.incrementCommentCount();
         
     }
