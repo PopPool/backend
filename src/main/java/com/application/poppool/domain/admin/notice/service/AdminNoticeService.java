@@ -45,7 +45,7 @@ public class AdminNoticeService {
     @Transactional
     public void updateNotice(Long id, UpdateNoticeRequest request) {
         NoticeEntity notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOTICE_NOT_FOUND));
 
         // 공지사항 수정
         notice.updateNotice(request);
@@ -59,7 +59,7 @@ public class AdminNoticeService {
     @Transactional
     public void deleteNotice(Long id, String adminId) {
         NoticeEntity notice = noticeRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.DATA_NOT_FOUND));
+                .orElseThrow(() -> new NotFoundException(ErrorCode.NOTICE_NOT_FOUND));
 
         UserEntity user = userRepository.findByUserId(adminId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
