@@ -35,6 +35,7 @@ public enum ErrorCode {
     LIKE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 좋아요(도움돼요)입니다."),
     BOOKMARK_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 찜입니다."),
     DATA_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 데이터입니다."),
+    NOTICE_NOT_FOUND(HttpStatus.NOT_FOUND, "존재하지 않는 공지사항입니다."),
     DATA_MAPPING_ERROR(HttpStatus.BAD_REQUEST,"데이터가 올바르게 매핑되지 않았습니다"),
     TOKEN_BLACK_LIST_EXCEPTION(HttpStatus.UNAUTHORIZED, "해당 토큰은 블랙리스트에 등록된 토큰입니다."),
     NOT_TEMPORARY_TOKEN_ALLOWED_URL_EXCEPTION(HttpStatus.UNAUTHORIZED, "임시 토큰으로 접근할 수 없는 URL입니다."),
