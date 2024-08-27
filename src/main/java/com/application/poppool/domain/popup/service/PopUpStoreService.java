@@ -91,6 +91,9 @@ public class PopUpStoreService {
                         .build())
                 .toList();
 
+        /** 비슷한 팝업 리스트 조회 */
+        List<GetPopUpStoreDetailResponse.PopUpStore> similarPopUpStoreList = popUpStoreRepository
+                .getSimilarPopUpStoreList(popUpStoreId, popUpStore.getCategory());
 
         /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
         int retryCount = 0;
@@ -123,6 +126,7 @@ public class PopUpStoreService {
                 .bookmarkYn(bookmarkYn)
                 .loginYn(loginYn)
                 .commentList(commentList)
+                .similarPopUpStoreList(similarPopUpStoreList)
                 .build();
 
     }

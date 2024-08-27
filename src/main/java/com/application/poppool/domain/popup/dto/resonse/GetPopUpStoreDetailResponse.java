@@ -21,6 +21,16 @@ public class GetPopUpStoreDetailResponse {
     private String popUpStoreMainImageUrl;
     private List<PopUpStoreImage> popUpStoreImageList;
     private List<Comment> commentList;
+    private List<PopUpStore> similarPopUpStoreList;
+
+    @Getter
+    @Builder
+    public static class PopUpStore {
+        private Long id;
+        private String name;
+        private String mainImageUrl;
+        private LocalDateTime endDate;
+    }
 
     @Getter
     @Builder

@@ -3,6 +3,7 @@ package com.application.poppool.domain.popup.repository;
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
@@ -78,7 +79,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .on(ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
                 .where(categoryIn(userInterestCategoryList),
-                        isActivePopup())
+                        isActivePopUp())
                 .groupBy(popUpStoreEntity.id)
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
@@ -101,7 +102,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .on(ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
                 .where(categoryIn(userInterestCategoryList),
-                        isActivePopup())
+                        isActivePopUp())
                 .fetchOne();
         return count != null ? count : 0L;
     }
@@ -118,7 +119,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                     popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
-                .where(isActivePopup())
+                .where(isActivePopUp())
                 .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -129,7 +130,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     public long countPopularPopUpStores() {
         Long count = queryFactory.select(popUpStoreEntity.count())
                 .from(popUpStoreEntity)
-                .where(isActivePopup())
+                .where(isActivePopUp())
                 .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
                 .fetchOne();
         return count != null ? count : 0L;
@@ -152,7 +153,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 ))
                 .from(popUpStoreEntity)
                 .where(isNewPopUpStore(newPopUpDueDate, currentDate),
-                        isActivePopup())
+                        isActivePopUp())
                 .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -170,6 +171,23 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(isNewPopUpStore(newPopUpDueDate, currentDate))
                 .fetchOne();
         return count != null ? count : 0L;
+    }
+
+    @Override
+    public List<GetPopUpStoreDetailResponse.PopUpStore> getSimilarPopUpStoreList(Long popUpStoreId, Category category) {
+        return queryFactory.select(Projections.bean(GetPopUpStoreDetailResponse.PopUpStore.class,
+                popUpStoreEntity.id.as("id"),
+                popUpStoreEntity.name.as("name"),
+                popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                popUpStoreEntity.endDate.as("endDate")
+        ))
+                .from(popUpStoreEntity)
+                .where(categoryEq(category), // 같은 카테고리
+                        isActivePopUp(),  // 현재 진행 중인 팝업
+                        popUpStoreIdNe(popUpStoreId)) // 현재 조회한 팝업은 제외
+                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
+                .limit(3) // 최대 3개
+                .fetch();
     }
 
     private DateTimeTemplate<LocalDateTime> getNewPopUpDueDate() {
@@ -193,7 +211,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .where(nameContains(query)
                         .or(addressContains(query)),
-                        isActivePopup())
+                        isActivePopUp())
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
     }
@@ -204,7 +222,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(categoryIn(categories),
                         nameContains(query),
-                        isActivePopup())
+                        isActivePopUp())
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
 
@@ -215,7 +233,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(categoryIn(categories),
-                        isActivePopup(),
+                        isActivePopUp(),
                         latitudeBetween(southWestLat, northEastLat),
                         longitudeBetween(southWestLon, northEastLon))
                 .fetch();
@@ -240,7 +258,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(popUpStoreIdEq(popUpStoreId),
-                        isActivePopup())
+                        isActivePopUp())
                 .fetchOne();
     }
 
@@ -324,7 +342,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return locationEntity.longitude.between(southWestLon, northEastLon);
     }
 
-   private BooleanExpression isActivePopup() {
+   private BooleanExpression isActivePopUp() {
         LocalDateTime now = LocalDateTime.now();
         return popUpStoreEntity.endDate.goe(now);
     }
@@ -341,6 +359,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
             return null;
         }
         return popUpStoreEntity.address.containsIgnoreCase(query);
+    }
+
+    private BooleanExpression popUpStoreIdNe(Long popUpStoreId) {
+        if (popUpStoreId == null) {
+            return null;
+        }
+        return popUpStoreEntity.id.ne(popUpStoreId);
     }
 
 }
