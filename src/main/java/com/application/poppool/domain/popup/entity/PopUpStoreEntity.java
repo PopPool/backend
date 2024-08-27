@@ -17,7 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "popup_store")
+@Table(name = "popup_store", uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"LOCATION_ID"})
+})
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
