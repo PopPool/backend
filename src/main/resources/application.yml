@@ -56,8 +56,11 @@ server:
 
 logging:
   level:
+    root: ERROR
     com.application.poppool: DEBUG
-
+  file:
+    name: application-error.log
+    path: /var/log
 ---
 spring:
   confing:
