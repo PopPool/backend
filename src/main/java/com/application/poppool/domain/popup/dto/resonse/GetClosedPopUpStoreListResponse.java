@@ -1,7 +1,6 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
 import com.application.poppool.domain.category.enums.Category;
-import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -9,13 +8,12 @@ import java.util.List;
 
 @Getter
 @Builder
-public class GetAllPopUpListResponse {
+public class GetClosedPopUpStoreListResponse {
 
-    private List<PopUpStore> popUpStoreList;
+    private List<PopUpStore> closedPopUpStoreList;
+    private int totalPages;
+    private long totalElements;
 
-    /**
-     * 맞춤 팝업
-     */
     @Data
     @Builder
     @NoArgsConstructor
