@@ -6,7 +6,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "blocked_users",
+@Table(name = "blocked_user",
         uniqueConstraints = {
         @UniqueConstraint(columnNames = {"USER_ID", "BLOCKED_USER_ID"})},
         indexes = {

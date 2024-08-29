@@ -6,7 +6,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 @Entity
-@Table(name = "user_bookmark_pop_up_store", uniqueConstraints = {
+@Table(name = "user_bookmark_popup_store", uniqueConstraints = {
         @UniqueConstraint(columnNames = {"USER_ID", "POPUP_STORE_ID"})
 })
 @AllArgsConstructor
