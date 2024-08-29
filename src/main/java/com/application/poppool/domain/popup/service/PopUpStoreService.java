@@ -1,9 +1,11 @@
 package com.application.poppool.domain.popup.service;
 
+import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.service.CommentService;
-import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
@@ -132,29 +134,56 @@ public class PopUpStoreService {
     }
 
     /**
-     * 전체 팝업 리스트 조회
+     * 진행 중(오픈)인 팝업 리스트 조회
      * @param pageable
      * @return
      */
     @Transactional(readOnly = true)
-    public GetAllPopUpListResponse getAllPopUpList(Pageable pageable) {
-        Page<PopUpStoreEntity> popUpStorePage = popUpStoreRepository.findAll(pageable);
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(List<Category> categories, Pageable pageable) {
+        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(categories, pageable);
 
-        List<GetAllPopUpListResponse.PopUpStore> popUpStoreList = popUpStorePage.stream()
-                .map(popUpStore -> GetAllPopUpListResponse.PopUpStore.builder()
-                        .id(popUpStore.getId())
-                        .category(popUpStore.getCategory())
-                        .name(popUpStore.getName())
-                        .address(popUpStore.getAddress())
-                        .mainImageUrl(popUpStore.getMainImageUrl())
-                        .startDate(popUpStore.getStartDate())
-                        .endDate(popUpStore.getEndDate())
-                        .build())
-                .toList();
+        // 오픈 팝업 전체 데이터 수
+        long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
 
-        return GetAllPopUpListResponse.builder().popUpStoreList(popUpStoreList).build();
+        // 오픈 팝업 페이지 수
+        int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
+
+        return GetOpenPopUpStoreListResponse.builder()
+                .openPopUpStoreList(openPopUpStoreList)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
+                .build();
     }
 
+
+    /**
+     * 종료 팝업 리스트 조회 
+     * @param categories
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(List<Category> categories, Pageable pageable) {
+        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(categories, pageable);
+
+        // 종료 팝업 전체 데이터 수
+        long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
+
+        // 종료 팝업 페이지 수
+        int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
+
+        return GetClosedPopUpStoreListResponse.builder()
+                .closedPopUpStoreList(closedPopUpStoreList)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
+                .build();
+    }
+
+    /**
+     * 팝업 스토어 찾아가는 길
+     * @param popUpStoreId
+     * @return
+     */
     @Transactional(readOnly = true)
     public GetPopUpStoreDirectionResponse getPopUpStoreDirection(Long popUpStoreId) {
         return popUpStoreRepository.getPopUpStoreDirection(popUpStoreId);

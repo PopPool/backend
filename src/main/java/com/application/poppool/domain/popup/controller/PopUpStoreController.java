@@ -1,7 +1,9 @@
 package com.application.poppool.domain.popup.controller;
 
+import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.enums.CommentType;
-import com.application.poppool.domain.popup.dto.resonse.GetAllPopUpListResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
+import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.service.PopUpStoreService;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -30,10 +34,17 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     }
 
     @Override
-    @GetMapping("/list")
-    public ResponseEntity<GetAllPopUpListResponse> getAllPopUpList(@PageableDefault(page = 0, size = 6, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(popUpStoreService.getAllPopUpList(pageable));
+    @GetMapping("/open")
+    public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Category> categories,
+                                                                               @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(categories, pageable));
+    }
 
+    @Override
+    @GetMapping("/closed")
+    public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Category> categories,
+                                                                                   @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(categories, pageable));
     }
 
     @Override
