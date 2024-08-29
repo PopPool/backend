@@ -22,7 +22,7 @@ public class PopUpStoreImageEntity extends BaseEntity {
     @JoinColumn(name = "POPUP_STORE_ID", nullable = false, foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PopUpStoreEntity popUpStore;
 
-    @Column(name = "IMAGE_URL")
+    @Column(name = "URL")
     private String url;
 
     public void setPopUpStore(PopUpStoreEntity popUpStore) {

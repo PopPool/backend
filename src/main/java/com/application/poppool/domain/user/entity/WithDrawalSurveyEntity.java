@@ -15,7 +15,6 @@ import lombok.*;
 public class WithDrawalSurveyEntity extends BaseEntity {
 
     @Id
-    @Column(name = "ID")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 

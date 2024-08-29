@@ -35,7 +35,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     private String name;
 
     @Lob
-    @Column(name = "DESCRIPTION")
+    @Column(name = "DESC")
     private String desc;
 
     @Column(name = "MAIN_IMAGE_URL")
