@@ -1,6 +1,5 @@
 package com.application.poppool.global.utils;
 
-import com.querydsl.core.types.dsl.NumberPath;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 

@@ -18,18 +18,18 @@ public class SwaggerConfig {
 
     @Getter
     public enum ApiUrl {
-        AUTH("auth","/auth"),
-        SIGN_UP("sign_up","/signup"),
-        USER("user","/users"),
-        NOTICE("notice","/notice"),
-        HOME("home","/home"),
-        POPUP_STORE("popup","/popup"),
-        COMMENT("comment","/comments"),
-        LIKE("like","/likes"),
-        FILE("file","/files"),
-        SEARCH("search","/search"),
-        LOCATION("location","/locations"),
-        ADMIN("admin","/admin");
+        AUTH("auth", "/auth"),
+        SIGN_UP("sign_up", "/signup"),
+        USER("user", "/users"),
+        NOTICE("notice", "/notice"),
+        HOME("home", "/home"),
+        POPUP_STORE("popup", "/popup"),
+        COMMENT("comment", "/comments"),
+        LIKE("like", "/likes"),
+        FILE("file", "/files"),
+        SEARCH("search", "/search"),
+        LOCATION("location", "/locations"),
+        ADMIN("admin", "/admin");
 
         private final String group;
         private final String urlPrefix;
@@ -131,6 +131,7 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + "." + ApiUrl.LIKE.getGroup())
                 .build();
     }
+
     @Bean
     public GroupedOpenApi fileApi() {
         final String name = ApiUrl.FILE.getGroup();
@@ -140,6 +141,7 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + "." + ApiUrl.FILE.getGroup())
                 .build();
     }
+
     @Bean
     public GroupedOpenApi searchApi() {
         final String name = ApiUrl.SEARCH.getGroup();
@@ -149,6 +151,7 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + "." + ApiUrl.SEARCH.getGroup())
                 .build();
     }
+
     @Bean
     public GroupedOpenApi locationApi() {
         final String name = ApiUrl.LOCATION.getGroup();
@@ -169,7 +172,6 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + "." + ApiUrl.ADMIN.getGroup())
                 .build();
     }
-
 
 
 }

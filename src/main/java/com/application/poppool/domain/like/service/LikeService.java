@@ -2,8 +2,8 @@ package com.application.poppool.domain.like.service;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.repository.CommentRepository;
-import com.application.poppool.domain.like.repository.LikeRepository;
 import com.application.poppool.domain.like.entity.LikeEntity;
+import com.application.poppool.domain.like.repository.LikeRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
@@ -25,6 +25,7 @@ public class LikeService {
 
     /**
      * 좋아요
+     *
      * @param userId
      * @param commentId
      */
@@ -69,6 +70,7 @@ public class LikeService {
 
     /**
      * 좋아요 취소
+     *
      * @param userId
      * @param commentId
      */
@@ -107,6 +109,7 @@ public class LikeService {
 
     /**
      * 좋아요 여부 확인
+     *
      * @param user
      * @param comment
      * @return
@@ -118,6 +121,7 @@ public class LikeService {
 
     /**
      * 코멘트에 달린 좋아요 수 count
+     *
      * @param comment
      * @return
      */

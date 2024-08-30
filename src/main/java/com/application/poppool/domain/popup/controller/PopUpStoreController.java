@@ -28,22 +28,22 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/{popUpStoreId}/detail")
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
-                                                                          @RequestParam(name = "commentType") CommentType commentType,
-                                                                          @PathVariable Long popUpStoreId) {
+                                                                           @RequestParam(name = "commentType") CommentType commentType,
+                                                                           @PathVariable Long popUpStoreId) {
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, commentType, popUpStoreId));
     }
 
     @Override
     @GetMapping("/open")
     public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Category> categories,
-                                                                               @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                               @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(categories, pageable));
     }
 
     @Override
     @GetMapping("/closed")
     public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Category> categories,
-                                                                                   @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                                   @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(categories, pageable));
     }
 

@@ -21,7 +21,9 @@ public interface BookMarkPopUpStoreRepository extends JpaRepository<BookMarkPopU
 
     boolean existsByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
 
-    /** FindByFK (외래키로 조회) */
+    /**
+     * FindByFK (외래키로 조회)
+     */
     // findBy + "FK가 참조하는 엔티티명" + "_" + "FK가 참조하는 엔티티의 ID 필드명(첫글자 대문자)"
     Optional<BookMarkPopUpStoreEntity> findByUser_UserIdAndPopUpStore_Id(String userId, Long popUpStoreId);
 

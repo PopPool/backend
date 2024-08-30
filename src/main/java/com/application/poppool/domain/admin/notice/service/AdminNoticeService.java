@@ -25,6 +25,7 @@ public class AdminNoticeService {
 
     /**
      * 공지사항 작성
+     *
      * @param request
      */
     @Transactional
@@ -39,6 +40,7 @@ public class AdminNoticeService {
 
     /**
      * 공지사항 수정
+     *
      * @param id
      * @param request
      */
@@ -53,6 +55,7 @@ public class AdminNoticeService {
 
     /**
      * 공지사항 삭제
+     *
      * @param id
      * @param adminId
      */
@@ -71,7 +74,7 @@ public class AdminNoticeService {
         boolean isAdmin = userRoleList.stream().anyMatch(role -> role.getUserRole().name().equals("ADMIN"));
 
         // 관리자 권한 가진 유저만 삭제할 수 있도록 검증
-        if (!isAdmin){
+        if (!isAdmin) {
             throw new BadRequestException(ErrorCode.NOT_ADMIN);
         }
 

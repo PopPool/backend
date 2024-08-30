@@ -93,7 +93,7 @@ public class CommentService {
 
         // 팝업 스토어 뷰 코멘트 수 + 1
         userPopUpStoreView.incrementCommentCount();
-        
+
     }
 
     @Transactional
@@ -104,8 +104,8 @@ public class CommentService {
 
         // 코멘트 내용(텍스트) 수정
         comment.updateComment(request.getContent());
-        
-        
+
+
         // 코멘트 이미지 수정
         for (UpdateCommentRequest.ImageAction imageAction : request.getImageUrlList()) {
             switch (imageAction.getActionType()) {

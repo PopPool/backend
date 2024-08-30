@@ -26,7 +26,7 @@ public class CommentImageEntity extends BaseEntity {
     private String url;
 
     public void setComment(CommentEntity comment) {
-        this.comment =comment;
+        this.comment = comment;
     }
 
 }

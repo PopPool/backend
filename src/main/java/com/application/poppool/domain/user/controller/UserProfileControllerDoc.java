@@ -26,7 +26,7 @@ public interface UserProfileControllerDoc {
 
     @Operation(summary = "회원 관심 카테고리 수정", description = "회원 관심 카테고리를 수정합니다.")
     void updateMyInterestCategory(@PathVariable("userId") String userId,
-                           @RequestBody @Valid UpdateMyInterestCategoryRequest request);
+                                  @RequestBody @Valid UpdateMyInterestCategoryRequest request);
 
     @Operation(summary = "회원 맞춤 정보 수정", description = "회원 맞춤 정보를 수정합니다.")
     public void updateMyTailoredInfo(@PathVariable("userId") String userId,

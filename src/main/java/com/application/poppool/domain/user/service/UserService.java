@@ -22,7 +22,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -77,6 +76,7 @@ public class UserService {
 
     /**
      * 내가 쓴 일반/인스타 코멘트 조회
+     *
      * @param userId
      * @return
      */
@@ -102,6 +102,7 @@ public class UserService {
 
     /**
      * 찜한 팝업스토어 목록 조회
+     *
      * @param userId
      * @param pageable
      * @return
@@ -141,6 +142,7 @@ public class UserService {
 
     /**
      * 팝업스토어 찜
+     *
      * @param userId
      * @param popUpStoreId
      */
@@ -154,7 +156,7 @@ public class UserService {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_BOOKMARK);
         }
 
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
                 .orElseGet(() -> {
                     UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
                             .user(user)
@@ -197,6 +199,7 @@ public class UserService {
 
     /**
      * 팝업스토어 찜 취소
+     *
      * @param userId
      * @param popUpStoreId
      */
@@ -206,7 +209,7 @@ public class UserService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
                 .orElseGet(() -> {
                     UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
                             .user(user)
@@ -249,6 +252,7 @@ public class UserService {
 
     /**
      * 최근 본 팝업스토어 조회
+     *
      * @param userId
      * @param pageable
      * @return
@@ -282,6 +286,7 @@ public class UserService {
 
     /**
      * 차단한 사용자 목록 조회
+     *
      * @param userId
      * @param pageable
      * @return
@@ -311,7 +316,8 @@ public class UserService {
 
     /**
      * 유저(사용자) 차단
-     * @param userId // 차단을 한 사용자
+     *
+     * @param userId        // 차단을 한 사용자
      * @param blockedUserId // 차단된 사용자
      */
     @Transactional
@@ -336,6 +342,7 @@ public class UserService {
 
     /**
      * 유저(사용자) 차단 해제
+     *
      * @param BlockerUserId
      * @param BlockedUserId
      */
@@ -414,6 +421,7 @@ public class UserService {
 
     /**
      * 유저 엔티티 조회
+     *
      * @param userId
      * @return
      */

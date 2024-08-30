@@ -30,14 +30,14 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
     public Page<GetBlockedUserListResponse.BlockedUserInfo> getBlockedUserList(String userId, Pageable pageable) {
         QUserEntity blockedUser = new QUserEntity("blockedUser");
         List<GetBlockedUserListResponse.BlockedUserInfo> blockedUserInfoList = queryFactory.select(Projections.bean(GetBlockedUserListResponse.BlockedUserInfo.class,
-                blockedUser.userId.as("userId"),
-                blockedUser.profileImageUrl.as("profileImageUrl"),
-                blockedUser.nickname.as("nickname"),
-                blockedUser.instagramId.as("instagramId")
-        ))
+                        blockedUser.userId.as("userId"),
+                        blockedUser.profileImageUrl.as("profileImageUrl"),
+                        blockedUser.nickname.as("nickname"),
+                        blockedUser.instagramId.as("instagramId")
+                ))
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.user,userEntity)
-                .join(blockedUserEntity.blockedUser,blockedUser)
+                .join(blockedUserEntity.user, userEntity)
+                .join(blockedUserEntity.blockedUser, blockedUser)
                 .where(eqUserId(userId))
                 .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, blockedUserEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
@@ -48,8 +48,8 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
         JPAQuery<Long> countQuery = queryFactory
                 .select(blockedUserEntity.count())
                 .from(blockedUserEntity)
-                .join(blockedUserEntity.user,userEntity)
-                .join(blockedUserEntity.blockedUser,blockedUser)
+                .join(blockedUserEntity.user, userEntity)
+                .join(blockedUserEntity.blockedUser, blockedUser)
                 .where(eqUserId(userId));
 
         // Page 객체 생성

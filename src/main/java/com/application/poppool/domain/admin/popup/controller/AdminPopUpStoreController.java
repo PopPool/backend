@@ -5,7 +5,6 @@ import com.application.poppool.domain.admin.popup.dto.request.UpdatePopUpStoreRe
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreDetailResponse;
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
 import com.application.poppool.domain.admin.popup.service.AdminPopUpStoreService;
-
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,14 +18,14 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/admin/popup-stores")
-public class AdminPopUpStoreController implements AdminPopUpStoreControllerDoc{
+public class AdminPopUpStoreController implements AdminPopUpStoreControllerDoc {
 
     private final AdminPopUpStoreService adminPopUpStoreService;
 
     @Override
     @GetMapping("/list")
     public ResponseEntity<GetAdminPopUpStoreListResponse> getAdminPopUpStoreList(@RequestParam(required = false) String query,
-                                                                                 @PageableDefault(page = 0, size = 10, sort = "startDate",direction = Sort.Direction.DESC) Pageable pageable){
+                                                                                 @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(adminPopUpStoreService.getAdminPopUpStoreList(query, pageable));
     }
 

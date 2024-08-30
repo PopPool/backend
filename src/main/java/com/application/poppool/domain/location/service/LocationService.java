@@ -19,6 +19,7 @@ public class LocationService {
 
     /**
      * 지도로 팝업스토어 검색
+     *
      * @param category
      * @param query
      * @return
@@ -50,6 +51,7 @@ public class LocationService {
 
     /**
      * 뷰 바운즈 내 팝업 스토어 정보 조회
+     *
      * @param category
      * @param northEastLat
      * @param northEastLon

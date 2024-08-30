@@ -10,7 +10,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -23,6 +22,7 @@ public class HomeService {
 
     /**
      * 홈 조회
+     *
      * @param userId
      * @param pageable
      * @return
@@ -56,7 +56,7 @@ public class HomeService {
 
         /**신규 팝업 리스트 */
         List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
-        
+
         // 전체 신규 팝업 데이터 수
         long newPopUpStoreTotalElements = popUpStoreRepository.countNewPopUpStores(currentDate);
 

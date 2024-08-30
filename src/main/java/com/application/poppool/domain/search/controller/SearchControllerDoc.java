@@ -9,6 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Tag(name = "통합 검색 API")
 public interface SearchControllerDoc {
 
-    @Operation(summary = "통합 검색" , description = "통합 검색을 합니다.")
+    @Operation(summary = "통합 검색", description = "통합 검색을 합니다.")
     ResponseEntity<SearchPopUpStoreResponse> searchPopUpStore(@RequestParam String query);
 }

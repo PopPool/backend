@@ -28,7 +28,7 @@ public interface UserControllerDoc {
 
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
-                                                                                  @PageableDefault(page = 0, size = 10, sort = "updateDateTime",direction = Sort.Direction.DESC) Pageable pageable);
+                                                                                  @PageableDefault(page = 0, size = 10, sort = "updateDateTime", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "팝업 스토어 찜", description = "팝업 스토어를 찜합니다.")
     void addPopUpStoreBookmark(@PathVariable String userId, @RequestParam Long popUpStoreId);
@@ -38,16 +38,16 @@ public interface UserControllerDoc {
 
     @Operation(summary = "최근 본 팝업 스토어 리스트 조회", description = "최근 본 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
-                                                                                        @PageableDefault(page = 0, size = 10, sort = "viewedAt",direction = Sort.Direction.DESC) Pageable pageable);
+                                                                                        @PageableDefault(page = 0, size = 10, sort = "viewedAt", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "차단한 사용자 목록 조회", description = "차단한 사용자 목록을 조회합니다.")
     ResponseEntity<GetBlockedUserListResponse> getBlockedUserList(@RequestParam String userId,
-                                                                  @PageableDefault(page = 0, size = 10, sort = "blockedAt",direction = Sort.Direction.DESC) Pageable pageable);
+                                                                  @PageableDefault(page = 0, size = 10, sort = "blockedAt", direction = Sort.Direction.DESC) Pageable pageable);
 
-    @Operation(summary = "사용자 차단" , description = "사용자를 차단합니다.")
+    @Operation(summary = "사용자 차단", description = "사용자를 차단합니다.")
     void blockUser(@RequestParam String blockerUserId, @RequestParam String blockedUserId);
 
-    @Operation(summary = "사용자 차단 해제" , description = "사용자 차단을 해제합니다.")
+    @Operation(summary = "사용자 차단 해제", description = "사용자 차단을 해제합니다.")
     void unblockUser(@RequestParam String userId, @RequestParam String blockedUserId);
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")

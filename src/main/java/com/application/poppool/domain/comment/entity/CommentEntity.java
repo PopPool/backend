@@ -62,7 +62,9 @@ public class CommentEntity extends BaseEntity {
         image.setComment(this);
     }
 
-    /** 코멘트 수정 */
+    /**
+     * 코멘트 수정
+     */
     public void updateComment(String content) {
         this.content = content;
     }
@@ -70,14 +72,14 @@ public class CommentEntity extends BaseEntity {
     /**
      * 좋아요 수 증가
      */
-    public void incrementLikeCount(){
+    public void incrementLikeCount() {
         this.likeCount++;
     }
 
     /**
      * 좋아요 수 감소
      */
-    public void decrementLikeCount(){
+    public void decrementLikeCount() {
         this.likeCount--;
     }
 

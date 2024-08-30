@@ -34,7 +34,7 @@ public class SignUpController implements SignUpControllerDoc {
     public void signUp(@RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) {
         log.info("회원가입");
         signUpService.signUp(signUpRequest);
-        
+
         // 회원가입 완료 토큰 발급
         LoginResponse loginResponse = jwtService.createJwtToken(signUpRequest.getUserId(), false);
         // 헤더에 토큰 싣기

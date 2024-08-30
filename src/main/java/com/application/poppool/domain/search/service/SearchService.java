@@ -16,6 +16,7 @@ public class SearchService {
 
     /**
      * 통합 검색
+     *
      * @param query
      * @return
      */

@@ -11,8 +11,11 @@ import java.util.List;
 public interface CommentRepositoryCustom {
 
     List<CommentEntity> findAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId);
+
     List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId);
+
     List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, CommentType commentType, Pageable pageable);
+
     long countMyComments(String userId, CommentType commentType);
 
 }

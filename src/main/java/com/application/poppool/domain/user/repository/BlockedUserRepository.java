@@ -9,9 +9,10 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-public interface BlockedUserRepository extends JpaRepository<BlockedUserEntity,Long>, BlockedUserRepositoryCustom {
+public interface BlockedUserRepository extends JpaRepository<BlockedUserEntity, Long>, BlockedUserRepositoryCustom {
 
     Optional<BlockedUserEntity> findByUserAndBlockedUser(UserEntity user, UserEntity blockedUser);
+
     List<BlockedUserEntity> findAllByUser(UserEntity user);
 
     // 두 사용자의 차단 관계가 존재하는지 체크

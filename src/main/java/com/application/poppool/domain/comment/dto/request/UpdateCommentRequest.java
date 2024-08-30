@@ -21,7 +21,7 @@ public class UpdateCommentRequest {
         private ActionType actionType;
 
         public enum ActionType {
-            ADD,DELETE,KEEP
+            ADD, DELETE, KEEP
         }
     }
 }

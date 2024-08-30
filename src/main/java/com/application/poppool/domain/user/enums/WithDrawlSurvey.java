@@ -4,7 +4,6 @@ import com.application.poppool.global.enums.BaseEnum;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
 
 @Getter
 public enum WithDrawlSurvey implements BaseEnum {

@@ -24,6 +24,7 @@ public class S3Config {
 
 
     private static final ProfileCredentialsProvider CREDENTIALS_PROVIDER = ProfileCredentialsProvider.create();
+
     @Bean
     public S3Client s3Client() {
         return S3Client.builder()

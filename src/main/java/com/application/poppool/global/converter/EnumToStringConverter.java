@@ -7,13 +7,13 @@ import lombok.RequiredArgsConstructor;
 
 @Converter
 @RequiredArgsConstructor
-public class EnumToStringConverter<E extends Enum<E>& BaseEnum> implements AttributeConverter<E,String> {
+public class EnumToStringConverter<E extends Enum<E> & BaseEnum> implements AttributeConverter<E, String> {
 
     private final Class<E> enumClass;
 
     @Override
     public String convertToDatabaseColumn(E attribute) {
-        if (attribute == null){
+        if (attribute == null) {
             return null;
         }
         return attribute.getValue();
@@ -29,12 +29,13 @@ public class EnumToStringConverter<E extends Enum<E>& BaseEnum> implements Attri
 
     /**
      * db에 저장된 enum 문자열 -> enum 상수 변환
+     *
      * @param dbData
      * @return
      */
     private E dbDataToEnumConstant(String dbData) {
         for (E enumConstant : enumClass.getEnumConstants()) {
-            if (enumConstant.getValue().equals(dbData)){
+            if (enumConstant.getValue().equals(dbData)) {
                 return enumConstant;
             }
         }

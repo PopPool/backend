@@ -21,7 +21,6 @@ import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.utils.SecurityUtils;
 import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +41,7 @@ public class PopUpStoreService {
 
     /**
      * 팝업 상세 조회
+     *
      * @param userId
      * @param popUpStoreId
      * @return
@@ -55,7 +55,7 @@ public class PopUpStoreService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user,popUpStore)
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
                 .orElseGet(() -> {
                     UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
                             .user(user)
@@ -135,6 +135,7 @@ public class PopUpStoreService {
 
     /**
      * 진행 중(오픈)인 팝업 리스트 조회
+     *
      * @param pageable
      * @return
      */
@@ -157,7 +158,8 @@ public class PopUpStoreService {
 
 
     /**
-     * 종료 팝업 리스트 조회 
+     * 종료 팝업 리스트 조회
+     *
      * @param categories
      * @param pageable
      * @return
@@ -181,6 +183,7 @@ public class PopUpStoreService {
 
     /**
      * 팝업 스토어 찾아가는 길
+     *
      * @param popUpStoreId
      * @return
      */

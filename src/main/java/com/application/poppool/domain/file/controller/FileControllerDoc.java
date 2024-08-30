@@ -15,7 +15,7 @@ public interface FileControllerDoc {
     @Operation(summary = "AWS S3 PreSignedUrl(업로드) 조회", description = "AWS S3 PreSignedUrl(업로드)을 조회합니다.")
     ResponseEntity<PreSignedUrlResponse> getPreSignedUploadUrl(@RequestBody @Valid PreSignedUrlRequest request);
 
-    @Operation(summary = "AWS S3 PreSignedUrl(다운로드) 조회", description = "AWS S3 PreSignedUrl(다운로드)을 조회합니다." )
+    @Operation(summary = "AWS S3 PreSignedUrl(다운로드) 조회", description = "AWS S3 PreSignedUrl(다운로드)을 조회합니다.")
     ResponseEntity<PreSignedUrlResponse> getPreSignedDownloadUrl(@RequestBody @Valid PreSignedUrlRequest request);
 
 }

@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/comments")
-public class CommentController implements CommentControllerDoc{
+public class CommentController implements CommentControllerDoc {
 
     private final CommentService commentService;
 

@@ -1,7 +1,8 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
 import com.application.poppool.domain.category.enums.Category;
-import lombok.*;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 

@@ -27,6 +27,7 @@ public class AdminPopUpStoreService {
 
     /**
      * 관리자 페이지의 팝업 스토어 리스트 조회
+     *
      * @param pageable
      * @return
      */
@@ -47,10 +48,11 @@ public class AdminPopUpStoreService {
                 .totalElements(totalElements)
                 .build();
     }
-    
+
 
     /**
      * 관리자 페이지의 팝업 스토어 상세 조회
+     *
      * @param popUpStoreId
      * @return
      */
@@ -88,6 +90,7 @@ public class AdminPopUpStoreService {
 
     /**
      * 팝업 스토어 등록
+     *
      * @param request
      */
     @Transactional
@@ -121,6 +124,7 @@ public class AdminPopUpStoreService {
 
     /**
      * 팝업 스토어 수정
+     *
      * @param request
      */
     @Transactional
@@ -152,6 +156,7 @@ public class AdminPopUpStoreService {
 
     /**
      * 팝업 스토어 삭제
+     *
      * @param popUpStoreId
      */
     @Transactional
@@ -165,6 +170,7 @@ public class AdminPopUpStoreService {
 
     /**
      * 팝업 스토어 이미지 생성
+     *
      * @param popUpStore
      * @param url
      * @return

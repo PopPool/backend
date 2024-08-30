@@ -5,14 +5,16 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.user.dto.request.UpdateMyProfileRequest;
 import com.application.poppool.domain.user.dto.request.UpdateMyTailoredInfoRequest;
 import com.application.poppool.domain.user.enums.Gender;
-
 import com.application.poppool.global.audit.BaseEntity;
 import com.application.poppool.global.converter.GenderConverter;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")

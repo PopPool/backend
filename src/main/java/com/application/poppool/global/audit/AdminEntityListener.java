@@ -20,7 +20,7 @@ public class AdminEntityListener {
 
         // 생성자 설정
         entity.setCreator(authentication.getName());
-        
+
         // 수정자 설정
         entity.setUpdater(authentication.getName());
 

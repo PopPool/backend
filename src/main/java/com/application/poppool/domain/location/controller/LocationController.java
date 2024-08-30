@@ -2,8 +2,8 @@ package com.application.poppool.domain.location.controller;
 
 import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpStoreListResponse;
-import com.application.poppool.domain.location.service.LocationService;
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
+import com.application.poppool.domain.location.service.LocationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

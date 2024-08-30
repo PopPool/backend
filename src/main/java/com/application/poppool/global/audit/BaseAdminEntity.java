@@ -1,7 +1,6 @@
 package com.application.poppool.global.audit;
 
 import jakarta.persistence.Column;
-import jakarta.persistence.EntityListeners;
 import jakarta.persistence.MappedSuperclass;
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedBy;
@@ -32,6 +31,7 @@ public abstract class BaseAdminEntity extends BaseTimeAdminEntity {
     public void setCreateDateTime(LocalDateTime createDateTime) {
         super.setCreateDateTime(createDateTime);
     }
+
     public void updateUpdateDateTime(LocalDateTime updateDateTime) {
         setUpdateDateTime(updateDateTime);
     }

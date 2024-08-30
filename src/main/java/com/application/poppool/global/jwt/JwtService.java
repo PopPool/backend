@@ -20,7 +20,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.HashMap;
@@ -222,10 +221,12 @@ public class JwtService {
         response.setHeader("Authorization-refresh", "Bearer " + refreshToken);
     }
 
-    /** 일단 사용 X
-    public boolean isTokenBlacklisted(String refreshToken) {
-        return blackListTokenService.isTokenBlacklisted(refreshToken);
-    }*/
+    /**
+     * 일단 사용 X
+     * public boolean isTokenBlacklisted(String refreshToken) {
+     * return blackListTokenService.isTokenBlacklisted(refreshToken);
+     * }
+     */
 
     public boolean isUserRefreshTokenValid(String userId, String refreshToken) {
         return refreshTokenService.isUserRefreshTokenValid(userId, refreshToken);

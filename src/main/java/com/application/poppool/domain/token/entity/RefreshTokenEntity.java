@@ -28,7 +28,7 @@ public class RefreshTokenEntity {
 
     public void updateToken(String newToken, LocalDateTime expiresAt) {
         this.token = newToken;
-        this.expiresAt= expiresAt;
+        this.expiresAt = expiresAt;
     }
 
 

@@ -40,6 +40,7 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 내가 쓴 일반/인스타 코멘트 조회
+     *
      * @param userId
      * @return
      */
@@ -47,14 +48,14 @@ public class UserController implements UserControllerDoc {
     @GetMapping("/{userId}/comments")
     public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
                                                                  @RequestParam CommentType commentType,
-                                                                 @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                 @PageableDefault(page = 0, size = 10, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getMyCommentList(userId, commentType, pageable));
     }
 
     @Override
     @GetMapping("/{userId}/bookmark-popupstores")
     public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
-                                                                                         @PageableDefault(page = 0, size = 10, sort = "createDateTime",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                                         @PageableDefault(page = 0, size = 10, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getBookMarkedPopUpStoreList(userId, pageable));
     }
 
@@ -73,13 +74,14 @@ public class UserController implements UserControllerDoc {
     @Override
     @GetMapping("/{userId}/recent-popupstores")
     public ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
-                                                                                               @PageableDefault(page = 0, size = 10, sort = "viewedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                                               @PageableDefault(page = 0, size = 10, sort = "viewedAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getMyRecentViewPopUpStoreList(userId, pageable));
     }
 
 
     /**
      * 차단한 사용자 목록 조회
+     *
      * @param userId
      * @param pageable
      * @return
@@ -87,7 +89,7 @@ public class UserController implements UserControllerDoc {
     @Override
     @GetMapping("/blocked")
     public ResponseEntity<GetBlockedUserListResponse> getBlockedUserList(@RequestParam String userId,
-                                                         @PageableDefault(page = 0, size = 10, sort = "blockedAt",direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                         @PageableDefault(page = 0, size = 10, sort = "blockedAt", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getBlockedUserList(userId, pageable));
     }
 
@@ -107,6 +109,7 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 회원 탈퇴
+     *
      * @param userId
      * @param request - 체크된 설문 항목
      */
@@ -119,6 +122,7 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 설문 항목 리스트
+     *
      * @return
      */
     @Override
@@ -129,6 +133,7 @@ public class UserController implements UserControllerDoc {
 
     /**
      * 회원 로그아웃
+     *
      * @param request
      */
     @Override

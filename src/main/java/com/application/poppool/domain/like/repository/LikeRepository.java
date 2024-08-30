@@ -11,6 +11,8 @@ import java.util.Optional;
 @Repository
 public interface LikeRepository extends JpaRepository<LikeEntity, Long> {
     boolean existsByUserAndComment(UserEntity user, CommentEntity comment);
+
     Optional<LikeEntity> findByUserAndComment(UserEntity user, CommentEntity comment);
+
     long countByComment(CommentEntity comment);
 }

@@ -17,7 +17,10 @@ import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
-import com.querydsl.core.types.dsl.*;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.DateTimeExpression;
+import com.querydsl.core.types.dsl.DateTimeTemplate;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +44,6 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
 
-
     @Override
     public List<Category> getUserInterestCategoryList(String userId) {
         return queryFactory.select(categoryEntity.category)
@@ -59,21 +61,21 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.category)
-                                .from(popUpStoreEntitySub)
-                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                ,"category"),
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "category"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.name)
-                                .from(popUpStoreEntitySub)
-                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                ,"name"),
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "name"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.address)
-                                .from(popUpStoreEntitySub)
-                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                ,"address"),
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "address"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.mainImageUrl)
-                                .from(popUpStoreEntitySub)
-                                .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                ,"mainImageUrl")
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "mainImageUrl")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
@@ -112,13 +114,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public List<GetHomeInfoResponse.PopUpStore> getPopularPopUpStoreList(Pageable pageable) {
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
-                    popUpStoreEntity.id.as("id"),
-                    popUpStoreEntity.category.as("category"),
-                    popUpStoreEntity.name.as("name"),
-                    popUpStoreEntity.address.as("address"),
-                    popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
-                    popUpStoreEntity.startDate.as("startDate"),
-                    popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
                 .where(isOpenPopUp())
@@ -145,13 +147,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         DateTimeExpression<LocalDateTime> newPopUpDueDate = getNewPopUpDueDate();
 
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
-                    popUpStoreEntity.id.as("id"),
-                    popUpStoreEntity.category.as("category"),
-                    popUpStoreEntity.name.as("name"),
-                    popUpStoreEntity.address.as("address"),
-                    popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
-                    popUpStoreEntity.startDate.as("startDate"),
-                    popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.mainImageUrl.as("mailImageUrl"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
                 .where(isNewPopUpStore(newPopUpDueDate, currentDate),
@@ -178,11 +180,11 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public List<GetPopUpStoreDetailResponse.PopUpStore> getSimilarPopUpStoreList(Long popUpStoreId, Category category) {
         return queryFactory.select(Projections.bean(GetPopUpStoreDetailResponse.PopUpStore.class,
-                popUpStoreEntity.id.as("id"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
-                popUpStoreEntity.endDate.as("endDate")
-        ))
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                        popUpStoreEntity.endDate.as("endDate")
+                ))
                 .from(popUpStoreEntity)
                 .where(categoryEq(category), // 같은 카테고리
                         isOpenPopUp(),  // 현재 진행 중인 팝업
@@ -195,13 +197,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(List<Category> categories, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetOpenPopUpStoreListResponse.PopUpStore.class,
-                popUpStoreEntity.id.as("id"),
-                popUpStoreEntity.category.as("category"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.address.as("address"),
-                popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
-                popUpStoreEntity.startDate.as("startDate"),
-                popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate")
                 ))
                 .from(popUpStoreEntity)
                 .where(categoryIn(categories),
@@ -272,7 +274,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 ))
                 .from(popUpStoreEntity)
                 .where(nameContains(query)
-                        .or(addressContains(query)),
+                                .or(addressContains(query)),
                         isOpenPopUp())
                 .orderBy(popUpStoreEntity.createDateTime.desc())
                 .fetch();
@@ -304,19 +306,19 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public GetPopUpStoreDirectionResponse getPopUpStoreDirection(Long popUpStoreId) {
         return queryFactory.select(Projections.bean(GetPopUpStoreDirectionResponse.class,
-                popUpStoreEntity.id.as("id"),
-                popUpStoreEntity.category.as("category"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.address.as("address"),
-                popUpStoreEntity.startDate.as("startDate"),
-                popUpStoreEntity.endDate.as("endDate"),
-                locationEntity.latitude.as("latitude"),
-                locationEntity.longitude.as("longitude"),
-                locationEntity.id.as("markerId"),
-                locationEntity.markerTitle.as("markerTitle"),
-                locationEntity.markerSnippet.as("markerSnippet")
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate"),
+                        locationEntity.latitude.as("latitude"),
+                        locationEntity.longitude.as("longitude"),
+                        locationEntity.id.as("markerId"),
+                        locationEntity.markerTitle.as("markerTitle"),
+                        locationEntity.markerSnippet.as("markerSnippet")
 
-        ))
+                ))
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .where(popUpStoreIdEq(popUpStoreId),
@@ -327,10 +329,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     @Override
     public List<GetAdminPopUpStoreListResponse.PopUpStore> getAdminPopUpStoreList(String query, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetAdminPopUpStoreListResponse.PopUpStore.class,
-                popUpStoreEntity.id.as("id"),
-                popUpStoreEntity.name.as("name"),
-                popUpStoreEntity.category.as("category"),
-                popUpStoreEntity.mainImageUrl.as("mainImageUrl")
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl")
                 ))
                 .from(popUpStoreEntity)
                 .where(nameContains(query))
@@ -350,15 +352,13 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
 
-
-
     private BooleanExpression isNewPopUpStore(DateTimeExpression<LocalDateTime> newPopUpDueDate, LocalDateTime currentDate) {
         return popUpStoreEntity.startDate.loe(currentDate)
                 .and(newPopUpDueDate.goe(currentDate));
     }
 
     private BooleanExpression userIdEq(String userId) {
-        if (userId == null ) {
+        if (userId == null) {
             return null;
         }
         return userInterestCategoryEntity.user.userId.eq(userId);
@@ -404,7 +404,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return locationEntity.longitude.between(southWestLon, northEastLon);
     }
 
-   private BooleanExpression isOpenPopUp() {
+    private BooleanExpression isOpenPopUp() {
         LocalDateTime now = LocalDateTime.now();
         return popUpStoreEntity.endDate.goe(now);
     }
@@ -413,7 +413,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         LocalDateTime now = LocalDateTime.now();
         return popUpStoreEntity.endDate.lt(now);
     }
-    
+
 
     private BooleanExpression nameContains(String query) {
         if (query == null) {

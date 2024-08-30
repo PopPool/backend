@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PopUpStoreRepository extends JpaRepository<PopUpStoreEntity,Long>, PopUpStoreRepositoryCustom {
+public interface PopUpStoreRepository extends JpaRepository<PopUpStoreEntity, Long>, PopUpStoreRepositoryCustom {
     @NonNull
     Optional<PopUpStoreEntity> findById(@NonNull Long popUpStoreId);
 }

@@ -4,7 +4,6 @@ import com.querydsl.core.types.Order;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Path;
 import com.querydsl.core.types.dsl.PathBuilder;
-
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 

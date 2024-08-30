@@ -7,7 +7,7 @@ import java.util.Date;
 
 public class TimeUtils {
 
-    private TimeUtils () {
+    private TimeUtils() {
 
     }
 
