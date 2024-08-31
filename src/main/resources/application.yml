@@ -3,7 +3,7 @@ spring:
     default: local
 
   jpa:
-    generate-ddl: true
+    generate-ddl: false
     hibernate:
       ddl-auto: none
       naming:
