@@ -75,7 +75,7 @@
 </br>
 
 ### BackEnd
-![Java](https://img.shields.io/badge/java-007396.svg?style=for-the-badge&logo=openjdk&logoColor=white)
+![Java](https://img.shields.io/badge/java-007396.svg?style=flat&logo=openjdk&logoColor=white)
 ![SpringBoot](https://img.shields.io/badge/springboot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white)
 ![JPA](https://img.shields.io/badge/JPA-%236DB33F.svg?style=for-the-badge&logo=JPA&logoColor=white)
 ![QueryDsl](https://img.shields.io/badge/QueryDsl-2185D0?style=for-the-badge&logo=QueryDsl&logoColor=white)
