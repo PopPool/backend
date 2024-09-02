@@ -17,8 +17,8 @@ public class GetPopUpStoreDetailResponse {
     private long commentCount;
     private boolean bookmarkYn;
     private boolean loginYn;
-    private String popUpStoreMainImageUrl;
-    private List<PopUpStoreImage> popUpStoreImageList;
+    private String mainImageUrl;
+    private List<PopUpStoreImage> imageList;
     private List<Comment> commentList;
     private List<PopUpStore> similarPopUpStoreList;
 
