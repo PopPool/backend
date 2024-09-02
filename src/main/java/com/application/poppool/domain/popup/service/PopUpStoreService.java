@@ -4,6 +4,7 @@ import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.service.CommentService;
+import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
@@ -76,6 +77,16 @@ public class PopUpStoreService {
         if (SecurityUtils.isAuthenticated()) {
             loginYn = true;
         }
+        
+        /** 팝업 스토어 이미지 리스트 조회 */ 
+        List<PopUpStoreImageEntity> popUpStoreImageEntityList = popUpStore.getImages(); // 하나의 팝업 스토어 이므로 n+1 문제 발생하지 않음
+
+        List<GetPopUpStoreDetailResponse.PopUpStoreImage> popUpStoreImageList = popUpStoreImageEntityList.stream()
+                .map(popUpStoreImageEntity -> GetPopUpStoreDetailResponse.PopUpStoreImage.builder()
+                        .id(popUpStoreImageEntity.getId())
+                        .imageUrl(popUpStoreImageEntity.getUrl())
+                        .build())
+                .toList();
 
         /** 댓글 조회 */
         List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, commentType, popUpStoreId);
@@ -127,6 +138,8 @@ public class PopUpStoreService {
                 .commentCount(popUpStore.getCommentCount())
                 .bookmarkYn(bookmarkYn)
                 .loginYn(loginYn)
+                .mainImageUrl(popUpStore.getMainImageUrl())
+                .imageList(popUpStoreImageList)
                 .commentList(commentList)
                 .similarPopUpStoreList(similarPopUpStoreList)
                 .build();
