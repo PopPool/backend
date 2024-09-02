@@ -24,8 +24,21 @@
           <img src="https://avatars.githubusercontent.com/u/134565003?v=4" width="120px" height="120px" />
         </td>
         <td>
-          <img src="https://github.com/Team-LOTD/frontend/assets/73388615/1fe2a4f3-b108-424b-b8e1-9c304320233c" width="120px" height="120px" />
+          <img src="https://avatars.githubusercontent.com/u/171133308?v=4" width="120px" height="120px" />
         </td>
+        <td>
+          <img src="https://avatars.githubusercontent.com/u/119504454?v=4" width="120px" height="120px" />
+        </td>
+        <td>
+          <img src="https://avatars.githubusercontent.com/u/112812473?v=4" width="120px" height="120px" />
+        </td>
+        <td>
+          <img src="https://avatars.githubusercontent.com/u/122965360?v=4" width="120px" height="120px" />
+        </td>
+        <td>
+          <img src="https://avatars.githubusercontent.com/u/73388615?v=4" width="120px" height="120px" />
+        </td>
+        
       </tr>
       <tr>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/chae-rok">
