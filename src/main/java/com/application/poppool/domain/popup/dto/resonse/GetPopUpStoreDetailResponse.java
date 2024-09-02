@@ -1,9 +1,6 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -26,6 +23,7 @@ public class GetPopUpStoreDetailResponse {
     private List<PopUpStore> similarPopUpStoreList;
 
     @Getter
+    @Setter
     @Builder
     @NoArgsConstructor
     @AllArgsConstructor
