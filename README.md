@@ -53,14 +53,6 @@
           <td height="30px" width="120px" align="center"> <a href="https://github.com/JaesungYoun">
            🙂 윤재성 <br>(backend) </a> <br></td>
       </tr>
-      <tr>
-          <td align="center">기획<br/>Notion,Figma
-          <td align="center">디자이너<br/>Figma<br/>
-          <td align="center">iOS<br/>Figma<br/>
-          <td align="center">iOS<br/>Figma<br/>
-          <td align="center">iOS<br/>Figma<br/>
-          <td align="center">backend<br/>Java,SpringBoot<br/>
-      </tr>
   </table>
 </p>
 
