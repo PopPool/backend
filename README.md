@@ -1,7 +1,8 @@
 흩어져 있는 팝업스토어 정보를 제공하고 인스타그램 연동으로 부가 기능을 제공하는 서비스
 
 <p align="center">
-  <img src="https://github.com/Team-LOTD/frontend/assets/93576045/25dee207-62b8-4eb1-a68d-794697e636b2"/>
+  <img src="![image](https://github.com/user-attachments/assets/337a15d0-ab74-45cd-bbad-49b2cbfaa091)
+"/>
 </p>
 
 ## 목차
@@ -20,7 +21,7 @@
   <table>
       <tr>
         <td>
-          <img src="https://github.com/Team-LOTD/frontend/assets/93576045/a2034775-6a0f-4ace-afdd-e86c22978b9e" width="120px" height="120px" />
+          <img src="https://avatars.githubusercontent.com/u/134565003?v=4" width="120px" height="120px" />
         </td>
         <td>
           <img src="https://github.com/Team-LOTD/frontend/assets/73388615/1fe2a4f3-b108-424b-b8e1-9c304320233c" width="120px" height="120px" />
