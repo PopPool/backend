@@ -96,7 +96,7 @@
 | 공통     | 형상관리             | Git                     | 2.44.0   |
 |          | 커뮤니케이션         | Notion, Slack, KakaoTalk| -        |
 | iOS | Swift     | -                       | -        |
-
+|     | Swift     | -                       | -        |
 | BackEnd  | DB                  | MySQL                   | 8.0.32      |
 |          |                     | JPA                     | \-          |
 |          |                     | QueryDSL                | 5.0.0       |
