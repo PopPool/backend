@@ -66,7 +66,12 @@
 ## 🛠️ 기술 스택
 
 ### iOS
-
+![Swift](https://img.shields.io/badge/Swift-FA7343?style=flat&logo=swift&logoColor=white)
+![UIkit](https://img.shields.io/badge/UIKit-007AFF?style=flat&logo=apple&logoColor=white)
+![RxSwift](https://img.shields.io/badge/RxSwift-8A2C5A?style=flat&logo=react&logoColor=white)
+![Clean Architecture](https://img.shields.io/badge/Clean%20Architecture-4CAF50?style=flat&logo=architecture&logoColor=white)
+![MVVM](https://img.shields.io/badge/MVVM-FF5722?style=flat&logo=architecture&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
 </br>
 
 ### BackEnd
@@ -87,8 +92,12 @@
 |----------|---------------------|-------------------------|----------|
 | 공통     | 형상관리             | Git                     | 2.44.0   |
 |          | 커뮤니케이션         | Notion, Discord | -        |
-| iOS | Swift     | -                       | -        |
-|     | Swift     | -                       | -        |
+| iOS | Framework       | -  UIkit                       | -        |
+|     | Architecture    | -  Clean Architecture          | -        |
+|     | Design Pattern  | -  MVVM + Input/Output Pattern | -        |
+|     | Asnyc/Await     | -  RxSwift                     | -        |
+|     | Network         | -  Alamofire / Network Layer   | -        |
+|     | Asnyc/Await     | -  RxSwift                     | -        |
 | BackEnd  | DB                  | MySQL                   | 8.0.32      |
 |          |                     | JPA                     | \-          |
 |          |                     | QueryDSL                | 5.0.0       |
