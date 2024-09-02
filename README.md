@@ -94,7 +94,7 @@
 | 구분     | 기술스택             | 상세내용                | 버전     |
 |----------|---------------------|-------------------------|----------|
 | 공통     | 형상관리             | Git                     | 2.44.0   |
-|          | 커뮤니케이션         | Notion, Slack, KakaoTalk| -        |
+|          | 커뮤니케이션         | Notion, Discord | -        |
 | iOS | Swift     | -                       | -        |
 |     | Swift     | -                       | -        |
 | BackEnd  | DB                  | MySQL                   | 8.0.32      |
@@ -118,73 +118,6 @@
 
 ## 🖥️ 주요기능
 
-### 로그인
-- 아이디와 비밀번호를 이용하여 로그인할 수 있습니다.
-- KakaoTalk, Naver, Google 각각의 소셜 계정을 이용하여 회원가입 및 로그인을 할 수 있습니다.
-</br>
-
-![Frame 2087325465](https://github.com/Team-LOTD/LOTD/assets/93576045/e9d5b16a-5d9e-4794-a332-d238af461a40)
-</br>
-
-### 회원가입
-- 회원정보 입력 및 중복 확인을 통해 회원가입을 진행할 수 있습니다.
-</br>
-
-![Join_PC](https://github.com/Team-LOTD/LOTD/assets/93576045/e74d6a5c-aebb-4547-b82d-1bb25c9923a2)
-</br>
-
-### 마이페이지 - 계정 설정
-- 로그인 후 마이페이지 - 계정 설정을 통해 회원정보 확인 및 수정을 진행할 수 있습니다.
-</br>
-
-![MyPage_PC](https://github.com/Team-LOTD/LOTD/assets/93576045/4dc0153b-a5fd-4c74-a15b-ce0eae3af3fd)
-![MyPage_PC](https://github.com/Team-LOTD/LOTD/assets/93576045/f89ce2a1-c7a4-492b-a7d0-424be8764c76)
-</br>
-
-### 마이페이지 - 내 활동
-- 로그인 후 마이페이지 - 내 활동을 통해 내 커뮤니티 활동 내역을 확인할 수 있습니다.
-</br>
-
-![Community_List](https://github.com/Team-LOTD/LOTD/assets/93576045/2bb5c2ab-ebc4-4b54-b02d-528e3cd0834a)
-</br>
-
-### 메인페이지
-- 메인페이지 접속 시 전체 게시글 목록 혹은 인기 게시글 목록을 조회할 수 있습니다.
-- 카테고리 클릭 시 해당 카테고리의 게시글 목록을 조회할 수 있습니다.
-- 조회를 원하는 게시글 클릭 시 게시글 조회 페이지로 이동할 수 있습니다.
-- 글쓰기 클릭 시 글쓰기 페이지로 이동할 수 있습니다.
-- 돋보기 클릭 후 키워드 입력 시 검색 페이지로 이동할 수 있습니다.
-</br>
-
-![Community_List](https://github.com/Team-LOTD/LOTD/assets/93576045/4592f022-761b-424d-a92b-3db3cf0f450c)
-</br>
-
-### 게시글 - 게시글 작성
-- 게시판(카테고리), 제목, 내용 입력 후 등록하기 클릭 시 해당 게시글이 저장되고 게시글 조회 페이지로 이동할 수 있습니다.
-</br>
-
-![Community_Edit](https://github.com/Team-LOTD/LOTD/assets/93576045/270ec622-90a8-4f7d-80e3-bafff36c73f7)
-</br>
-
-### 게시글 - 게시글 조회
-- 게시글 카테고리, 제목, 내용, 조회수 등 게시글 관련 내용을 조회할 수 있습니다.
-- 해당 게시글에 좋아요 혹은 댓글을 작성할 수 있습니다.
-- 입력된 댓글에 대댓글을 작성할 수 있습니다.
-- 해당 게시글의 작성자일 경우 게시글을 수정 및 삭제할 수 있습니다.
-- 수정하기 클릭 시 게시글 작성 페이지로 이동하며 기존에 작성된 게시글의 내용을 수정할 수 있습니다.
-- 삭제하기 클릭 시 재확인 후 게시글을 삭제할 수 있습니다.
-</br>
-  
-![Community_View](https://github.com/Team-LOTD/LOTD/assets/93576045/fdc4a6f0-6fe6-40a7-ba00-44eec4d88829)
-![Community_View_작성자](https://github.com/Team-LOTD/LOTD/assets/93576045/ea167192-7fd3-4358-abe8-b285bf368fa3)
-</br>
-
-### 게시글 - 게시글 검색
-- 입력된 키워드를 바탕으로 검색 결과 목록을 조회할 수 있습니다.
-</br>
-
-![Search_List](https://github.com/Team-LOTD/LOTD/assets/93576045/bda6e80c-86fa-455d-950d-e6b8ad097162)
-</br>
 
 
 
@@ -197,19 +130,16 @@
 </br>
 
 ## 📆 프로젝트 기간
-### 22.12.27 ~ 23.03.10
-- 기획 및 설계 : 22.12.27 ~ 23.03.10
-- 프로젝트 구현 : 23.01.15 ~ 23.03.10
+### 24.05.15 ~ 24.08.31
 </br>
 
 ## 📋 프로젝트 관련 문서
-LOTD 기능명세서 - [LOTD 기능명세서 바로가기](https://oxidized-steam-8cd.notion.site/d6add040a9184e3184c47f1f357c2e65)
+
 </br>
-LOTD 회의록     - [LOTD 회의록 바로가기](https://oxidized-steam-8cd.notion.site/d7701dda420f4d0cb6eb17fb03e6caff)
 
 
 
 
-### 팝풀 ERD
+### ERD
 
 - [ERD](https://www.erdcloud.com/d/wkrkmAGhaCbwBpN7X)
