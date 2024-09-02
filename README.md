@@ -50,7 +50,7 @@
            🙂 서준영 <br>(iOS) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/zzangzzangguy">
            🙂 김기현 <br>(iOS) </a> <br></td>
-          <td height="30px" width="120px" align="center"> <a href="https://github.com/JaesungYoun">
+          <td height="30px" width="240px" align="center"> <a href="https://github.com/JaesungYoun">
            🙂 윤재성 <br>(backend) </a> <br></td>
       </tr>
       <tr>
@@ -108,8 +108,8 @@
 |          | Build               | Gradle                  | 8.7         |
 |          | API Docs            | OpenAPI(Swagger)        | 3.0.1       |
 | Infra   | Server              | AWS EC2                 | -           |
-| Infra   | DB              | AWS RDS                 | -           |
-| Infra   | Object Storage              | AWS S3                 | -           |
+|         | DB              | AWS RDS                 | -           |
+|         | Object Storage              | AWS S3                 | -           |
 | Server   | Deploy              | Jenkins                  | -           |
 </br>
 
