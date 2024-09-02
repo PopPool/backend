@@ -1,8 +1,7 @@
 흩어져 있는 팝업스토어 정보를 제공하고 인스타그램 연동으로 부가 기능을 제공하는 서비스
 
 <p align="center">
-  <img src="![image](https://github.com/user-attachments/assets/337a15d0-ab74-45cd-bbad-49b2cbfaa091)
-"/>
+  <img src="https://avatars.githubusercontent.com/u/171132535?s=200&v=4"/>
 </p>
 
 ## 목차
@@ -42,8 +41,8 @@
            🙂 윤재성 <br>(Back-End) </a> <br></td>
       </tr>
       <tr>
-          <td align="center">UI/UX<br/>React
-          <td align="center">CI/CD<br/>Spring Boot<br/>REST API
+          <td align="center">기획<br/>Notion,Figma
+          <td align="center">디자이너<br/>Figma<br/>
       </tr>
   </table>
 </p>
