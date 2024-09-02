@@ -38,19 +38,18 @@
         <td>
           <img src="https://avatars.githubusercontent.com/u/73388615?v=4" width="120px" height="120px" />
         </td>
-        
       </tr>
       <tr>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/chae-rok">
-           🙂 김채연 <br>(Front-End) </a> <br></td>
+           🙂 김채연 <br>(기획) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/jaeeun0416">
-           🙂 이재은 <br>(Back-End) </a> <br></td>
+           🙂 이재은 <br>(디자이너) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/Madman-dev">
-           🙂 이동준 <br>(Front-End) </a> <br></td>
+           🙂 이동준 <br>(iOS) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/dongglehada">
-           🙂 서준영 <br>(Back-End) </a> <br></td>
+           🙂 서준영 <br>(iOS) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/zzangzzangguy">
-           🙂 김기현 <br>(Front-End) </a> <br></td>
+           🙂 김기현 <br>(iOS) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/JaesungYoun">
            🙂 윤재성 <br>(Back-End) </a> <br></td>
       </tr>
