@@ -59,7 +59,7 @@
           <td align="center">iOS<br/>Figma<br/>
           <td align="center">iOS<br/>Figma<br/>
           <td align="center">iOS<br/>Figma<br/>
-          <td align="center">backend<br/>Figma<br/>
+          <td align="center">backend<br/>Java,SpringBoot,JPA,QueryDsl,MySQL<br/>
       </tr>
   </table>
 </p>
