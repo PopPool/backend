@@ -85,6 +85,7 @@
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
 ![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
 </br>
@@ -94,32 +95,22 @@
 |----------|---------------------|-------------------------|----------|
 | 공통     | 형상관리             | Git                     | 2.44.0   |
 |          | 커뮤니케이션         | Notion, Slack, KakaoTalk| -        |
-| FrontEnd | JavaScript(ES6)     | -                       | -        |
-|          | React               | react                   | 17.0.2   |
-|          | React               | react-dom               | 17.0.2   |
-|          | React               | react-router-dom        | 6.21.1   |
-|          | React               | react-hook-form         | 7.49.2   |
-|          | Axios               | axios                   | 1.6.5    |
-|          | Styled-Components   | styled-compoenents      | 6.1.8    |
-|          | Mui                 | mui                     | 5.15.12  |
-|          | Toast-ui            | toast-ui/react-deitor   | 3.2.3    |
-|          | Toast-ui            | toast-ui/editor-plugin-color-syntax | 3.1.0   |
-|          | Moment              | moment                  | 2.30.1   |
-|          | AWS S3              | aws-sdk                 | 2.1571.0 |
-|          | IDE                 | Visual Studio Code      | 1.87.2   |
+| iOS | Swift     | -                       | -        |
+
 | BackEnd  | DB                  | MySQL                   | 8.0.32      |
 |          |                     | JPA                     | \-          |
 |          |                     | QueryDSL                | 5.0.0       |
 |          | Java                | JDK                     | 17.0.4      |
-|          | Spring              | Spring Boot             | 2.7.5       |
+|          | Spring              | Spring Boot             | 3.2.6       |
 |          |                     | Spring Security         | 5.7.4       |
 |          | JWT                 | jjwt                    | 0.11.5      |
 |          | IDE                 | Intellij(Community)     | 23.3.5      |
-|          | Build               | Gradle                  | 8.0         |
+|          | Build               | Gradle                  | 8.7         |
 |          | API Docs            | OpenAPI(Swagger)        | 3.0.1       |
-|          | API Docs            | Postman                 | \-          |
-| Server   | Server              | AWS EC2                 | -           |
-| Server   | Deploy              | Docker                  | -           |
+| Infra   | Server              | AWS EC2                 | -           |
+| Infra   | DB              | AWS RDS                 | -           |
+| Infra   | Object Storage              | AWS S3                 | -           |
+| Server   | Deploy              | Jenkins                  | -           |
 </br>
 
 ## 🗂️ 시스템 아키텍처
