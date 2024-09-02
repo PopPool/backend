@@ -1,7 +1,9 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -25,6 +27,8 @@ public class GetPopUpStoreDetailResponse {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class PopUpStore {
         private Long id;
         private String name;
@@ -34,6 +38,8 @@ public class GetPopUpStoreDetailResponse {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Comment {
         private String nickname;
         private String instagramId;
