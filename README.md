@@ -51,11 +51,15 @@
           <td height="30px" width="120px" align="center"> <a href="https://github.com/zzangzzangguy">
            🙂 김기현 <br>(iOS) </a> <br></td>
           <td height="30px" width="120px" align="center"> <a href="https://github.com/JaesungYoun">
-           🙂 윤재성 <br>(Back-End) </a> <br></td>
+           🙂 윤재성 <br>(backend) </a> <br></td>
       </tr>
       <tr>
           <td align="center">기획<br/>Notion,Figma
           <td align="center">디자이너<br/>Figma<br/>
+          <td align="center">iOS<br/>Figma<br/>
+          <td align="center">iOS<br/>Figma<br/>
+          <td align="center">iOS<br/>Figma<br/>
+          <td align="center">backend<br/>Figma<br/>
       </tr>
   </table>
 </p>
