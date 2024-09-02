@@ -76,15 +76,15 @@
 
 ### BackEnd
 ![Java](https://img.shields.io/badge/java-007396.svg?style=flat&logo=openjdk&logoColor=white)
-![SpringBoot](https://img.shields.io/badge/springboot-%236DB33F.svg?style=for-the-badge&logo=springboot&logoColor=white)
-![JPA](https://img.shields.io/badge/JPA-%236DB33F.svg?style=for-the-badge&logo=JPA&logoColor=white)
-![QueryDsl](https://img.shields.io/badge/QueryDsl-2185D0?style=for-the-badge&logo=QueryDsl&logoColor=white)
-![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
-![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
-![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white)
-![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-232F3E?style=for-the-badge&logo=amazon-aws&logoColor=white)
-![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=for-the-badge&logo=jenkins&logoColor=white)
+![SpringBoot](https://img.shields.io/badge/springboot-%236DB33F.svg?style=flat&logo=springboot&logoColor=white)
+![JPA](https://img.shields.io/badge/JPA-%236DB33F.svg?style=flat&logo=JPA&logoColor=white)
+![QueryDsl](https://img.shields.io/badge/QueryDsl-2185D0?style=flat&logo=QueryDsl&logoColor=white)
+![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=flat&logo=swagger&logoColor=white)
+![JWT](https://img.shields.io/badge/JWT-black?style=flat&logo=JSON%20web%20tokens)
+![MySQL](https://img.shields.io/badge/mysql-4479A1.svg?style=flat&logo=mysql&logoColor=white)
+![GitHub](https://img.shields.io/badge/GitHub-181717?style=flat&logo=github&logoColor=white)
+![AWS](https://img.shields.io/badge/AWS-232F3E?style=flate&logo=amazon-aws&logoColor=white)
+![Jenkins](https://img.shields.io/badge/Jenkins-D24939?style=flat&logo=jenkins&logoColor=white)
 </br>
 
 ### 상세 기술스택 및 버전
