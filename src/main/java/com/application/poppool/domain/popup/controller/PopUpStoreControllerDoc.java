@@ -27,11 +27,11 @@ public interface PopUpStoreControllerDoc {
 
     @Operation(summary = "검색창 하단의 팝업 스토어 진행 중(오픈) 팝업 리스트 조회", description = "검색창 하단의 팝업 스토어 진행 중(오픈) 팝업 리스트를 조회합니다.")
     ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Category> categories,
-                                                                        @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+                                                                        @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "검색창 하단의 팝업 스토어 종료 팝업 리스트 조회", description = "검색창 하단의 팝업 스토어 종료 팝업 리스트 조회")
     ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Category> categories,
-                                                                            @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+                                                                            @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "팝업스토어 찾아가는 길", description = "팝업스토어 찾아가는 길을 조회합니다.")
     ResponseEntity<GetPopUpStoreDirectionResponse> getPopUpStoreDirection(@PathVariable Long popUpStoreId);

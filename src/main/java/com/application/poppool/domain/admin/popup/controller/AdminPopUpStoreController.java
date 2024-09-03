@@ -25,7 +25,7 @@ public class AdminPopUpStoreController implements AdminPopUpStoreControllerDoc {
     @Override
     @GetMapping("/list")
     public ResponseEntity<GetAdminPopUpStoreListResponse> getAdminPopUpStoreList(@RequestParam(required = false) String query,
-                                                                                 @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                                 @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(adminPopUpStoreService.getAdminPopUpStoreList(query, pageable));
     }
 

@@ -19,7 +19,7 @@ public interface AdminPopUpStoreControllerDoc {
 
     @Operation(summary = "팝업 스토어 리스트 조회", description = "팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetAdminPopUpStoreListResponse> getAdminPopUpStoreList(@RequestParam(required = false) String query,
-                                                                          @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+                                                                          @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "팝업 스토어 조회", description = "팝업 스토어를 조회합니다.")
     ResponseEntity<GetAdminPopUpStoreDetailResponse> getAdminPopUpStoreDetail(@RequestParam Long popUpStoreId);

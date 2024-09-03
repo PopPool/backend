@@ -36,14 +36,14 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/open")
     public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Category> categories,
-                                                                               @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                               @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(categories, pageable));
     }
 
     @Override
     @GetMapping("/closed")
     public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Category> categories,
-                                                                                   @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+                                                                                   @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(categories, pageable));
     }
 
