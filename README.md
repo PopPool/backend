@@ -101,9 +101,9 @@
 | BackEnd  | DB                  | MySQL                   | 8.0.32      |
 |          |                     | JPA                     | \-          |
 |          |                     | QueryDSL                | 5.0.0       |
-|          | Java                | JDK                     | 17.0.4      |
+|          | Java                | JDK                     | 17.0.12      |
 |          | Spring              | Spring Boot             | 3.2.6       |
-|          |                     | Spring Security         | 5.7.4       |
+|          |                     | Spring Security         | 6.2.4       |
 |          | JWT                 | jjwt                    | 0.11.5      |
 |          | IDE                 | Intellij(Community)     | 23.3.5      |
 |          | Build               | Gradle                  | 8.7         |
