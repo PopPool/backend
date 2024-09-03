@@ -125,7 +125,324 @@
 
 
 ## 📁 Back-End 소스 코드 폴더 구조
-```bash
+
+```
+src
+├─ main
+│  ├─ java
+│  │  └─ com
+│  │     └─ application
+│  │        └─ poppool
+│  │           ├─ domain
+│  │           │  ├─ admin
+│  │           │  │  ├─ notice
+│  │           │  │  │  ├─ controller
+│  │           │  │  │  │  ├─ AdminNoticeController.java
+│  │           │  │  │  │  └─ AdminNoticeControllerDoc.java
+│  │           │  │  │  ├─ dto
+│  │           │  │  │  │  └─ request
+│  │           │  │  │  │     ├─ CreateNoticeRequest.java
+│  │           │  │  │  │     └─ UpdateNoticeRequest.java
+│  │           │  │  │  └─ service
+│  │           │  │  │     └─ AdminNoticeService.java
+│  │           │  │  └─ popup
+│  │           │  │     ├─ controller
+│  │           │  │     │  ├─ AdminPopUpStoreController.java
+│  │           │  │     │  └─ AdminPopUpStoreControllerDoc.java
+│  │           │  │     ├─ dto
+│  │           │  │     │  ├─ request
+│  │           │  │     │  │  ├─ CreatePopUpStoreRequest.java
+│  │           │  │     │  │  └─ UpdatePopUpStoreRequest.java
+│  │           │  │     │  └─ response
+│  │           │  │     │     ├─ GetAdminPopUpStoreDetailResponse.java
+│  │           │  │     │     └─ GetAdminPopUpStoreListResponse.java
+│  │           │  │     └─ service
+│  │           │  │        └─ AdminPopUpStoreService.java
+│  │           │  ├─ auth
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ AuthController.java
+│  │           │  │  │  └─ AuthControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  ├─ info
+│  │           │  │  │  │  ├─ ApplePublicKeys.java
+│  │           │  │  │  │  └─ KakaoToken.java
+│  │           │  │  │  ├─ request
+│  │           │  │  │  │  ├─ AppleLoginRequest.java
+│  │           │  │  │  │  └─ KakaoLoginRequest.java
+│  │           │  │  │  └─ response
+│  │           │  │  │     └─ LoginResponse.java
+│  │           │  │  ├─ enums
+│  │           │  │  │  ├─ SocialType.java
+│  │           │  │  │  └─ TokenType.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  └─ RefreshTokenRepository.java
+│  │           │  │  └─ service
+│  │           │  │     ├─ apple
+│  │           │  │     │  ├─ AppleAuthFeignClient.java
+│  │           │  │     │  └─ AppleAuthService.java
+│  │           │  │     └─ kakao
+│  │           │  │        ├─ KakaoAuthFeignClient.java
+│  │           │  │        └─ KakaoAuthService.java
+│  │           │  ├─ aws
+│  │           │  │  └─ health
+│  │           │  │     └─ HealthCheckController.java
+│  │           │  ├─ bookmark
+│  │           │  │  ├─ entity
+│  │           │  │  └─ repository
+│  │           │  ├─ category
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ CategoryEntity.java
+│  │           │  │  ├─ enums
+│  │           │  │  │  └─ Category.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  └─ CategoryRepository.java
+│  │           │  │  └─ service
+│  │           │  │     └─ CategoryService.java
+│  │           │  ├─ comment
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ CommentController.java
+│  │           │  │  │  └─ CommentControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  └─ request
+│  │           │  │  │     ├─ CreateCommentRequest.java
+│  │           │  │  │     └─ UpdateCommentRequest.java
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ CommentEntity.java
+│  │           │  │  ├─ enums
+│  │           │  │  │  └─ CommentType.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  ├─ CommentRepository.java
+│  │           │  │  │  ├─ CommentRepositoryCustom.java
+│  │           │  │  │  └─ CommentRepositoryImpl.java
+│  │           │  │  └─ service
+│  │           │  │     └─ CommentService.java
+│  │           │  ├─ file
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ FileController.java
+│  │           │  │  │  └─ FileControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  ├─ request
+│  │           │  │  │  │  └─ PreSignedUrlRequest.java
+│  │           │  │  │  └─ response
+│  │           │  │  │     └─ PreSignedUrlResponse.java
+│  │           │  │  └─ service
+│  │           │  │     └─ FileService.java
+│  │           │  ├─ home
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ HomeController.java
+│  │           │  │  │  └─ HomeControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  ├─ request
+│  │           │  │  │  └─ response
+│  │           │  │  │     └─ GetHomeInfoResponse.java
+│  │           │  │  └─ service
+│  │           │  │     └─ HomeService.java
+│  │           │  ├─ image
+│  │           │  │  ├─ entity
+│  │           │  │  │  ├─ CommentImageEntity.java
+│  │           │  │  │  └─ PopUpStoreImageEntity.java
+│  │           │  │  └─ repository
+│  │           │  │     ├─ CommentImageRepository.java
+│  │           │  │     └─ PopUpStoreImageRepository.java
+│  │           │  ├─ interest
+│  │           │  │  └─ dto
+│  │           │  │     ├─ request
+│  │           │  │     └─ response
+│  │           │  ├─ like
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ LikeController.java
+│  │           │  │  │  └─ LikeControllerDoc.java
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ LikeEntity.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  └─ LikeRepository.java
+│  │           │  │  └─ service
+│  │           │  │     └─ LikeService.java
+│  │           │  ├─ location
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ LocationController.java
+│  │           │  │  │  └─ LocationControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  ├─ request
+│  │           │  │  │  └─ response
+│  │           │  │  │     ├─ GetViewBoundPopUpStoreListResponse.java
+│  │           │  │  │     └─ SearchPopUpStoreByMapResponse.java
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ LocationEntity.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  └─ LocationRepository.java
+│  │           │  │  └─ service
+│  │           │  │     └─ LocationService.java
+│  │           │  ├─ notice
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ NoticeController.java
+│  │           │  │  │  └─ NoticeControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  └─ response
+│  │           │  │  │     ├─ GetNoticeDetailResponse.java
+│  │           │  │  │     └─ GetNoticeListResponse.java
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ NoticeEntity.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  └─ NoticeRepository.java
+│  │           │  │  └─ service
+│  │           │  │     └─ NoticeService.java
+│  │           │  ├─ popup
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ PopUpStoreController.java
+│  │           │  │  │  └─ PopUpStoreControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  └─ resonse
+│  │           │  │  │     ├─ GetClosedPopUpStoreListResponse.java
+│  │           │  │  │     ├─ GetOpenPopUpStoreListResponse.java
+│  │           │  │  │     ├─ GetPopUpStoreDetailResponse.java
+│  │           │  │  │     └─ GetPopUpStoreDirectionResponse.java
+│  │           │  │  ├─ entity
+│  │           │  │  │  └─ PopUpStoreEntity.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  ├─ PopUpStoreRepository.java
+│  │           │  │  │  ├─ PopUpStoreRepositoryCustom.java
+│  │           │  │  │  └─ PopUpStoreRepositoryImpl.java
+│  │           │  │  └─ service
+│  │           │  │     └─ PopUpStoreService.java
+│  │           │  ├─ search
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ SearchController.java
+│  │           │  │  │  └─ SearchControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  └─ SearchPopUpStoreResponse.java
+│  │           │  │  └─ service
+│  │           │  │     └─ SearchService.java
+│  │           │  ├─ sign_up
+│  │           │  │  ├─ controller
+│  │           │  │  │  ├─ SignUpController.java
+│  │           │  │  │  └─ SignUpControllerDoc.java
+│  │           │  │  ├─ dto
+│  │           │  │  │  ├─ request
+│  │           │  │  │  │  └─ SignUpRequest.java
+│  │           │  │  │  └─ response
+│  │           │  │  │     ├─ GetCategoryListResponse.java
+│  │           │  │  │     └─ GetGenderResponse.java
+│  │           │  │  └─ service
+│  │           │  │     └─ SignUpService.java
+│  │           │  ├─ token
+│  │           │  │  ├─ entity
+│  │           │  │  │  ├─ BlackListTokenEntity.java
+│  │           │  │  │  └─ RefreshTokenEntity.java
+│  │           │  │  ├─ repository
+│  │           │  │  │  ├─ BlackListTokenRepository.java
+│  │           │  │  │  └─ RefreshTokenRepository.java
+│  │           │  │  └─ service
+│  │           │  │     ├─ BlackListTokenService.java
+│  │           │  │     └─ RefreshTokenService.java
+│  │           │  └─ user
+│  │           │     ├─ controller
+│  │           │     │  ├─ UserController.java
+│  │           │     │  ├─ UserControllerDoc.java
+│  │           │     │  ├─ UserProfileController.java
+│  │           │     │  └─ UserProfileControllerDoc.java
+│  │           │     ├─ dto
+│  │           │     │  ├─ request
+│  │           │     │  │  ├─ CheckedSurveyListRequest.java
+│  │           │     │  │  ├─ UpdateMyInterestCategoryRequest.java
+│  │           │     │  │  ├─ UpdateMyProfileRequest.java
+│  │           │     │  │  └─ UpdateMyTailoredInfoRequest.java
+│  │           │     │  └─ response
+│  │           │     │     ├─ GetBlockedUserListResponse.java
+│  │           │     │     ├─ GetBookMarkPopUpStoreListResponse.java
+│  │           │     │     ├─ GetMyCommentedPopUpStoreListResponse.java
+│  │           │     │     ├─ GetMyCommentResponse.java
+│  │           │     │     ├─ GetMyPageResponse.java
+│  │           │     │     ├─ GetMyRecentViewPopUpStoreListResponse.java
+│  │           │     │     ├─ GetProfileResponse.java
+│  │           │     │     └─ GetWithDrawlSurveyResponse.java
+│  │           │     ├─ entity
+│  │           │     │  ├─ BlockedUserEntity.java
+│  │           │     │  ├─ BookMarkPopUpStoreEntity.java
+│  │           │     │  ├─ RoleEntity.java
+│  │           │     │  ├─ UserEntity.java
+│  │           │     │  ├─ UserInterestCategoryEntity.java
+│  │           │     │  ├─ UserPopUpStoreViewEntity.java
+│  │           │     │  ├─ UserRoleEntity.java
+│  │           │     │  └─ WithDrawalSurveyEntity.java
+│  │           │     ├─ enums
+│  │           │     │  ├─ Gender.java
+│  │           │     │  ├─ Role.java
+│  │           │     │  └─ WithDrawlSurvey.java
+│  │           │     ├─ repository
+│  │           │     │  ├─ BlockedUserRepository.java
+│  │           │     │  ├─ BlockedUserRepositoryCustom.java
+│  │           │     │  ├─ BlockedUserRepositoryImpl.java
+│  │           │     │  ├─ BookMarkPopUpStoreRepository.java
+│  │           │     │  ├─ RoleRepository.java
+│  │           │     │  ├─ UserInterestCategoryRepository.java
+│  │           │     │  ├─ UserPopUpStoreViewRepository.java
+│  │           │     │  ├─ UserRepository.java
+│  │           │     │  └─ WithDrawlRepository.java
+│  │           │     └─ service
+│  │           │        ├─ UserProfileService.java
+│  │           │        └─ UserService.java
+│  │           ├─ global
+│  │           │  ├─ audit
+│  │           │  │  ├─ AdminEntityListener.java
+│  │           │  │  ├─ BaseAdminEntity.java
+│  │           │  │  ├─ BaseEntity.java
+│  │           │  │  ├─ BaseTimeAdminEntity.java
+│  │           │  │  ├─ BaseTimeEntity.java
+│  │           │  │  └─ JpaAuditConfig.java
+│  │           │  ├─ config
+│  │           │  │  ├─ QuerydslConfig.java
+│  │           │  │  ├─ S3Config.java
+│  │           │  │  └─ SwaggerConfig.java
+│  │           │  ├─ converter
+│  │           │  │  ├─ BooleanToYNConverter.java
+│  │           │  │  ├─ CategoryConverter.java
+│  │           │  │  ├─ CommentTypeConverter.java
+│  │           │  │  ├─ EnumToStringConverter.java
+│  │           │  │  ├─ GenderConverter.java
+│  │           │  │  ├─ StringToCategoryConverter.java
+│  │           │  │  └─ WithDrawlSurveyConverter.java
+│  │           │  ├─ enums
+│  │           │  │  └─ BaseEnum.java
+│  │           │  ├─ exception
+│  │           │  │  ├─ ApiControllerExceptionAdvice.java
+│  │           │  │  ├─ BadRequestException.java
+│  │           │  │  ├─ BaseException.java
+│  │           │  │  ├─ ConcurrencyException.java
+│  │           │  │  ├─ ErrorCode.java
+│  │           │  │  ├─ ExceptionResponse.java
+│  │           │  │  ├─ NotFoundException.java
+│  │           │  │  └─ UnAuthorizedException.java
+│  │           │  ├─ jwt
+│  │           │  │  ├─ JwtAuthenticationFilter.java
+│  │           │  │  ├─ JwtProperties.java
+│  │           │  │  └─ JwtService.java
+│  │           │  ├─ security
+│  │           │  │  ├─ CustomAccessDeniedHandler.java
+│  │           │  │  ├─ CustomAuthenticationEntryPoint.java
+│  │           │  │  ├─ CustomUserDetailsService.java
+│  │           │  │  └─ SecurityConfig.java
+│  │           │  └─ utils
+│  │           │     ├─ AgeGroupUtils.java
+│  │           │     ├─ QueryDslUtils.java
+│  │           │     ├─ SecurityUtils.java
+│  │           │     └─ TimeUtils.java
+│  │           └─ PopPoolApplication.java
+│  └─ resources
+│     ├─ application-dev.yml
+│     ├─ application-local.yml
+│     ├─ application.yml
+│     ├─ data.sql
+│     ├─ static
+│     └─ templates
+└─ test
+   ├─ java
+   │  └─ com
+   │     └─ application
+   │        └─ poppool
+   │           └─ PopPoolApplicationTests.java
+   └─ resources
+      └─ application-test.yml
 
 ```
 
