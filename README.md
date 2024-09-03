@@ -454,12 +454,5 @@ src
 </br>
 
 ## 📋 프로젝트 관련 문서
-
+- [ERD](https://www.erdcloud.com/d/wkrkmAGhaCbwBpN7X
 </br>
-
-
-
-
-## ERD
-
-- [ERD](https://www.erdcloud.com/d/wkrkmAGhaCbwBpN7X)
