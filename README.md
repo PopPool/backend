@@ -447,6 +447,7 @@ src
 ```
 
 ## 👥 협업 관리
+- [Notion](https://www.notion.so/POP-POOL-11f3e1b836684b86b4b78dae7d179a23)
 </br>
 
 ## 📆 프로젝트 기간
@@ -454,5 +455,5 @@ src
 </br>
 
 ## 📋 프로젝트 관련 문서
-- [ERD](https://www.erdcloud.com/d/wkrkmAGhaCbwBpN7X
+- [ERD](https://www.erdcloud.com/d/wkrkmAGhaCbwBpN7X)
 </br>
