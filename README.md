@@ -117,12 +117,6 @@
 ## 🗂️ 시스템 아키텍처
 </br>
 
-## 🖥️ 주요기능
-
-1. 로그인(카카오, 애플 로그인)
-
-<img src="https://github.com/user-attachments/assets/b4ce00b7-a93c-45e2-8228-eb4e7aa78a30" alt="image" width="300" height="750">
-
 
 ## 📁 Back-End 소스 코드 폴더 구조
 
