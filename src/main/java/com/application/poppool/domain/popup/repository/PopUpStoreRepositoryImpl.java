@@ -55,7 +55,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     @Override
     public List<GetHomeInfoResponse.PopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
-        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
+        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntity");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
 
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
@@ -75,7 +75,15 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.mainImageUrl)
                                         .from(popUpStoreEntitySub)
                                         .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                , "mainImageUrl")
+                                , "mainImageUrl"),
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.startDate)
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "startDate"),
+                        ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.endDate)
+                                        .from(popUpStoreEntitySub)
+                                        .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
+                                , "endDate")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
