@@ -55,7 +55,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     @Override
     public List<GetHomeInfoResponse.PopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
-        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntity");
+        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
 
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
