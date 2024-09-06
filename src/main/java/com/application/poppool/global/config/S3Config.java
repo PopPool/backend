@@ -38,7 +38,8 @@ public class S3Config {
     public S3Presigner s3Presigner(S3Client s3Client) {
         return S3Presigner.builder()
                 .region(Region.of(region))
-                .credentialsProvider(CREDENTIALS_PROVIDER)
+                .credentialsProvider(StaticCredentialsProvider.create(
+                        AwsBasicCredentials.create(accessKeyId, secretAccessKey)))
                 .build();
     }
 }
