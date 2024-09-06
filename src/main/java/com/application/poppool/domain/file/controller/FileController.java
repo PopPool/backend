@@ -1,6 +1,7 @@
 package com.application.poppool.domain.file.controller;
 
 
+import com.application.poppool.domain.file.dto.request.DeleteFileRequest;
 import com.application.poppool.domain.file.dto.request.PreSignedUrlRequest;
 import com.application.poppool.domain.file.dto.response.PreSignedUrlResponse;
 import com.application.poppool.domain.file.service.FileService;
@@ -21,14 +22,22 @@ public class FileController implements FileControllerDoc {
 
     private final FileService fileService;
 
+    @Override
     @PostMapping("/upload-preSignedUrl")
     public ResponseEntity<PreSignedUrlResponse> getPreSignedUploadUrl(@RequestBody @Valid PreSignedUrlRequest request) {
         return ResponseEntity.ok(fileService.getPreSignedUrlForUpload(request.getObjectKeyList()));
     }
 
+    @Override
     @PostMapping("/download-preSignedUrl")
     public ResponseEntity<PreSignedUrlResponse> getPreSignedDownloadUrl(@RequestBody @Valid PreSignedUrlRequest request) {
         return ResponseEntity.ok(fileService.getPreSignedUrlForDownload(request.getObjectKeyList()));
+    }
+
+    @Override
+    @PostMapping("/delete")
+    public void deleteObject(DeleteFileRequest request) {
+        fileService.deleteObject(request.getObjectKeyList());
     }
 
 }

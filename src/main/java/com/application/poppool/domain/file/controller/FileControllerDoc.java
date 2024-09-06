@@ -1,5 +1,6 @@
 package com.application.poppool.domain.file.controller;
 
+import com.application.poppool.domain.file.dto.request.DeleteFileRequest;
 import com.application.poppool.domain.file.dto.request.PreSignedUrlRequest;
 import com.application.poppool.domain.file.dto.response.PreSignedUrlResponse;
 import io.swagger.v3.oas.annotations.Operation;
@@ -17,5 +18,9 @@ public interface FileControllerDoc {
 
     @Operation(summary = "AWS S3 PreSignedUrl(다운로드) 조회", description = "AWS S3 PreSignedUrl(다운로드)을 조회합니다.")
     ResponseEntity<PreSignedUrlResponse> getPreSignedDownloadUrl(@RequestBody @Valid PreSignedUrlRequest request);
+
+
+    @Operation(summary = "AWS S3 파일(객체) 삭제", description = "AWS S3 파일(객체)를 삭제합니다.")
+    void deleteObject (@RequestBody @Valid DeleteFileRequest request);
 
 }
