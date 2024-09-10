@@ -66,7 +66,8 @@
             
             ***75.6% 팝업스토어 방문 경험 있다***
             
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/a12361d3-cad0-45aa-8897-44b2664987da/image.png)
+            ![image](https://github.com/user-attachments/assets/b569ac96-7ab9-40eb-93d3-6539558e1372)
+
             
         
     
