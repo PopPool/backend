@@ -56,7 +56,7 @@
   </table>
 </p>
 
-## 기획 배경
+## ✏️ 기획 배경
 
 - **팝업스토어 시장 규모 확대 및 소비자 관심 증대**
     
@@ -79,7 +79,7 @@
             전시나 체험 요소가 많은 팝업스토어에서는 오래 머물고 싶다(55.6%, 동의율)는 응답이 과반으로 평가되는 등 
             ***팝업스토어에서만 느낄 수 있는 새로운 경험에 대한 니즈도 높은 것으로 파악됨***
             
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/ccb2ccfe-25a3-479d-80f4-a606a9c08738/image.png)
+            [![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/ccb2ccfe-25a3-479d-80f4-a606a9c08738/image.png)](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F203e81f2-722e-44b9-9ae0-1435e919d792%2Fa12361d3-cad0-45aa-8897-44b2664987da%2Fimage.png?table=block&id=7f069681-8cc4-405a-b49e-d0ea7e74fb07&spaceId=203e81f2-722e-44b9-9ae0-1435e919d792&width=2000&userId=74a4fb0b-a5ec-4a9c-82c3-b0932fac7393&cache=v2)
             
     
     - 기업의 긍정적인 팝업스토어 마케팅 효과
