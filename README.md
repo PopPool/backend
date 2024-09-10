@@ -65,12 +65,9 @@
         - 상세
             
             ***75.6% 팝업스토어 방문 경험 있다***
-            
-            ![image](https://github.com/user-attachments/assets/b569ac96-7ab9-40eb-93d3-6539558e1372)
+            <img src="https://github.com/user-attachments/assets/b569ac96-7ab9-40eb-93d3-6539558e1372" width="100" height="200">
 
-            
         
-    
     - 팝업스토어 방문 계기 & 방문 목적
         - 상세
             
