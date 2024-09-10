@@ -8,6 +8,7 @@ import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.*;
+import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.repository.*;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ConcurrencyException;
@@ -24,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Set;
 
 
 @Service
@@ -58,6 +60,8 @@ public class UserService {
             loginYn = true;
         }
 
+        boolean adminYn = isAdmin(user.getUserRoles());
+
         /***
          * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
          */
@@ -71,6 +75,7 @@ public class UserService {
                 .instagramId(user.getInstagramId())
                 .myCommentedPopUpList(myCommentedPopUpList)
                 .loginYn(loginYn)
+                .adminYn(adminYn)
                 .build();
     }
 
@@ -429,5 +434,17 @@ public class UserService {
         return userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
     }
+
+
+    /**
+     * 관리자 여부 체크
+     * @param userRoles
+     * @return
+     */
+    public boolean isAdmin(Set<UserRoleEntity> userRoles) {
+        return userRoles.stream()
+                .anyMatch(userRole -> userRole.getUserRole().equals(Role.ADMIN));
+    }
+
 
 }

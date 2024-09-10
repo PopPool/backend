@@ -13,6 +13,7 @@ public class GetMyPageResponse {
     private String intro;
     private String instagramId;
     private boolean loginYn;
+    private boolean adminYn;
     private List<MyCommentedPopUpInfo> myCommentedPopUpList;
 
     @Data
