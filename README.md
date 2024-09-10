@@ -62,54 +62,57 @@
     
     
     - 높은 팝업스토어 방문 경험
-        - 상세
             
-            ***75.6% 팝업스토어 방문 경험 있다***
-            <img src="https://github.com/user-attachments/assets/b569ac96-7ab9-40eb-93d3-6539558e1372" width="100" height="200">
+      ***75.6% 팝업스토어 방문 경험 있다***
+
+      <img src="https://github.com/user-attachments/assets/b569ac96-7ab9-40eb-93d3-6539558e1372" width="300" height="500">
 
         
     - 팝업스토어 방문 계기 & 방문 목적
-        - 상세
             
-            ***“그냥 지다가던 길에 우연히” ⇒ 단순 호기심에 방문하는 경향 뚜렷***
+      ***“그냥 지다가던 길에 우연히” ⇒ 단순 호기심에 방문하는 경향 뚜렷***
             
-            하지만 팝업스토어 방문 경험자의 절반 가량(53.6%)이 가고 싶은 곳을 일부러 찾아간 적이 있고, 
-            전시나 체험 요소가 많은 팝업스토어에서는 오래 머물고 싶다(55.6%, 동의율)는 응답이 과반으로 평가되는 등 
-            ***팝업스토어에서만 느낄 수 있는 새로운 경험에 대한 니즈도 높은 것으로 파악됨***
+        - 하지만 팝업스토어 방문 경험자의 절반 가량(53.6%)이 가고 싶은 곳을 일부러 찾아간 적이 있고, 
+        - 전시나 체험 요소가 많은 팝업스토어에서는 오래 머물고 싶다(55.6%, 동의율)는 응답이 과반으로 평가되는 등 
+
+      ***팝업스토어에서만 느낄 수 있는 새로운 경험에 대한 니즈도 높은 것으로 파악됨***
+
+
+
+      <img src="https://github.com/user-attachments/assets/0913210b-2031-4272-87dd-dcdd1687d22d" width="500" height="300">
             
-            [![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/ccb2ccfe-25a3-479d-80f4-a606a9c08738/image.png)](https://www.notion.so/image/https%3A%2F%2Fprod-files-secure.s3.us-west-2.amazonaws.com%2F203e81f2-722e-44b9-9ae0-1435e919d792%2Fa12361d3-cad0-45aa-8897-44b2664987da%2Fimage.png?table=block&id=7f069681-8cc4-405a-b49e-d0ea7e74fb07&spaceId=203e81f2-722e-44b9-9ae0-1435e919d792&width=2000&userId=74a4fb0b-a5ec-4a9c-82c3-b0932fac7393&cache=v2)
             
     
     - 기업의 긍정적인 팝업스토어 마케팅 효과
-        - 상세
+        
             
-            ***81.3% 팝업스토어는 브랜드나 콘텐츠를 소비자에게 각인 시키는 데 효과적인 것 같다***
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/e182abfc-4a0e-456e-a52b-6659e7cb06b0/image.png)
-            
+      ***81.3% 팝업스토어는 브랜드나 콘텐츠를 소비자에게 각인 시키는 데 효과적인 것 같다***
+
+
+      <img src="https://github.com/user-attachments/assets/4d6c855e-7280-4f70-b034-7ec8b08ac040" width="300" height="500">
+      
     
 - **젊은 연령층일수록 팝업스토어에 대한 관심도와 만족도가 높음**
     
     
     - 팝업스토어 방문 후 만족도
-        - 상세
-            - **저연령일수록** 팝업스토어 방문 후의 만족감이 **높음**
+        
+      - **저연령일수록** 팝업스토어 방문 후의 만족감이 **높음**
             
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/26cafbb4-c049-4ab9-9178-5699cca10e62/image.png)
+
+        <img src="https://github.com/user-attachments/assets/19dc271f-2c44-4358-a5e3-4ee3f5d7ba7f" width="500" height="300">
             
     
     - 2030 세대의 높은 관심도
-        - 상세
             
-            ***53.6% 내가 가고 싶은 팝업스토어에 방문하기 위해 ‘일부러 찾아간 경험이 있다.***
-            
-            ![image.png](https://prod-files-secure.s3.us-west-2.amazonaws.com/203e81f2-722e-44b9-9ae0-1435e919d792/de21ad85-12e0-4eb9-90d2-2934c58b8e90/image.png)
-            
+      ***53.6% 내가 가고 싶은 팝업스토어에 방문하기 위해 ‘일부러 찾아간 경험이 있다.***
+ 
+      <img src="https://github.com/user-attachments/assets/f94dff42-f348-4b32-872f-962b8bf40547" width="300" height="500">
+      
     
     - 팝업스토어 정보는 주로 “인스타그램”
-        - 상세
-            - 1020 세대는 대부분 행사, 이벤트, 핫플 소식 소개하는 ‘인스타그램 계정’에서 정보를 얻음
-            - 인스타그램은 올해 이용자들의 편의를 높이는 기능들을 추가했다. 이에 따라 크리에이터는 물론 비즈니스 계정들이 마케팅을 위해 사용하는 사례가 증가했다. *특히 Z세대가 방문 인증하기 좋아하는 ‘팝업스토어’를 소개하는 계정이 늘었다.*(뉴스기사 출처)
+      - 1020 세대는 대부분 행사, 이벤트, 핫플 소식 소개하는 ‘인스타그램 계정’에서 정보를 얻음
+      - 인스타그램은 올해 이용자들의 편의를 높이는 기능들을 추가했다. 이에 따라 크리에이터는 물론 비즈니스 계정들이 마케팅을 위해 사용하는 사례가 증가했다. *특히 Z세대가 방문 인증하기 좋아하는 ‘팝업스토어’를 소개하는 계정이 늘었다.*(뉴스기사 출처)
 
 ## 💡 서비스 소개
 **흩어져 있는 팝업스토어 정보를 제공하고 인스타그램 연동으로 부가 기능을 제공하는 앱 서비스**
