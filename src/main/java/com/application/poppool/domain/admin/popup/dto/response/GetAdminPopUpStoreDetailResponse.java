@@ -21,10 +21,17 @@ public class GetAdminPopUpStoreDetailResponse {
     private String createUserId;
     private LocalDateTime createDateTime;
     private String mainImageUrl;
-    private List<String> imageUrlList;
+    private List<Image> imageList;
     private double latitude;
     private double longitude;
     private String markerTitle;
     private String markerSnippet;
+
+    @Getter
+    @Builder
+    public static class Image {
+        private Long id;
+        private String imageUrl;
+    }
 
 }

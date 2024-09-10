@@ -63,8 +63,11 @@ public class AdminPopUpStoreService {
 
         LocationEntity location = popUpStore.getLocation();
 
-        List<String> popUpStoreImageList = popUpStore.getImages().stream()
-                .map(PopUpStoreImageEntity::getUrl)
+        List<GetAdminPopUpStoreDetailResponse.Image> popUpStoreImageList = popUpStore.getImages().stream()
+                .map(popUpStoreImageEntity -> GetAdminPopUpStoreDetailResponse.Image.builder()
+                        .id(popUpStoreImageEntity.getId())
+                        .imageUrl(popUpStoreImageEntity.getUrl())
+                        .build())
                 .toList();
 
 
@@ -79,7 +82,7 @@ public class AdminPopUpStoreService {
                 .createUserId(popUpStore.getCreator())
                 .createDateTime(popUpStore.getCreateDateTime())
                 .mainImageUrl(popUpStore.getMainImageUrl())
-                .imageUrlList(popUpStoreImageList)
+                .imageList(popUpStoreImageList)
                 .latitude((location != null) ? location.getLatitude() : 0.0)
                 .longitude((location != null) ? location.getLongitude() : 0.0)
                 .markerTitle((location != null) ? location.getMarkerTitle() : null)
