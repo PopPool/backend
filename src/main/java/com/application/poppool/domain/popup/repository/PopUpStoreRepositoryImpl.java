@@ -57,7 +57,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     public List<GetHomeInfoResponse.PopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
         QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
-
+        System.out.println("3333");
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.category)
