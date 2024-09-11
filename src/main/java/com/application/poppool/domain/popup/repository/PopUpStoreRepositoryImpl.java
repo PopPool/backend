@@ -58,6 +58,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
         System.out.println("3333");
+        System.out.println(popUpStoreEntitySub.isNull());
+        System.out.println(popUpStoreEntitySub.address);
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.category)
