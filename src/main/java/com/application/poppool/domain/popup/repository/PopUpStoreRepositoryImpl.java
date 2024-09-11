@@ -57,9 +57,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     public List<GetHomeInfoResponse.PopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable) {
         QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
-        System.out.println("3333");
-        System.out.println(popUpStoreEntitySub.isNull());
-        System.out.println(popUpStoreEntitySub.address);
+
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.category)
@@ -387,7 +385,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
     private BooleanExpression genderEq(Gender gender) {
         if (gender == Gender.NONE) {
-            return null;
+            return Expressions.TRUE;
         }
         return userPopUpStoreViewEntity.user.gender.eq(gender);
     }
