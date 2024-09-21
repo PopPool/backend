@@ -19,4 +19,6 @@ public class CreatePopUpStoreRequest {
     private List<String> imageUrlList;
     private double latitude;
     private double longitude;
+    private String markerTitle;
+    private String markerSnippet;
 }
