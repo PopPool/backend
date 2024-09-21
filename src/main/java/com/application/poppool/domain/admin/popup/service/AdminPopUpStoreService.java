@@ -101,12 +101,15 @@ public class AdminPopUpStoreService {
         LocationEntity location = LocationEntity.builder()
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
+                .markerTitle(request.getMarkerTitle())
+                .markerSnippet(request.getMarkerSnippet())
                 .build();
 
         PopUpStoreEntity popUpStore = PopUpStoreEntity.builder()
                 .name(request.getName())
                 .category(request.getCategory())
                 .desc(request.getDesc())
+                .address(request.getAddress())
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .mainImageUrl(request.getMainImageUrl())
