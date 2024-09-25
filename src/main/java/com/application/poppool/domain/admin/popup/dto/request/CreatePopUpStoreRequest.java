@@ -16,6 +16,7 @@ public class CreatePopUpStoreRequest {
     private LocalDateTime startDate;
     private LocalDateTime endDate;
     private String mainImageUrl;
+    private boolean bannerYn;
     private List<String> imageUrlList;
     private double latitude;
     private double longitude;

@@ -24,6 +24,7 @@ public class UpdatePopUpStoreRequest {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String mainImageUrl;
+        private boolean bannerYn;
         private List<String> imageUrl;
     }
 

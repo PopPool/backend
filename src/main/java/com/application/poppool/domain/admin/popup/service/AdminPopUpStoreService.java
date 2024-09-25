@@ -82,6 +82,7 @@ public class AdminPopUpStoreService {
                 .createUserId(popUpStore.getCreator())
                 .createDateTime(popUpStore.getCreateDateTime())
                 .mainImageUrl(popUpStore.getMainImageUrl())
+                .bannerYn(popUpStore.isBannerYn())
                 .imageList(popUpStoreImageList)
                 .latitude((location != null) ? location.getLatitude() : 0.0)
                 .longitude((location != null) ? location.getLongitude() : 0.0)
@@ -113,6 +114,7 @@ public class AdminPopUpStoreService {
                 .startDate(request.getStartDate())
                 .endDate(request.getEndDate())
                 .mainImageUrl(request.getMainImageUrl())
+                .bannerYn(request.isBannerYn())
                 .location(location)
                 .build();
 

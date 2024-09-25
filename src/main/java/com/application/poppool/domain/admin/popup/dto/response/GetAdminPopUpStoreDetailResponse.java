@@ -21,6 +21,7 @@ public class GetAdminPopUpStoreDetailResponse {
     private String createUserId;
     private LocalDateTime createDateTime;
     private String mainImageUrl;
+    private boolean bannerYn;
     private List<Image> imageList;
     private double latitude;
     private double longitude;

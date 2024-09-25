@@ -54,9 +54,9 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @Convert(converter = CategoryConverter.class)
     private Category category;
 
-    @Column(name = "CLOSED_YN")
+    @Column(name = "BANNER_YN", columnDefinition = "CHAR(1)")
     @Convert(converter = BooleanToYNConverter.class)
-    private boolean closeYn;
+    private boolean bannerYn;
 
     @Column(name = "VIEW_CNT")
     @Builder.Default
@@ -102,6 +102,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
         this.startDate = request.getStartDate();
         this.endDate = request.getEndDate();
         this.mainImageUrl = request.getMainImageUrl();
+        this.bannerYn = request.isBannerYn();
     }
 
     public void incrementViewCount() {
