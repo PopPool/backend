@@ -17,6 +17,8 @@ import java.util.List;
 
 public interface PopUpStoreRepositoryCustom {
 
+    List<GetHomeInfoResponse.BannerPopUpStore> getBannerPopUpStoreList();
+
     List<Category> getUserInterestCategoryList(String userId);
 
     /**

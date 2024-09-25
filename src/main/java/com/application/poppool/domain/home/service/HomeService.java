@@ -32,6 +32,8 @@ public class HomeService {
 
         UserEntity user = userService.findUserByUserId(userId);
 
+        List<GetHomeInfoResponse.BannerPopUpStore> bannerPopUpStoreList = popUpStoreRepository.getBannerPopUpStoreList();
+
         /** 추천 팝업 리스트 */
         List<GetHomeInfoResponse.PopUpStore> customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
 
@@ -71,6 +73,7 @@ public class HomeService {
         }
 
         return GetHomeInfoResponse.builder()
+                .bannerPopUpStoreList(bannerPopUpStoreList)
                 .nickname(user.getNickname())
                 .customPopUpStoreList(customPopUpStoreList)
                 .customPopUpStoreTotalPages(customPopUpStoreTotalPages)

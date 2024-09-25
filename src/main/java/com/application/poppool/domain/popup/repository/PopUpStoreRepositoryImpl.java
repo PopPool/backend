@@ -45,6 +45,20 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
 
     @Override
+    public List<GetHomeInfoResponse.BannerPopUpStore> getBannerPopUpStoreList() {
+        return queryFactory.select(Projections.bean(GetHomeInfoResponse.BannerPopUpStore.class,
+                popUpStoreEntity.id.as("id"),
+                popUpStoreEntity.name.as("name"),
+                popUpStoreEntity.mainImageUrl.as("mainImageUrl")
+                ))
+                .where(isOpenPopUp(),
+                        isBannerPopUp())
+                .orderBy(popUpStoreEntity.startDate.desc())
+                .limit(3)
+                .fetch();
+    }
+
+    @Override
     public List<Category> getUserInterestCategoryList(String userId) {
         return queryFactory.select(categoryEntity.category)
                 .from(userInterestCategoryEntity)
@@ -444,4 +458,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return popUpStoreEntity.id.ne(popUpStoreId);
     }
 
+    private BooleanExpression isBannerPopUp() {
+        return popUpStoreEntity.bannerYn.eq(true);
+    }
 }
