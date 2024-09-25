@@ -13,6 +13,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
@@ -57,6 +58,11 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     @Override
     public List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, CommentType commentType, Pageable pageable) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        BooleanExpression isClosedPopUp = popUpStoreEntity.endDate.loe(now);
+
         return queryFactory.select(Projections.bean(GetMyCommentResponse.MyCommentInfo.class,
                         commentEntity.id.as("commentId"),
                         commentEntity.content.as("content"),
@@ -67,7 +73,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                                 popUpStoreEntity.id.as("popUpStoreId"),
                                 popUpStoreEntity.name.as("popUpStoreName"),
                                 popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
-                                popUpStoreEntity.closeYn.as("closeYn")
+                                isClosedPopUp.as("closeYn")
                         ).as("popUpStoreInfo")
                 ))
                 .from(commentEntity)

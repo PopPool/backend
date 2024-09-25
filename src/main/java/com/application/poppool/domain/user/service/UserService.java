@@ -133,7 +133,7 @@ public class UserService {
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
                         .address(popUpStoreEntity.getAddress())
-                        .closeYn(popUpStoreEntity.isCloseYn())
+                        .closeYn(isClosedPopUp(popUpStoreEntity, LocalDateTime.now()))
                         .build())
                 .toList();
 
@@ -278,7 +278,7 @@ public class UserService {
                         .startDate(popUpStoreEntity.getStartDate())
                         .endDate(popUpStoreEntity.getEndDate())
                         .address(popUpStoreEntity.getAddress())
-                        .closeYn(popUpStoreEntity.isCloseYn())
+                        .closeYn(isClosedPopUp(popUpStoreEntity, LocalDateTime.now()))
                         .build())
                 .toList();
 
@@ -446,5 +446,10 @@ public class UserService {
                 .anyMatch(userRole -> userRole.getUserRole().equals(Role.ADMIN));
     }
 
+
+    /** 종료 여부 */
+    private boolean isClosedPopUp(PopUpStoreEntity popUpStore, LocalDateTime now) {
+        return popUpStore.getEndDate().isBefore(now) || popUpStore.getEndDate().isEqual(now);
+    }
 
 }
