@@ -23,7 +23,7 @@ public class GetHomeInfoResponse {
     private long newPopUpStoreTotalElements; // 신규 팝업 리스트 전체 개수
     private boolean loginYn;
 
-    @Getter
+    @Data
     @Builder
     public static class BannerPopUpStore {
         private Long id;

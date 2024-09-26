@@ -51,6 +51,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 popUpStoreEntity.name.as("name"),
                 popUpStoreEntity.mainImageUrl.as("mainImageUrl")
                 ))
+                .from(popUpStoreEntity)
                 .where(isOpenPopUp(),
                         isBannerPopUp())
                 .orderBy(popUpStoreEntity.startDate.desc())
