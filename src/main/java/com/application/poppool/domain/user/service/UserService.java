@@ -24,6 +24,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -52,27 +53,37 @@ public class UserService {
     @Transactional(readOnly = true)
     public GetMyPageResponse getMyPage(String userId) {
 
-        UserEntity user = this.findUserByUserId(userId);
-
         boolean loginYn = false;
+        boolean adminYn = false;
+        String nickname = null;
+        String profileImageUrl = null;
+        String intro = null;
+        String instagramId = null;
+        List<GetMyPageResponse.MyCommentedPopUpInfo> myCommentedPopUpList = new ArrayList<>();
 
+        // 로그인 유저
         if (SecurityUtils.isAuthenticated()) {
             loginYn = true;
+            UserEntity user = this.findUserByUserId(userId);
+            adminYn = isAdmin(user.getUserRoles());
+            nickname = user.getNickname();
+            profileImageUrl = user.getProfileImageUrl();
+            intro = user.getIntro();
+            instagramId = user.getInstagramId();
+            
+            /***
+             * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
+             */
+            // 회원의 코멘트 조회
+            myCommentedPopUpList = commentRepository.findMyCommentedPopUpInfo(userId);
+
         }
 
-        boolean adminYn = isAdmin(user.getUserRoles());
-
-        /***
-         * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
-         */
-        // 회원의 코멘트 조회
-        List<GetMyPageResponse.MyCommentedPopUpInfo> myCommentedPopUpList = commentRepository.findMyCommentedPopUpInfo(userId);
-
         return GetMyPageResponse.builder()
-                .nickname(user.getNickname())
-                .profileImageUrl(user.getProfileImageUrl())
-                .intro(user.getIntro())
-                .instagramId(user.getInstagramId())
+                .nickname(nickname)
+                .profileImageUrl(profileImageUrl)
+                .intro(intro)
+                .instagramId(instagramId)
                 .myCommentedPopUpList(myCommentedPopUpList)
                 .loginYn(loginYn)
                 .adminYn(adminYn)

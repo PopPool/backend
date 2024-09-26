@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -50,33 +51,14 @@ public class PopUpStoreService {
     @Transactional
     public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, CommentType commentType, Long popUpStoreId) {
 
-        UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
-                .orElseGet(() -> {
-                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
-                            .user(user)
-                            .popUpStore(popUpStore)
-                            .viewedAt(LocalDateTime.now())
-                            .viewCount(0)
-                            .commentCount(0)
-                            .bookmarkCount(0)
-                            .build();
-                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
-                });
-
-        /** 찜 여부 체크 */
-        boolean bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
-
         /** 로그인 여부 체크 */
         boolean loginYn = false;
-        if (SecurityUtils.isAuthenticated()) {
-            loginYn = true;
-        }
+
+        /** 찜 여부 체크 */
+        boolean bookmarkYn = false;
         
         /** 팝업 스토어 이미지 리스트 조회 */ 
         List<PopUpStoreImageEntity> popUpStoreImageEntityList = popUpStore.getImages(); // 하나의 팝업 스토어 이므로 n+1 문제 발생하지 않음
@@ -90,19 +72,63 @@ public class PopUpStoreService {
 
         /** 댓글 조회 */
         List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, commentType, popUpStoreId);
+        List<GetPopUpStoreDetailResponse.Comment> commentList = new ArrayList<>();
 
-        /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
-        List<GetPopUpStoreDetailResponse.Comment> commentList = comments.stream()
-                .map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
-                        .nickname(comment.getUser().getNickname())
-                        .instagramId(comment.getUser().getInstagramId())
-                        .profileImageUrl(comment.getUser().getProfileImageUrl())
-                        .content(comment.getContent())
-                        .likeYn(commentService.isCommentLikedByUser(user, comment))
-                        .likeCount(comment.getLikeCount())
-                        .createDateTime(comment.getCreateDateTime())
-                        .build())
-                .toList();
+        /** 로그인 유저 */
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+
+            UserEntity user = userRepository.findByUserId(userId)
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+            UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                    .orElseGet(() -> {
+                        UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
+                                .user(user)
+                                .popUpStore(popUpStore)
+                                .viewedAt(LocalDateTime.now())
+                                .viewCount(0)
+                                .commentCount(0)
+                                .bookmarkCount(0)
+                                .build();
+                        return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
+                    });
+
+            /** 찜 여부 체크 */
+            bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
+
+            /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
+            commentList = comments.stream().map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
+                            .nickname(comment.getUser().getNickname())
+                            .instagramId(comment.getUser().getInstagramId())
+                            .profileImageUrl(comment.getUser().getProfileImageUrl())
+                            .content(comment.getContent())
+                            .likeYn(commentService.isCommentLikedByUser(user, comment))
+                            .likeCount(comment.getLikeCount())
+                            .createDateTime(comment.getCreateDateTime())
+                            .build())
+                    .toList();
+
+            /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
+            userPopUpStoreView.updateViewedAt(LocalDateTime.now());
+            userPopUpStoreView.incrementViewCount();
+
+        }
+
+        /** 비로그인 유저 */
+        else {
+            /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
+            commentList = comments.stream().map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
+                            .nickname(comment.getUser().getNickname())
+                            .instagramId(comment.getUser().getInstagramId())
+                            .profileImageUrl(comment.getUser().getProfileImageUrl())
+                            .content(comment.getContent())
+                            .likeYn(false)
+                            .likeCount(comment.getLikeCount())
+                            .createDateTime(comment.getCreateDateTime())
+                            .build())
+                    .toList();
+        }
 
         /** 비슷한 팝업 리스트 조회 */
         List<GetPopUpStoreDetailResponse.PopUpStore> similarPopUpStoreList = popUpStoreRepository
@@ -124,10 +150,6 @@ public class PopUpStoreService {
                 }
             }
         }
-
-        /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
-        userPopUpStoreView.updateViewedAt(LocalDateTime.now());
-        userPopUpStoreView.incrementViewCount();
 
         return GetPopUpStoreDetailResponse.builder()
                 .name(popUpStore.getName())

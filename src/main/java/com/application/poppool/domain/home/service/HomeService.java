@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -30,19 +31,32 @@ public class HomeService {
     @Transactional(readOnly = true)
     public GetHomeInfoResponse getHomeInfo(String userId, Pageable pageable) {
 
-        UserEntity user = userService.findUserByUserId(userId);
+        /** 로그인 여부 */
+        boolean loginYn = false;
+        String nickname = null;
 
+        List<GetHomeInfoResponse.PopUpStore> customPopUpStoreList = new ArrayList<>();
+        long customPopUpStoreTotalElements = 0L;
+        int customPopUpStoreTotalPages = 0;
+
+        // 배너 팝업 리스트
         List<GetHomeInfoResponse.BannerPopUpStore> bannerPopUpStoreList = popUpStoreRepository.getBannerPopUpStoreList();
+        
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+            UserEntity user = userService.findUserByUserId(userId);
+            nickname = user.getNickname();
 
-        /** 추천 팝업 리스트 */
-        List<GetHomeInfoResponse.PopUpStore> customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
+            /** 추천 팝업 리스트 */
+            customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
 
-        // 전체 맞춤 팝업 데이터 수
-        long customPopUpStoreTotalElements = popUpStoreRepository.countCustomPopUpStores(user);
+            // 전체 맞춤 팝업 데이터 수
+            customPopUpStoreTotalElements = popUpStoreRepository.countCustomPopUpStores(user);
 
-        // 전체 맞춤 팝업 페이지 수
-        int customPopUpStoreTotalPages = (int) Math.ceil((double) customPopUpStoreTotalElements / pageable.getPageSize());
+            // 전체 맞춤 팝업 페이지 수
+            customPopUpStoreTotalPages = (int) Math.ceil((double) customPopUpStoreTotalElements / pageable.getPageSize());
 
+        }
 
         /** 인기 팝업 리스트 */
         List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(pageable);
@@ -65,16 +79,9 @@ public class HomeService {
         // 전체 신규 팝업 페이지 수
         int newPopUpStoreTotalPages = (int) Math.ceil((double) newPopUpStoreTotalElements / pageable.getPageSize());
 
-        /** 로그인 여부 */
-        boolean loginYn = false;
-
-        if (SecurityUtils.isAuthenticated()) {
-            loginYn = true;
-        }
-
         return GetHomeInfoResponse.builder()
                 .bannerPopUpStoreList(bannerPopUpStoreList)
-                .nickname(user.getNickname())
+                .nickname(nickname)
                 .customPopUpStoreList(customPopUpStoreList)
                 .customPopUpStoreTotalPages(customPopUpStoreTotalPages)
                 .customPopUpStoreTotalElements(customPopUpStoreTotalElements)
