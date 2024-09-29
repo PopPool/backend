@@ -39,6 +39,7 @@ springdoc:
     tagsSorter: alpha
     operations-sorter: alpha
     display-request-duration: true
+  use-fqn: true
 
 oauth:
   kakao:
