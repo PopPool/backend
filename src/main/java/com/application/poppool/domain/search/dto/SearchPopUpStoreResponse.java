@@ -19,6 +19,7 @@ public class SearchPopUpStoreResponse {
     public static class PopUpStore {
         private Long id;
         private String name;
+        private String mainImageUrl;
         private Category category;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
