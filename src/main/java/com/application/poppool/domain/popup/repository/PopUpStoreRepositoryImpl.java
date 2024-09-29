@@ -293,6 +293,9 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.select(Projections.bean(SearchPopUpStoreResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate"),
                         popUpStoreEntity.address.as("address")
                 ))
                 .from(popUpStoreEntity)
