@@ -347,7 +347,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
 
                 ))
                 .from(popUpStoreEntity)
-                .leftJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
+                .leftJoin(popUpStoreEntity.location, locationEntity)
                 .where(popUpStoreIdEq(popUpStoreId),
                         isOpenPopUp())
                 .fetchOne();
