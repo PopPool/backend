@@ -1,12 +1,13 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
 import com.application.poppool.domain.category.enums.Category;
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
-@Getter
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
 @Builder
 public class GetPopUpStoreDirectionResponse {
 
