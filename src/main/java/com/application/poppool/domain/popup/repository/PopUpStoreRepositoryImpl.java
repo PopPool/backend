@@ -403,7 +403,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression genderEq(Gender gender) {
-        if (gender == Gender.NONE) {
+        if (gender == Gender.NONE || gender == null) {
             return Expressions.TRUE;
         }
         return userPopUpStoreViewEntity.user.gender.eq(gender);
