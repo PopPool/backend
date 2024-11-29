@@ -25,6 +25,8 @@ public class GetHomeInfoResponse {
 
     @Data
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class BannerPopUpStore {
         private Long id;
         private String name;
