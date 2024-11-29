@@ -22,7 +22,7 @@ public class HomeController implements HomeControllerDoc {
     private final HomeService homeService;
 
     @Override
-    @GetMapping("")
+    @GetMapping
     public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@RequestParam String userId,
                                                            @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("홈 화면 조회");
