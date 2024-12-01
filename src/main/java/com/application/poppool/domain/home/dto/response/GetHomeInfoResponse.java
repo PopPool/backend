@@ -45,6 +45,7 @@ public class GetHomeInfoResponse {
         private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private boolean bookmarkYn;
     }
 
 }
