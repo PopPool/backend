@@ -49,6 +49,18 @@ public class HomeService {
 
             /** 추천 팝업 리스트 */
             customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
+            System.out.println("size" + customPopUpStoreList.size());
+            // 추천 팝업이 없으면, 카테고리 인기팝업에서 1개 노출
+            if (customPopUpStoreList.size() == 0) {
+                customPopUpStoreList = popUpStoreRepository.getCategoryPopularPopUpStoreList(user, pageable);
+                System.out.println("size1" + customPopUpStoreList.size());
+            }
+
+            // 카테고리에서도 없다면, 전체 인기 팝업에서 1개 노출
+            if (customPopUpStoreList.size() == 0) {
+                customPopUpStoreList = popUpStoreRepository.getOnePopularPopUpStore(user, pageable);
+                System.out.println("size2" + customPopUpStoreList.size());
+            }
 
             // 전체 맞춤 팝업 데이터 수
             customPopUpStoreTotalElements = popUpStoreRepository.countCustomPopUpStores(user);
@@ -59,7 +71,7 @@ public class HomeService {
         }
 
         /** 인기 팝업 리스트 */
-        List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(pageable);
+        List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(userId, pageable);
 
         // 전체 인기 팝업 수
         long popularPopUpStoreTotalElements = popUpStoreRepository.countPopularPopUpStores();
@@ -71,7 +83,7 @@ public class HomeService {
         LocalDateTime currentDate = LocalDateTime.now();
 
         /**신규 팝업 리스트 */
-        List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
+        List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(userId, currentDate, pageable);
 
         // 전체 신규 팝업 데이터 수
         long newPopUpStoreTotalElements = popUpStoreRepository.countNewPopUpStores(currentDate);
@@ -117,10 +129,10 @@ public class HomeService {
     }
 
     @Transactional(readOnly = true)
-    public GetHomeInfoResponse getPopularPopUpStoreList(Pageable pageable) {
+    public GetHomeInfoResponse getPopularPopUpStoreList(String userId, Pageable pageable) {
 
         /** 인기 팝업 리스트 */
-        List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(pageable);
+        List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(userId, pageable);
 
         // 전체 인기 팝업 수
         long popularPopUpStoreTotalElements = popUpStoreRepository.countPopularPopUpStores();
@@ -136,13 +148,13 @@ public class HomeService {
     }
 
     @Transactional(readOnly = true)
-    public GetHomeInfoResponse getNewPopUpStoreList(Pageable pageable) {
+    public GetHomeInfoResponse getNewPopUpStoreList(String userId, Pageable pageable) {
 
         /** 현재 시간 */
         LocalDateTime currentDate = LocalDateTime.now();
 
         /**신규 팝업 리스트 */
-        List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(currentDate, pageable);
+        List<GetHomeInfoResponse.PopUpStore> newPopUpStoreList = popUpStoreRepository.getNewPopUpStoreList(userId, currentDate, pageable);
 
         // 전체 신규 팝업 데이터 수
         long newPopUpStoreTotalElements = popUpStoreRepository.countNewPopUpStores(currentDate);

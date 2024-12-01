@@ -33,6 +33,7 @@ import java.util.List;
 import static com.application.poppool.domain.category.entity.QCategoryEntity.categoryEntity;
 import static com.application.poppool.domain.location.entity.QLocationEntity.locationEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
+import static com.application.poppool.domain.user.entity.QBookMarkPopUpStoreEntity.bookMarkPopUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
 import static com.application.poppool.domain.user.entity.QUserInterestCategoryEntity.userInterestCategoryEntity;
 import static com.application.poppool.domain.user.entity.QUserPopUpStoreViewEntity.userPopUpStoreViewEntity;
@@ -98,7 +99,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.endDate)
                                         .from(popUpStoreEntitySub)
                                         .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                , "endDate")
+                                , "endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
@@ -120,6 +126,60 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
+    public List<GetHomeInfoResponse.PopUpStore> getCategoryPopularPopUpStoreList(UserEntity user, Pageable pageable) {
+        QPopUpStoreEntity popUpStoreEntitySub = new QPopUpStoreEntity("popUpStoreEntitySub");
+        List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
+
+        return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
+                ))
+                .from(popUpStoreEntity)
+                .where(categoryIn(userInterestCategoryList),
+                        isOpenPopUp())
+                .orderBy(popUpStoreEntity.viewCount.desc(),
+                        popUpStoreEntity.commentCount.desc(),
+                        popUpStoreEntity.bookmarkCount.desc())
+                .offset(pageable.getOffset())
+                .limit(1)
+                .fetch();
+    }
+
+    @Override
+    public List<GetHomeInfoResponse.PopUpStore> getOnePopularPopUpStore(UserEntity user, Pageable pageable) {
+        return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
+                        popUpStoreEntity.id.as("id"),
+                        popUpStoreEntity.category.as("category"),
+                        popUpStoreEntity.name.as("name"),
+                        popUpStoreEntity.address.as("address"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                        popUpStoreEntity.startDate.as("startDate"),
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
+                ))
+                .from(popUpStoreEntity)
+                .where(isOpenPopUp())
+                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
+                .offset(pageable.getOffset())
+                .limit(1)
+                .fetch();
+    }
+
+    @Override
     public long countCustomPopUpStores(UserEntity user) {
         List<Category> userInterestCategoryList = getUserInterestCategoryList(user.getUserId());
         Long count = queryFactory.select(popUpStoreEntity.countDistinct())
@@ -135,7 +195,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetHomeInfoResponse.PopUpStore> getPopularPopUpStoreList(Pageable pageable) {
+    public List<GetHomeInfoResponse.PopUpStore> getPopularPopUpStoreList(String userId, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.as("category"),
@@ -143,7 +203,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.address.as("address"),
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .where(isOpenPopUp())
@@ -164,7 +229,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable) {
+    public List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(String userId, LocalDateTime currentDate, Pageable pageable) {
 
         // DATE_ADD SQL 함수를 사용하여 14일을 더한 날짜를 계산
         DateTimeExpression<LocalDateTime> newPopUpDueDate = getNewPopUpDueDate();
@@ -176,7 +241,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.address.as("address"),
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .where(isNewPopUpStore(newPopUpDueDate, currentDate),
@@ -392,9 +462,9 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression categoryIn(List<Category> categories) {
-        if (categories.isEmpty()) { /** 만약 유저의 관심 카테고리가 등록되어 있지 않다면 모든 카테고리를 대상으로 함 */
-            return null;
-        }
+        //if (categories.isEmpty()) { /** 만약 유저의 관심 카테고리가 등록되어 있지 않다면 모든 카테고리를 대상으로 함 */
+        //    return false
+        //}
         return popUpStoreEntity.category.in(categories);
     }
 

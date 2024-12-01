@@ -26,19 +26,24 @@ public interface PopUpStoreRepositoryCustom {
      */
     List<GetHomeInfoResponse.PopUpStore> getCustomPopUpStoreList(UserEntity user, Pageable pageable);
 
+    List<GetHomeInfoResponse.PopUpStore> getCategoryPopularPopUpStoreList(UserEntity user, Pageable pageable);
+
+    List<GetHomeInfoResponse.PopUpStore> getOnePopularPopUpStore(UserEntity user, Pageable pageable);
+
+
     long countCustomPopUpStores(UserEntity user);
 
     /**
      * 인기 팝업 리스트
      */
-    List<GetHomeInfoResponse.PopUpStore> getPopularPopUpStoreList(Pageable pageable);
+    List<GetHomeInfoResponse.PopUpStore> getPopularPopUpStoreList(String userId, Pageable pageable);
 
     long countPopularPopUpStores();
 
     /**
      * 신규 팝업 리스트
      */
-    List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(LocalDateTime currentDate, Pageable pageable);
+    List<GetHomeInfoResponse.PopUpStore> getNewPopUpStoreList(String userId, LocalDateTime currentDate, Pageable pageable);
 
     long countNewPopUpStores(LocalDateTime currentDate);
 

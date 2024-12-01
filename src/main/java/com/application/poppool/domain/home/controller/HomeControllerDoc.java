@@ -7,6 +7,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -23,8 +25,10 @@ public interface HomeControllerDoc {
                                                                 @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "인기 팝업 스토어 전체 보기", description = "전체 인기 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                 @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "신규 팝업 스토어 전체 보기", description = "전체 신규 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                             @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 }
