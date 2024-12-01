@@ -112,7 +112,7 @@ public class UserProfileService {
         // 유저 관심 카테고리 삭제
         userInterestCategoryRepository.deleteAllByUserInterestId(interestCategoriesToDelete);
 
-        List<CategoryEntity> allCategories = categoryRepository.findAllById(request.getInterestCategoriesToAdd());
+        List<CategoryEntity> allCategories = categoryRepository.findAll();
         Set<Long> validCategoryIdList = allCategories.stream()
                 .map(CategoryEntity::getCategoryId)
                 .collect(Collectors.toSet());
