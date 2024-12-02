@@ -151,33 +151,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.commentCount.desc(),
                         popUpStoreEntity.bookmarkCount.desc())
                 .offset(pageable.getOffset())
-                .limit(1)
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 
-    @Override
-    public List<GetHomeInfoResponse.PopUpStore> getOnePopularPopUpStore(UserEntity user, Pageable pageable) {
-        return queryFactory.select(Projections.bean(GetHomeInfoResponse.PopUpStore.class,
-                        popUpStoreEntity.id.as("id"),
-                        popUpStoreEntity.category.as("category"),
-                        popUpStoreEntity.name.as("name"),
-                        popUpStoreEntity.address.as("address"),
-                        popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
-                        popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
-                                , "bookmarkYn")
-                ))
-                .from(popUpStoreEntity)
-                .where(isOpenPopUp())
-                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
-                .offset(pageable.getOffset())
-                .limit(1)
-                .fetch();
-    }
 
     @Override
     public long countCustomPopUpStores(UserEntity user) {
@@ -462,9 +439,6 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression categoryIn(List<Category> categories) {
-        //if (categories.isEmpty()) { /** 만약 유저의 관심 카테고리가 등록되어 있지 않다면 모든 카테고리를 대상으로 함 */
-        //    return false
-        //}
         return popUpStoreEntity.category.in(categories);
     }
 
@@ -480,9 +454,6 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression categoryEq(Category category) {
-        if (category == null) {
-            return null;
-        }
         return popUpStoreEntity.category.eq(category);
     }
 

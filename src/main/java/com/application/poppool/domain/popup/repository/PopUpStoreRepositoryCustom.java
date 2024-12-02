@@ -28,9 +28,6 @@ public interface PopUpStoreRepositoryCustom {
 
     List<GetHomeInfoResponse.PopUpStore> getCategoryPopularPopUpStoreList(UserEntity user, Pageable pageable);
 
-    List<GetHomeInfoResponse.PopUpStore> getOnePopularPopUpStore(UserEntity user, Pageable pageable);
-
-
     long countCustomPopUpStores(UserEntity user);
 
     /**
