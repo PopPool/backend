@@ -1,5 +1,8 @@
 package com.application.poppool.domain.home.controller;
 
+import com.application.poppool.domain.home.dto.response.GetAllCustomPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllNewPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllPopularPopUpStoresResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.home.service.HomeService;
 import lombok.RequiredArgsConstructor;
@@ -33,24 +36,24 @@ public class HomeController implements HomeControllerDoc {
 
     @Override
     @GetMapping("/custom/popup-stores")
-    public ResponseEntity<GetHomeInfoResponse> getCustomPopUpStoreList(@RequestParam String userId,
-                                                                       @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@RequestParam String userId,
+                                                                                   @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("맞춤 팝업 전체 보기");
         return ResponseEntity.ok(homeService.getCustomPopUpStoreList(userId, pageable));
     }
 
     @Override
     @GetMapping("/popular/popup-stores")
-    public ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
-                                                                        @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<GetAllPopularPopUpStoresResponse> getPopularPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                     @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("인기 팝업 전체 보기");
         return ResponseEntity.ok(homeService.getPopularPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
     @Override
     @GetMapping("/new/popup-stores")
-    public ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
-                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
+    public ResponseEntity<GetAllNewPopUpStoresResponse> getNewPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                             @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("신규 팝업 전체 보기");
         return ResponseEntity.ok(homeService.getNewPopUpStoreList(userDetails.getUsername(), pageable));
     }

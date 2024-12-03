@@ -1,5 +1,8 @@
 package com.application.poppool.domain.home.controller;
 
+import com.application.poppool.domain.home.dto.response.GetAllCustomPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllNewPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllPopularPopUpStoresResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,14 +24,14 @@ public interface HomeControllerDoc {
 
 
     @Operation(summary = "맞춤 팝업 스토어 전체 보기", description = "전체 맞춤 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getCustomPopUpStoreList(@RequestParam String userId,
-                                                                @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@RequestParam String userId,
+                                                                            @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "인기 팝업 스토어 전체 보기", description = "전체 인기 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getPopularPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
-                                                                 @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetAllPopularPopUpStoresResponse> getPopularPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                              @PageableDefault(page = 0, size = 10, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "신규 팝업 스토어 전체 보기", description = "전체 신규 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getNewPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
-                                                             @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
+    ResponseEntity<GetAllNewPopUpStoresResponse> getNewPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                      @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 }

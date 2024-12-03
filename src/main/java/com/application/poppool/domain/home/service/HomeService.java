@@ -1,5 +1,8 @@
 package com.application.poppool.domain.home.service;
 
+import com.application.poppool.domain.home.dto.response.GetAllCustomPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllNewPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllPopularPopUpStoresResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -70,6 +73,7 @@ public class HomeService {
         /** 인기 팝업 리스트 */
         List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(userId, pageable);
 
+
         // 전체 인기 팝업 수
         long popularPopUpStoreTotalElements = popUpStoreRepository.countPopularPopUpStores();
 
@@ -105,7 +109,7 @@ public class HomeService {
     }
 
     @Transactional(readOnly = true)
-    public GetHomeInfoResponse getCustomPopUpStoreList(String userId, Pageable pageable) {
+    public GetAllCustomPopUpStoresResponse getCustomPopUpStoreList(String userId, Pageable pageable) {
 
         UserEntity user = userService.findUserByUserId(userId);
 
@@ -128,7 +132,7 @@ public class HomeService {
         // 전체 맞춤 팝업 페이지 수
         int customPopUpStoreTotalPages = (int) Math.ceil((double) customPopUpStoreTotalElements / pageable.getPageSize());
 
-        return GetHomeInfoResponse.builder()
+        return GetAllCustomPopUpStoresResponse.builder()
                 .customPopUpStoreList(customPopUpStoreList)
                 .customPopUpStoreTotalPages(customPopUpStoreTotalPages)
                 .customPopUpStoreTotalElements(customPopUpStoreTotalElements)
@@ -136,7 +140,7 @@ public class HomeService {
     }
 
     @Transactional(readOnly = true)
-    public GetHomeInfoResponse getPopularPopUpStoreList(String userId, Pageable pageable) {
+    public GetAllPopularPopUpStoresResponse getPopularPopUpStoreList(String userId, Pageable pageable) {
 
         /** 인기 팝업 리스트 */
         List<GetHomeInfoResponse.PopUpStore> popularPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(userId, pageable);
@@ -147,7 +151,7 @@ public class HomeService {
         // 전체 인기 팝업 페이지 수
         int popularPopUpStoreTotalPages = (int) Math.ceil((double) popularPopUpStoreTotalElements / pageable.getPageSize());
 
-        return GetHomeInfoResponse.builder()
+        return GetAllPopularPopUpStoresResponse.builder()
                 .popularPopUpStoreList(popularPopUpStoreList)
                 .popularPopUpStoreTotalPages(popularPopUpStoreTotalPages)
                 .popularPopUpStoreTotalElements(popularPopUpStoreTotalElements)
@@ -155,7 +159,7 @@ public class HomeService {
     }
 
     @Transactional(readOnly = true)
-    public GetHomeInfoResponse getNewPopUpStoreList(String userId, Pageable pageable) {
+    public GetAllNewPopUpStoresResponse getNewPopUpStoreList(String userId, Pageable pageable) {
 
         /** 현재 시간 */
         LocalDateTime currentDate = LocalDateTime.now();
@@ -169,7 +173,7 @@ public class HomeService {
         // 전체 신규 팝업 페이지 수
         int newPopUpStoreTotalPages = (int) Math.ceil((double) newPopUpStoreTotalElements / pageable.getPageSize());
 
-        return GetHomeInfoResponse.builder()
+        return GetAllNewPopUpStoresResponse.builder()
                 .newPopUpStoreList(newPopUpStoreList)
                 .newPopUpStoreTotalPages(newPopUpStoreTotalPages)
                 .newPopUpStoreTotalElements(newPopUpStoreTotalElements)

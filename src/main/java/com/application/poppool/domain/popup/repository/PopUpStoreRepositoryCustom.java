@@ -2,6 +2,8 @@ package com.application.poppool.domain.popup.repository;
 
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
 import com.application.poppool.domain.category.enums.Category;
+import com.application.poppool.domain.home.dto.response.GetAllNewPopUpStoresResponse;
+import com.application.poppool.domain.home.dto.response.GetAllPopularPopUpStoresResponse;
 import com.application.poppool.domain.home.dto.response.GetHomeInfoResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
