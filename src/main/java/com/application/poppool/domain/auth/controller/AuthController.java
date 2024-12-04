@@ -6,15 +6,14 @@ import com.application.poppool.domain.auth.dto.request.KakaoLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.auth.service.kakao.KakaoAuthService;
+import com.application.poppool.global.jwt.JwtService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -24,6 +23,7 @@ public class AuthController implements AuthControllerDoc {
 
     private final KakaoAuthService kakaoAuthService;
     private final AppleAuthService appleAuthService;
+    private final JwtService jwtService;
 
     @Override
     @PostMapping("/kakao")
@@ -39,5 +39,12 @@ public class AuthController implements AuthControllerDoc {
         return ResponseEntity.ok(appleAuthService.appleLogin(appleLoginRequest, response));
     }
 
+    @Override
+    @PostMapping("/token/reissue")
+    public void reIssueToken(HttpServletRequest request, HttpServletResponse response) {
+        log.info("토큰 재발급");
+        String refreshToken = jwtService.getToken(request);
+        jwtService.reIssueToken(refreshToken, response);
+    }
 
 }
