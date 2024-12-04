@@ -63,26 +63,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                     customAuthenticationEntryPoint.commence(request, response, new UnAuthorizedException(ErrorCode.REFRESH_TOKEN_NOT_VALID.getMessage())); // CustomAuthenticationEntryPoint가 예외 처리하도록 함
                     return;
                 }
-                LoginResponse loginResponse = jwtService.createJwtToken(userId, isTemporary); // AT,RT 재생성
-
-                jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken()); // AT 발급
-                jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken()); // RT 발급
-
-                jwtService.saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt()); // RT 테이블에 새로운 RT로 기존 RT 대체
-                if (isTemporary) { // 임시 토큰인 경우
-                    // 모든 접근이 허용된 url이 아니면서, 임시토큰 url 아닌 경우 즉, 정식 토큰만 접근 가능한 url인 경우
-                    if (isNotTemporaryTokenAllowedUrl(request.getRequestURI())) { // 나머지 URL은 임시 토큰으로 접근 불가, 임시 토큰인 경우 회원가입 요청만 허용
-                        if (!isPermitAllUrl(request.getRequestURI(), SecurityConfig.PERMIT_URL)) {
-                            customAuthenticationEntryPoint.commence(request, response, new UnAuthorizedException(ErrorCode.NOT_TEMPORARY_TOKEN_ALLOWED_URL_EXCEPTION.getMessage())); // CustomAuthenticationEntryPoint가 예외 처리하도록 함
-                            return;
-                        } else {
-                            filterChain.doFilter(request, response);
-                            return;
-                        }
-                    }
-                }
                 // Context에 Authentication 저장 (임시/정식 모두)
-                this.setAuthentication(loginResponse.getAccessToken(), isTemporary);
+                this.setAuthentication(token, isTemporary);
             }
         }
         filterChain.doFilter(request, response);
