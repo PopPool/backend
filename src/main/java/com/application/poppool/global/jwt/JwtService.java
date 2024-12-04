@@ -145,7 +145,7 @@ public class JwtService {
     public String getToken(HttpServletRequest request) {
         String authorizationHeader = request.getHeader(jwtProperties.getToken().getHeader());
 
-        if (authorizationHeader != null && !authorizationHeader.equals("")) {
+        if (authorizationHeader != null && !authorizationHeader.isEmpty()) {
             if (authorizationHeader.startsWith("Bearer") && authorizationHeader.length() > 7) {
                 String accessToken = authorizationHeader.substring(7); // accesstoken 추출
                 return accessToken;
@@ -234,6 +234,18 @@ public class JwtService {
 
     public void saveOrReplaceRefreshToken(String userId, String refreshToken, LocalDateTime expiresAt) {
         refreshTokenService.saveOrReplaceRefreshToken(userId, refreshToken, expiresAt);
+    }
+
+    public void reIssueToken(String refreshToken, HttpServletResponse response) {
+        String userId = getUserId(refreshToken);
+        boolean isTemporary = getIsTemporary(refreshToken);
+
+        LoginResponse loginResponse = createJwtToken(userId, isTemporary); // AT,RT 재생성
+
+        setHeaderAccessToken(response, loginResponse.getAccessToken()); // AT 발급
+        setHeaderRefreshToken(response, loginResponse.getRefreshToken()); // RT 발급
+
+        saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt()); // RT 테이블에 새로운 RT로 기존 RT 대체
     }
 
 }
