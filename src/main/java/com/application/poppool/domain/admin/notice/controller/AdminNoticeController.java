@@ -6,6 +6,8 @@ import com.application.poppool.domain.admin.notice.service.AdminNoticeService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.service.annotation.DeleteExchange;
 
@@ -33,9 +35,9 @@ public class AdminNoticeController implements AdminNoticeControllerDoc {
 
     @Override
     @DeleteExchange("/{id}")
-    public void deleteNotice(@PathVariable Long id, @RequestBody @Valid String adminId) {
+    public void deleteNotice(@PathVariable Long id, @AuthenticationPrincipal UserDetails userDetails) {
         log.info("Delete Notice");
-        adminNoticeService.deleteNotice(id, adminId);
+        adminNoticeService.deleteNotice(id, userDetails.getUsername());
     }
 
 }

@@ -6,6 +6,8 @@ import com.application.poppool.domain.comment.service.CommentService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -30,10 +32,10 @@ public class CommentController implements CommentControllerDoc {
 
     @Override
     @DeleteMapping("")
-    public void deleteComment(@RequestParam(name = "userId") String userId,
+    public void deleteComment(@AuthenticationPrincipal UserDetails userDetails,
                               @RequestParam(name = "popUpStoreId") Long popUpStoreId,
                               @RequestParam(name = "commentId") Long commentId) {
-        commentService.deleteComment(userId, popUpStoreId, commentId);
+        commentService.deleteComment(userDetails.getUsername(), popUpStoreId, commentId);
 
     }
 

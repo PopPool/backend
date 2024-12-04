@@ -19,12 +19,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface HomeControllerDoc {
 
     @Operation(summary = "홈 화면 조회", description = "홈 화면을 조회합니다.")
-    ResponseEntity<GetHomeInfoResponse> getHomeInfo(@PathVariable String userId,
+    ResponseEntity<GetHomeInfoResponse> getHomeInfo(@AuthenticationPrincipal UserDetails userDetails,
                                                     @PageableDefault(page = 0, size = 6, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
 
     @Operation(summary = "맞춤 팝업 스토어 전체 보기", description = "전체 맞춤 팝업 스토어를 조회합니다.")
-    ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@RequestParam String userId,
+    ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                             @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "인기 팝업 스토어 전체 보기", description = "전체 인기 팝업 스토어를 조회합니다.")

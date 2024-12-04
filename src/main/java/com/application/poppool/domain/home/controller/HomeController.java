@@ -28,18 +28,18 @@ public class HomeController implements HomeControllerDoc {
 
     @Override
     @GetMapping
-    public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@RequestParam String userId,
+    public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@AuthenticationPrincipal UserDetails userDetails,
                                                            @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("홈 화면 조회");
-        return ResponseEntity.ok(homeService.getHomeInfo(userId, pageable));
+        return ResponseEntity.ok(homeService.getHomeInfo(userDetails.getUsername(), pageable));
     }
 
     @Override
     @GetMapping("/custom/popup-stores")
-    public ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@RequestParam String userId,
+    public ResponseEntity<GetAllCustomPopUpStoresResponse> getCustomPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("맞춤 팝업 전체 보기");
-        return ResponseEntity.ok(homeService.getCustomPopUpStoreList(userId, pageable));
+        return ResponseEntity.ok(homeService.getCustomPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
     @Override

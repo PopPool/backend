@@ -5,6 +5,8 @@ import com.application.poppool.domain.comment.dto.request.UpdateCommentRequest;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -18,7 +20,7 @@ public interface CommentControllerDoc {
     void updateComment(@RequestBody @Valid UpdateCommentRequest request);
 
     @Operation(summary = "일반/인스타 코멘트 삭제", description = "일반/인스타 코멘트를 삭제합니다.")
-    void deleteComment(@RequestParam(name = "userId") String userId,
+    void deleteComment(@AuthenticationPrincipal UserDetails userDetails,
                        @RequestParam(name = "popUpStoreId") Long popUpStoreId,
                        @RequestParam(name = "commentId") Long commentId);
 

@@ -3,6 +3,8 @@ package com.application.poppool.domain.like.controller;
 import com.application.poppool.domain.like.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -16,12 +18,12 @@ public class LikeController implements LikeControllerDoc {
     private final LikeService likeService;
 
     @PostMapping("/likes")
-    public void likeComment(@RequestParam(name = "userId") String userId, @RequestParam(name = "commentId") Long commentId) {
-        likeService.likeComment(userId, commentId);
+    public void likeComment(@AuthenticationPrincipal UserDetails userDetails, @RequestParam(name = "commentId") Long commentId) {
+        likeService.likeComment(userDetails.getUsername(), commentId);
     }
 
     @DeleteMapping("/likes")
-    public void unlikeComment(@RequestParam(name = "userId") String userId, @RequestParam(name = "commentId") Long commentId) {
-        likeService.unlikeComment(userId, commentId);
+    public void unlikeComment(@AuthenticationPrincipal UserDetails userDetails, @RequestParam(name = "commentId") Long commentId) {
+        likeService.unlikeComment(userDetails.getUsername(), commentId);
     }
 }

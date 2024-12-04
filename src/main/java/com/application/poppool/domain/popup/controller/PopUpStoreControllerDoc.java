@@ -12,6 +12,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -21,7 +23,7 @@ import java.util.List;
 public interface PopUpStoreControllerDoc {
 
     @Operation(summary = "팝업 스토어 상세 조회", description = "팝업 스토어 상세를 조회합니다.")
-    ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
+    ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
                                                                     @RequestParam(name = "commentType") CommentType commentType,
                                                                     @RequestParam(name = "popUpStoreId") Long popUpStoreId);
 

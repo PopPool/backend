@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -27,10 +29,10 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
 
     @Override
     @GetMapping("/{popUpStoreId}/detail")
-    public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@RequestParam(name = "userId") String userId,
+    public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
                                                                            @RequestParam(name = "commentType") CommentType commentType,
                                                                            @PathVariable Long popUpStoreId) {
-        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userId, commentType, popUpStoreId));
+        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userDetails.getUsername(), commentType, popUpStoreId));
     }
 
     @Override

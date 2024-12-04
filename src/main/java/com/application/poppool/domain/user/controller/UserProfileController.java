@@ -10,6 +10,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -21,30 +23,30 @@ public class UserProfileController implements UserProfileControllerDoc {
     private final UserProfileService userProfileService;
 
     @Override
-    @GetMapping("/{userId}/profiles")
-    public ResponseEntity<GetProfileResponse> getMyProfile(@PathVariable String userId) {
-        return ResponseEntity.ok(userProfileService.getMyProfile(userId));
+    @GetMapping("/profiles")
+    public ResponseEntity<GetProfileResponse> getMyProfile(@AuthenticationPrincipal UserDetails userDetails) {
+        return ResponseEntity.ok(userProfileService.getMyProfile(userDetails.getUsername()));
     }
 
     @Override
-    @PutMapping("/{userId}/profiles")
-    public void updateMyProfile(@PathVariable String userId,
+    @PutMapping("/profiles")
+    public void updateMyProfile(@AuthenticationPrincipal UserDetails userDetails,
                                 @RequestBody UpdateMyProfileRequest request) {
-        userProfileService.updateMyProfile(userId, request);
+        userProfileService.updateMyProfile(userDetails.getUsername(), request);
     }
 
     @Override
-    @PutMapping("/{userId}/interests")
-    public void updateMyInterestCategory(@PathVariable String userId,
+    @PutMapping("/interests")
+    public void updateMyInterestCategory(@AuthenticationPrincipal UserDetails userDetails,
                                          @RequestBody @Valid UpdateMyInterestCategoryRequest request) {
-        userProfileService.updateMyInterestCategory(userId, request);
+        userProfileService.updateMyInterestCategory(userDetails.getUsername(), request);
     }
 
     @Override
-    @PutMapping("/{userId}/tailored-info")
-    public void updateMyTailoredInfo(@PathVariable String userId,
+    @PutMapping("/tailored-info")
+    public void updateMyTailoredInfo(@AuthenticationPrincipal UserDetails userDetails,
                                      @RequestBody @Valid UpdateMyTailoredInfoRequest request) {
-        userProfileService.updateMyTailoredInfo(userId, request);
+        userProfileService.updateMyTailoredInfo(userDetails.getUsername(), request);
     }
 
 }

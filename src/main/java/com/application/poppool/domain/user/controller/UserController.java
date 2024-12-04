@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 
@@ -28,96 +30,96 @@ public class UserController implements UserControllerDoc {
     /**
      * 마이페이지 조회
      *
-     * @param userId
+     * @param userDetails
      * @return
      */
     @Override
-    @GetMapping("/{userId}/my-page")
-    public ResponseEntity<GetMyPageResponse> getMyPage(@PathVariable String userId) {
+    @GetMapping("/my-page")
+    public ResponseEntity<GetMyPageResponse> getMyPage(@AuthenticationPrincipal UserDetails userDetails) {
         log.info("마이페이지 조회");
-        return ResponseEntity.ok(userService.getMyPage(userId));
+        return ResponseEntity.ok(userService.getMyPage(userDetails.getUsername()));
     }
 
     /**
      * 내가 쓴 일반/인스타 코멘트 조회
      *
-     * @param userId
+     * @param userDetails
      * @return
      */
     @Override
-    @GetMapping("/{userId}/comments")
-    public ResponseEntity<GetMyCommentResponse> getMyCommentList(@PathVariable String userId,
+    @GetMapping("/comments")
+    public ResponseEntity<GetMyCommentResponse> getMyCommentList(@AuthenticationPrincipal UserDetails userDetails,
                                                                  @RequestParam CommentType commentType,
                                                                  @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyCommentList(userId, commentType, pageable));
+        return ResponseEntity.ok(userService.getMyCommentList(userDetails.getUsername(), commentType, pageable));
     }
 
     @Override
-    @GetMapping("/{userId}/bookmark-popupstores")
-    public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@PathVariable String userId,
+    @GetMapping("/bookmark-popupstores")
+    public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                          @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getBookMarkedPopUpStoreList(userId, pageable));
+        return ResponseEntity.ok(userService.getBookMarkedPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
     @Override
-    @PostMapping("/{userId}/bookmark-popupstores")
-    public void addPopUpStoreBookmark(String userId, Long popUpStoreId) {
-        userService.addPopUpStoreBookmark(userId, popUpStoreId);
+    @PostMapping("/bookmark-popupstores")
+    public void addPopUpStoreBookmark(@AuthenticationPrincipal UserDetails userDetails, Long popUpStoreId) {
+        userService.addPopUpStoreBookmark(userDetails.getUsername(), popUpStoreId);
     }
 
     @Override
-    @DeleteMapping("/{userId}/bookmark-popupstores")
-    public void deletePopUpStoreBookmark(String userId, Long popUpStoreId) {
-        userService.deletePopUpStoreBookmark(userId, popUpStoreId);
+    @DeleteMapping("/bookmark-popupstores")
+    public void deletePopUpStoreBookmark(@AuthenticationPrincipal UserDetails userDetails, Long popUpStoreId) {
+        userService.deletePopUpStoreBookmark(userDetails.getUsername(), popUpStoreId);
     }
 
     @Override
-    @GetMapping("/{userId}/recent-popupstores")
-    public ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@PathVariable String userId,
+    @GetMapping("/recent-popupstores")
+    public ResponseEntity<GetMyRecentViewPopUpStoreListResponse> getMyRecentViewPopupStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                                @PageableDefault(page = 0, size = 20, sort = "viewedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyRecentViewPopUpStoreList(userId, pageable));
+        return ResponseEntity.ok(userService.getMyRecentViewPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
 
     /**
      * 차단한 사용자 목록 조회
      *
-     * @param userId
+     * @param
      * @param pageable
      * @return
      */
     @Override
     @GetMapping("/blocked")
-    public ResponseEntity<GetBlockedUserListResponse> getBlockedUserList(@RequestParam String userId,
+    public ResponseEntity<GetBlockedUserListResponse> getBlockedUserList(@AuthenticationPrincipal UserDetails userDetails,
                                                                          @PageableDefault(page = 0, size = 20, sort = "blockedAt", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getBlockedUserList(userId, pageable));
+        return ResponseEntity.ok(userService.getBlockedUserList(userDetails.getUsername(), pageable));
     }
 
     @Override
     @PostMapping("/block")
-    public void blockUser(@RequestParam String blockerUserId, @RequestParam String blockedUserId) {
-        userService.blockUser(blockerUserId, blockedUserId);
+    public void blockUser(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String blockedUserId) {
+        userService.blockUser(userDetails.getUsername(), blockedUserId);
     }
 
 
     @Override
     @DeleteMapping("/unblock")
-    public void unblockUser(@RequestParam String userId, @RequestParam String blockedUserId) {
-        userService.unblockUser(userId, blockedUserId);
+    public void unblockUser(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String blockedUserId) {
+        userService.unblockUser(userDetails.getUsername(), blockedUserId);
     }
 
 
     /**
      * 회원 탈퇴
      *
-     * @param userId
+     * @param
      * @param request - 체크된 설문 항목
      */
     @Override
-    @PostMapping("/{userId}/delete")
-    public void deleteUser(@PathVariable String userId,
+    @PostMapping("/delete")
+    public void deleteUser(@AuthenticationPrincipal UserDetails userDetails,
                            @RequestBody @Valid CheckedSurveyListRequest request) {
-        userService.deleteUser(userId, request);
+        userService.deleteUser(userDetails.getUsername(), request);
     }
 
     /**
