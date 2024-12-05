@@ -1,6 +1,7 @@
 package com.application.poppool.global.jwt;
 
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
+import com.application.poppool.domain.auth.dto.response.TokenResponse;
 import com.application.poppool.domain.auth.enums.TokenType;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.global.security.CustomUserDetailsService;
@@ -236,16 +237,24 @@ public class JwtService {
         refreshTokenService.saveOrReplaceRefreshToken(userId, refreshToken, expiresAt);
     }
 
-    public void reIssueToken(String refreshToken, HttpServletResponse response) {
+    public TokenResponse reIssueToken(String refreshToken, HttpServletResponse response) {
         String userId = getUserId(refreshToken);
         boolean isTemporary = getIsTemporary(refreshToken);
 
         LoginResponse loginResponse = createJwtToken(userId, isTemporary); // AT,RT 재생성
 
+        // 헤더
         setHeaderAccessToken(response, loginResponse.getAccessToken()); // AT 발급
         setHeaderRefreshToken(response, loginResponse.getRefreshToken()); // RT 발급
 
         saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt()); // RT 테이블에 새로운 RT로 기존 RT 대체
+
+        return TokenResponse.builder()
+                .accessToken(loginResponse.getAccessToken())
+                .refreshToken(loginResponse.getRefreshToken())
+                .accessTokenExpiresAt(loginResponse.getAccessTokenExpiresAt())
+                .refreshTokenExpiresAt(loginResponse.getRefreshTokenExpiresAt())
+                .build();
     }
 
 }

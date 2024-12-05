@@ -4,6 +4,7 @@ package com.application.poppool.domain.auth.controller;
 import com.application.poppool.domain.auth.dto.request.AppleLoginRequest;
 import com.application.poppool.domain.auth.dto.request.KakaoLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
+import com.application.poppool.domain.auth.dto.response.TokenResponse;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +23,6 @@ public interface AuthControllerDoc {
     ResponseEntity<LoginResponse> appleLogin(@RequestBody @Valid AppleLoginRequest appleLoginRequest, HttpServletResponse response);
 
     @Operation(summary = "토큰 재발급", description = "토큰을 재발급합니다.")
-    void reIssueToken(HttpServletRequest request, HttpServletResponse response);
+    ResponseEntity<TokenResponse> reIssueToken(HttpServletRequest request, HttpServletResponse response);
 
 }

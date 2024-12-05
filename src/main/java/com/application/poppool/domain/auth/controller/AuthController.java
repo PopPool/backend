@@ -4,6 +4,7 @@ package com.application.poppool.domain.auth.controller;
 import com.application.poppool.domain.auth.dto.request.AppleLoginRequest;
 import com.application.poppool.domain.auth.dto.request.KakaoLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
+import com.application.poppool.domain.auth.dto.response.TokenResponse;
 import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.auth.service.kakao.KakaoAuthService;
 import com.application.poppool.global.jwt.JwtService;
@@ -41,10 +42,10 @@ public class AuthController implements AuthControllerDoc {
 
     @Override
     @PostMapping("/token/reissue")
-    public void reIssueToken(HttpServletRequest request, HttpServletResponse response) {
+    public ResponseEntity<TokenResponse> reIssueToken(HttpServletRequest request, HttpServletResponse response) {
         log.info("토큰 재발급");
         String refreshToken = jwtService.getToken(request);
-        jwtService.reIssueToken(refreshToken, response);
+        return ResponseEntity.ok(jwtService.reIssueToken(refreshToken, response));
     }
 
 }
