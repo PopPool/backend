@@ -1,6 +1,5 @@
 package com.application.poppool.domain.popup.controller;
 
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
@@ -37,14 +36,14 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
 
     @Override
     @GetMapping("/open")
-    public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Category> categories,
+    public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam List<Integer> categories,
                                                                                @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(categories, pageable));
     }
 
     @Override
     @GetMapping("/closed")
-    public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Category> categories,
+    public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam List<Integer> categories,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(categories, pageable));
     }

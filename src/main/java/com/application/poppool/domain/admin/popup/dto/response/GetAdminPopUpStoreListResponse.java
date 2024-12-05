@@ -1,6 +1,5 @@
 package com.application.poppool.domain.admin.popup.dto.response;
 
-import com.application.poppool.domain.category.enums.Category;
 import lombok.*;
 
 import java.util.List;
@@ -19,7 +18,7 @@ public class GetAdminPopUpStoreListResponse {
     public static class PopUpStore {
         private Long id;
         private String name;
-        private Category category;
+        private String categoryName;
         private String mainImageUrl;
 
     }

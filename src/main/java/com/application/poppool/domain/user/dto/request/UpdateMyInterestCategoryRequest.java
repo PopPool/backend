@@ -8,8 +8,8 @@ import java.util.List;
 @Getter
 public class UpdateMyInterestCategoryRequest {
 
-    private List<Long> interestCategoriesToAdd;
-    private List<Long> interestCategoriesToDelete;
-    private List<Long> interestCategoriesToKeep;
+    private List<Integer> interestCategoriesToAdd;
+    private List<Integer> interestCategoriesToDelete;
+    private List<Integer> interestCategoriesToKeep;
 
 }

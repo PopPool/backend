@@ -1,6 +1,5 @@
 package com.application.poppool.domain.sign_up.dto.response;
 
-import com.application.poppool.domain.category.enums.Category;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -15,8 +14,8 @@ public class GetCategoryListResponse {
     @Getter
     @Builder
     public static class CategoryResponse {
-        private Long categoryId;
-        private Category category;
+        private Integer categoryId;
+        private String categoryName;
     }
 
 }

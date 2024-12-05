@@ -1,6 +1,5 @@
 package com.application.poppool.domain.admin.popup.dto.request;
 
-import com.application.poppool.domain.category.enums.Category;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
@@ -18,7 +17,7 @@ public class UpdatePopUpStoreRequest {
     public static class PopUpStore {
         private Long id;
         private String name;
-        private Category category;
+        private Integer categoryId;
         private String desc;
         private String address;
         private LocalDateTime startDate;

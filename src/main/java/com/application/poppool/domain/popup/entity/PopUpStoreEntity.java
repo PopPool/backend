@@ -1,14 +1,13 @@
 package com.application.poppool.domain.popup.entity;
 
 import com.application.poppool.domain.admin.popup.dto.request.UpdatePopUpStoreRequest;
-import com.application.poppool.domain.category.enums.Category;
+import com.application.poppool.domain.category.entity.CategoryEntity;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.location.entity.LocationEntity;
 import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseAdminEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
-import com.application.poppool.global.converter.CategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -50,9 +49,9 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @Column(name = "ADDRESS")
     private String address;
 
-    @Column(name = "CATEGORY")
-    @Convert(converter = CategoryConverter.class)
-    private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CATEGORY_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
+    private CategoryEntity category;
 
     @Column(name = "BANNER_YN", columnDefinition = "CHAR(1)")
     @Convert(converter = BooleanToYNConverter.class)
@@ -94,9 +93,9 @@ public class PopUpStoreEntity extends BaseAdminEntity {
         image.setPopUpStore(this);
     }
 
-    public void updatePopUpStore(UpdatePopUpStoreRequest.PopUpStore request) {
+    public void updatePopUpStore(UpdatePopUpStoreRequest.PopUpStore request, CategoryEntity category) {
         this.name = request.getName();
-        this.category = request.getCategory();
+        this.category = category;
         this.desc = request.getDesc();
         this.address = request.getAddress();
         this.startDate = request.getStartDate();

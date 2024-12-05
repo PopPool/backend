@@ -1,6 +1,5 @@
 package com.application.poppool.domain.search.dto;
 
-import com.application.poppool.domain.category.enums.Category;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -20,7 +19,7 @@ public class SearchPopUpStoreResponse {
         private Long id;
         private String name;
         private String mainImageUrl;
-        private Category category;
+        private String categoryName;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String address;

@@ -95,16 +95,16 @@ public class SignUpService {
      * @param userInterestCategories
      * @param user
      */
-    private void addUserInterestCategory(Set<Long> userInterestCategories, UserEntity user) {
+    private void addUserInterestCategory(Set<Integer> userInterestCategories, UserEntity user) {
 
-        for (Long categoryId : userInterestCategories) {
+        for (Integer categoryId : userInterestCategories) {
             CategoryEntity category = categoryRepository.findByCategoryId(categoryId)
                     .orElseThrow(() -> new BadRequestException(ErrorCode.DATA_VALIDATION_ERROR));
 
             UserInterestCategoryEntity userInterestCategory = UserInterestCategoryEntity.builder()
                     .user(user)
                     .category(category)
-                    .interestCategory(category.getCategory())
+                    .categoryName(category.getCategoryName())
                     .build();
 
             user.addInterestCategory(userInterestCategory);
@@ -151,7 +151,7 @@ public class SignUpService {
         List<GetCategoryListResponse.CategoryResponse> interestResponse = categoryList.stream()
                 .map(category -> GetCategoryListResponse.CategoryResponse.builder()
                         .categoryId(category.getCategoryId())
-                        .category(category.getCategory())
+                        .categoryName(category.getCategoryName())
                         .build())
                 .collect(Collectors.toList());
 

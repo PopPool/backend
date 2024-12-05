@@ -1,6 +1,5 @@
 package com.application.poppool.domain.location.controller;
 
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpStoreListResponse;
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.location.service.LocationService;
@@ -25,7 +24,7 @@ public class LocationController implements LocationControllerDoc {
 
     @Override
     @GetMapping("/search")
-    public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@RequestParam List<Category> categories,
+    public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@RequestParam List<Integer> categories,
                                                                                @RequestParam String query) {
         log.info("지도에서 팝업스토어 검색");
         return ResponseEntity.ok(locationService.searchPopUpStoreByMap(categories, query));
@@ -33,7 +32,7 @@ public class LocationController implements LocationControllerDoc {
 
     @Override
     @GetMapping("/popup-stores")
-    public ResponseEntity<GetViewBoundPopUpStoreListResponse> getViewBoundPopUpStoreList(@RequestParam List<Category> categories,
+    public ResponseEntity<GetViewBoundPopUpStoreListResponse> getViewBoundPopUpStoreList(@RequestParam List<Integer> categories,
                                                                                          @RequestParam double northEastLat,
                                                                                          @RequestParam double northEastLon,
                                                                                          @RequestParam double southWestLat,

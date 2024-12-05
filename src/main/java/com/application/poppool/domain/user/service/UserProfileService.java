@@ -66,7 +66,7 @@ public class UserProfileService {
         return user.getUserInterestCategories().stream()
                 .map(userInterestCategory -> GetProfileResponse.MyInterestCategoryInfo.builder()
                         .categoryId(userInterestCategory.getCategory().getCategoryId())
-                        .interestCategory(userInterestCategory.getCategory().getCategory())
+                        .categoryName(userInterestCategory.getCategory().getCategoryName())
                         .build())
                 .collect(Collectors.toList());
     }
@@ -113,13 +113,13 @@ public class UserProfileService {
         userInterestCategoryRepository.deleteAllByUserInterestId(interestCategoriesToDelete);
 
         List<CategoryEntity> allCategories = categoryRepository.findAll();
-        Set<Long> validCategoryIdList = allCategories.stream()
+        Set<Integer> validCategoryIdList = allCategories.stream()
                 .map(CategoryEntity::getCategoryId)
                 .collect(Collectors.toSet());
 
         // DB 에서 현재 사용자의 관심 카테고리 조회
         List<UserInterestCategoryEntity> existingInterestCategories = userInterestCategoryRepository.findAllByUser(user);
-        Set<Long> existingCategoryIdList = existingInterestCategories.stream()
+        Set<Integer> existingCategoryIdList = existingInterestCategories.stream()
                 .map(uc -> uc.getCategory().getCategoryId())
                 .collect(Collectors.toSet());
 
@@ -138,16 +138,16 @@ public class UserProfileService {
      * 회원 관심 카테고리 추가를 위한 엔티티 생성
      *
      * @param user
-     * @param id
+     * @param categoryId
      * @return
      */
-    private UserInterestCategoryEntity createUserInterestCategoryEntity(UserEntity user, Long id) {
-        CategoryEntity category = categoryRepository.findByCategoryId(id)
+    private UserInterestCategoryEntity createUserInterestCategoryEntity(UserEntity user, Integer categoryId) {
+        CategoryEntity category = categoryRepository.findByCategoryId(categoryId)
                 .orElseThrow(() -> new BadRequestException(ErrorCode.CATEGORY_NOT_FOUND));
         return UserInterestCategoryEntity.builder()
                 .user(user)
                 .category(category)
-                .interestCategory(category.getCategory())
+                .categoryName(category.getCategoryName())
                 .build();
     }
 

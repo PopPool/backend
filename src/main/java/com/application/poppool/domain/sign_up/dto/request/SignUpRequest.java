@@ -15,6 +15,6 @@ public class SignUpRequest {
     private int age;
     private String socialEmail;
     private SocialType socialType;
-    private Set<Long> interestCategories;
+    private Set<Integer> interestCategories;
 
 }

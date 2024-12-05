@@ -1,6 +1,5 @@
 package com.application.poppool.domain.location.service;
 
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpStoreListResponse;
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
@@ -25,14 +24,14 @@ public class LocationService {
      * @return
      */
     @Transactional(readOnly = true)
-    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(List<Category> categories, String query) {
+    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(List<Integer> categories, String query) {
         List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(categories, query);
 
 
         List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
                 .map(popUpStoreEntity -> SearchPopUpStoreByMapResponse.PopUpStore.builder()
                         .id(popUpStoreEntity.getId())
-                        .category(popUpStoreEntity.getCategory())
+                        .categoryName(popUpStoreEntity.getCategory().getCategoryName())
                         .name(popUpStoreEntity.getName())
                         .address(popUpStoreEntity.getAddress())
                         .startDate(popUpStoreEntity.getStartDate())
@@ -60,13 +59,13 @@ public class LocationService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetViewBoundPopUpStoreListResponse getViewBoundPopUpStoreList(List<Category> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
+    public GetViewBoundPopUpStoreListResponse getViewBoundPopUpStoreList(List<Integer> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon) {
         List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.getViewBoundPopUpStoreList(categories, northEastLat, northEastLon, southWestLat, southWestLon);
 
         List<GetViewBoundPopUpStoreListResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
                 .map(popUpStoreEntity -> GetViewBoundPopUpStoreListResponse.PopUpStore.builder()
                         .id(popUpStoreEntity.getId())
-                        .category(popUpStoreEntity.getCategory())
+                        .categoryName(popUpStoreEntity.getCategory().getCategoryName())
                         .name(popUpStoreEntity.getName())
                         .address(popUpStoreEntity.getAddress())
                         .startDate(popUpStoreEntity.getStartDate())

@@ -4,6 +4,8 @@ import com.application.poppool.domain.admin.popup.dto.request.CreatePopUpStoreRe
 import com.application.poppool.domain.admin.popup.dto.request.UpdatePopUpStoreRequest;
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreDetailResponse;
 import com.application.poppool.domain.admin.popup.dto.response.GetAdminPopUpStoreListResponse;
+import com.application.poppool.domain.category.entity.CategoryEntity;
+import com.application.poppool.domain.category.repository.CategoryRepository;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.location.entity.LocationEntity;
 import com.application.poppool.domain.location.repository.LocationRepository;
@@ -23,6 +25,7 @@ import java.util.List;
 public class AdminPopUpStoreService {
 
     private final PopUpStoreRepository popUpStoreRepository;
+    private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
 
     /**
@@ -74,7 +77,8 @@ public class AdminPopUpStoreService {
         return GetAdminPopUpStoreDetailResponse.builder()
                 .id(popUpStore.getId())
                 .name(popUpStore.getName())
-                .category(popUpStore.getCategory())
+                .categoryId(popUpStore.getCategory().getCategoryId())
+                .categoryName(popUpStore.getCategory().getCategoryName())
                 .desc(popUpStore.getDesc())
                 .address(popUpStore.getAddress())
                 .startDate(popUpStore.getStartDate())
@@ -106,9 +110,12 @@ public class AdminPopUpStoreService {
                 .markerSnippet(request.getMarkerSnippet())
                 .build();
 
+        CategoryEntity category = categoryRepository.findByCategoryId(request.getCategoryId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CATEGORY_NOT_FOUND));
+
         PopUpStoreEntity popUpStore = PopUpStoreEntity.builder()
                 .name(request.getName())
-                .category(request.getCategory())
+                .category(category)
                 .desc(request.getDesc())
                 .address(request.getAddress())
                 .startDate(request.getStartDate())
@@ -142,7 +149,10 @@ public class AdminPopUpStoreService {
 
         LocationEntity location = popUpStore.getLocation();
 
-        popUpStore.updatePopUpStore(request.getPopUpStore());
+        CategoryEntity toBeUpdateCategory = categoryRepository.findByCategoryId(request.getPopUpStore().getCategoryId())
+                .orElseThrow(() -> new NotFoundException(ErrorCode.CATEGORY_NOT_FOUND));
+
+        popUpStore.updatePopUpStore(request.getPopUpStore(), toBeUpdateCategory);
         location.updateLocation(request.getLocation());
 
 

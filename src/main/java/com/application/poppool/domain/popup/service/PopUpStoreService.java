@@ -1,6 +1,5 @@
 package com.application.poppool.domain.popup.service;
 
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.service.CommentService;
@@ -132,7 +131,7 @@ public class PopUpStoreService {
 
         /** 비슷한 팝업 리스트 조회 */
         List<GetPopUpStoreDetailResponse.PopUpStore> similarPopUpStoreList = popUpStoreRepository
-                .getSimilarPopUpStoreList(popUpStoreId, popUpStore.getCategory());
+                .getSimilarPopUpStoreList(popUpStoreId, popUpStore.getCategory().getCategoryId());
 
         /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
         int retryCount = 0;
@@ -175,7 +174,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(List<Category> categories, Pageable pageable) {
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(List<Integer> categories, Pageable pageable) {
         List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(categories, pageable);
 
         // 오픈 팝업 전체 데이터 수
@@ -200,7 +199,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(List<Category> categories, Pageable pageable) {
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(List<Integer> categories, Pageable pageable) {
         List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(categories, pageable);
 
         // 종료 팝업 전체 데이터 수

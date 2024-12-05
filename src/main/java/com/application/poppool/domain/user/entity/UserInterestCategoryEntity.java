@@ -1,9 +1,7 @@
 package com.application.poppool.domain.user.entity;
 
 import com.application.poppool.domain.category.entity.CategoryEntity;
-import com.application.poppool.domain.category.enums.Category;
 import com.application.poppool.global.audit.BaseEntity;
-import com.application.poppool.global.converter.CategoryConverter;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,8 +29,7 @@ public class UserInterestCategoryEntity extends BaseEntity {
     private CategoryEntity category;
 
     @Column(name = "CATEGORY")
-    @Convert(converter = CategoryConverter.class)
-    private Category interestCategory;
+    private String categoryName;
 
     public void setUser(UserEntity user) {
         this.user = user;

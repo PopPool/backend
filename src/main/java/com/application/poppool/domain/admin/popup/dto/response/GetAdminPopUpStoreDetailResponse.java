@@ -1,6 +1,5 @@
 package com.application.poppool.domain.admin.popup.dto.response;
 
-import com.application.poppool.domain.category.enums.Category;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,7 +12,8 @@ public class GetAdminPopUpStoreDetailResponse {
 
     private Long id;
     private String name;
-    private Category category;
+    private Integer categoryId;
+    private String categoryName;
     private String desc;
     private String address;
     private LocalDateTime startDate;

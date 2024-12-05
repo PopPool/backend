@@ -1,7 +1,6 @@
 package com.application.poppool.global.jwt;
 
 
-import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.UnAuthorizedException;
 import com.application.poppool.global.security.CustomAuthenticationEntryPoint;
