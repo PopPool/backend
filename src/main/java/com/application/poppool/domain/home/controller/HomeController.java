@@ -11,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.lang.Nullable;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,6 +31,10 @@ public class HomeController implements HomeControllerDoc {
     public ResponseEntity<GetHomeInfoResponse> getHomeInfo(@AuthenticationPrincipal UserDetails userDetails,
                                                            @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("홈 화면 조회");
+
+        if (userDetails == null) {
+            return ResponseEntity.ok(homeService.getHomeInfo("GUEST", pageable));
+        }
         return ResponseEntity.ok(homeService.getHomeInfo(userDetails.getUsername(), pageable));
     }
 
