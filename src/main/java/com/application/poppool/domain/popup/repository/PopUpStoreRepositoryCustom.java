@@ -51,16 +51,16 @@ public interface PopUpStoreRepositoryCustom {
     /**
      * 검색창 하단 팝업 스토어 전체 조회
      */
-    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(List<Integer> categories, Pageable pageable);
+    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable);
 
     long countOpenPopUpStores(List<Integer> categories);
 
-    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(List<Integer> categories, Pageable pageable);
+    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable);
 
     long countClosedPopUpStores(List<Integer> categories);
 
     // 팝업스토어 검색
-    List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String query);
+    List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String userId, String query);
 
     /**
      * 지도

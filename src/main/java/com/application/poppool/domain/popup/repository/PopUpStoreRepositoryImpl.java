@@ -268,7 +268,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(List<Integer> categories, Pageable pageable) {
+    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetOpenPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -276,7 +276,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.address.as("address"),
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
@@ -299,7 +304,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(List<Integer> categories, Pageable pageable) {
+    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetClosedPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -307,7 +312,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.address.as("address"),
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
-                        popUpStoreEntity.endDate.as("endDate")
+                        popUpStoreEntity.endDate.as("endDate"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
@@ -341,7 +351,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String query) {
+    public List<SearchPopUpStoreResponse.PopUpStore> searchPopUpStore(String userId, String query) {
         return queryFactory.select(Projections.bean(SearchPopUpStoreResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.name.as("name"),
@@ -349,7 +359,12 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.category.categoryName.as("categoryName"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        popUpStoreEntity.address.as("address")
+                        popUpStoreEntity.address.as("address"),
+                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookMarkPopUpStoreEntity)
+                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                                , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
@@ -365,6 +380,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .leftJoin(popUpStoreEntity.category, categoryEntity).fetchJoin()
+                .leftJoin(popUpStoreEntity.bookMarkPopUpStores, bookMarkPopUpStoreEntity).fetchJoin()
                 .where(categoryIn(categories),
                         nameContains(query),
                         isOpenPopUp())

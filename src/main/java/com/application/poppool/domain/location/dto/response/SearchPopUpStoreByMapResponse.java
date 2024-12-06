@@ -10,6 +10,7 @@ import java.util.List;
 public class SearchPopUpStoreByMapResponse {
 
     private List<PopUpStore> popUpStoreList;
+    private boolean loginYn;
 
     @Data
     @Builder
@@ -27,6 +28,7 @@ public class SearchPopUpStoreByMapResponse {
         private Long markerId;
         private String markerTitle;
         private String markerSnippet;
+        private boolean bookmarkYn;
     }
 
 }

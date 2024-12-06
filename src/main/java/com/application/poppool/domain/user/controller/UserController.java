@@ -36,7 +36,11 @@ public class UserController implements UserControllerDoc {
     @Override
     @GetMapping("/my-page")
     public ResponseEntity<GetMyPageResponse> getMyPage(@AuthenticationPrincipal UserDetails userDetails) {
+
         log.info("마이페이지 조회");
+        if (userDetails == null) {
+            return ResponseEntity.ok(userService.getMyPage("GUEST"));
+        }
         return ResponseEntity.ok(userService.getMyPage(userDetails.getUsername()));
     }
 

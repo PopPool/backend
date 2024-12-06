@@ -4,6 +4,12 @@ import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpSto
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
+import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
+import com.application.poppool.domain.user.repository.UserRepository;
+import com.application.poppool.global.exception.ErrorCode;
+import com.application.poppool.global.exception.NotFoundException;
+import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -15,6 +21,8 @@ import java.util.List;
 public class LocationService {
 
     private final PopUpStoreRepository popUpStoreRepository;
+    private final UserRepository userRepository;
+    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
 
     /**
      * 지도로 팝업스토어 검색
@@ -24,9 +32,17 @@ public class LocationService {
      * @return
      */
     @Transactional(readOnly = true)
-    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(List<Integer> categories, String query) {
-        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(categories, query);
+    public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(String userId, List<Integer> categories, String query) {
+        /** 로그인 여부 체크 */
+        boolean loginYn = false;
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+        }
 
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
+        List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(categories, query);
 
         List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
                 .map(popUpStoreEntity -> SearchPopUpStoreByMapResponse.PopUpStore.builder()
@@ -41,11 +57,15 @@ public class LocationService {
                         .markerId((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getId() : null)
                         .markerTitle((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerTitle() : null)
                         .markerSnippet((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerSnippet() : null)
+                        .bookmarkYn(bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStoreEntity))
                         .build())
                 .toList();
 
 
-        return SearchPopUpStoreByMapResponse.builder().popUpStoreList(popUpStoreList).build();
+        return SearchPopUpStoreByMapResponse.builder()
+                .popUpStoreList(popUpStoreList)
+                .loginYn(loginYn)
+                .build();
     }
 
     /**

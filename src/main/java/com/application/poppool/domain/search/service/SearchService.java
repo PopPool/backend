@@ -2,6 +2,7 @@ package com.application.poppool.domain.search.service;
 
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
+import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,14 +22,23 @@ public class SearchService {
      * @return
      */
     @Transactional(readOnly = true)
-    public SearchPopUpStoreResponse searchPopUpStore(String query) {
+    public SearchPopUpStoreResponse searchPopUpStore(String userId, String query) {
         if (query.length() < 2) { // 검색어가 두 글자 이상인 경우에만 검색 진행
             return null;
         }
 
-        List<SearchPopUpStoreResponse.PopUpStore> popUpStoreList = popUpStoreRepository.searchPopUpStore(query);
+        /** 로그인 여부 체크 */
+        boolean loginYn = false;
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+        }
 
-        return SearchPopUpStoreResponse.builder().popUpStoreList(popUpStoreList).build();
+        List<SearchPopUpStoreResponse.PopUpStore> popUpStoreList = popUpStoreRepository.searchPopUpStore(userId, query);
+
+        return SearchPopUpStoreResponse.builder()
+                .popUpStoreList(popUpStoreList)
+                .loginYn(loginYn)
+                .build();
     }
 
 }

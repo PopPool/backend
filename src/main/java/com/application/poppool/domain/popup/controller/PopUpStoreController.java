@@ -31,21 +31,34 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
                                                                            @RequestParam(name = "commentType") CommentType commentType,
                                                                            @PathVariable Long popUpStoreId) {
+        if (userDetails == null) {
+            ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId));
+        }
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userDetails.getUsername(), commentType, popUpStoreId));
     }
 
     @Override
     @GetMapping("/open")
-    public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@RequestParam(required = false) List<Integer> categories,
+    public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                               @RequestParam(required = false) List<Integer> categories,
                                                                                @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(categories, pageable));
+        log.info("오픈한 팝업 스토어 리스트 조회");
+        if (userDetails == null) {
+            return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList("GUEST", categories, pageable));
+        }
+        return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(userDetails.getUsername(), categories, pageable));
     }
 
     @Override
     @GetMapping("/closed")
-    public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@RequestParam(required = false) List<Integer> categories,
+    public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                   @RequestParam(required = false) List<Integer> categories,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(categories, pageable));
+        log.info("종료된 팝업 스토어 리스트 조회");
+        if (userDetails == null) {
+            return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList("GUEST", categories, pageable));
+        }
+        return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(userDetails.getUsername(), categories, pageable));
     }
 
     @Override

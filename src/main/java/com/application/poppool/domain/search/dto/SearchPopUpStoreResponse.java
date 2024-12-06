@@ -10,6 +10,7 @@ import java.util.List;
 public class SearchPopUpStoreResponse {
 
     private List<PopUpStore> popUpStoreList;
+    private boolean loginYn;
 
     @Data
     @Builder
@@ -23,6 +24,7 @@ public class SearchPopUpStoreResponse {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String address;
+        private boolean bookmarkYn;
     }
 
 

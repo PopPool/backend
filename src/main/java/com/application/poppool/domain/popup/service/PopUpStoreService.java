@@ -174,8 +174,15 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(List<Integer> categories, Pageable pageable) {
-        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(categories, pageable);
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+
+        /** 로그인 여부 체크 */
+        boolean loginYn = false;
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+        }
+
+        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(userId, categories, pageable);
 
         // 오픈 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
@@ -185,6 +192,7 @@ public class PopUpStoreService {
 
         return GetOpenPopUpStoreListResponse.builder()
                 .openPopUpStoreList(openPopUpStoreList)
+                .loginYn(loginYn)
                 .totalPages(totalPages)
                 .totalElements(totalElements)
                 .build();
@@ -199,8 +207,15 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(List<Integer> categories, Pageable pageable) {
-        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(categories, pageable);
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+
+        /** 로그인 여부 체크 */
+        boolean loginYn = false;
+        if (SecurityUtils.isAuthenticated()) {
+            loginYn = true;
+        }
+
+        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, pageable);
 
         // 종료 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
@@ -210,6 +225,7 @@ public class PopUpStoreService {
 
         return GetClosedPopUpStoreListResponse.builder()
                 .closedPopUpStoreList(closedPopUpStoreList)
+                .loginYn(loginYn)
                 .totalPages(totalPages)
                 .totalElements(totalElements)
                 .build();

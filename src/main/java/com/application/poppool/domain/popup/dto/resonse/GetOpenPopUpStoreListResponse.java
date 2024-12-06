@@ -10,6 +10,7 @@ import java.util.List;
 public class GetOpenPopUpStoreListResponse {
 
     private List<PopUpStore> openPopUpStoreList;
+    private boolean loginYn;
     private int totalPages;
     private long totalElements;
 
@@ -26,6 +27,7 @@ public class GetOpenPopUpStoreListResponse {
         private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
+        private boolean bookmarkYn;
     }
 
 }
