@@ -79,7 +79,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                                         .from(popUpStoreEntitySub)
                                         .leftJoin(popUpStoreEntitySub.category, categoryEntity)
                                         .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
-                                , "category"),
+                                , "categoryName"),
                         ExpressionUtils.as(JPAExpressions.select(popUpStoreEntitySub.name)
                                         .from(popUpStoreEntitySub)
                                         .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
@@ -449,6 +449,9 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     private BooleanExpression categoryIn(List<Integer> categories) {
+        if (categories == null || categories.isEmpty()) { /** 카테고리를 지정하지 않으면 모든 카테고리를 대상으로 함 */
+            return null;
+        }
         return popUpStoreEntity.category.categoryId.in(categories);
     }
 
