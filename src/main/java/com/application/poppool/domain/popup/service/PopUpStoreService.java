@@ -218,7 +218,7 @@ public class PopUpStoreService {
         List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, pageable);
 
         // 종료 팝업 전체 데이터 수
-        long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
+        long totalElements = popUpStoreRepository.countClosedPopUpStores(categories);
 
         // 종료 팝업 페이지 수
         int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
