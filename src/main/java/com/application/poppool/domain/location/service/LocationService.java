@@ -35,30 +35,32 @@ public class LocationService {
     public SearchPopUpStoreByMapResponse searchPopUpStoreByMap(String userId, List<Integer> categories, String query) {
         /** 로그인 여부 체크 */
         boolean loginYn = false;
+
         if (SecurityUtils.isAuthenticated()) {
             loginYn = true;
         }
 
-        UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-
         List<PopUpStoreEntity> popUpStoreEntityList = popUpStoreRepository.searchPopUpStoreByMap(categories, query);
 
         List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
-                .map(popUpStoreEntity -> SearchPopUpStoreByMapResponse.PopUpStore.builder()
-                        .id(popUpStoreEntity.getId())
-                        .categoryName(popUpStoreEntity.getCategory().getCategoryName())
-                        .name(popUpStoreEntity.getName())
-                        .address(popUpStoreEntity.getAddress())
-                        .startDate(popUpStoreEntity.getStartDate())
-                        .endDate(popUpStoreEntity.getEndDate())
-                        .latitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLatitude() : 0.0)
-                        .longitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLongitude() : 0.0)
-                        .markerId((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getId() : null)
-                        .markerTitle((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerTitle() : null)
-                        .markerSnippet((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerSnippet() : null)
-                        .bookmarkYn(bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStoreEntity))
-                        .build())
+                .map(popUpStoreEntity -> {
+                    boolean bookmarkYn = bookMarkPopUpStoreRepository.existsByUserIdAndPopUpStore(userId, popUpStoreEntity);
+
+                    return SearchPopUpStoreByMapResponse.PopUpStore.builder()
+                            .id(popUpStoreEntity.getId())
+                            .categoryName(popUpStoreEntity.getCategory().getCategoryName())
+                            .name(popUpStoreEntity.getName())
+                            .address(popUpStoreEntity.getAddress())
+                            .startDate(popUpStoreEntity.getStartDate())
+                            .endDate(popUpStoreEntity.getEndDate())
+                            .latitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLatitude() : 0.0)
+                            .longitude((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getLongitude() : 0.0)
+                            .markerId((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getId() : null)
+                            .markerTitle((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerTitle() : null)
+                            .markerSnippet((popUpStoreEntity.getLocation() != null) ? popUpStoreEntity.getLocation().getMarkerSnippet() : null)
+                            .bookmarkYn(bookmarkYn)
+                            .build();
+                })
                 .toList();
 
 
