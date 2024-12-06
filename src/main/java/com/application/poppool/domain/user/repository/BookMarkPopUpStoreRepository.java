@@ -15,11 +15,16 @@ import java.util.Optional;
 @Repository
 public interface BookMarkPopUpStoreRepository extends JpaRepository<BookMarkPopUpStoreEntity, Long> {
 
-    @Query(value = "SELECT bmps FROM BookMarkPopUpStoreEntity bmps JOIN FETCH bmps.popUpStore WHERE bmps.user = :user ORDER BY bmps.createDateTime DESC",
-            countQuery = "SELECT COUNT(bmps) FROM BookMarkPopUpStoreEntity bmps WHERE bmps.user = :user")
+    @Query(value = "SELECT bp FROM BookMarkPopUpStoreEntity bp JOIN FETCH bp.popUpStore WHERE bp.user = :user ORDER BY bp.createDateTime DESC",
+            countQuery = "SELECT COUNT(bp) FROM BookMarkPopUpStoreEntity bp WHERE bp.user = :user")
     Page<BookMarkPopUpStoreEntity> findBookMarkPopUpStoresByUser(@Param("user") UserEntity user, Pageable pageable);
 
     boolean existsByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
+
+    @Query("SELECT CASE WHEN COUNT(bp) > 0 THEN true ELSE false END " +
+            "FROM BookMarkPopUpStoreEntity bp " +
+            "WHERE bp.user.id = :userId AND bp.popUpStore = :popUpStore")
+    boolean existsByUserIdAndPopUpStore(@Param("userId") String userId, @Param("popUpStore") PopUpStoreEntity popUpStore);
 
     /**
      * FindByFK (외래키로 조회)
