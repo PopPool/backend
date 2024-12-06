@@ -27,8 +27,11 @@ public class LocationController implements LocationControllerDoc {
     @Override
     @GetMapping("/search")
     public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@AuthenticationPrincipal UserDetails userDetails,
-                                                                               @RequestParam List<Integer> categories,
+                                                                               @RequestParam(required = false) List<Integer> categories,
                                                                                @RequestParam String query) {
+        if (query.length() < 2) { // 검색어가 두 글자 이상인 경우에만 검색 진행
+            return null;
+        }
         if (userDetails == null) {
             return ResponseEntity.ok(locationService.searchPopUpStoreByMap("GUEST", categories, query));
         }

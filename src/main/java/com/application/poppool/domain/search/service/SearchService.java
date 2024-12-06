@@ -23,10 +23,6 @@ public class SearchService {
      */
     @Transactional(readOnly = true)
     public SearchPopUpStoreResponse searchPopUpStore(String userId, String query) {
-        if (query.length() < 2) { // 검색어가 두 글자 이상인 경우에만 검색 진행
-            return null;
-        }
-
         /** 로그인 여부 체크 */
         boolean loginYn = false;
         if (SecurityUtils.isAuthenticated()) {

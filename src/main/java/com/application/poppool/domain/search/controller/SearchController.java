@@ -23,6 +23,10 @@ public class SearchController implements SearchControllerDoc {
     @GetMapping("/popup-stores")
     public ResponseEntity<SearchPopUpStoreResponse> searchPopUpStore(@AuthenticationPrincipal UserDetails userDetails,
                                                                      @RequestParam String query) {
+        if (query.length() < 2) { // 검색어가 두 글자 이상인 경우에만 검색 진행
+            return null;
+        }
+
         log.info("팝업스토어 검색");
         if (userDetails == null) {
             return ResponseEntity.ok(searchService.searchPopUpStore("GUEST", query));
