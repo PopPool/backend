@@ -32,7 +32,7 @@ public class SecurityConfig {
 
     public static final String[] PERMIT_URL = {
             "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/users/*/my-page", "/health-check","/home",
-            "/popup/*/detail","/locations/search", "/popup/open", "/popup/closed"
+            "/popup/*/detail","/locations/search", "/popup/open", "/popup/closed", "/search/popup-stores"
     };
 
     private static final String[] GetMethodPermitURL = {
