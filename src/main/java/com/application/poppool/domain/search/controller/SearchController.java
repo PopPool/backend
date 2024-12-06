@@ -25,7 +25,7 @@ public class SearchController implements SearchControllerDoc {
                                                                      @RequestParam String query) {
         log.info("팝업스토어 검색");
         if (userDetails == null) {
-            ResponseEntity.ok(searchService.searchPopUpStore("GUEST", query));
+            return ResponseEntity.ok(searchService.searchPopUpStore("GUEST", query));
         }
         return ResponseEntity.ok(searchService.searchPopUpStore(userDetails.getUsername(), query));
     }
