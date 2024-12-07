@@ -29,14 +29,13 @@ public class LocationController implements LocationControllerDoc {
     public ResponseEntity<SearchPopUpStoreByMapResponse> searchPopUpStoreByMap(@AuthenticationPrincipal UserDetails userDetails,
                                                                                @RequestParam(required = false) List<Integer> categories,
                                                                                @RequestParam String query) {
+        log.info("지도에서 팝업스토어 검색");
         if (query.length() < 2) { // 검색어가 두 글자 이상인 경우에만 검색 진행
             return null;
         }
         if (userDetails == null) {
             return ResponseEntity.ok(locationService.searchPopUpStoreByMap("GUEST", categories, query));
         }
-
-        log.info("지도에서 팝업스토어 검색");
         return ResponseEntity.ok(locationService.searchPopUpStoreByMap(userDetails.getUsername(), categories, query));
     }
 
