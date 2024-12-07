@@ -48,7 +48,7 @@ public class SignUpService {
         }
 
         UserEntity user = UserEntity.builder()
-                .userId(signUpRequest.getUserId())
+                .userId(userId)
                 .nickname(signUpRequest.getNickname())
                 .email(signUpRequest.getSocialEmail())
                 .gender(signUpRequest.getGender())
