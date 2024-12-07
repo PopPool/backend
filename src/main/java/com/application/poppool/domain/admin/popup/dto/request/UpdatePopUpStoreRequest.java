@@ -1,5 +1,6 @@
 package com.application.poppool.domain.admin.popup.dto.request;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 
@@ -16,22 +17,32 @@ public class UpdatePopUpStoreRequest {
 
     @Getter
     public static class PopUpStore {
-        @NotBlank(message = "팝업 스토어 ID는 필수입니다.")
+        @Schema(description = "팝업스토어 ID")
+        @NotBlank(message = "팝업스토어 ID는 필수입니다.")
         private Long id;
-        @NotBlank(message = "팝업 스토어 이름을 입력해주세요.")
+        @Schema(description = "팝업스토어명")
+        @NotBlank(message = "팝업스토어명을 입력해주세요.")
         private String name;
+        @Schema(description = "팝업스토어 카테고리 ID")
         @NotNull(message = "카테고리를 지정해주세요.")
         private Integer categoryId;
+        @Schema(description = "팝업스토어 설명")
         private String desc;
+        @Schema(description = "팝업스토어 주소")
         @NotBlank(message = "팝업 스토어 주소를 입력해주세요.")
         private String address;
-        @NotNull(message = "시작 일자를 입력해주세요.")
+        @Schema(description = "팝업스토어 시작일시")
+        @NotNull(message = "시작일시를 입력해주세요.")
         private LocalDateTime startDate;
-        @NotNull(message = "종료 일자를 입력해주세요.")
+        @Schema(description = "팝업스토어 종료일시")
+        @NotNull(message = "종료일시를 입력해주세요.")
         private LocalDateTime endDate;
+        @Schema(description = "팝업스토어 대표 이미지 URL")
         @NotBlank(message = "대표 이미지를 등록해주세요.")
         private String mainImageUrl;
+        @Schema(description = "배너 여부")
         private boolean bannerYn;
+        @Schema(description = "팝업스토어 이미지 URL 리스트")
         private List<String> imageUrl;
 
         @AssertTrue(message = "종료 일자는 시작 일자보다 이후여야 합니다.")
