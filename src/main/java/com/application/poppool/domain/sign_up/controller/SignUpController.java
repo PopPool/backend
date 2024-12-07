@@ -11,6 +11,8 @@ import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,9 +33,9 @@ public class SignUpController implements SignUpControllerDoc {
      */
     @Override
     @PostMapping("")
-    public void signUp(@RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) {
+    public void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) {
         log.info("회원가입");
-        signUpService.signUp(signUpRequest);
+        signUpService.signUp(userDetails.getUsername(), signUpRequest);
 
         // 회원가입 완료 토큰 발급
         LoginResponse loginResponse = jwtService.createJwtToken(signUpRequest.getUserId(), false);

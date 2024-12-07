@@ -41,9 +41,9 @@ public class SignUpService {
      * @param signUpRequest
      */
     @Transactional
-    public void signUp(SignUpRequest signUpRequest) {
+    public void signUp(String userId, SignUpRequest signUpRequest) {
 
-        if (userRepository.findByUserId(signUpRequest.getUserId()).isPresent()) {
+        if (userRepository.findByUserId(userId).isPresent()) {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_USER_ID);
         }
 
