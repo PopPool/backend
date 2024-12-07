@@ -9,7 +9,6 @@ import java.util.Set;
 @Getter
 public class SignUpRequest {
 
-    private String userId;
     private String nickname;
     private Gender gender;
     private int age;
