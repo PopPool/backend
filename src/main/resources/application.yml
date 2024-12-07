@@ -61,6 +61,7 @@ logging:
   file:
     name: application-error.log
     path: /var/log
+    encoding: UTF-8
 ---
 spring:
   config:
