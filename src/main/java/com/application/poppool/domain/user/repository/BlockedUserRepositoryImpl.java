@@ -39,7 +39,7 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
                 .join(blockedUserEntity.user, userEntity)
                 .join(blockedUserEntity.blockedUser, blockedUser)
                 .where(eqUserId(userId))
-                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, blockedUserEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(blockedUserEntity.blockedAt.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
