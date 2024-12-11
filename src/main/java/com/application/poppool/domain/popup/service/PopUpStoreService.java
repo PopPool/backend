@@ -15,7 +15,7 @@ import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
 import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
-import com.application.poppool.global.enums.SortCode;
+import com.application.poppool.global.enums.PopUpSortCode;
 import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
@@ -175,7 +175,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, List<PopUpSortCode> sortCodes, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -208,7 +208,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, List<PopUpSortCode> sortCodes, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;

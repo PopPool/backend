@@ -4,7 +4,8 @@ import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.service.UserService;
-import com.application.poppool.global.enums.SortCode;
+import com.application.poppool.global.enums.CommentSortCode;
+import com.application.poppool.global.enums.PopUpSortCode;
 import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -57,7 +58,7 @@ public class UserController implements UserControllerDoc {
     @GetMapping("/comments")
     public ResponseEntity<GetMyCommentResponse> getMyCommentList(@AuthenticationPrincipal UserDetails userDetails,
                                                                  @RequestParam CommentType commentType,
-                                                                 @RequestParam(name = "sortCode", required = false) List<SortCode> sortCodes,
+                                                                 @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCodes,
                                                                  @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
         return ResponseEntity.ok(userService.getMyCommentList(userDetails.getUsername(), commentType, sortCodes, pageable));
     }

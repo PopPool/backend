@@ -4,6 +4,8 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
+import com.application.poppool.global.enums.CommentSortCode;
+import com.application.poppool.global.enums.PopUpSortCode;
 import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.OrderSpecifier;
@@ -58,7 +60,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, CommentType commentType, List<SortCode> sortCodes, Pageable pageable) {
+    public List<GetMyCommentResponse.MyCommentInfo> findByMyCommentsWithPopUpStore(String userId, CommentType commentType, List<CommentSortCode> sortCodes, Pageable pageable) {
 
         LocalDateTime now = LocalDateTime.now();
 

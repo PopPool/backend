@@ -6,7 +6,7 @@ import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListRes
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.service.PopUpStoreService;
-import com.application.poppool.global.enums.SortCode;
+import com.application.poppool.global.enums.PopUpSortCode;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -42,7 +42,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @GetMapping("/open")
     public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                @RequestParam(required = false) List<Integer> categories,
-                                                                               @RequestParam(name = "sortCode", required = false) List<SortCode> sortCodes,
+                                                                               @RequestParam(name = "sortCode", required = false) List<PopUpSortCode> sortCodes,
                                                                                @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("오픈한 팝업 스토어 리스트 조회");
         if (userDetails == null) {
@@ -55,7 +55,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @GetMapping("/closed")
     public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                    @RequestParam(required = false) List<Integer> categories,
-                                                                                   @RequestParam(name = "sortCode", required = false) List<SortCode> sortCodes,
+                                                                                   @RequestParam(name = "sortCode", required = false) List<PopUpSortCode> sortCodes,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("종료된 팝업 스토어 리스트 조회");
         if (userDetails == null) {

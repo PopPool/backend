@@ -11,6 +11,7 @@ import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.global.enums.PopUpSortCode;
 import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.utils.AgeGroupUtils;
 import com.application.poppool.global.utils.QueryDslUtils;
@@ -269,7 +270,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
+    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, List<PopUpSortCode> sortCodes, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetOpenPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -305,7 +306,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
+    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, List<PopUpSortCode> sortCodes, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetClosedPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
