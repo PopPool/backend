@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface UserPopUpStoreViewRepository extends JpaRepository<UserPopUpStoreViewEntity, Long> {
 
-    @Query("SELECT DISTINCT upsv.popUpStore FROM UserPopUpStoreViewEntity upsv WHERE upsv.user.userId = :userId ORDER BY upsv.viewedAt DESC")
+    @Query("SELECT DISTINCT upsv.popUpStore FROM UserPopUpStoreViewEntity upsv WHERE upsv.user.userId = :userId")
     Page<PopUpStoreEntity> findRecentViewPopUpStoresByUserId(@Param("userId") String userId, Pageable pageable);
 
     Optional<UserPopUpStoreViewEntity> findByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
