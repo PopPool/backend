@@ -15,7 +15,7 @@ import java.util.Optional;
 @Repository
 public interface BookMarkPopUpStoreRepository extends JpaRepository<BookMarkPopUpStoreEntity, Long> {
 
-    @Query(value = "SELECT bp FROM BookMarkPopUpStoreEntity bp JOIN FETCH bp.popUpStore WHERE bp.user = :user ORDER BY bp.createDateTime DESC",
+    @Query(value = "SELECT bp FROM BookMarkPopUpStoreEntity bp JOIN FETCH bp.popUpStore WHERE bp.user = :user",
             countQuery = "SELECT COUNT(bp) FROM BookMarkPopUpStoreEntity bp WHERE bp.user = :user")
     Page<BookMarkPopUpStoreEntity> findBookMarkPopUpStoresByUser(@Param("user") UserEntity user, Pageable pageable);
 
