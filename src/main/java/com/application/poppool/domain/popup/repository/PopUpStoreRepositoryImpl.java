@@ -191,7 +191,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(isOpenPopUp())
-                //.orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
+                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
