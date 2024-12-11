@@ -32,7 +32,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
                                                                            @RequestParam(name = "commentType") CommentType commentType,
                                                                            @PathVariable Long popUpStoreId) {
         if (userDetails == null) {
-            ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId));
+            return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId));
         }
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userDetails.getUsername(), commentType, popUpStoreId));
     }
