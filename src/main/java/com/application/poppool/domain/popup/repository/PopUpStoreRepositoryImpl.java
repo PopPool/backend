@@ -11,6 +11,7 @@ import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
+import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.utils.AgeGroupUtils;
 import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.ExpressionUtils;
@@ -231,7 +232,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(isNewPopUpStore(newPopUpDueDate, currentDate),
                         isOpenPopUp())
-                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(popUpStoreEntity.startDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -268,7 +269,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetOpenPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -287,7 +288,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(categoryIn(categories),
                         isOpenPopUp())
-                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCode, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -304,7 +305,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetClosedPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -323,7 +324,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(categoryIn(categories),
                         isClosedPopUp())
-                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCode, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -371,7 +372,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(nameContains(query)
                                 .or(addressContains(query)),
                         isOpenPopUp())
-                .orderBy(popUpStoreEntity.createDateTime.desc())
+                .orderBy(popUpStoreEntity.startDate.desc())
                 .fetch();
     }
 
@@ -384,7 +385,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(categoryIn(categories),
                         nameContains(query),
                         isOpenPopUp())
-                .orderBy(popUpStoreEntity.createDateTime.desc())
+                .orderBy(popUpStoreEntity.startDate.desc())
                 .fetch();
 
     }
@@ -436,7 +437,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(nameContains(query))
-                .orderBy(QueryDslUtils.getOrderSpecifiers(pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(popUpStoreEntity.startDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

@@ -15,6 +15,7 @@ import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
 import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
+import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
@@ -174,7 +175,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -182,7 +183,7 @@ public class PopUpStoreService {
             loginYn = true;
         }
 
-        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(userId, categories, pageable);
+        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(userId, categories, sortCode, pageable);
 
         // 오픈 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
@@ -207,7 +208,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable) {
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -215,7 +216,7 @@ public class PopUpStoreService {
             loginYn = true;
         }
 
-        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, pageable);
+        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, sortCode, pageable);
 
         // 종료 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countClosedPopUpStores(categories);

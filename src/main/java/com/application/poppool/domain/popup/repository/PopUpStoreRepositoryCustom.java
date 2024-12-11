@@ -9,6 +9,7 @@ import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionRe
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
+import com.application.poppool.global.enums.SortCode;
 import org.springframework.data.domain.Pageable;
 
 import java.time.LocalDateTime;
@@ -51,11 +52,11 @@ public interface PopUpStoreRepositoryCustom {
     /**
      * 검색창 하단 팝업 스토어 전체 조회
      */
-    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, Pageable pageable);
+    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable);
 
     long countOpenPopUpStores(List<Integer> categories);
 
-    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, Pageable pageable);
+    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable);
 
     long countClosedPopUpStores(List<Integer> categories);
 
