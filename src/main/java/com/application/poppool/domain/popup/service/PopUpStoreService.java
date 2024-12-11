@@ -175,7 +175,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
+    public GetOpenPopUpStoreListResponse getOpenPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -183,7 +183,7 @@ public class PopUpStoreService {
             loginYn = true;
         }
 
-        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(userId, categories, sortCode, pageable);
+        List<GetOpenPopUpStoreListResponse.PopUpStore> openPopUpStoreList = popUpStoreRepository.getOpenPopUpStoreList(userId, categories, sortCodes, pageable);
 
         // 오픈 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countOpenPopUpStores(categories);
@@ -208,7 +208,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
+    public GetClosedPopUpStoreListResponse getClosedPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
 
         /** 로그인 여부 체크 */
         boolean loginYn = false;
@@ -216,7 +216,7 @@ public class PopUpStoreService {
             loginYn = true;
         }
 
-        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, sortCode, pageable);
+        List<GetClosedPopUpStoreListResponse.PopUpStore> closedPopUpStoreList = popUpStoreRepository.getClosedPopUpStoreList(userId, categories, sortCodes, pageable);
 
         // 종료 팝업 전체 데이터 수
         long totalElements = popUpStoreRepository.countClosedPopUpStores(categories);

@@ -13,11 +13,13 @@ import java.util.List;
 
 public class QueryDslUtils {
 
-    public static List<OrderSpecifier> getOrderSpecifiers(SortCode sortCode, Pageable pageable, Path<?> qEntity) {
+    public static List<OrderSpecifier> getOrderSpecifiers(List<SortCode> sortCodes, Pageable pageable, Path<?> qEntity) {
         List<OrderSpecifier> orders = new ArrayList<>();
         PathBuilder pathBuilder = new PathBuilder<>(qEntity.getType(), qEntity.getMetadata());
 
-        orders.add(new OrderSpecifier<>(sortCode.getOrder(), pathBuilder.get(sortCode.getField())));
+        for (SortCode sortCode : sortCodes) {
+            orders.add(new OrderSpecifier<>(sortCode.getOrder(), pathBuilder.get(sortCode.getField())));
+        }
 
         // pageable의 sort 파라미터에 해당하는 부분
 //        for (Sort.Order order : pageable.getSort()) {
@@ -25,5 +27,7 @@ public class QueryDslUtils {
 //            orders.add(new OrderSpecifier<>(direction, pathBuilder.get(order.getProperty())));
 //        }
 //        return orders;
+
+        return orders;
     }
 }

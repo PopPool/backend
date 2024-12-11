@@ -3,6 +3,7 @@ package com.application.poppool.domain.user.controller;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
+import com.application.poppool.global.enums.SortCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -16,6 +17,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.List;
+
 @Tag(name = "마이페이지의 회원 API")
 public interface UserControllerDoc {
 
@@ -25,6 +28,7 @@ public interface UserControllerDoc {
     @Operation(summary = "내가 쓴 일반/인스타 코멘트 조회", description = "내가 쓴 일반/인스타 코멘트를 조회합니다.")
     ResponseEntity<GetMyCommentResponse> getMyCommentList(@AuthenticationPrincipal UserDetails userDetails,
                                                           @RequestParam CommentType commentType,
+                                                          @RequestParam(name = "sortCode" ,required = false) List<SortCode> sortCodes,
                                                           Pageable pageable);
 
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")

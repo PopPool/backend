@@ -52,11 +52,11 @@ public interface PopUpStoreRepositoryCustom {
     /**
      * 검색창 하단 팝업 스토어 전체 조회
      */
-    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable);
+    List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable);
 
     long countOpenPopUpStores(List<Integer> categories);
 
-    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable);
+    List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable);
 
     long countClosedPopUpStores(List<Integer> categories);
 

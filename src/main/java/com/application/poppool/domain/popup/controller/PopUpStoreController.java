@@ -42,26 +42,26 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @GetMapping("/open")
     public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                @RequestParam(required = false) List<Integer> categories,
-                                                                               @RequestParam(name = "sortCode") SortCode sortCode,
+                                                                               @RequestParam(name = "sortCode", required = false) List<SortCode> sortCodes,
                                                                                @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("오픈한 팝업 스토어 리스트 조회");
         if (userDetails == null) {
-            return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList("GUEST", categories, sortCode, pageable));
+            return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList("GUEST", categories, sortCodes, pageable));
         }
-        return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(userDetails.getUsername(), categories, sortCode, pageable));
+        return ResponseEntity.ok(popUpStoreService.getOpenPopUpStoreList(userDetails.getUsername(), categories, sortCodes, pageable));
     }
 
     @Override
     @GetMapping("/closed")
     public ResponseEntity<GetClosedPopUpStoreListResponse> getClosedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                    @RequestParam(required = false) List<Integer> categories,
-                                                                                   @RequestParam(name = "sortCode") SortCode sortCode,
+                                                                                   @RequestParam(name = "sortCode", required = false) List<SortCode> sortCodes,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "startDate", direction = Sort.Direction.DESC) Pageable pageable) {
         log.info("종료된 팝업 스토어 리스트 조회");
         if (userDetails == null) {
-            return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList("GUEST", categories, sortCode, pageable));
+            return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList("GUEST", categories, sortCodes, pageable));
         }
-        return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(userDetails.getUsername(), categories, sortCode, pageable));
+        return ResponseEntity.ok(popUpStoreService.getClosedPopUpStoreList(userDetails.getUsername(), categories, sortCodes, pageable));
     }
 
     @Override

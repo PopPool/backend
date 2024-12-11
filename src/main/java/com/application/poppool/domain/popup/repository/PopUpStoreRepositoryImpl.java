@@ -269,7 +269,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
+    public List<GetOpenPopUpStoreListResponse.PopUpStore> getOpenPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetOpenPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -288,7 +288,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(categoryIn(categories),
                         isOpenPopUp())
-                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCode, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -305,7 +305,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
     @Override
-    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, SortCode sortCode, Pageable pageable) {
+    public List<GetClosedPopUpStoreListResponse.PopUpStore> getClosedPopUpStoreList(String userId, List<Integer> categories, List<SortCode> sortCodes, Pageable pageable) {
         return queryFactory.select(Projections.bean(GetClosedPopUpStoreListResponse.PopUpStore.class,
                         popUpStoreEntity.id.as("id"),
                         popUpStoreEntity.category.categoryName.as("categoryName"),
@@ -324,7 +324,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(categoryIn(categories),
                         isClosedPopUp())
-                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCode, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
+                .orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

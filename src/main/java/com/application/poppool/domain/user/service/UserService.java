@@ -10,6 +10,7 @@ import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.*;
 import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.repository.*;
+import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -97,11 +98,11 @@ public class UserService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetMyCommentResponse getMyCommentList(String userId, CommentType commentType, Pageable pageable) {
+    public GetMyCommentResponse getMyCommentList(String userId, CommentType commentType, List<SortCode> sortCodes, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, pageable);
+        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, sortCodes, pageable);
 
         // 전체 코멘트 수
         long totalElements = commentRepository.countMyComments(userId, commentType);
