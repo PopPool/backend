@@ -14,7 +14,7 @@ public interface AppleAuthFeignClient {
     @GetMapping(value = "/auth/keys")
     ApplePublicKeys getAppleAuthPublicKey();
 
-    @PostMapping("/auth/token")
+    @PostMapping(value = "/auth/token", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
     AppleTokenResponse getAppleToken(
             @RequestParam("grant_type") String grantType,
             @RequestParam("code") String authorizationCode,
