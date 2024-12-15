@@ -9,7 +9,9 @@ import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.token.entity.AppleRefreshTokenEntity;
+import com.application.poppool.domain.token.entity.RefreshTokenEntity;
 import com.application.poppool.domain.token.repository.AppleRefreshTokenRepository;
+import com.application.poppool.domain.token.repository.RefreshTokenRepository;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
@@ -48,6 +50,7 @@ public class UserService {
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
     private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
     private final RefreshTokenService refreshTokenService;
+    private final RefreshTokenRepository refreshTokenRepository;
     private final JwtService jwtService;
     private final PopUpStoreRepository popUpStoreRepository;
     private final AppleAuthFeignClient appleAuthFeignClient;
@@ -418,6 +421,13 @@ public class UserService {
             String clientSecret = appleAuthService.createClientSecret();
             appleAuthFeignClient.revokeToken(appleRefreshToken.getToken(), appleProperties.getClientId(), clientSecret);
             appleRefreshTokenRepository.delete(appleRefreshToken);
+        }
+
+        RefreshTokenEntity refreshToken = refreshTokenRepository.findByUserId(userId)
+                .orElse(null);
+
+        if (refreshToken != null) {
+            refreshTokenRepository.delete(refreshToken);
         }
 
         // 회원 삭제
