@@ -99,7 +99,7 @@ public class PopUpStoreService {
             bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
 
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
-            commentList = commentEntityToDto(commentEntities, loginYn);
+            commentList = commentEntityToDto(commentEntities, user);
 
             /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
             userPopUpStoreView.updateViewedAt(LocalDateTime.now());
@@ -110,7 +110,7 @@ public class PopUpStoreService {
         /** 비로그인 유저 */
         else {
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
-            commentList = commentEntityToDto(commentEntities, loginYn);
+            commentList = commentEntityToDto(commentEntities, null);
         }
 
         /** 비슷한 팝업 리스트 조회 */
@@ -153,30 +153,24 @@ public class PopUpStoreService {
 
     @Transactional(readOnly = true)
     public GetAllPopUpStoreCommentsResponse getAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId, Pageable pageable) {
+        UserEntity user = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+
         List<CommentEntity> commentEntities = commentRepository.getAllPopUpStoreComments(userId, commentType, popUpStoreId, pageable);
-        List<GetCommentsResponse.Comment> commentList = commentEntityToDto(commentEntities, true);
+        List<GetCommentsResponse.Comment> commentList = commentEntityToDto(commentEntities, user);
 
         return GetAllPopUpStoreCommentsResponse.builder()
                 .commentList(commentList)
                 .build();
     }
 
-    public List<GetCommentsResponse.Comment> commentEntityToDto(List<CommentEntity> commentEntities, boolean loginYn) {
-        boolean likeYn;
-
-        if (loginYn == true) {
-            likeYn = true;
-        } else {
-            likeYn = false;
-        }
-
-
+    public List<GetCommentsResponse.Comment> commentEntityToDto(List<CommentEntity> commentEntities, UserEntity user) {
         return commentEntities.stream().map(comment -> GetCommentsResponse.Comment.builder()
                         .nickname(comment.getUser().getNickname())
                         .instagramId(comment.getUser().getInstagramId())
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
                         .content(comment.getContent())
-                        .likeYn(likeYn)
+                        .likeYn(user != null ? commentService.isCommentLikedByUser(user, comment) : false)
                         .likeCount(comment.getLikeCount())
                         .createDateTime(comment.getCreateDateTime())
                         .commentImageList(
