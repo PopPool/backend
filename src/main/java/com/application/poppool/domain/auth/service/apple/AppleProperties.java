@@ -15,5 +15,6 @@ public class AppleProperties {
     private String teamId;
     private String keyId;
     private String authUrl;
+    private String privateKeyPath;
 
 }

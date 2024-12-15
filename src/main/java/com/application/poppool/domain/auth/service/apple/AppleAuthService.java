@@ -130,8 +130,8 @@ public class AppleAuthService {
                 .compact();
     }
 
-    private static PrivateKey getPrivateKey() throws IOException {
-        ClassPathResource resource = new ClassPathResource("Apple_AuthKey.p8"); // .p8 key파일 위치
+    private PrivateKey getPrivateKey() throws IOException {
+        ClassPathResource resource = new ClassPathResource(appleProperties.getPrivateKeyPath()); // .p8 key파일 위치
         String privateKey = new String(Files.readAllBytes(Paths.get(resource.getURI())));
 
         Reader pemReader = new StringReader(privateKey);
