@@ -1,13 +1,12 @@
 package com.application.poppool.domain.popup.service;
 
+import com.application.poppool.domain.comment.dto.response.GetCommentsResponse;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
+import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.comment.service.CommentService;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
-import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
+import com.application.poppool.domain.popup.dto.resonse.*;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
@@ -29,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -37,6 +37,7 @@ public class PopUpStoreService {
     private final UserRepository userRepository;
     private final PopUpStoreRepository popUpStoreRepository;
     private final CommentService commentService;
+    private final CommentRepository commentRepository;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
     private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
 
@@ -71,8 +72,8 @@ public class PopUpStoreService {
                 .toList();
 
         /** 댓글 조회 */
-        List<CommentEntity> comments = commentService.getPopUpStoreComments(userId, commentType, popUpStoreId);
-        List<GetPopUpStoreDetailResponse.Comment> commentList = new ArrayList<>();
+        List<CommentEntity> commentEntities = commentRepository.getPopUpStoreComments(userId, commentType, popUpStoreId);
+        List<GetCommentsResponse.Comment> commentList = new ArrayList<>();
 
         /** 로그인 유저 */
         if (SecurityUtils.isAuthenticated()) {
@@ -98,16 +99,7 @@ public class PopUpStoreService {
             bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
 
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
-            commentList = comments.stream().map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
-                            .nickname(comment.getUser().getNickname())
-                            .instagramId(comment.getUser().getInstagramId())
-                            .profileImageUrl(comment.getUser().getProfileImageUrl())
-                            .content(comment.getContent())
-                            .likeYn(commentService.isCommentLikedByUser(user, comment))
-                            .likeCount(comment.getLikeCount())
-                            .createDateTime(comment.getCreateDateTime())
-                            .build())
-                    .toList();
+            commentList = commentEntityToDto(commentEntities, loginYn);
 
             /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
             userPopUpStoreView.updateViewedAt(LocalDateTime.now());
@@ -118,16 +110,7 @@ public class PopUpStoreService {
         /** 비로그인 유저 */
         else {
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
-            commentList = comments.stream().map(comment -> GetPopUpStoreDetailResponse.Comment.builder()
-                            .nickname(comment.getUser().getNickname())
-                            .instagramId(comment.getUser().getInstagramId())
-                            .profileImageUrl(comment.getUser().getProfileImageUrl())
-                            .content(comment.getContent())
-                            .likeYn(false)
-                            .likeCount(comment.getLikeCount())
-                            .createDateTime(comment.getCreateDateTime())
-                            .build())
-                    .toList();
+            commentList = commentEntityToDto(commentEntities, loginYn);
         }
 
         /** 비슷한 팝업 리스트 조회 */
@@ -167,6 +150,48 @@ public class PopUpStoreService {
                 .build();
 
     }
+
+    @Transactional(readOnly = true)
+    public GetAllPopUpStoreCommentsResponse getAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId, Pageable pageable) {
+        List<CommentEntity> commentEntities = commentRepository.getAllPopUpStoreComments(userId, commentType, popUpStoreId, pageable);
+        List<GetCommentsResponse.Comment> commentList = commentEntityToDto(commentEntities, true);
+
+        return GetAllPopUpStoreCommentsResponse.builder()
+                .commentList(commentList)
+                .build();
+    }
+
+    public List<GetCommentsResponse.Comment> commentEntityToDto(List<CommentEntity> commentEntities, boolean loginYn) {
+        boolean likeYn;
+
+        if (loginYn == true) {
+            likeYn = true;
+        } else {
+            likeYn = false;
+        }
+
+
+        return commentEntities.stream().map(comment -> GetCommentsResponse.Comment.builder()
+                        .nickname(comment.getUser().getNickname())
+                        .instagramId(comment.getUser().getInstagramId())
+                        .profileImageUrl(comment.getUser().getProfileImageUrl())
+                        .content(comment.getContent())
+                        .likeYn(likeYn)
+                        .likeCount(comment.getLikeCount())
+                        .createDateTime(comment.getCreateDateTime())
+                        .commentImageList(
+                                comment.getImages() // 코멘트에 해당하는 이미지 리스트
+                                        .stream()
+                                        .map(commentImage -> GetCommentsResponse.CommentImage.builder()
+                                                .id(commentImage.getId())
+                                                .imageUrl(commentImage.getImageUrl())
+                                                .build())
+                                        .collect(Collectors.toList())
+                        )
+                        .build())
+                .toList();
+    }
+
 
     /**
      * 진행 중(오픈)인 팝업 리스트 조회
