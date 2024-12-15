@@ -1,10 +1,14 @@
 package com.application.poppool.domain.sign_up.service;
 
+import com.application.poppool.domain.auth.enums.SocialType;
+import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.category.entity.CategoryEntity;
 import com.application.poppool.domain.category.repository.CategoryRepository;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetCategoryListResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
+import com.application.poppool.domain.token.entity.AppleRefreshTokenEntity;
+import com.application.poppool.domain.token.repository.AppleRefreshTokenRepository;
 import com.application.poppool.domain.user.entity.RoleEntity;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserInterestCategoryEntity;
@@ -21,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -31,7 +36,8 @@ import java.util.stream.Collectors;
 public class SignUpService {
 
     private final UserRepository userRepository;
-    private final UserInterestCategoryRepository userInterestCategoryRepository;
+    private final AppleAuthService appleAuthService;
+    private final AppleRefreshTokenRepository appleRefreshTokenRepository;
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
 
@@ -41,7 +47,8 @@ public class SignUpService {
      * @param signUpRequest
      */
     @Transactional
-    public void signUp(String userId, SignUpRequest signUpRequest) {
+    public void signUp(String userId, SignUpRequest signUpRequest) throws IOException {
+
 
         if (userRepository.findByUserId(userId).isPresent()) {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_USER_ID);
@@ -64,6 +71,20 @@ public class SignUpService {
         this.addUserRole(user);
         // 회원 관심 카테고리 추가
         this.addUserInterestCategory(signUpRequest.getInterestCategories(), user);
+
+
+        // 애플 회원 가입시에만 애플 리프레쉬 토큰 DB 저장
+        if (signUpRequest.getSocialType() == SocialType.APPLE) {
+            // 애플 인가 코드로 Refresh Token 발급(추후에 회원 탈퇴 시, Revoke 용도)
+            String appleRefreshToken = appleAuthService.getAppleRefreshToken(signUpRequest.getAppleAuthorizationCode());
+
+            AppleRefreshTokenEntity appleRefreshTokenEntity = AppleRefreshTokenEntity.builder()
+                    .userId(userId)
+                    .token(appleRefreshToken)
+                    .build();
+            
+            appleRefreshTokenRepository.save(appleRefreshTokenEntity);
+        }
 
     }
 

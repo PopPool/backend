@@ -13,13 +13,14 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "회원가입 관련 API")
 public interface SignUpControllerDoc {
 
     @Operation(summary = "회원가입", description = "회원가입을 진행합니다.")
-    void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response);
+    void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) throws IOException;
 
     @Operation(summary = "닉네임 중복 확인", description = "닉네임 중복 확인을 진행합니다.")
     ResponseEntity<Boolean> checkNicknameDuplicate(@RequestParam String nickName);

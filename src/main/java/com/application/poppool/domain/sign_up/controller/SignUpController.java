@@ -15,6 +15,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -33,7 +34,7 @@ public class SignUpController implements SignUpControllerDoc {
      */
     @Override
     @PostMapping("")
-    public void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) {
+    public void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) throws IOException {
         log.info("회원가입");
         signUpService.signUp(userDetails.getUsername(), signUpRequest);
 
