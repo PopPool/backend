@@ -43,7 +43,8 @@ public enum ErrorCode {
     TOKEN_NOT_VALID(HttpStatus.BAD_REQUEST, "토큰이 유효하지 않습니다."),
     LOGOUT_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, "로그아웃에 실패했습니다."),
     NOT_ADMIN(HttpStatus.BAD_REQUEST, "관리자 계정이 아닙니다. 관리자 계정으로 다시 시도해주세요"),
-    CONCURRENCY_ERROR(HttpStatus.CONFLICT, "동시에 리소스에 접근하여 에러가 발생하였습니다.");
+    CONCURRENCY_ERROR(HttpStatus.CONFLICT, "동시에 리소스에 접근하여 에러가 발생하였습니다."),
+    APPLE_REFRESH_TOKEN_NOT_FOUND(HttpStatus.NOT_FOUND, "애플 회원 끊기를 하기 위한 애플 리프레쉬 토큰이 존재하지 않습니다.");
 
     ErrorCode(HttpStatus status, String message) {
         this.status = status;
