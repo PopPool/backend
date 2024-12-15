@@ -173,5 +173,15 @@ public class SwaggerConfig {
                 .build();
     }
 
+    @Bean
+    public GroupedOpenApi samApi() {
+        final String name = "sample";
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch("/sample" + "/**")
+                .build();
+    }
+
+
 
 }

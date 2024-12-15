@@ -20,14 +20,14 @@ public class CommentController implements CommentControllerDoc {
 
     @Override
     @PostMapping("")
-    public void createComment(@RequestBody @Valid CreateCommentRequest request) {
-        commentService.createComment(request);
+    public void createComment(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid CreateCommentRequest request) {
+        commentService.createComment(userDetails.getUsername(), request);
     }
 
     @Override
     @PutMapping("")
-    public void updateComment(@RequestBody @Valid UpdateCommentRequest request) {
-        commentService.updateComment(request);
+    public void updateComment(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid UpdateCommentRequest request) {
+        commentService.updateComment(userDetails.getUsername(), request);
     }
 
     @Override

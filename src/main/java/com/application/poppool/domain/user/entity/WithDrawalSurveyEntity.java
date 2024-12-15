@@ -24,7 +24,7 @@ public class WithDrawalSurveyEntity extends BaseEntity {
 
     @Column(name = "CNT")
     @Builder.Default
-    private long count = 0;
+    private long count = 0L;
 
     public void incrementCount() {
         this.count++;

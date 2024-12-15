@@ -43,8 +43,8 @@ public class CommentService {
     }
 
     @Transactional
-    public void createComment(CreateCommentRequest request) {
-        UserEntity user = userRepository.findByUserId(request.getUserId())
+    public void createComment(String userId, CreateCommentRequest request) {
+        UserEntity user = userRepository.findByUserId(userId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(request.getPopUpStoreId())
@@ -97,7 +97,7 @@ public class CommentService {
     }
 
     @Transactional
-    public void updateComment(UpdateCommentRequest request) {
+    public void updateComment(String userId, UpdateCommentRequest request) {
 
         CommentEntity comment = commentRepository.findById(request.getCommentId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.COMMENT_NOT_FOUND));

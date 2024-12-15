@@ -8,7 +8,6 @@ import java.util.List;
 @Getter
 public class UpdateCommentRequest {
 
-    private String userId;
     private Long popUpStoreId;
     private Long commentId;
     private String content;
