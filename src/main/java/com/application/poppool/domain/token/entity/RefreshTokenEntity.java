@@ -1,9 +1,7 @@
 package com.application.poppool.domain.token.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import com.application.poppool.global.audit.BaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -14,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class RefreshTokenEntity {
+public class RefreshTokenEntity extends BaseEntity {
 
     @Id
     @Column(name = "USER_ID")
