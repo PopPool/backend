@@ -1,11 +1,9 @@
 package com.application.poppool.domain.sign_up.controller;
 
-import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.sign_up.dto.request.SignUpRequest;
 import com.application.poppool.domain.sign_up.dto.response.GetCategoryListResponse;
 import com.application.poppool.domain.sign_up.dto.response.GetGenderResponse;
 import com.application.poppool.domain.sign_up.service.SignUpService;
-import com.application.poppool.global.jwt.JwtService;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,8 +23,6 @@ import java.util.List;
 public class SignUpController implements SignUpControllerDoc {
 
     private final SignUpService signUpService;
-    private final JwtService jwtService;
-
     /**
      * 회원가입
      *
@@ -36,13 +32,7 @@ public class SignUpController implements SignUpControllerDoc {
     @PostMapping("")
     public void signUp(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid SignUpRequest signUpRequest, HttpServletResponse response) throws IOException {
         log.info("회원가입");
-        signUpService.signUp(userDetails.getUsername(), signUpRequest);
-
-        // 회원가입 완료 토큰 발급
-        LoginResponse loginResponse = jwtService.createJwtToken(userDetails.getUsername(), false);
-        // 헤더에 토큰 싣기
-        jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
-        jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
+        signUpService.signUp(userDetails.getUsername(), signUpRequest, response);
     }
 
     /**

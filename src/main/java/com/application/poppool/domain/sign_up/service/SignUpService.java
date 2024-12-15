@@ -1,5 +1,6 @@
 package com.application.poppool.domain.sign_up.service;
 
+import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.category.entity.CategoryEntity;
@@ -16,11 +17,12 @@ import com.application.poppool.domain.user.entity.UserRoleEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.repository.RoleRepository;
-import com.application.poppool.domain.user.repository.UserInterestCategoryRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
+import com.application.poppool.global.jwt.JwtService;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -40,6 +42,7 @@ public class SignUpService {
     private final AppleRefreshTokenRepository appleRefreshTokenRepository;
     private final RoleRepository roleRepository;
     private final CategoryRepository categoryRepository;
+    private final JwtService jwtService;
 
     /**
      * 회원가입
@@ -47,7 +50,7 @@ public class SignUpService {
      * @param signUpRequest
      */
     @Transactional
-    public void signUp(String userId, SignUpRequest signUpRequest) throws IOException {
+    public void signUp(String userId, SignUpRequest signUpRequest, HttpServletResponse response) throws IOException {
 
 
         if (userRepository.findByUserId(userId).isPresent()) {
@@ -72,6 +75,15 @@ public class SignUpService {
         // 회원 관심 카테고리 추가
         this.addUserInterestCategory(signUpRequest.getInterestCategories(), user);
 
+
+        // 회원가입 완료 토큰 발급
+        LoginResponse loginResponse = jwtService.createJwtToken(userId, false);
+        // 헤더에 토큰 싣기
+        jwtService.setHeaderAccessToken(response, loginResponse.getAccessToken());
+        jwtService.setHeaderRefreshToken(response, loginResponse.getRefreshToken());
+
+        // refresh token이 이미 있으면 새로운 것으로 업데이트, 없으면 insert
+        jwtService.saveOrReplaceRefreshToken(userId, loginResponse.getRefreshToken(), loginResponse.getRefreshTokenExpiresAt());
 
         // 애플 회원 가입시에만 애플 리프레쉬 토큰 DB 저장
         if (signUpRequest.getSocialType() == SocialType.APPLE) {
