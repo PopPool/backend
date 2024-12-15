@@ -104,6 +104,7 @@ public class AppleAuthService {
 
     public String getAppleRefreshToken(String authorizationCode) throws IOException {
         String clientSecret = createClientSecret();
+        System.out.println("client secret " + clientSecret);
         AppleTokenResponse appleToken = appleAuthFeignClient.getAppleToken(
                 "authorization_code",           // grant_type
                 authorizationCode,                      // authorization code
@@ -134,6 +135,7 @@ public class AppleAuthService {
     private PrivateKey getPrivateKey() throws IOException {
         FileSystemResource resource = new FileSystemResource(appleProperties.getPrivateKeyPath()); // .p8 key파일 위치
         String privateKey = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+        System.out.println(resource.getURI());
 
         Reader pemReader = new StringReader(privateKey);
         PEMParser pemParser = new PEMParser(pemReader);
