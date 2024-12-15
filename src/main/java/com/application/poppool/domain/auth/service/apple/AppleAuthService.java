@@ -1,6 +1,7 @@
 package com.application.poppool.domain.auth.service.apple;
 
 import com.application.poppool.domain.auth.dto.info.ApplePublicKeys;
+import com.application.poppool.domain.auth.dto.info.AppleTokenResponse;
 import com.application.poppool.domain.auth.dto.request.AppleLoginRequest;
 import com.application.poppool.domain.auth.dto.response.LoginResponse;
 import com.application.poppool.domain.auth.enums.SocialType;
@@ -14,19 +15,28 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
+import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
+import org.bouncycastle.openssl.PEMParser;
+import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.*;
 import java.math.BigInteger;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.KeyFactory;
 import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.RSAPublicKeySpec;
 import java.util.Base64;
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -37,9 +47,8 @@ public class AppleAuthService {
     private final JwtService jwtService;
     private final AppleAuthFeignClient appleAuthFeignClient;
     private final RefreshTokenService refreshTokenService;
+    private final AppleProperties appleProperties;
 
-    @Value("${oauth.apple.auth-url}")
-    private String appleAuthUrl;
 
     /**
      * 애플 로그인
@@ -92,6 +101,49 @@ public class AppleAuthService {
 
     }
 
+    public String getAppleRefreshToken(String authorizationCode) throws IOException {
+        String clientSecret = createClientSecret();
+        AppleTokenResponse appleToken = appleAuthFeignClient.getAppleToken(
+                "authorization_code",           // grant_type
+                authorizationCode,                      // authorization code
+                appleProperties.getClientId(),          // client_id
+                clientSecret                        // client_secret
+        );
+
+        return appleToken.getRefreshToken();
+    }
+
+
+    public String createClientSecret() throws IOException {
+        Date now = new Date();
+        Date expiration = new Date(now.getTime() + 3600000);
+
+        return Jwts.builder()
+                .setHeaderParam("alg", "ES256")
+                .setHeaderParam("kid", appleProperties.getKeyId())
+                .setSubject(appleProperties.getClientId())
+                .setIssuer(appleProperties.getTeamId())
+                .setIssuedAt(now)
+                .setAudience(appleProperties.getAuthUrl())
+                .setExpiration(expiration)
+                .signWith(SignatureAlgorithm.ES256, getPrivateKey())
+                .compact();
+    }
+
+    private static PrivateKey getPrivateKey() throws IOException {
+        ClassPathResource resource = new ClassPathResource("Apple_AuthKey.p8"); // .p8 key파일 위치
+        String privateKey = new String(Files.readAllBytes(Paths.get(resource.getURI())));
+
+        Reader pemReader = new StringReader(privateKey);
+        PEMParser pemParser = new PEMParser(pemReader);
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+        PrivateKeyInfo object = (PrivateKeyInfo) pemParser.readObject();
+        return converter.getPrivateKey(object);
+
+    }
+
+
+
     /**
      * 애플 ID 토큰 검증 및 애플 고유 식별자 추출
      *
@@ -119,7 +171,7 @@ public class AppleAuthService {
             Claims claims = this.createClaim(publicKey, idToken);
 
             // 추가 검증 로직 (예: issuer, audience 등)
-            if (!appleAuthUrl.equals(claims.getIssuer())) {
+            if (!appleProperties.getAuthUrl().equals(claims.getIssuer())) {
                 throw new IllegalArgumentException("Invalid issuer");
             }
 
