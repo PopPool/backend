@@ -1,9 +1,15 @@
 package com.application.poppool.domain.user.service;
 
+import com.application.poppool.domain.auth.enums.SocialType;
+import com.application.poppool.domain.auth.service.apple.AppleAuthFeignClient;
+import com.application.poppool.domain.auth.service.apple.AppleAuthService;
+import com.application.poppool.domain.auth.service.apple.AppleProperties;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
+import com.application.poppool.domain.token.entity.AppleRefreshTokenEntity;
+import com.application.poppool.domain.token.repository.AppleRefreshTokenRepository;
 import com.application.poppool.domain.token.service.RefreshTokenService;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
@@ -24,6 +30,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,6 +50,10 @@ public class UserService {
     private final RefreshTokenService refreshTokenService;
     private final JwtService jwtService;
     private final PopUpStoreRepository popUpStoreRepository;
+    private final AppleAuthFeignClient appleAuthFeignClient;
+    private final AppleProperties appleProperties;
+    private final AppleAuthService appleAuthService;
+    private final AppleRefreshTokenRepository appleRefreshTokenRepository;
 
 
     /**
@@ -382,7 +393,7 @@ public class UserService {
      * @param userId
      */
     @Transactional
-    public void deleteUser(String userId, CheckedSurveyListRequest request) {
+    public void deleteUser(String userId, CheckedSurveyListRequest request) throws IOException {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원 탈퇴 설문 항목 수 증가
@@ -397,6 +408,16 @@ public class UserService {
             // survey 해당 숫자 증가
             surveyEntity.incrementCount();
             withDrawlSurveyRepository.save(surveyEntity);
+        }
+
+
+        // 애플 로그인 유저인 경우, revoke 적용
+        if (user.getSocialType() == SocialType.APPLE) {
+            AppleRefreshTokenEntity appleRefreshToken = appleRefreshTokenRepository.findByUserId(userId)
+                    .orElseThrow(() -> new NotFoundException(ErrorCode.APPLE_REFRESH_TOKEN_NOT_FOUND));
+            String clientSecret = appleAuthService.createClientSecret();
+            appleAuthFeignClient.revokeToken(appleRefreshToken.getToken(), appleProperties.getClientId(), clientSecret);
+            appleRefreshTokenRepository.delete(appleRefreshToken);
         }
 
         // 회원 삭제

@@ -18,6 +18,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "마이페이지의 회원 API")
@@ -57,7 +58,7 @@ public interface UserControllerDoc {
     void unblockUser(@AuthenticationPrincipal UserDetails userDetails, @RequestParam String blockedUserId);
 
     @Operation(summary = "회원 탈퇴", description = "회원 탈퇴를 진행합니다.")
-    void deleteUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid CheckedSurveyListRequest request);
+    void deleteUser(@AuthenticationPrincipal UserDetails userDetails, @RequestBody @Valid CheckedSurveyListRequest request) throws IOException;
 
     @Operation(summary = "회원 탈퇴 설문 항목 조회", description = "회원 탈퇴 설문 항목을 조회합니다.")
     ResponseEntity<GetWithDrawlSurveyResponse> getWithDrawlSurvey();
