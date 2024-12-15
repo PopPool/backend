@@ -109,7 +109,7 @@ public class AppleAuthService {
                 "authorization_code",           // grant_type
                 authorizationCode,                      // authorization code
                 appleProperties.getClientId(),          // client_id
-                "eyJhbGciOiJFUzI1NiIsImtpZCI6Ik45M0c1SlozNEcifQ.eyJzdWIiOiJjb20ucG9wcG9vbElPUy5wb3Bwb29sIiwiaXNzIjoiVzVRVFJNUzk1NCIsImlhdCI6MTczNDI2ODQ2NCwiYXVkIjoiaHR0cHM6Ly9hcHBsZWlkLmFwcGxlLmNvbSIsImV4cCI6MTczNDI3MjA2NH0.0U3JaIlw947Bl8x0rOhl_SxMUbg8sEPKqQomQSBSUedwvz3i6uor4mBFyQAxPgA1omziRHoSb-s9tuziUquxAg"                        // client_secret
+                "eyJhbGciOiJFUzI1NiIsImtpZCI6Ik45M0c1SlozNEcifQ.eyJzdWIiOiJjb20ucG9wcG9vbElPUy5wb3Bwb29sIiwiaXNzIjoiVzVRVFJNUzk1NCIsImlhdCI6MTczNDI2ODg2MywiYXVkIjoiaHR0cHM6Ly9hcHBsZWlkLmFwcGxlLmNvbSIsImV4cCI6MTczNDI3MjQ2M30.-H6rocwAhGR6r1rs31b2EVfUjiMJoTmLcF2tlwrzi1mNLNqMdu3iTFX9BwYeoIQvMDJVC3Oh8u5SwpeXesD7-w"                        // client_secret
         );
 
         return appleToken.getRefreshToken();
@@ -133,7 +133,7 @@ public class AppleAuthService {
     }
 
     private PrivateKey getPrivateKey() throws IOException {
-        FileSystemResource resource = new FileSystemResource(appleProperties.getPrivateKeyPath()); // .p8 key파일 위치
+        ClassPathResource resource = new ClassPathResource("Apple_AuthKey.p8"); // .p8 key파일 위치
         String privateKey = new String(Files.readAllBytes(Paths.get(resource.getURI())));
         System.out.println(resource.getURI());
 
