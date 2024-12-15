@@ -109,7 +109,7 @@ public class AppleAuthService {
                 "authorization_code",           // grant_type
                 authorizationCode,                      // authorization code
                 appleProperties.getClientId(),          // client_id
-                clientSecret                        // client_secret
+                "eyJhbGciOiJFUzI1NiIsImtpZCI6Ik45M0c1SlozNEcifQ.eyJzdWIiOiJjb20ucG9wcG9vbElPUy5wb3Bwb29sIiwiaXNzIjoiVzVRVFJNUzk1NCIsImlhdCI6MTczNDI2ODQ2NCwiYXVkIjoiaHR0cHM6Ly9hcHBsZWlkLmFwcGxlLmNvbSIsImV4cCI6MTczNDI3MjA2NH0.0U3JaIlw947Bl8x0rOhl_SxMUbg8sEPKqQomQSBSUedwvz3i6uor4mBFyQAxPgA1omziRHoSb-s9tuziUquxAg"                        // client_secret
         );
 
         return appleToken.getRefreshToken();
