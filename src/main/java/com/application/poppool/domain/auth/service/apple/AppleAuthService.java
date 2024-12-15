@@ -22,6 +22,7 @@ import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -131,7 +132,7 @@ public class AppleAuthService {
     }
 
     private PrivateKey getPrivateKey() throws IOException {
-        ClassPathResource resource = new ClassPathResource(appleProperties.getPrivateKeyPath()); // .p8 key파일 위치
+        FileSystemResource resource = new FileSystemResource(appleProperties.getPrivateKeyPath()); // .p8 key파일 위치
         String privateKey = new String(Files.readAllBytes(Paths.get(resource.getURI())));
 
         Reader pemReader = new StringReader(privateKey);
