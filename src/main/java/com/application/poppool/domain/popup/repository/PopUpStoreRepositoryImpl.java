@@ -382,7 +382,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .leftJoin(popUpStoreEntity.category, categoryEntity).fetchJoin()
-                .leftJoin(popUpStoreEntity.bookMarkPopUpStores, bookMarkPopUpStoreEntity).fetchJoin()
+                .leftJoin(popUpStoreEntity.bookMarkPopUpStores, bookMarkPopUpStoreEntity)
                 .where(categoryIn(categories),
                         nameContains(query),
                         isOpenPopUp())

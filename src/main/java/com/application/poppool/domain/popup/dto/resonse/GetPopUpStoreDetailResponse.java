@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.dto.resonse;
 
+import com.application.poppool.domain.comment.dto.response.GetCommentsResponse;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,7 +20,7 @@ public class GetPopUpStoreDetailResponse {
     private boolean loginYn;
     private String mainImageUrl;
     private List<PopUpStoreImage> imageList;
-    private List<Comment> commentList;
+    private List<GetCommentsResponse.Comment> commentList;
     private List<PopUpStore> similarPopUpStoreList;
 
     @Getter
@@ -34,6 +35,7 @@ public class GetPopUpStoreDetailResponse {
         private LocalDateTime endDate;
     }
 
+    /**
     @Getter
     @Builder
     @NoArgsConstructor
@@ -47,7 +49,7 @@ public class GetPopUpStoreDetailResponse {
         private long likeCount;
         private LocalDateTime createDateTime;
         private List<CommentImage> commentImageList;
-    }
+    }*/
 
     @Getter
     @Builder
@@ -56,11 +58,12 @@ public class GetPopUpStoreDetailResponse {
         private String imageUrl;
     }
 
+    /**
     @Getter
     @Builder
     public static class CommentImage {
         private Long id;
         private String imageUrl;
-    }
+    }*/
 
 }

@@ -23,7 +23,7 @@ public class CommentImageEntity extends BaseEntity {
     private CommentEntity comment;
 
     @Column(name = "IMAGE_URL")
-    private String url;
+    private String imageUrl;
 
     public void setComment(CommentEntity comment) {
         this.comment = comment;

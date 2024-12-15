@@ -20,6 +20,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
+import static com.application.poppool.domain.image.entity.QCommentImageEntity.commentImageEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QBlockedUserEntity.blockedUserEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
@@ -31,15 +32,33 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public List<CommentEntity> findAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId) {
+    public List<CommentEntity> getPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId) {
         return queryFactory.selectFrom(commentEntity)
                 .join(commentEntity.user, userEntity).fetchJoin()
                 .leftJoin(blockedUserEntity)
                 .on(blockUserIdEq(userId),
                         blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
+                .leftJoin(commentEntity.images, commentImageEntity)
                 .where(popUpStoreIdEq(popUpStoreId),
                         blockedUserEntity.id.isNull(),
                         commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                .limit(3) // 최대 3개
+                .fetch();
+    }
+
+    @Override
+    public List<CommentEntity> getAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId, Pageable pageable) {
+        return queryFactory.selectFrom(commentEntity)
+                .join(commentEntity.user, userEntity).fetchJoin()
+                .leftJoin(blockedUserEntity)
+                .on(blockUserIdEq(userId),
+                        blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
+                .leftJoin(commentEntity.images, commentImageEntity)
+                .where(popUpStoreIdEq(popUpStoreId),
+                        blockedUserEntity.id.isNull(),
+                        commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
                 .fetch();
     }
 

@@ -13,7 +13,10 @@ import java.util.List;
 
 public interface CommentRepositoryCustom {
 
-    List<CommentEntity> findAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId);
+    List<CommentEntity> getPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId);
+
+    List<CommentEntity> getAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId, Pageable pageable);
+
 
     List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId);
 

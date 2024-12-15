@@ -1,10 +1,7 @@
 package com.application.poppool.domain.popup.controller;
 
 import com.application.poppool.domain.comment.enums.CommentType;
-import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
+import com.application.poppool.domain.popup.dto.resonse.*;
 import com.application.poppool.domain.popup.service.PopUpStoreService;
 import com.application.poppool.global.enums.PopUpSortCode;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +36,16 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     }
 
     @Override
+    @GetMapping("/{popUpStoreId}/comments")
+    public ResponseEntity<GetAllPopUpStoreCommentsResponse> getAllPopUpStoreCommentsResponse(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                             @RequestParam(name = "commentType") CommentType commentType,
+                                                                                             @PathVariable Long popUpStoreId,
+                                                                                             @PageableDefault(page = 0, size = 10, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(popUpStoreService.getAllPopUpStoreComments(userDetails.getUsername(), commentType, popUpStoreId, pageable));
+    }
+
+
+    @Override
     @GetMapping("/open")
     public ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                @RequestParam(required = false) List<Integer> categories,
@@ -69,6 +76,5 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     public ResponseEntity<GetPopUpStoreDirectionResponse> getPopUpStoreDirection(@PathVariable Long popUpStoreId) {
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDirection(popUpStoreId));
     }
-
 
 }

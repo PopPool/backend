@@ -1,10 +1,7 @@
 package com.application.poppool.domain.popup.controller;
 
 import com.application.poppool.domain.comment.enums.CommentType;
-import com.application.poppool.domain.popup.dto.resonse.GetClosedPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetOpenPopUpStoreListResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
+import com.application.poppool.domain.popup.dto.resonse.*;
 import com.application.poppool.global.enums.PopUpSortCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -27,6 +24,12 @@ public interface PopUpStoreControllerDoc {
                                                                     @RequestParam(name = "commentType") CommentType commentType,
                                                                     @RequestParam(name = "popUpStoreId") Long popUpStoreId);
 
+    @Operation(summary = "팝업 스토어 코멘트 전체 보기", description = "팝업 스토어 코멘트 전체를 조회합니다.")
+    ResponseEntity<GetAllPopUpStoreCommentsResponse> getAllPopUpStoreCommentsResponse(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                      @RequestParam(name = "commentType") CommentType commentType,
+                                                                                      @PathVariable Long popUpStoreId,
+                                                                                      @PageableDefault(page = 0, size = 10, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
+
     @Operation(summary = "검색창 하단의 팝업 스토어 진행 중(오픈) 팝업 리스트 조회", description = "검색창 하단의 팝업 스토어 진행 중(오픈) 팝업 리스트를 조회합니다.")
     ResponseEntity<GetOpenPopUpStoreListResponse> getOpenPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                         @RequestParam(required = false)List<Integer> categories,
@@ -41,4 +44,6 @@ public interface PopUpStoreControllerDoc {
 
     @Operation(summary = "팝업스토어 찾아가는 길", description = "팝업스토어 찾아가는 길을 조회합니다.")
     ResponseEntity<GetPopUpStoreDirectionResponse> getPopUpStoreDirection(@PathVariable Long popUpStoreId);
+
+
 }

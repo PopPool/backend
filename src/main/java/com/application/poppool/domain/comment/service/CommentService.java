@@ -37,11 +37,6 @@ public class CommentService {
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
 
 
-    @Transactional(readOnly = true)
-    public List<CommentEntity> getPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId) {
-        return commentRepository.findAllPopUpStoreComments(userId, commentType, popUpStoreId);
-    }
-
     @Transactional
     public void createComment(String userId, CreateCommentRequest request) {
         UserEntity user = userRepository.findByUserId(userId)
@@ -62,10 +57,10 @@ public class CommentService {
                 .build();
 
         /** 코멘트 이미지 엔티티 생성 및 저장 */
-        for (String url : request.getImageUrlList()) {
+        for (String imageUrl : request.getImageUrlList()) {
             CommentImageEntity commentImage = CommentImageEntity.builder()
                     .comment(comment)
-                    .url(url)
+                    .imageUrl(imageUrl)
                     .build();
             // 연관관계 편의 메소드(양방향으로 값 셋팅)
             comment.addImage(commentImage);
@@ -112,7 +107,7 @@ public class CommentService {
                 case ADD:
                     // 이미지 추가
                     CommentImageEntity commentImageToAdd = CommentImageEntity.builder()
-                            .url(imageAction.getImageUrl())
+                            .imageUrl(imageAction.getImageUrl())
                             .comment(comment)
                             .build();
                     commentImageRepository.save(commentImageToAdd);
