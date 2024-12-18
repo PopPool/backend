@@ -33,6 +33,10 @@ public interface UserControllerDoc {
                                                           @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCode,
                                                           Pageable pageable);
 
+    ResponseEntity<GetOtherUserCommentListResponse> GetOtherUserCommentList(@RequestParam String commenterId,
+                                                                            @RequestParam CommentType commentType,
+                                                                            @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
+
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
     ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                   @PageableDefault(page = 0, size = 20, sort = "updateDateTime", direction = Sort.Direction.DESC) Pageable pageable);

@@ -132,6 +132,33 @@ public class UserService {
     }
 
     /**
+     * 팝업 상세 다른 유저의 코멘트 목록 전체 조회
+     * @param otherUserId
+     * @param commentType
+     * @param pageable
+     * @return
+     */
+    @Transactional(readOnly = true)
+    public GetOtherUserCommentListResponse getOtherUserCommentList(String otherUserId, CommentType commentType, Pageable pageable) {
+        // 팝업 상세 다른 유저의 코멘트 목록 전체 조회
+        List<GetOtherUserCommentListResponse.Comment> otherUserCommentList = commentRepository.findOtherUserCommentsWithPopUpStore(otherUserId, commentType, pageable);
+
+        // 전체 코멘트 수
+        long totalElements = commentRepository.countOtherUserComments(otherUserId, commentType);
+
+        // 전체 페이지 수
+        int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
+
+        return GetOtherUserCommentListResponse.builder()
+                .commentList(otherUserCommentList)
+                .totalPages(totalPages)
+                .totalElements(totalElements)
+                .build();
+    }
+
+
+
+    /**
      * 찜한 팝업스토어 목록 조회
      *
      * @param userId

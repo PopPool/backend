@@ -64,6 +64,15 @@ public class UserController implements UserControllerDoc {
     }
 
     @Override
+    @GetMapping("/{commenterId}/comments")
+    public ResponseEntity<GetOtherUserCommentListResponse> GetOtherUserCommentList(@RequestParam String commenterId,
+                                                                                   @RequestParam CommentType commentType,
+                                                                                   @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getOtherUserCommentList(commenterId, commentType, pageable));
+    }
+
+
+    @Override
     @GetMapping("/bookmark-popupstores")
     public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                          @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {

@@ -4,6 +4,7 @@ import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
+import com.application.poppool.domain.user.dto.response.GetOtherUserCommentListResponse;
 import com.application.poppool.global.enums.CommentSortCode;
 import com.application.poppool.global.enums.PopUpSortCode;
 import com.application.poppool.global.enums.SortCode;
@@ -112,8 +113,50 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .fetch();
     }
 
+
     @Override
     public long countMyComments(String userId, CommentType commentType) {
+        Long count = queryFactory
+                .select(commentEntity.count())
+                .from(commentEntity)
+                .where(commentUserIdEq(userId),
+                        commentTypeEq(commentType))
+                .fetchOne();
+        return count != null ? count : 0L;
+    }
+
+    @Override
+    public List<GetOtherUserCommentListResponse.Comment> findOtherUserCommentsWithPopUpStore(String userId, CommentType commentType, Pageable pageable) {
+
+        LocalDateTime now = LocalDateTime.now();
+
+        BooleanExpression isClosedPopUp = popUpStoreEntity.endDate.loe(now);
+
+        return queryFactory.select(Projections.bean(GetOtherUserCommentListResponse.Comment.class,
+                        commentEntity.id.as("commentId"),
+                        commentEntity.content.as("content"),
+                        commentEntity.likeCount.as("likeCount"),
+                        commentEntity.createDateTime.as("createDateTime"),
+                        Projections.bean(
+                                GetOtherUserCommentListResponse.Comment.class,
+                                popUpStoreEntity.id.as("popUpStoreId"),
+                                popUpStoreEntity.name.as("popUpStoreName"),
+                                popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
+                                isClosedPopUp.as("closeYn")
+                        ).as("popUpStoreInfo")
+                ))
+                .from(commentEntity)
+                .join(commentEntity.popUpStore, popUpStoreEntity)
+                .where(commentUserIdEq(userId),
+                        commentTypeEq(commentType))
+                //.orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, commentEntity).toArray(OrderSpecifier[]::new))
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
+    @Override
+    public long countOtherUserComments(String userId, CommentType commentType) {
         Long count = queryFactory
                 .select(commentEntity.count())
                 .from(commentEntity)
