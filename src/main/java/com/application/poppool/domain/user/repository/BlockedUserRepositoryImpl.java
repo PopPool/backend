@@ -44,7 +44,6 @@ public class BlockedUserRepositoryImpl implements BlockedUserRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        // Fetch the total count of blocked users
         JPAQuery<Long> countQuery = queryFactory
                 .select(blockedUserEntity.count())
                 .from(blockedUserEntity)
