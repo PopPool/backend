@@ -33,6 +33,7 @@ public interface UserControllerDoc {
                                                           @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCode,
                                                           Pageable pageable);
 
+    @Operation(summary = "다른 유저의 일반/인스타 코멘트 전체 조회", description = "다른 유저의 일반/인스타 코멘트를 전체 조회합니다.")
     ResponseEntity<GetOtherUserCommentListResponse> GetOtherUserCommentList(@RequestParam String commenterId,
                                                                             @RequestParam CommentType commentType,
                                                                             @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
