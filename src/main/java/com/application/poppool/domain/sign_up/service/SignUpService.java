@@ -51,8 +51,6 @@ public class SignUpService {
      */
     @Transactional
     public void signUp(String userId, SignUpRequest signUpRequest, HttpServletResponse response) throws IOException {
-
-
         if (userRepository.findByUserId(userId).isPresent()) {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_USER_ID);
         }
