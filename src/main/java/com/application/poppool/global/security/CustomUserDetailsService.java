@@ -27,7 +27,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 
         UserEntity user = userRepository.findByUserId(userId)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found with userId: " + userId));
+                .orElseThrow(() -> new UsernameNotFoundException(userId + "는(은) 존재하지 않는 회원입니다."));
 
         // 비밀번호가 null인 경우 빈 문자열로 대체, 인증을 하기 위함
         String password = user.getPassword() != null ? user.getPassword() : "";
