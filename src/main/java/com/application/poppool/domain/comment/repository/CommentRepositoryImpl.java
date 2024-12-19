@@ -43,7 +43,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .leftJoin(blockedUserEntity)
                 .on(blockUserIdEq(userId),
                         blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
-                .leftJoin(commentEntity.images, commentImageEntity)
                 .where(popUpStoreIdEq(popUpStoreId),
                         blockedUserEntity.id.isNull(),
                         commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
@@ -58,7 +57,6 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .leftJoin(blockedUserEntity)
                 .on(blockUserIdEq(userId),
                         blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
-                .leftJoin(commentEntity.images, commentImageEntity)
                 .where(popUpStoreIdEq(popUpStoreId),
                         blockedUserEntity.id.isNull(),
                         commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
