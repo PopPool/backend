@@ -18,6 +18,8 @@ public class GetCommentsResponse {
     @NoArgsConstructor
     @AllArgsConstructor
     public static class Comment {
+        private Long commentId;
+        private String creator;
         private String nickname;
         private String instagramId;
         private String profileImageUrl;

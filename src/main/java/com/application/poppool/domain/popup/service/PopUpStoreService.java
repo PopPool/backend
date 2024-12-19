@@ -166,6 +166,8 @@ public class PopUpStoreService {
 
     public List<GetCommentsResponse.Comment> commentEntityToDto(List<CommentEntity> commentEntities, UserEntity user) {
         return commentEntities.stream().map(comment -> GetCommentsResponse.Comment.builder()
+                        .commentId(comment.getId())
+                        .creator(comment.getUser().getUserId())
                         .nickname(comment.getUser().getNickname())
                         .instagramId(comment.getUser().getInstagramId())
                         .profileImageUrl(comment.getUser().getProfileImageUrl())
