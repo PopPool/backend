@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -33,7 +34,7 @@ public class CreatePopUpStoreRequest {
     @Schema(description = "배너 여부")
     private boolean bannerYn;
     @Schema(description = "팝업스토어 이미지 URL 리스트")
-    private List<String> imageUrlList;
+    private List<String> imageUrlList = new ArrayList<>();
     
     @Schema(description = "팝업스토어 위도")
     @DecimalMin(value = "-180.0", message = "위도는 -180.0보다 크거나 같아야 합니다.")

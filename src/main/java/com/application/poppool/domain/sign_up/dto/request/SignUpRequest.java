@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -30,6 +31,6 @@ public class SignUpRequest {
     private SocialType socialType;
     @Schema(description = "카테고리 ID")
     @NotEmpty(message = "카테고리를 선택해주세요.")
-    private Set<Integer> interestCategories;
+    private Set<Integer> interestCategories = new HashSet<>();
 
 }

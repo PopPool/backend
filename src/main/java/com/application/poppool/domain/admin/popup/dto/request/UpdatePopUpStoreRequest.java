@@ -5,6 +5,7 @@ import jakarta.validation.constraints.*;
 import lombok.Getter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -12,8 +13,8 @@ public class UpdatePopUpStoreRequest {
 
     private PopUpStore popUpStore;
     private Location location;
-    private List<String> imagesToAdd;
-    private List<Long> imagesToDelete;
+    private List<String> imagesToAdd = new ArrayList<>();
+    private List<Long> imagesToDelete = new ArrayList<>();
 
     @Getter
     public static class PopUpStore {
