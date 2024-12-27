@@ -4,6 +4,7 @@ import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.auth.service.apple.AppleAuthFeignClient;
 import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.auth.service.apple.AppleProperties;
+import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
@@ -116,7 +117,30 @@ public class UserService {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        List<GetMyCommentResponse.MyCommentInfo> myCommentList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, sortCodes, pageable);
+        List<CommentEntity> myCommentEntityList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, sortCodes, pageable);
+
+        // 2. 댓글 리스트를 DTO로 변환
+        List<GetMyCommentResponse.MyCommentInfo> myCommentList = myCommentEntityList.stream()
+                .map(commentEntity -> {
+
+                    // 3. 팝업스토어 정보 가져오기
+                    GetMyCommentResponse.MyCommentedPopUpInfo popUpStoreInfo = GetMyCommentResponse.MyCommentedPopUpInfo.builder()
+                            .popUpStoreId(commentEntity.getPopUpStore().getId())
+                            .popUpStoreName(commentEntity.getPopUpStore().getName())
+                            .mainImageUrl(commentEntity.getPopUpStore().getMainImageUrl())
+                            .closeYn(isClosedPopUp(commentEntity.getPopUpStore(), LocalDateTime.now()))  // 종료 여부 설정
+                            .build();
+
+                    // 4. MyCommentInfo 객체 생성
+                    return GetMyCommentResponse.MyCommentInfo.builder()
+                            .commentId(commentEntity.getId())
+                            .content(commentEntity.getContent())
+                            .likeCount(commentEntity.getLikeCount())
+                            .createDateTime(commentEntity.getCreateDateTime())
+                            .popUpStoreInfo(popUpStoreInfo)  // 팝업스토어 정보 포함
+                            .build();
+                })
+                .toList();
 
         // 전체 코멘트 수
         long totalElements = commentRepository.countMyComments(userId, commentType);
@@ -133,24 +157,46 @@ public class UserService {
 
     /**
      * 팝업 상세 다른 유저의 코멘트 목록 전체 조회
-     * @param otherUserId
+     * @param commenterId
      * @param commentType
      * @param pageable
      * @return
      */
     @Transactional(readOnly = true)
-    public GetOtherUserCommentListResponse getOtherUserCommentList(String otherUserId, CommentType commentType, Pageable pageable) {
+    public GetCommenterCommentListResponse getCommenterCommentList(String commenterId, CommentType commentType, Pageable pageable) {
         // 팝업 상세 다른 유저의 코멘트 목록 전체 조회
-        List<GetOtherUserCommentListResponse.Comment> otherUserCommentList = commentRepository.findOtherUserCommentsWithPopUpStore(otherUserId, commentType, pageable);
+        List<CommentEntity> commenterCommentEntityList = commentRepository.findCommenterCommentsWithPopUpStore(commenterId, commentType, pageable);
+
+        // 댓글 리스트 dto 매핑
+        List<GetCommenterCommentListResponse.Comment> commenterCommentList = commenterCommentEntityList.stream()
+                .map(commentEntity -> {
+
+                    // 팝업스토어 정보 가져오기
+                    GetCommenterCommentListResponse.CommentedPopUpStore popUpStoreInfo = GetCommenterCommentListResponse.CommentedPopUpStore.builder()
+                            .popUpStoreId(commentEntity.getPopUpStore().getId())
+                            .popUpStoreName(commentEntity.getPopUpStore().getName())
+                            .mainImageUrl(commentEntity.getPopUpStore().getMainImageUrl())
+                            .closeYn(isClosedPopUp(commentEntity.getPopUpStore(), LocalDateTime.now()))
+                            .build();
+
+                    return GetCommenterCommentListResponse.Comment.builder()
+                            .commentId(commentEntity.getId())
+                            .content(commentEntity.getContent())
+                            .likeCount(commentEntity.getLikeCount())
+                            .createDateTime(commentEntity.getCreateDateTime())
+                            .popUpStoreInfo(popUpStoreInfo) // 팝업스토어 정보 포함
+                            .build();
+                })
+                .toList();
 
         // 전체 코멘트 수
-        long totalElements = commentRepository.countOtherUserComments(otherUserId, commentType);
+        long totalElements = commentRepository.countCommenterComments(commenterId, commentType);
 
         // 전체 페이지 수
         int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
 
-        return GetOtherUserCommentListResponse.builder()
-                .commentList(otherUserCommentList)
+        return GetCommenterCommentListResponse.builder()
+                .commentList(commenterCommentList)
                 .totalPages(totalPages)
                 .totalElements(totalElements)
                 .build();

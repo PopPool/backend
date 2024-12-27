@@ -7,7 +7,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class GetOtherUserCommentListResponse {
+public class GetCommenterCommentListResponse {
 
     private List<Comment> commentList;
     private int totalPages;
