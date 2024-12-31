@@ -47,13 +47,6 @@ server:
       enabled: true
       force: true
 
-logging:
-  level:
-    com.application.poppool: DEBUG
-  file:
-    name: application-error.log
-    path: /var/log
-    encoding: UTF-8
 ---
 spring:
   config:
