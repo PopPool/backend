@@ -8,7 +8,7 @@ spring:
   jpa:
     generate-ddl: false
     hibernate:
-      ddl-auto: none  # 로컬 환경에서는 자동으로 DDL 갱신
+      ddl-auto: none
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
@@ -20,9 +20,10 @@ spring:
 
 logging:
   level:
-    org.hibernate.SQL: info
+    org.hibernate.SQL: debug
 
   file:
-    name: app.log
+    name: application.log
     path: /home/ubuntu
     encoding: UTF-8
+
