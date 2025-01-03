@@ -31,7 +31,7 @@ public class SecurityConfig {
     private final CustomAccessDeniedHandler customAccessDeniedHandler;
 
     public static final String[] PERMIT_URL = {
-            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/users/*/my-page", "/health-check","/home",
+            "/auth/**", "/swagger-ui/**", "/v3/api-docs/**", "/swagger-ui.html", "/users/my-page", "/health-check","/home",
             "/popup/*/detail","/locations/search", "/popup/open", "/popup/closed", "/search/popup-stores","/sample/**"
     };
 
