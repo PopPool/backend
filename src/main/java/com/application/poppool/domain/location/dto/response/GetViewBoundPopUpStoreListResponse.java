@@ -20,6 +20,7 @@ public class GetViewBoundPopUpStoreListResponse {
         private String categoryName;
         private String name;
         private String address;
+        private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private double latitude;
