@@ -2,8 +2,6 @@ package com.application.poppool.domain.user.repository;
 
 import com.application.poppool.domain.user.dto.response.GetBlockedUserListResponse;
 import com.application.poppool.domain.user.entity.QUserEntity;
-import com.application.poppool.global.utils.QueryDslUtils;
-import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;

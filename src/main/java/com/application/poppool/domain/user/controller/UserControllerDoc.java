@@ -4,7 +4,6 @@ import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.global.enums.CommentSortCode;
-import com.application.poppool.global.enums.PopUpSortCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;

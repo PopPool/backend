@@ -3,7 +3,6 @@ package com.application.poppool.domain.comment.service;
 import com.application.poppool.domain.comment.dto.request.CreateCommentRequest;
 import com.application.poppool.domain.comment.dto.request.UpdateCommentRequest;
 import com.application.poppool.domain.comment.entity.CommentEntity;
-import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
 import com.application.poppool.domain.image.entity.CommentImageEntity;
 import com.application.poppool.domain.image.repository.CommentImageRepository;
@@ -22,8 +21,6 @@ import jakarta.persistence.OptimisticLockException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor

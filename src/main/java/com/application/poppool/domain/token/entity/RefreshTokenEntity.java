@@ -1,7 +1,10 @@
 package com.application.poppool.domain.token.entity;
 
 import com.application.poppool.global.audit.BaseEntity;
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.time.LocalDateTime;

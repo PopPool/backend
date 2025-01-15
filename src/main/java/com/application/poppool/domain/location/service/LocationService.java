@@ -4,11 +4,8 @@ import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpSto
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
-import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
-import com.application.poppool.global.exception.ErrorCode;
-import com.application.poppool.global.exception.NotFoundException;
 import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

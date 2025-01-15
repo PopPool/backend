@@ -12,7 +12,6 @@ import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.enums.PopUpSortCode;
-import com.application.poppool.global.enums.SortCode;
 import com.application.poppool.global.utils.AgeGroupUtils;
 import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.ExpressionUtils;

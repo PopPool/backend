@@ -2,8 +2,6 @@ package com.application.poppool.domain.comment.repository;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
-import com.application.poppool.domain.user.dto.response.GetCommenterCommentListResponse;
-import com.application.poppool.domain.user.dto.response.GetMyCommentResponse;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.global.enums.CommentSortCode;
 import com.application.poppool.global.utils.QueryDslUtils;
@@ -15,11 +13,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
-import static com.application.poppool.domain.image.entity.QCommentImageEntity.commentImageEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QBlockedUserEntity.blockedUserEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;

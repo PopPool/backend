@@ -1,6 +1,5 @@
 package com.application.poppool.domain.comment.dto.response;
 
-import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
