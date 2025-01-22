@@ -72,6 +72,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .from(commentEntity)
                 .join(commentEntity.popUpStore, popUpStoreEntity)
                 .where(commentEntity.user.userId.eq(userId))
+                .groupBy(commentEntity.popUpStore)
                 .orderBy(commentEntity.createDateTime.desc())
                 .fetch();
     }
