@@ -82,6 +82,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
                 .where(commentUserIdEq(userId),
                         commentTypeEq(commentType))
+                .groupBy(commentEntity.popUpStore)
                 .orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, commentEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
@@ -106,6 +107,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
                 .where(commentUserIdEq(userId),
                         commentTypeEq(commentType))
+                .groupBy(commentEntity.popUpStore)
                 //.orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, commentEntity).toArray(OrderSpecifier[]::new))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
