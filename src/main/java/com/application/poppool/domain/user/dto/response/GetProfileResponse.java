@@ -12,7 +12,6 @@ public class GetProfileResponse {
 
     private String profileImageUrl;
     private String nickname;
-    private String email;
     private String instagramId;
     private String intro;
     private Gender gender;

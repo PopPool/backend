@@ -224,21 +224,16 @@ public class UserService {
                 .toList();
 
         List<GetBookMarkPopUpStoreListResponse.PopUpInfo> bookMarkPopUpInfoList = bookMarkPopUpStores.stream()
-                .map(popUpStoreEntity -> {
-                    boolean bookmarkYn = bookMarkPopUpStoreRepository.existsByUserIdAndPopUpStore(userId, popUpStoreEntity);
-
-                    return GetBookMarkPopUpStoreListResponse.PopUpInfo.builder()
-                            .popUpStoreId(popUpStoreEntity.getId())
-                            .popUpStoreName(popUpStoreEntity.getName())
-                            .desc(popUpStoreEntity.getDesc())
-                            .mainImageUrl(popUpStoreEntity.getMainImageUrl())
-                            .startDate(popUpStoreEntity.getStartDate())
-                            .endDate(popUpStoreEntity.getEndDate())
-                            .address(popUpStoreEntity.getAddress())
-                            .bookmarkYn(bookmarkYn)
-                            .closeYn(isClosedPopUp(popUpStoreEntity, LocalDateTime.now()))
-                            .build();
-                })
+                .map(popUpStoreEntity -> GetBookMarkPopUpStoreListResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStoreEntity.getId())
+                        .popUpStoreName(popUpStoreEntity.getName())
+                        .desc(popUpStoreEntity.getDesc())
+                        .mainImageUrl(popUpStoreEntity.getMainImageUrl())
+                        .startDate(popUpStoreEntity.getStartDate())
+                        .endDate(popUpStoreEntity.getEndDate())
+                        .address(popUpStoreEntity.getAddress())
+                        .closeYn(isClosedPopUp(popUpStoreEntity, LocalDateTime.now()))
+                        .build())
                 .toList();
 
         return GetBookMarkPopUpStoreListResponse.builder()

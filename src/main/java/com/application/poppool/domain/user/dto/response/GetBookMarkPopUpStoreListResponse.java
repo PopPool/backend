@@ -24,7 +24,6 @@ public class GetBookMarkPopUpStoreListResponse {
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String address;
-        private boolean bookmarkYn;
         private boolean closeYn;
     }
 }

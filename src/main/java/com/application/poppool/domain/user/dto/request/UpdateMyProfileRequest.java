@@ -7,7 +7,6 @@ public class UpdateMyProfileRequest {
 
     private String profileImageUrl;
     private String nickname;
-    private String email;
     private String instagramId;
     private String intro;
 

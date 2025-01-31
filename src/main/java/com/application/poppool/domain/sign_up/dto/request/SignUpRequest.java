@@ -24,8 +24,6 @@ public class SignUpRequest {
     private Gender gender;
     @Schema(description = "회원 연령")
     private int age;
-    @Schema(description = "회원 이메일")
-    private String socialEmail;
     @NotNull(message = "소셜 타입은 필수입니다.")
     @Schema(description = "소셜 타입(카카오/애플)")
     private SocialType socialType;

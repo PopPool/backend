@@ -46,7 +46,6 @@ public class UserProfileService {
         return GetProfileResponse.builder()
                 .profileImageUrl(user.getProfileImageUrl())
                 .nickname(user.getNickname())
-                .email(user.getEmail())
                 .instagramId(user.getInstagramId())
                 .intro(user.getIntro())
                 .gender(user.getGender())
