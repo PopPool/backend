@@ -17,6 +17,6 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long>, C
     @NonNull
     Optional<CommentEntity> findById(@NonNull Long id);
 
-    boolean existsByUserAndPopupStore(UserEntity user, PopUpStoreEntity popUpStore);
+    boolean existsByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
 
 }
