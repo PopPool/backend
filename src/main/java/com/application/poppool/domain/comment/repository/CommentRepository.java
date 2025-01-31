@@ -1,6 +1,8 @@
 package com.application.poppool.domain.comment.repository;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
+import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
+import com.application.poppool.domain.user.entity.UserEntity;
 import jakarta.persistence.LockModeType;
 import lombok.NonNull;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,5 +16,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long>, C
     @Lock(LockModeType.OPTIMISTIC) // 조회시점부터 트랜잭션 끝날 때까지 다른 트랜잭션에 의해 변경되지 않음을 보장
     @NonNull
     Optional<CommentEntity> findById(@NonNull Long id);
+
+    boolean existsByUserAndPopupStore(UserEntity user, PopUpStoreEntity popUpStore);
 
 }

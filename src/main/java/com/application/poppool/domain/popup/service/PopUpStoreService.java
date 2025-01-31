@@ -61,6 +61,9 @@ public class PopUpStoreService {
         /** 찜 여부 체크 */
         boolean bookmarkYn = false;
         
+        /** 이 팝업에 코멘트 작성했는지에 대한 여부 */
+        boolean hasCommented = false;
+        
         /** 팝업 스토어 이미지 리스트 조회 */ 
         List<PopUpStoreImageEntity> popUpStoreImageEntityList = popUpStore.getImages(); // 하나의 팝업 스토어 이므로 n+1 문제 발생하지 않음
 
@@ -97,9 +100,10 @@ public class PopUpStoreService {
 
             /** 찜 여부 체크 */
             bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
-
+            hasCommented = commentRepository.existsByUserAndPopupStore(user, popUpStore);
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
             commentList = commentEntityToDto(commentEntities, user);
+
 
             /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
             userPopUpStoreView.updateViewedAt(LocalDateTime.now());
@@ -139,11 +143,12 @@ public class PopUpStoreService {
                 .desc(popUpStore.getDesc())
                 .startDate(popUpStore.getStartDate())
                 .endDate(popUpStore.getEndDate())
+                .mainImageUrl(popUpStore.getMainImageUrl())
                 .address(popUpStore.getAddress())
                 .commentCount(popUpStore.getCommentCount())
                 .bookmarkYn(bookmarkYn)
                 .loginYn(loginYn)
-                .mainImageUrl(popUpStore.getMainImageUrl())
+                .hasCommented(hasCommented)
                 .imageList(popUpStoreImageList)
                 .commentList(commentList)
                 .similarPopUpStoreList(similarPopUpStoreList)

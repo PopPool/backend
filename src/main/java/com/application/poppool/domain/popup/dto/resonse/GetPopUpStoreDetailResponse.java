@@ -14,11 +14,12 @@ public class GetPopUpStoreDetailResponse {
     private String desc;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    private String mainImageUrl;
     private String address;
     private long commentCount;
     private boolean bookmarkYn;
     private boolean loginYn;
-    private String mainImageUrl;
+    private boolean hasCommented;
     private List<PopUpStoreImage> imageList;
     private List<GetCommentsResponse.Comment> commentList;
     private List<PopUpStore> similarPopUpStoreList;
