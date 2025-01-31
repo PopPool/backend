@@ -4,6 +4,7 @@ package com.application.poppool.domain.notice.entity;
 import com.application.poppool.domain.admin.notice.dto.request.UpdateNoticeRequest;
 import com.application.poppool.global.audit.BaseAdminEntity;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
 
 @Entity
@@ -20,10 +21,12 @@ public class NoticeEntity extends BaseAdminEntity {
     private Long id;
 
     @Column(name = "TITLE")
+    @NotBlank
     private String title;
 
     @Lob
     @Column(name = "CONTENT")
+    @NotBlank
     private String content;
 
     public void updateNotice(UpdateNoticeRequest request) {
