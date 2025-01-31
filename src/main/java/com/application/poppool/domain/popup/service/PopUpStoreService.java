@@ -100,7 +100,7 @@ public class PopUpStoreService {
 
             /** 찜 여부 체크 */
             bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
-            hasCommented = commentRepository.existsByUserAndPopupStore(user, popUpStore);
+            hasCommented = commentRepository.existsByUserAndPopUpStore(user, popUpStore);
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
             commentList = commentEntityToDto(commentEntities, user);
 
