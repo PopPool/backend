@@ -16,6 +16,7 @@ public class WithDrawalSurveyEntity extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "SURVEY_ID")
     private Long id;
 
     @Column(name = "SURVEY")
