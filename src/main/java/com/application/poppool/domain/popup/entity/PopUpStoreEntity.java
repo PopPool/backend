@@ -59,15 +59,15 @@ public class PopUpStoreEntity extends BaseAdminEntity {
 
     @Column(name = "VIEW_CNT")
     @Builder.Default
-    private long viewCount = 0;
+    private long viewCount = 0L;
 
     @Column(name = "BOOKMARK_CNT")
     @Builder.Default
-    private long bookmarkCount = 0;
+    private long bookmarkCount = 0L;
 
-    @Column(name = "COMMNET_CNT")
+    @Column(name = "COMMENT_CNT")
     @Builder.Default
-    private long commentCount = 0;
+    private long commentCount = 0L;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "LOCATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
