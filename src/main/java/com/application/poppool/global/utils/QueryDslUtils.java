@@ -11,6 +11,13 @@ import java.util.List;
 
 public class QueryDslUtils {
 
+    /**
+     * 동적 정렬(SortCode는 어떤 도메인에 대해 정렬하 것인지를 나타내는 필드, qEntity는 정렬 대상 엔티티)
+     * @param sortCodes
+     * @param pageable
+     * @param qEntity
+     * @return
+     */
     public static List<OrderSpecifier> getOrderSpecifiers(List<? extends SortCode> sortCodes, Pageable pageable, Path<?> qEntity) {
         List<OrderSpecifier> orders = new ArrayList<>();
         PathBuilder pathBuilder = new PathBuilder<>(qEntity.getType(), qEntity.getMetadata());
