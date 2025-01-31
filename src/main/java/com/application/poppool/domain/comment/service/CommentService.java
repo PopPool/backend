@@ -34,6 +34,11 @@ public class CommentService {
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
 
 
+    /**
+     * 코멘트 작성
+     * @param userId
+     * @param request
+     */
     @Transactional
     public void createComment(String userId, CreateCommentRequest request) {
         UserEntity user = userRepository.findByUserId(userId)
@@ -88,6 +93,11 @@ public class CommentService {
 
     }
 
+    /**
+     * 코멘트 수정
+     * @param userId
+     * @param request
+     */
     @Transactional
     public void updateComment(String userId, UpdateCommentRequest request) {
 
@@ -122,6 +132,12 @@ public class CommentService {
         }
     }
 
+    /**
+     * 코멘트 삭제
+     * @param userId
+     * @param popUpStoreId
+     * @param commentId
+     */
     @Transactional
     public void deleteComment(String userId, Long popUpStoreId, Long commentId) {
         UserEntity user = userRepository.findByUserId(userId)

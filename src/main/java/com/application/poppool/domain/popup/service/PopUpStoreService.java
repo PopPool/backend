@@ -156,6 +156,14 @@ public class PopUpStoreService {
 
     }
 
+    /**
+     * 팝업스토어 코멘트 전체 보기
+     * @param userId
+     * @param commentType
+     * @param popUpStoreId
+     * @param pageable
+     * @return
+     */
     @Transactional(readOnly = true)
     public GetAllPopUpStoreCommentsResponse getAllPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId, Pageable pageable) {
         UserEntity user = userRepository.findByUserId(userId)
