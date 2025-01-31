@@ -25,6 +25,7 @@ public class GetCommentsResponse {
         private String content;
         private boolean likeYn;
         private long likeCount;
+        private boolean myCommentYn;
         private LocalDateTime createDateTime;
         private List<CommentImage> commentImageList;
     }

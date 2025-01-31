@@ -26,6 +26,13 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
 
+    /**
+     * 처음 상세 페이지에 들어왔을 때, 최대 3개만 조회되도록 함(비로그인 경우는 1개)
+     * @param userId
+     * @param commentType
+     * @param popUpStoreId
+     * @return
+     */
     @Override
     public List<CommentEntity> getPopUpStoreComments(String userId, CommentType commentType, Long popUpStoreId) {
         long commentCount = 3L;
@@ -38,8 +45,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .on(blockUserIdEq(userId),
                         blockedUserEntity.blockedUser.userId.eq(commentEntity.user.userId))
                 .where(popUpStoreIdEq(popUpStoreId),
-                        blockedUserEntity.id.isNull(),
-                        commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                        blockedUserEntity.id.isNull(), // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                        commentTypeEq(commentType))
                 .limit(commentCount) // 최대 3개
                 .orderBy(commentEntity.createDateTime.desc())
                 .fetch();

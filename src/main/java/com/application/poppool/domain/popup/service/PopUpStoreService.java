@@ -164,6 +164,12 @@ public class PopUpStoreService {
                 .build();
     }
 
+    /**
+     * 코멘트 Entity -> DTO 변환 공통 메서드
+     * @param commentEntities
+     * @param user
+     * @return
+     */
     public List<GetCommentsResponse.Comment> commentEntityToDto(List<CommentEntity> commentEntities, UserEntity user) {
         return commentEntities.stream().map(comment -> GetCommentsResponse.Comment.builder()
                         .commentId(comment.getId())
@@ -174,6 +180,7 @@ public class PopUpStoreService {
                         .content(comment.getContent())
                         .likeYn(user != null ? commentService.isCommentLikedByUser(user, comment) : false)
                         .likeCount(comment.getLikeCount())
+                        .myCommentYn(user != null ? comment.getUser().getUserId().equals(user.getUserId()) : false)
                         .createDateTime(comment.getCreateDateTime())
                         .commentImageList(
                                 comment.getImages() // 코멘트에 해당하는 이미지 리스트
