@@ -22,7 +22,6 @@ public class SignUpRequest {
     private String nickname;
     @Schema(description = "회원 성별")
     @NotNull(message = "성별을 입력해주세요,")
-    @Pattern(regexp = "^(남성|여성|선택안함)$", message = "유효한 성별 값만 입력해주세요.")
     private Gender gender;
     @Schema(description = "회원 연령")
     private int age;
