@@ -14,14 +14,14 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQLDialect
-        #show_sql: true
+        show_sql: true
         format_sql: true
         use_sql_comments: true
 
-logging:
-  level:
-    show_sql: debug
-    org.hibernate.orm.jdbc.bind: trace
+#logging:
+#  level:
+#    show_sql: debug
+#    org.hibernate.orm.jdbc.bind: trace
 
   file:
     name: application.log
