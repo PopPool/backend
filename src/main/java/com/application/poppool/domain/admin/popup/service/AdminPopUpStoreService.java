@@ -11,6 +11,8 @@ import com.application.poppool.domain.location.entity.LocationEntity;
 import com.application.poppool.domain.location.repository.LocationRepository;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
+import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
+import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
@@ -29,6 +31,7 @@ public class AdminPopUpStoreService {
     private final PopUpStoreRepository popUpStoreRepository;
     private final CategoryRepository categoryRepository;
     private final LocationRepository locationRepository;
+    private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
 
     /**
      * 관리자 페이지의 팝업 스토어 리스트 조회
@@ -184,6 +187,9 @@ public class AdminPopUpStoreService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
+        List<UserPopUpStoreViewEntity> userPopUpStoreViewList = userPopUpStoreViewRepository.findByPopUpStore(popUpStore);
+
+        userPopUpStoreViewRepository.deleteAll(userPopUpStoreViewList);
         popUpStoreRepository.delete(popUpStore);
 
     }
