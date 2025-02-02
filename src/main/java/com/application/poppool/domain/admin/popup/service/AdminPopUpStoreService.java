@@ -107,7 +107,7 @@ public class AdminPopUpStoreService {
     public void createPopUpStore(CreatePopUpStoreRequest request) {
         log.info("start " + request.getStartDate());
         log.info("end " + request.getEndDate());
-
+        log.info("image " + request.getImageUrlList().size());
         LocationEntity location = LocationEntity.builder()
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
