@@ -74,11 +74,11 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     private LocationEntity location;
 
     @Builder.Default
-    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.REMOVE)
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
 
     @Builder.Default
