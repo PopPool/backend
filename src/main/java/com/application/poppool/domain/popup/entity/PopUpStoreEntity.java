@@ -69,7 +69,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @Builder.Default
     private long commentCount = 0L;
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LOCATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private LocationEntity location;
 
@@ -85,7 +85,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "popUpStore")
     private List<PopUpStoreImageEntity> images = new ArrayList<>();
 
     public void addImage(PopUpStoreImageEntity image) {
