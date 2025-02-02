@@ -40,7 +40,6 @@ public class UserEntity extends BaseEntity {
     private String profileImageUrl; // 프로필 이미지
 
     @Column(name = "GENDER")
-    @Convert(converter = GenderConverter.class)
     @Enumerated(EnumType.STRING)
     private Gender gender; // 성별
 
