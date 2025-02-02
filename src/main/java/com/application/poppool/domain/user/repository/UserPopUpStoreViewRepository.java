@@ -24,5 +24,8 @@ public interface UserPopUpStoreViewRepository extends JpaRepository<UserPopUpSto
     /** 팝업 스토어 삭제 시, 일괄적으로 관련 팝업스토어의 뷰 데이터 삭제하기 위한 조회 메서드 */
     List<UserPopUpStoreViewEntity> findByPopUpStore(PopUpStoreEntity popUpStore);
 
+    /** 회원 탈퇴 시, 일괄적으로 해당 회원 관련 팝업스토어 뷰 데이터 삭제를 위한 조회 메서드 */
+    List<UserPopUpStoreViewEntity> findByUser(UserEntity user);
+
 
 }
