@@ -29,6 +29,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
                                                                            @RequestParam(name = "commentType") CommentType commentType,
                                                                            @PathVariable Long popUpStoreId) {
+        log.info("팝업 스토어 상세 조회");
         if (userDetails == null) {
             return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId));
         }
