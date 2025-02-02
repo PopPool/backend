@@ -329,7 +329,6 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(categoryIn(categories),
                         isClosedPopUp())
                 .orderBy(QueryDslUtils.getOrderSpecifiers(sortCodes, pageable, popUpStoreEntity).toArray(OrderSpecifier[]::new))
-                .orderBy(popUpStoreEntity.id.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
