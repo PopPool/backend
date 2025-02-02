@@ -14,6 +14,7 @@ import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.global.exception.ErrorCode;
 import com.application.poppool.global.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -22,6 +23,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class AdminPopUpStoreService {
 
     private final PopUpStoreRepository popUpStoreRepository;
@@ -103,6 +105,9 @@ public class AdminPopUpStoreService {
      */
     @Transactional
     public void createPopUpStore(CreatePopUpStoreRequest request) {
+        log.info("start " + request.getStartDate());
+        log.info("end " + request.getEndDate());
+
         LocationEntity location = LocationEntity.builder()
                 .latitude(request.getLatitude())
                 .longitude(request.getLongitude())
