@@ -10,6 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -19,6 +20,9 @@ public interface UserPopUpStoreViewRepository extends JpaRepository<UserPopUpSto
     Page<PopUpStoreEntity> findRecentViewPopUpStoresByUserId(@Param("userId") String userId, Pageable pageable);
 
     Optional<UserPopUpStoreViewEntity> findByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
+    
+    /** 팝업 스토어 삭제 시, 일괄적으로 관련 팝업스토어의 뷰 데이터 삭제하기 위한 조회 메서드 */
+    List<UserPopUpStoreViewEntity> findByPopUpStore(PopUpStoreEntity popUpStore);
 
 
 }
