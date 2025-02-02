@@ -41,6 +41,7 @@ public class UserEntity extends BaseEntity {
 
     @Column(name = "GENDER")
     @Convert(converter = GenderConverter.class)
+    @Enumerated(EnumType.STRING)
     private Gender gender; // 성별
 
     @Column(name = "AGE")
