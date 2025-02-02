@@ -72,7 +72,7 @@ public class UserEntity extends BaseEntity {
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<BookMarkPopUpStoreEntity> bookMarkPopupStores = new ArrayList<>();
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
