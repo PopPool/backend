@@ -156,6 +156,33 @@ public class UserService {
     }
 
     /**
+     * 내가 코멘트 단 팝업스토어 전체 조회
+     */
+    @Transactional(readOnly = true)
+    public GetMyCommentedPopUpStoreResponse getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
+        UserEntity user = this.findUserByUserId(userId);
+
+        // 회원이 코멘트 단 팝업 스토어 전체 조회
+        List<PopUpStoreEntity> popUpStores = popUpStoreRepository.getMyCommentedPopUpStoreList(userId, pageable);
+
+        // Entity to Dto
+        List<GetMyCommentedPopUpStoreResponse.PopUpInfo> popUpInfoList = popUpStores.stream()
+                .map(popUpStore -> GetMyCommentedPopUpStoreResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStore.getId())
+                        .popUpStoreName(popUpStore.getName())
+                        .desc(popUpStore.getDesc())
+                        .startDate(popUpStore.getStartDate())
+                        .endDate(popUpStore.getEndDate())
+                        .address(popUpStore.getAddress())
+                        .closedYn(isClosedPopUp(popUpStore, LocalDateTime.now()))  // 종료 여부 설정
+                        .build())
+                .toList();
+
+        return GetMyCommentedPopUpStoreResponse.builder().popUpInfoList(popUpInfoList).build();
+    }
+
+
+    /**
      * 팝업 상세 다른 유저의 코멘트 목록 전체 조회
      * @param commenterId
      * @param commentType
@@ -502,6 +529,10 @@ public class UserService {
         if (refreshToken != null) {
             refreshTokenRepository.delete(refreshToken);
         }
+
+        // 회원 관련 팝업 뷰 조회 후 삭제
+        List<UserPopUpStoreViewEntity> userPopUpStoreViewList = userPopUpStoreViewRepository.findByUser(user);
+        userPopUpStoreViewRepository.deleteAll(userPopUpStoreViewList);
 
         // 회원 삭제
         userRepository.delete(user);

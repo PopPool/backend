@@ -9,6 +9,7 @@ import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.service.UserService;
 import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +20,7 @@ import java.util.List;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class HomeService {
 
     private final PopUpStoreRepository popUpStoreRepository;
@@ -52,13 +54,18 @@ public class HomeService {
 
             /** 추천 팝업 리스트 */
             customPopUpStoreList = popUpStoreRepository.getCustomPopUpStoreList(user, pageable);
+            System.out.println("Size" + customPopUpStoreList.size());
             // 추천 팝업이 없으면, 카테고리 인기팝업에서 최대 6개 노출
             if (customPopUpStoreList.size() == 0) {
+                log.info("카테고리 인기");
+                System.out.println("카테고리 인기");
                 customPopUpStoreList = popUpStoreRepository.getCategoryPopularPopUpStoreList(user, pageable);
             }
 
             // 카테고리에서도 없다면, 전체 인기 팝업에서 최대 6개 노출
             if (customPopUpStoreList.size() == 0) {
+                log.info("전체 인기");
+                System.out.println("전체 인기 ");
                 customPopUpStoreList = popUpStoreRepository.getPopularPopUpStoreList(user.getUserId(), pageable);
             }
 
