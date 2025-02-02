@@ -22,8 +22,3 @@ logging:
     org.hibernate.SQL: debug
     org.hibernate.orm.jdbc.bind: trace
 
-  file:
-    name: application.log
-    path: /home/ubuntu
-    encoding: UTF-8
-
