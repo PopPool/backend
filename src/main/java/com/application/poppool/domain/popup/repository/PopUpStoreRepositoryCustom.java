@@ -70,6 +70,14 @@ public interface PopUpStoreRepositoryCustom {
 
     List<PopUpStoreEntity> getViewBoundPopUpStoreList(List<Integer> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon);
 
+    /**
+     * 내가 단 코멘트에 대한 팝업스토어 리스트
+     * @param userId
+     * @param pageable
+     * @return
+     */
+    List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable);
+    
 
     /**
      * 팝업 스토어 찾아가는 길

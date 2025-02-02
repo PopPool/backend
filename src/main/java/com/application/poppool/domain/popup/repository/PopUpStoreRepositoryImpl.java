@@ -9,6 +9,7 @@ import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionRe
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
+import com.application.poppool.domain.user.dto.response.GetMyCommentedPopUpStoreResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.enums.PopUpSortCode;
@@ -31,6 +32,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import static com.application.poppool.domain.category.entity.QCategoryEntity.categoryEntity;
+import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
 import static com.application.poppool.domain.location.entity.QLocationEntity.locationEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QBookMarkPopUpStoreEntity.bookMarkPopUpStoreEntity;
@@ -425,6 +427,17 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         isOpenPopUp())
                 .fetchOne();
     }
+
+    public List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
+        return queryFactory.selectFrom(popUpStoreEntity)
+                .innerJoin(popUpStoreEntity.comments, commentEntity)
+                .where(commentEntity.user.userId.eq(userId))
+                .groupBy(popUpStoreEntity.id)
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+    }
+
 
     @Override
     public List<GetAdminPopUpStoreListResponse.PopUpStore> getAdminPopUpStoreList(String query, Pageable pageable) {
