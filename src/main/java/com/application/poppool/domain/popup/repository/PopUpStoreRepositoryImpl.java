@@ -122,7 +122,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.bookmarkCount.desc(),
                         userPopUpStoreViewEntity.viewCount.sum().desc(),
                         userPopUpStoreViewEntity.commentCount.sum().desc(),
-                        userPopUpStoreViewEntity.bookmarkCount.sum().desc())
+                        userPopUpStoreViewEntity.bookmarkCount.sum().desc(),
+                        popUpStoreEntity.startDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -153,7 +154,8 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         isOpenPopUp())
                 .orderBy(popUpStoreEntity.viewCount.desc(),
                         popUpStoreEntity.commentCount.desc(),
-                        popUpStoreEntity.bookmarkCount.desc())
+                        popUpStoreEntity.bookmarkCount.desc(),
+                        popUpStoreEntity.startDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -194,7 +196,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .leftJoin(popUpStoreEntity.category, categoryEntity)
                 .where(isOpenPopUp())
-                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
+                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc(), popUpStoreEntity.startDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -265,7 +267,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .where(categoryEq(categoryId), // 같은 카테고리
                         isOpenPopUp(),  // 현재 진행 중인 팝업
                         popUpStoreIdNe(popUpStoreId)) // 현재 조회한 팝업은 제외
-                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc())
+                .orderBy(popUpStoreEntity.viewCount.desc(), popUpStoreEntity.commentCount.desc(), popUpStoreEntity.bookmarkCount.desc(), popUpStoreEntity.startDate.desc())
                 .limit(3) // 최대 3개
                 .fetch();
     }
