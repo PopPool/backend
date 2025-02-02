@@ -73,11 +73,8 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @JoinColumn(name = "LOCATION_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private LocationEntity location;
 
-    @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
-    private Long version;
-
     @Builder.Default
-    @OneToMany(mappedBy = "popUpStore")
+    @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL)
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder.Default
@@ -87,6 +84,9 @@ public class PopUpStoreEntity extends BaseAdminEntity {
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PopUpStoreImageEntity> images = new ArrayList<>();
+
+    @Version // 낙관적 락 (버전 정보로 동시성 이슈 해결)
+    private Long version;
 
     public void addImage(PopUpStoreImageEntity image) {
         this.images.add(image);
