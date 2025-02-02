@@ -110,7 +110,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
-                .innerJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
+                .leftJoin(userPopUpStoreViewEntity).on(userPopUpStoreViewEntity.popUpStore.eq(popUpStoreEntity))
                 .innerJoin(userPopUpStoreViewEntity.user, userEntity)
                 .on(ageGroupEq(user.getAge()),
                         genderEq(user.getGender()))
