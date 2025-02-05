@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -60,87 +61,22 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         return handleException(badRequestFromViolation, request);
     }
 
-    /**
+
      //공통예외처리 적용 개발시엔 주석처리후 디버깅 가능
-     @ExceptionHandler(NoSuchElementException.class) public ResponseEntity<Object> handleNoSuchElementException(
-     NoSuchElementException ex, WebRequest request) {
-     BadRequestException badRequestFromViolation;
-     log.debug("handleNoSuchElementException : {}", ex.getMessage(), ex);
-
-     badRequestFromViolation = new BadRequestException(ErrorCode.NO_SUCH_ELEMENT_EXCEPTION);
-     return handleException(badRequestFromViolation, request);
+     @ExceptionHandler(NotFoundException.class)
+     public ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request) {
+        log.debug("NotFoundException : {}", ex.getMessage(), ex);
+        return handleException(ex, request);
      }
 
-     @ExceptionHandler(IllegalArgumentException.class) public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex, WebRequest request) {
+     @ExceptionHandler(Exception.class)
+     public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
+         // 여기서는 원래 체크예외든 런타임예외든 원래 예외의 메세지를 출력해서 어떤 예외가 발생했는지 알도록 함.
+         log.debug("Exception : {}", ex.getMessage(), ex);
 
-     log.debug("handleIllegalArgumentException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.ILLEGAL_ARGUMENT_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
+         // RuntimeException 이나 체크 예외가 발생한 경우, 공통적으로 처리할 수 있는 커스텀 예외로 변환
+         BaseException baseException = new BaseException(ErrorCode.EXCEPTION);
+         return handleException(baseException, request);
      }
 
-     @ExceptionHandler(NullPointerException.class) public ResponseEntity<Object> handleNullPointerException(NullPointerException ex, WebRequest request) {
-
-     log.debug("handleNullPointerException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.NULL_POINT_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-     }
-
-     @ExceptionHandler(IndexOutOfBoundsException.class) public ResponseEntity<Object> handleIndexOutOfBoundsException(IndexOutOfBoundsException ex, WebRequest request) {
-
-     log.debug("handleIndexOutOfBoundsException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.INDEX_OUT_OF_BOUNDS_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex, responseEntity.getBody(), new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-     }
-
-     @ExceptionHandler(ArithmeticException.class) public ResponseEntity<Object> handleArithmeticException(ArithmeticException ex, WebRequest request) {
-
-     log.debug("handleArithmeticException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.ARITHMETIC_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-     }
-
-     @ExceptionHandler(MultipartException.class) public ResponseEntity<Object> handleMultipartException(MultipartException ex, WebRequest request) {
-
-     log.debug("handleMultipartException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.MULTIPART_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-     }
-
-     @ExceptionHandler({PersistenceException.class, JpaSystemException.class, RollbackException.class, DataIntegrityViolationException.class,
-     NonUniqueResultException.class, ConstraintViolationException.class, QueryException.class, TransactionException.class, DuplicateKeyException.class})
-     public ResponseEntity<Object> handleDataBaseException(Exception ex,  WebRequest request) {
-     log.debug("handleDatabaseException : {}", ex.getMessage(), ex);
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.DATABASE_EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.BAD_REQUEST, request);
-
-     }
-
-     @ExceptionHandler(RuntimeException.class) public ResponseEntity<Object> handleRunTimeException(RuntimeException ex,  WebRequest request) {
-     log.debug("handleRuntimeException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-
-     }
-
-     @ExceptionHandler(Exception.class) public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
-     log.debug("handleException : {}", ex.getMessage(), ex);
-
-     ResponseEntity<Object> responseEntity = ResponseEntity.badRequest()
-     .body(new BadRequestException(ErrorCode.EXCEPTION).buildExceptionResponseDTO());
-     return handleExceptionInternal(ex,responseEntity.getBody() , new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
-     }
-     */
 }
