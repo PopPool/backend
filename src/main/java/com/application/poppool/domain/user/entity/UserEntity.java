@@ -73,7 +73,7 @@ public class UserEntity extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<BookMarkPopUpStoreEntity> bookMarkPopupStores = new ArrayList<>();
+    private List<BookmarkPopUpStoreEntity> bookmarkPopupStores = new ArrayList<>();
 
     public void updateMyProfile(UpdateMyProfileRequest updateMyProfileRequest) {
         this.profileImageUrl = updateMyProfileRequest.getProfileImageUrl();
