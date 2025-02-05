@@ -48,19 +48,29 @@ public class UserController implements UserControllerDoc {
         return ResponseEntity.ok(userService.getMyPage(userDetails.getUsername()));
     }
 
+    /** 추후에 일반/인스타 코멘트 전체 조회 구현예정
+    @Override
+    @GetMapping("/commented/popup")
+    public ResponseEntity<GetMyCommentedPopUpStoreResponse> getMyCommentedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                         @RequestParam CommentType commentType,
+                                                                                         @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCodes,
+                                                                                         @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(userService.getMyCommentedPopUpStoreList(userDetails.getUsername(), commentType, sortCodes, pageable));
+    }*/
+
+
     /**
-     * 내가 쓴 일반/인스타 코멘트 조회
+     * 내가 단 코멘트에 대한 팝업스토어 조회
      *
      * @param userDetails
      * @return
      */
+
     @Override
-    @GetMapping("/comments")
-    public ResponseEntity<GetMyCommentResponse> getMyCommentList(@AuthenticationPrincipal UserDetails userDetails,
-                                                                 @RequestParam CommentType commentType,
-                                                                 @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCodes,
+    @GetMapping("/commented/popup")
+    public ResponseEntity<GetMyCommentedPopUpStoreResponse> getMyCommentedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                  @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getMyCommentList(userDetails.getUsername(), commentType, sortCodes, pageable));
+        return ResponseEntity.ok(userService.getMyCommentedPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
     @Override

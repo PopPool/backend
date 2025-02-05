@@ -26,12 +26,19 @@ public interface UserControllerDoc {
     @Operation(summary = "마이페이지 조회", description = "마이페이지를 조회합니다.")
     ResponseEntity<GetMyPageResponse> getMyPage(@AuthenticationPrincipal UserDetails userDetails);
 
-    @Operation(summary = "내가 쓴 일반/인스타 코멘트 조회", description = "내가 쓴 일반/인스타 코멘트를 조회합니다.")
-    ResponseEntity<GetMyCommentResponse> getMyCommentList(@AuthenticationPrincipal UserDetails userDetails,
+    /** 추후 구현 예정
+    @Operation(summary = "내가 쓴 코멘트에 대한 팝업스토어 조회", description = "내가 쓴 코멘트에 대한 팝업스토어를 조회합니다.")
+    ResponseEntity<GetMyCommentedPopUpStoreResponse> getMyCommentedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                           @RequestParam CommentType commentType,
                                                           @RequestParam(name = "sortCode", required = false) List<CommentSortCode> sortCode,
                                                           Pageable pageable);
+    */
 
+    @Operation(summary = "내가 코멘트 단 팝업스토어 목록 조회", description = "내가 코멘트 단 팝업스토어 목록을 조회합니다.")
+    ResponseEntity<GetMyCommentedPopUpStoreResponse> getMyCommentedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+                                                                                  @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
+    
+    
     @Operation(summary = "코멘트 단 유저의 일반/인스타 코멘트 전체 조회", description = "코멘트 단 유저의 일반/인스타 코멘트를 전체 조회합니다.")
     ResponseEntity<GetCommenterCommentListResponse> GetCommenterCommentList(@RequestParam String commenterId,
                                                                             @RequestParam CommentType commentType,
