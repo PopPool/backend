@@ -63,25 +63,9 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
                 .where(popUpStoreIdEq(popUpStoreId),
                         blockedUserEntity.id.isNull(),
                         commentTypeEq(commentType)) // 차단된 유저가 아닌 경우(조인 시, 차단조건에 해당하지 않는 조건 = 차단조건에 일치하는 행이 없다.)
+                .orderBy(commentEntity.createDateTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
-                .fetch();
-    }
-
-    @Override
-    public List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId) {
-        return queryFactory
-                .select(Projections.bean(
-                        GetMyPageResponse.MyCommentedPopUpInfo.class,
-                        popUpStoreEntity.id.as("popUpStoreId"),
-                        popUpStoreEntity.name.as("popUpStoreName"),
-                        popUpStoreEntity.mainImageUrl.as("mainImageUrl")
-                ))
-                .from(commentEntity)
-                .join(commentEntity.popUpStore, popUpStoreEntity)
-                .where(commentEntity.user.userId.eq(userId))
-                .groupBy(commentEntity.popUpStore)
-                .orderBy(commentEntity.createDateTime.desc())
                 .fetch();
     }
 
