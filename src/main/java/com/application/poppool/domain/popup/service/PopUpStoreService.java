@@ -1,5 +1,6 @@
 package com.application.poppool.domain.popup.service;
 
+import com.application.poppool.domain.bookmark.repository.BookmarkPopUpStoreRepository;
 import com.application.poppool.domain.comment.dto.response.GetCommentsResponse;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
@@ -11,7 +12,6 @@ import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.entity.UserPopUpStoreViewEntity;
-import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserPopUpStoreViewRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.enums.PopUpSortCode;
@@ -39,7 +39,7 @@ public class PopUpStoreService {
     private final CommentService commentService;
     private final CommentRepository commentRepository;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
-    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
+    private final BookmarkPopUpStoreRepository bookmarkPopUpStoreRepository;
 
 
     /**
@@ -99,7 +99,7 @@ public class PopUpStoreService {
                     });
 
             /** 찜 여부 체크 */
-            bookmarkYn = bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
+            bookmarkYn = bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
             hasCommented = commentRepository.existsByUserAndPopUpStore(user, popUpStore);
             /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
             commentList = commentEntityToDto(commentEntities, user);

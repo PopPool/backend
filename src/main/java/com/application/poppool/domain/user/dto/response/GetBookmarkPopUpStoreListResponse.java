@@ -8,7 +8,7 @@ import java.util.List;
 
 @Getter
 @Builder
-public class GetBookMarkPopUpStoreListResponse {
+public class GetBookmarkPopUpStoreListResponse {
 
     private List<PopUpInfo> popUpInfoList;
     private int totalPages;

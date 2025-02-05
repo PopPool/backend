@@ -1,10 +1,10 @@
 package com.application.poppool.domain.location.service;
 
+import com.application.poppool.domain.bookmark.repository.BookmarkPopUpStoreRepository;
 import com.application.poppool.domain.location.dto.response.GetViewBoundPopUpStoreListResponse;
 import com.application.poppool.domain.location.dto.response.SearchPopUpStoreByMapResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.repository.PopUpStoreRepository;
-import com.application.poppool.domain.user.repository.BookMarkPopUpStoreRepository;
 import com.application.poppool.domain.user.repository.UserRepository;
 import com.application.poppool.global.utils.SecurityUtils;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ public class LocationService {
 
     private final PopUpStoreRepository popUpStoreRepository;
     private final UserRepository userRepository;
-    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
+    private final BookmarkPopUpStoreRepository bookmarkPopUpStoreRepository;
 
     /**
      * 지도로 팝업스토어 검색
@@ -41,7 +41,7 @@ public class LocationService {
 
         List<SearchPopUpStoreByMapResponse.PopUpStore> popUpStoreList = popUpStoreEntityList.stream()
                 .map(popUpStoreEntity -> {
-                    boolean bookmarkYn = bookMarkPopUpStoreRepository.existsByUserIdAndPopUpStore(userId, popUpStoreEntity);
+                    boolean bookmarkYn = bookmarkPopUpStoreRepository.existsByUserIdAndPopUpStore(userId, popUpStoreEntity);
 
                     return SearchPopUpStoreByMapResponse.PopUpStore.builder()
                             .id(popUpStoreEntity.getId())

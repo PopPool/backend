@@ -45,7 +45,7 @@ public interface UserControllerDoc {
                                                                             @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "찜한 팝업 스토어 리스트 조회", description = "찜한 팝업 스토어 리스트를 조회합니다.")
-    ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+    ResponseEntity<GetBookmarkPopUpStoreListResponse> getBookmarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                   @PageableDefault(page = 0, size = 20, sort = "updateDateTime", direction = Sort.Direction.DESC) Pageable pageable);
 
     @Operation(summary = "팝업 스토어 찜", description = "팝업 스토어를 찜합니다.")

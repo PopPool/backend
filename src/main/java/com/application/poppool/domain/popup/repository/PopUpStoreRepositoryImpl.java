@@ -9,7 +9,7 @@ import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionRe
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.popup.entity.QPopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
-import com.application.poppool.domain.user.dto.response.GetMyCommentedPopUpStoreResponse;
+import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.domain.user.enums.Gender;
 import com.application.poppool.global.enums.PopUpSortCode;
@@ -35,7 +35,7 @@ import static com.application.poppool.domain.category.entity.QCategoryEntity.cat
 import static com.application.poppool.domain.comment.entity.QCommentEntity.commentEntity;
 import static com.application.poppool.domain.location.entity.QLocationEntity.locationEntity;
 import static com.application.poppool.domain.popup.entity.QPopUpStoreEntity.popUpStoreEntity;
-import static com.application.poppool.domain.user.entity.QBookMarkPopUpStoreEntity.bookMarkPopUpStoreEntity;
+import static com.application.poppool.domain.user.entity.QBookmarkPopUpStoreEntity.bookmarkPopUpStoreEntity;
 import static com.application.poppool.domain.user.entity.QUserEntity.userEntity;
 import static com.application.poppool.domain.user.entity.QUserInterestCategoryEntity.userInterestCategoryEntity;
 import static com.application.poppool.domain.user.entity.QUserPopUpStoreViewEntity.userPopUpStoreViewEntity;
@@ -103,10 +103,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                                         .from(popUpStoreEntitySub)
                                         .where(popUpStoreEntitySub.id.eq(popUpStoreEntity.id))
                                 , "endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -142,10 +142,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(user.getUserId()),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -187,10 +187,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -226,10 +226,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -282,10 +282,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -318,10 +318,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.mainImageUrl.as("mainImageUrl"),
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -365,10 +365,10 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                         popUpStoreEntity.startDate.as("startDate"),
                         popUpStoreEntity.endDate.as("endDate"),
                         popUpStoreEntity.address.as("address"),
-                        ExpressionUtils.as(JPAExpressions.select(bookMarkPopUpStoreEntity.id.isNotNull())
-                                        .from(bookMarkPopUpStoreEntity)
-                                        .where(bookMarkPopUpStoreEntity.user.userId.eq(userId),
-                                                bookMarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
+                        ExpressionUtils.as(JPAExpressions.select(bookmarkPopUpStoreEntity.id.isNotNull())
+                                        .from(bookmarkPopUpStoreEntity)
+                                        .where(bookmarkPopUpStoreEntity.user.userId.eq(userId),
+                                                bookmarkPopUpStoreEntity.popUpStore.id.eq(popUpStoreEntity.id))
                                 , "bookmarkYn")
                 ))
                 .from(popUpStoreEntity)
@@ -385,7 +385,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.location, locationEntity).fetchJoin()
                 .leftJoin(popUpStoreEntity.category, categoryEntity).fetchJoin()
-                .leftJoin(popUpStoreEntity.bookMarkPopUpStores, bookMarkPopUpStoreEntity)
+                .leftJoin(popUpStoreEntity.bookmarkPopUpStores, bookmarkPopUpStoreEntity)
                 .where(categoryIn(categories),
                         nameContains(query),
                         isOpenPopUp())
@@ -430,11 +430,31 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .fetchOne();
     }
 
+
+    @Override
+    public List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId) {
+        return queryFactory
+                .select(Projections.bean(
+                        GetMyPageResponse.MyCommentedPopUpInfo.class,
+                        popUpStoreEntity.id.as("popUpStoreId"),
+                        popUpStoreEntity.name.as("popUpStoreName"),
+                        popUpStoreEntity.mainImageUrl.as("mainImageUrl")
+                ))
+                .from(popUpStoreEntity)
+                .innerJoin(popUpStoreEntity.comments, commentEntity)
+                .where(commentEntity.user.userId.eq(userId))
+                .groupBy(popUpStoreEntity.id)
+                .orderBy(commentEntity.createDateTime.desc())
+                .fetch();
+    }
+
+
     public List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.comments, commentEntity)
                 .where(commentEntity.user.userId.eq(userId))
                 .groupBy(popUpStoreEntity.id)
+                .orderBy(commentEntity.createDateTime.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();

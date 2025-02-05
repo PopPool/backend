@@ -84,9 +84,9 @@ public class UserController implements UserControllerDoc {
 
     @Override
     @GetMapping("/bookmark-popupstores")
-    public ResponseEntity<GetBookMarkPopUpStoreListResponse> getBookMarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
+    public ResponseEntity<GetBookmarkPopUpStoreListResponse> getBookmarkedPopUpStoreList(@AuthenticationPrincipal UserDetails userDetails,
                                                                                          @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getBookMarkedPopUpStoreList(userDetails.getUsername(), pageable));
+        return ResponseEntity.ok(userService.getBookmarkedPopUpStoreList(userDetails.getUsername(), pageable));
     }
 
     @Override

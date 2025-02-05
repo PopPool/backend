@@ -13,7 +13,7 @@ import lombok.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Builder
-public class BookMarkPopUpStoreEntity extends BaseEntity {
+public class BookmarkPopUpStoreEntity extends BaseEntity {
 
     @Id
     @Column(name = "BOOKMARK_POPUP_STORE_ID")

@@ -449,7 +449,7 @@ src
 │  │           │     │  │  └─ UpdateMyTailoredInfoRequest.java
 │  │           │     │  └─ response
 │  │           │     │     ├─ GetBlockedUserListResponse.java
-│  │           │     │     ├─ GetBookMarkPopUpStoreListResponse.java
+│  │           │     │     ├─ GetBookmarkPopUpStoreListResponse.java
 │  │           │     │     ├─ GetMyCommentedPopUpStoreListResponse.java
 │  │           │     │     ├─ GetMyCommentResponse.java
 │  │           │     │     ├─ GetMyPageResponse.java
@@ -458,7 +458,7 @@ src
 │  │           │     │     └─ GetWithDrawlSurveyResponse.java
 │  │           │     ├─ entity
 │  │           │     │  ├─ BlockedUserEntity.java
-│  │           │     │  ├─ BookMarkPopUpStoreEntity.java
+│  │           │     │  ├─ BookmarkPopUpStoreEntity.java
 │  │           │     │  ├─ RoleEntity.java
 │  │           │     │  ├─ UserEntity.java
 │  │           │     │  ├─ UserInterestCategoryEntity.java
@@ -473,7 +473,7 @@ src
 │  │           │     │  ├─ BlockedUserRepository.java
 │  │           │     │  ├─ BlockedUserRepositoryCustom.java
 │  │           │     │  ├─ BlockedUserRepositoryImpl.java
-│  │           │     │  ├─ BookMarkPopUpStoreRepository.java
+│  │           │     │  ├─ BookmarkPopUpStoreRepository.java
 │  │           │     │  ├─ RoleRepository.java
 │  │           │     │  ├─ UserInterestCategoryRepository.java
 │  │           │     │  ├─ UserPopUpStoreViewRepository.java
