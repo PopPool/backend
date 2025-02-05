@@ -68,7 +68,7 @@ public class UserEntity extends BaseEntity {
     private List<UserInterestCategoryEntity> userInterestCategories = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST, orphanRemoval = true)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.REMOVE, orphanRemoval = true)
     private List<CommentEntity> comments = new ArrayList<>();
 
     @Builder.Default
