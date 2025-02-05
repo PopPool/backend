@@ -62,17 +62,16 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
     }
 
 
-     //공통예외처리 적용 개발시엔 주석처리후 디버깅 가능
      @ExceptionHandler(NotFoundException.class)
      public ResponseEntity<Object> handleNotFoundException(NotFoundException ex, WebRequest request) {
-        log.debug("NotFoundException : {}", ex.getMessage(), ex);
+        log.debug("NotFoundException : {}",  ex);
         return handleException(ex, request);
      }
 
      @ExceptionHandler(Exception.class)
      public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
          // 여기서는 원래 체크예외든 런타임예외든 원래 예외의 메세지를 출력해서 어떤 예외가 발생했는지 알도록 함.
-         log.debug("Exception : {}", ex.getMessage(), ex);
+         log.debug("Exception : {}", ex);
 
          // RuntimeException 이나 체크 예외가 발생한 경우, 공통적으로 처리할 수 있는 커스텀 예외로 변환
          BaseException baseException = new BaseException(ErrorCode.EXCEPTION);
