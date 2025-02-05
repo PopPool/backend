@@ -116,6 +116,10 @@ public class PopUpStoreEntity extends BaseAdminEntity {
         this.commentCount--;
     }
 
+    public void decrementDeleteUserCommentCount(long count) {
+        this.commentCount -= count;
+    }
+
     public void incrementBookmarkCount() {
         this.bookmarkCount++;
     }
