@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class UserCommentCountByPopUpStore {
 
-    private PopUpStoreEntity popupStore;
+    private PopUpStoreEntity popUpStore;
     private long commentCount;
 
 }

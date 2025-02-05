@@ -112,8 +112,8 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
 
     public List<UserCommentCountByPopUpStore> findCommentCountGroupedByPopupStore(String userId) {
         return queryFactory.select(Projections.bean(UserCommentCountByPopUpStore.class,
-                        commentEntity.popUpStore,
-                        commentEntity.count()
+                        commentEntity.popUpStore.as("popUpStore"),
+                        commentEntity.count().as("commentCount")
                 ))
                 .from(commentEntity)
                 .join(commentEntity.popUpStore, popUpStoreEntity)
