@@ -4,6 +4,7 @@ import com.application.poppool.domain.auth.enums.SocialType;
 import com.application.poppool.domain.auth.service.apple.AppleAuthFeignClient;
 import com.application.poppool.domain.auth.service.apple.AppleAuthService;
 import com.application.poppool.domain.auth.service.apple.AppleProperties;
+import com.application.poppool.domain.bookmark.repository.BookmarkPopUpStoreRepository;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.comment.repository.CommentRepository;
@@ -14,13 +15,13 @@ import com.application.poppool.domain.token.entity.RefreshTokenEntity;
 import com.application.poppool.domain.token.repository.AppleRefreshTokenRepository;
 import com.application.poppool.domain.token.repository.RefreshTokenRepository;
 import com.application.poppool.domain.token.service.RefreshTokenService;
+import com.application.poppool.domain.user.dto.UserBookmarkCountByPopUpStore;
 import com.application.poppool.domain.user.dto.UserCommentCountByPopUpStore;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.*;
 import com.application.poppool.domain.user.enums.Role;
 import com.application.poppool.domain.user.repository.*;
-import com.application.poppool.global.enums.CommentSortCode;
 import com.application.poppool.global.exception.BadRequestException;
 import com.application.poppool.global.exception.ConcurrencyException;
 import com.application.poppool.global.exception.ErrorCode;
@@ -50,7 +51,7 @@ public class UserService {
     private final WithDrawlRepository withDrawlSurveyRepository;
     private final BlockedUserRepository blockedUserRepository;
     private final UserPopUpStoreViewRepository userPopUpStoreViewRepository;
-    private final BookMarkPopUpStoreRepository bookMarkPopUpStoreRepository;
+    private final BookmarkPopUpStoreRepository bookmarkPopUpStoreRepository;
     private final RefreshTokenService refreshTokenService;
     private final RefreshTokenRepository refreshTokenRepository;
     private final JwtService jwtService;
@@ -91,8 +92,8 @@ public class UserService {
             /***
              * 마이페이지 조회 시, 코멘트 단 팝업 스토어 정보도 넘겨줌
              */
-            // 회원의 코멘트 조회
-            myCommentedPopUpList = commentRepository.findMyCommentedPopUpInfo(userId);
+            // 내 코멘트 팝업 조회
+            myCommentedPopUpList = popUpStoreRepository.findMyCommentedPopUpInfo(userId);
 
         }
 
@@ -244,19 +245,19 @@ public class UserService {
      * @return
      */
     @Transactional(readOnly = true)
-    public GetBookMarkPopUpStoreListResponse getBookMarkedPopUpStoreList(String userId, Pageable pageable) {
+    public GetBookmarkPopUpStoreListResponse getBookmarkedPopUpStoreList(String userId, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
         // 찜한 팝업스토어 목록 조회
-        Page<BookMarkPopUpStoreEntity> bookMarkPopUpStorePage = bookMarkPopUpStoreRepository
-                .findBookMarkPopUpStoresByUser(user, pageable);
+        Page<BookmarkPopUpStoreEntity> bookmarkPopUpStorePage = bookmarkPopUpStoreRepository
+                .findBookmarkPopUpStoresByUser(user, pageable);
 
-        List<PopUpStoreEntity> bookMarkPopUpStores = bookMarkPopUpStorePage.stream()
-                .map(BookMarkPopUpStoreEntity::getPopUpStore)
+        List<PopUpStoreEntity> bookmarkPopUpStores = bookmarkPopUpStorePage.stream()
+                .map(BookmarkPopUpStoreEntity::getPopUpStore)
                 .toList();
 
-        List<GetBookMarkPopUpStoreListResponse.PopUpInfo> bookMarkPopUpInfoList = bookMarkPopUpStores.stream()
-                .map(popUpStoreEntity -> GetBookMarkPopUpStoreListResponse.PopUpInfo.builder()
+        List<GetBookmarkPopUpStoreListResponse.PopUpInfo> bookmarkPopUpInfoList = bookmarkPopUpStores.stream()
+                .map(popUpStoreEntity -> GetBookmarkPopUpStoreListResponse.PopUpInfo.builder()
                         .popUpStoreId(popUpStoreEntity.getId())
                         .popUpStoreName(popUpStoreEntity.getName())
                         .desc(popUpStoreEntity.getDesc())
@@ -268,10 +269,10 @@ public class UserService {
                         .build())
                 .toList();
 
-        return GetBookMarkPopUpStoreListResponse.builder()
-                .popUpInfoList(bookMarkPopUpInfoList)
-                .totalPages(bookMarkPopUpStorePage.getTotalPages())
-                .totalElements(bookMarkPopUpStorePage.getTotalElements())
+        return GetBookmarkPopUpStoreListResponse.builder()
+                .popUpInfoList(bookmarkPopUpInfoList)
+                .totalPages(bookmarkPopUpStorePage.getTotalPages())
+                .totalElements(bookmarkPopUpStorePage.getTotalElements())
                 .build();
 
     }
@@ -288,7 +289,7 @@ public class UserService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
-        if (bookMarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore)) {
+        if (bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore)) {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_BOOKMARK);
         }
 
@@ -305,13 +306,13 @@ public class UserService {
                     return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
                 });
 
-        BookMarkPopUpStoreEntity bookMarkPopUpStore = BookMarkPopUpStoreEntity.builder()
+        BookmarkPopUpStoreEntity bookmarkPopUpStore = BookmarkPopUpStoreEntity.builder()
                 .user(user)
                 .popUpStore(popUpStore)
                 .build();
 
         // 찜 저장
-        bookMarkPopUpStoreRepository.save(bookMarkPopUpStore);
+        bookmarkPopUpStoreRepository.save(bookmarkPopUpStore);
 
         /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
         int retryCount = 0;
@@ -358,11 +359,11 @@ public class UserService {
                     return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
                 });
 
-        BookMarkPopUpStoreEntity bookMarkPopUpStore = bookMarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
+        BookmarkPopUpStoreEntity bookmarkPopUpStore = bookmarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BOOKMARK_NOT_FOUND));
 
         // 찜 삭제
-        bookMarkPopUpStoreRepository.delete(bookMarkPopUpStore);
+        bookmarkPopUpStoreRepository.delete(bookmarkPopUpStore);
 
         /** 동시성 이슈 방지를 위한 retry 및 예외 처리*/
         int retryCount = 0;
@@ -537,16 +538,33 @@ public class UserService {
         List<UserPopUpStoreViewEntity> userPopUpStoreViewList = userPopUpStoreViewRepository.findByUser(user);
         userPopUpStoreViewRepository.deleteAll(userPopUpStoreViewList);
 
-        // 회원이 남긴 코멘트를 삭제할 때, 코멘트 수 필드도 같이 줄이기 위해 탈퇴하려는 회원이 남긴 코멘트 개수를 팝업스토어별로 조회
-        List<UserCommentCountByPopUpStore> commentCountListGroupedByPopupStore = commentRepository.findCommentCountGroupedByPopupStore(userId);
+        // 회원이 남긴 코멘트를 삭제할 때, 코멘트 수 필드도 같이 줄이기 위해 탈퇴하려는 회원이 남긴 코멘트 수를 팝업스토어별로 조회
+        List<UserCommentCountByPopUpStore> commentCountListGroupedByPopupStores = commentRepository.findCommentCountGroupedByPopupStore(userId);
 
-        commentCountListGroupedByPopupStore.stream().
+        commentCountListGroupedByPopupStores.stream().
             forEach(dto -> {
-                PopUpStoreEntity popUpStore = dto.getPopUpStore();  // 팝업스토어 객체
-                long commentCount = dto.getCommentCount();    // 해당 팝업스토어의 코멘트 개수
+                PopUpStoreEntity popUpStore = dto.getPopUpStore();  // 팝업스토어
+                long commentCount = dto.getCommentCount();    // 해당 팝업스토어의 코멘트 수
 
-                popUpStore.decrementDeleteUserCommentCount(commentCount); // 팝업스토어 코멘트 수 감소
+                popUpStore.decrementDeleteUserCommentCount(commentCount); // 해당 유저의 팝업스토어 코멘트 수 감소
         });
+
+        // 회원이 남긴 찜을 삭제할 때, 찜 수 필드도 같이 줄이기 위해 탈퇴하려는 회원이 남긴 찜 수를 팝업스토어별로 조회
+        List<UserBookmarkCountByPopUpStore> bookmarkCountListGroupByPopUpStores = bookmarkPopUpStoreRepository
+                .findBookmarkCountGroupedByPopupStore(userId);
+
+        bookmarkCountListGroupByPopUpStores.stream().
+                forEach(dto -> {
+                    PopUpStoreEntity popUpStore = dto.getPopUpStore();  // 팝업스토어
+                    long bookmarkCount = dto.getBookmarkCount();    // 해당 팝업스토어의 찜 수
+
+                    popUpStore.decrementDeleteUserBookmarkCount(bookmarkCount); // 해당 유저의 팝업스토어 찜 수 감소
+                });
+        
+        
+        // 차단 유저들도 모두 제거
+        List<BlockedUserEntity> blockedUsers = blockedUserRepository.findAllByUser(user);
+        blockedUserRepository.deleteAll(blockedUsers);
 
         // 회원 삭제 (cascade 로 찜 및 코멘트도 같이 삭제됨)
         userRepository.delete(user);
