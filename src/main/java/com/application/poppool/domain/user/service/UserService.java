@@ -542,7 +542,7 @@ public class UserService {
 
         commentCountListGroupedByPopupStore.stream().
             forEach(dto -> {
-                PopUpStoreEntity popUpStore = dto.getPopupStore();  // 팝업스토어 객체
+                PopUpStoreEntity popUpStore = dto.getPopUpStore();  // 팝업스토어 객체
                 long commentCount = dto.getCommentCount();    // 해당 팝업스토어의 코멘트 개수
 
                 popUpStore.decrementDeleteUserCommentCount(commentCount); // 팝업스토어 코멘트 수 감소
