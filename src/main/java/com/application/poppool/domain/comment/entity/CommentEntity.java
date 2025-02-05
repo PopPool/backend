@@ -49,7 +49,7 @@ public class CommentEntity extends BaseEntity {
     @JoinColumn(name = "POPUP_STORE_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
     private PopUpStoreEntity popUpStore;
 
-    @OneToMany(mappedBy = "comment", orphanRemoval = true) // 코멘트가 사라지면 좋아요도 없어져야함
+    @OneToMany(mappedBy = "comment", cascade = CascadeType.REMOVE) // 코멘트가 사라지면 좋아요도 없어져야함
     @Builder.Default
     private List<LikeEntity> likes = new ArrayList<>();
 
