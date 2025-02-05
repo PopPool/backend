@@ -5,7 +5,7 @@ import com.application.poppool.domain.category.entity.CategoryEntity;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.image.entity.PopUpStoreImageEntity;
 import com.application.poppool.domain.location.entity.LocationEntity;
-import com.application.poppool.domain.user.entity.BookMarkPopUpStoreEntity;
+import com.application.poppool.domain.user.entity.BookmarkPopUpStoreEntity;
 import com.application.poppool.global.audit.BaseAdminEntity;
 import com.application.poppool.global.converter.BooleanToYNConverter;
 import jakarta.persistence.*;
@@ -79,7 +79,7 @@ public class PopUpStoreEntity extends BaseAdminEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.REMOVE, orphanRemoval = true)
-    private List<BookMarkPopUpStoreEntity> bookMarkPopUpStores = new ArrayList<>();
+    private List<BookmarkPopUpStoreEntity> bookmarkPopUpStores = new ArrayList<>();
 
     @Builder.Default
     @OneToMany(mappedBy = "popUpStore", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -126,6 +126,10 @@ public class PopUpStoreEntity extends BaseAdminEntity {
 
     public void decrementBookmarkCount() {
         this.bookmarkCount--;
+    }
+
+    public void decrementDeleteUserBookmarkCount(long count) {
+        this.bookmarkCount -= count;
     }
 
 }
