@@ -8,6 +8,7 @@ import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDetailRespo
 import com.application.poppool.domain.popup.dto.resonse.GetPopUpStoreDirectionResponse;
 import com.application.poppool.domain.popup.entity.PopUpStoreEntity;
 import com.application.poppool.domain.search.dto.SearchPopUpStoreResponse;
+import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.domain.user.entity.UserEntity;
 import com.application.poppool.global.enums.PopUpSortCode;
 import org.springframework.data.domain.Pageable;
@@ -70,12 +71,18 @@ public interface PopUpStoreRepositoryCustom {
 
     List<PopUpStoreEntity> getViewBoundPopUpStoreList(List<Integer> categories, double northEastLat, double northEastLon, double southWestLat, double southWestLon);
 
+
+
+
+
     /**
      * 내가 단 코멘트에 대한 팝업스토어 리스트
-     * @param userId
-     * @param pageable
-     * @return
      */
+
+    // 마이페이지의 내 코멘트 팝업
+    List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId);
+
+     // 전체보기
     List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable);
     
 
