@@ -2,6 +2,7 @@ package com.application.poppool.domain.comment.repository;
 
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
+import com.application.poppool.domain.user.dto.UserCommentCountByPopUpStore;
 import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.global.enums.CommentSortCode;
 import com.application.poppool.global.utils.QueryDslUtils;
@@ -85,7 +86,7 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
     }
 
     @Override
-    public List<CommentEntity> findByMyCommentsWithPopUpStore(String userId, CommentType commentType, List<CommentSortCode> sortCodes, Pageable pageable) {
+    public List<CommentEntity> findMyCommentsWithPopUpStore(String userId, CommentType commentType, List<CommentSortCode> sortCodes, Pageable pageable) {
         return queryFactory.selectFrom(commentEntity)
                 .join(commentEntity.popUpStore, popUpStoreEntity).fetchJoin()
                 .where(commentUserIdEq(userId),
@@ -109,6 +110,25 @@ public class CommentRepositoryImpl implements CommentRepositoryCustom {
         return count != null ? count : 0L;
     }
 
+    public List<UserCommentCountByPopUpStore> findCommentCountGroupedByPopupStore(String userId) {
+        return queryFactory.select(Projections.bean(UserCommentCountByPopUpStore.class,
+                        commentEntity.popUpStore,
+                        commentEntity.count()
+                ))
+                .from(commentEntity)
+                .join(commentEntity.popUpStore, popUpStoreEntity)
+                .where(commentUserIdEq(userId))
+                .groupBy(commentEntity.popUpStore)
+                .fetch();
+    }
+
+    /**
+     * 다른 사람의 코멘트와 그 코멘트가 달린 팝업 스토어 정보 조회
+     * @param userId
+     * @param commentType
+     * @param pageable
+     * @return
+     */
     @Override
     public List<CommentEntity> findCommenterCommentsWithPopUpStore(String userId, CommentType commentType, Pageable pageable) {
         return queryFactory.selectFrom(commentEntity)

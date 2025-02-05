@@ -14,6 +14,7 @@ import com.application.poppool.domain.token.entity.RefreshTokenEntity;
 import com.application.poppool.domain.token.repository.AppleRefreshTokenRepository;
 import com.application.poppool.domain.token.repository.RefreshTokenRepository;
 import com.application.poppool.domain.token.service.RefreshTokenService;
+import com.application.poppool.domain.user.dto.UserCommentCountByPopUpStore;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
 import com.application.poppool.domain.user.entity.*;
@@ -106,18 +107,21 @@ public class UserService {
                 .build();
     }
 
+
     /**
      * 내가 쓴 일반/인스타 코멘트 조회
      *
      * @param userId
      * @return
      */
+
+    /**
     @Transactional(readOnly = true)
     public GetMyCommentResponse getMyCommentList(String userId, CommentType commentType, List<CommentSortCode> sortCodes, Pageable pageable) {
         UserEntity user = this.findUserByUserId(userId);
 
         // 회원의 코멘트 조회
-        List<CommentEntity> myCommentEntityList = commentRepository.findByMyCommentsWithPopUpStore(userId, commentType, sortCodes, pageable);
+        List<CommentEntity> myCommentEntityList = commentRepository.findMyCommentsWithPopUpStore(userId, commentType, sortCodes, pageable);
 
         // 2. 댓글 리스트를 DTO로 변환
         List<GetMyCommentResponse.MyCommentInfo> myCommentList = myCommentEntityList.stream()
@@ -153,7 +157,8 @@ public class UserService {
                 .totalPages(totalPages)
                 .totalElements(totalElements)
                 .build();
-    }
+    }*/
+
 
     /**
      * 내가 코멘트 단 팝업스토어 전체 조회
@@ -510,9 +515,7 @@ public class UserService {
             }
             // survey 해당 숫자 증가
             surveyEntity.incrementCount();
-            withDrawlSurveyRepository.save(surveyEntity);
         }
-
 
         // 애플 로그인 유저인 경우, revoke 적용
         if (user.getSocialType() == SocialType.APPLE) {
@@ -534,7 +537,18 @@ public class UserService {
         List<UserPopUpStoreViewEntity> userPopUpStoreViewList = userPopUpStoreViewRepository.findByUser(user);
         userPopUpStoreViewRepository.deleteAll(userPopUpStoreViewList);
 
-        // 회원 삭제
+        // 회원이 남긴 코멘트를 삭제할 때, 코멘트 수 필드도 같이 줄이기 위해 탈퇴하려는 회원이 남긴 코멘트 개수를 팝업스토어별로 조회
+        List<UserCommentCountByPopUpStore> commentCountListGroupedByPopupStore = commentRepository.findCommentCountGroupedByPopupStore(userId);
+
+        commentCountListGroupedByPopupStore.stream().
+            forEach(dto -> {
+                PopUpStoreEntity popUpStore = dto.getPopupStore();  // 팝업스토어 객체
+                long commentCount = dto.getCommentCount();    // 해당 팝업스토어의 코멘트 개수
+
+                popUpStore.decrementDeleteUserCommentCount(commentCount); // 팝업스토어 코멘트 수 감소
+        });
+
+        // 회원 삭제 (cascade 로 찜 및 코멘트도 같이 삭제됨)
         userRepository.delete(user);
     }
 

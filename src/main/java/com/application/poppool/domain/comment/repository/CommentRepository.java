@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 @Repository
@@ -18,5 +19,7 @@ public interface CommentRepository extends JpaRepository<CommentEntity, Long>, C
     Optional<CommentEntity> findById(@NonNull Long id);
 
     boolean existsByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
+
+    List<CommentEntity> findByUser(UserEntity user);
 
 }
