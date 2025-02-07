@@ -27,13 +27,14 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/{popUpStoreId}/detail")
     public ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
+                                                                           @PathVariable Long popUpStoreId,
                                                                            @RequestParam(name = "commentType") CommentType commentType,
-                                                                           @PathVariable Long popUpStoreId) {
+                                                                           @RequestParam(required = false, defaultValue = "true") boolean viewCountYn) {
         log.info("팝업 스토어 상세 조회");
         if (userDetails == null) {
-            return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId));
+            return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail("GUEST", commentType, popUpStoreId, viewCountYn));
         }
-        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userDetails.getUsername(), commentType, popUpStoreId));
+        return ResponseEntity.ok(popUpStoreService.getPopUpStoreDetail(userDetails.getUsername(), commentType, popUpStoreId, viewCountYn));
     }
 
     @Override
@@ -42,6 +43,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
                                                                                              @RequestParam(name = "commentType") CommentType commentType,
                                                                                              @PathVariable Long popUpStoreId,
                                                                                              @PageableDefault(page = 0, size = 10, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
+        log.info("팝업 스토어 코멘트 전체보기");
         return ResponseEntity.ok(popUpStoreService.getAllPopUpStoreComments(userDetails.getUsername(), commentType, popUpStoreId, pageable));
     }
 
@@ -75,6 +77,7 @@ public class PopUpStoreController implements PopUpStoreControllerDoc {
     @Override
     @GetMapping("/{popUpStoreId}/directions")
     public ResponseEntity<GetPopUpStoreDirectionResponse> getPopUpStoreDirection(@PathVariable Long popUpStoreId) {
+        log.info("팝업스토어 찾아가는 길");
         return ResponseEntity.ok(popUpStoreService.getPopUpStoreDirection(popUpStoreId));
     }
 

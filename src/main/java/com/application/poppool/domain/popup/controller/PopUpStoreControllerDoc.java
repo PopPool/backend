@@ -21,8 +21,9 @@ public interface PopUpStoreControllerDoc {
 
     @Operation(summary = "팝업 스토어 상세 조회", description = "팝업 스토어 상세를 조회합니다.")
     ResponseEntity<GetPopUpStoreDetailResponse> getPopUpStoreDetail(@AuthenticationPrincipal UserDetails userDetails,
+                                                                    @PathVariable Long popUpStoreId,
                                                                     @RequestParam(name = "commentType") CommentType commentType,
-                                                                    @RequestParam(name = "popUpStoreId") Long popUpStoreId);
+                                                                    @RequestParam(required = false, defaultValue = "true") boolean viewCountYn);
 
     @Operation(summary = "팝업 스토어 코멘트 전체 보기", description = "팝업 스토어 코멘트 전체를 조회합니다.")
     ResponseEntity<GetAllPopUpStoreCommentsResponse> getAllPopUpStoreCommentsResponse(@AuthenticationPrincipal UserDetails userDetails,

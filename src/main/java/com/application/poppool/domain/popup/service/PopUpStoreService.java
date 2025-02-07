@@ -50,7 +50,7 @@ public class PopUpStoreService {
      * @return
      */
     @Transactional
-    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, CommentType commentType, Long popUpStoreId) {
+    public GetPopUpStoreDetailResponse getPopUpStoreDetail(String userId, CommentType commentType, Long popUpStoreId, boolean viewCountYn) {
 
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
@@ -74,7 +74,7 @@ public class PopUpStoreService {
                         .build())
                 .toList();
 
-        /** 댓글 조회 */
+        /** 코멘트 조회 */
         List<CommentEntity> commentEntities = commentRepository.getPopUpStoreComments(userId, commentType, popUpStoreId);
         List<GetCommentsResponse.Comment> commentList = new ArrayList<>();
 
@@ -85,35 +85,38 @@ public class PopUpStoreService {
             UserEntity user = userRepository.findByUserId(userId)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
-            UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
-                    .orElseGet(() -> {
-                        UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
-                                .user(user)
-                                .popUpStore(popUpStore)
-                                .viewedAt(LocalDateTime.now())
-                                .viewCount(0)
-                                .commentCount(0)
-                                .bookmarkCount(0)
-                                .build();
-                        return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
-                    });
+            if (viewCountYn) { // 신규 진입 시에만 조회 수 증가
+                UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                        .orElseGet(() -> {
+                            UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
+                                    .user(user)
+                                    .popUpStore(popUpStore)
+                                    .viewedAt(LocalDateTime.now())
+                                    .viewCount(0)
+                                    .commentCount(0)
+                                    .bookmarkCount(0)
+                                    .build();
+                            return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
+                        });
+
+                /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
+                userPopUpStoreView.updateViewedAt(LocalDateTime.now());
+                userPopUpStoreView.incrementViewCount();
+
+            }
 
             /** 찜 여부 체크 */
             bookmarkYn = bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
             hasCommented = commentRepository.existsByUserAndPopUpStore(user, popUpStore);
-            /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
+
+            /** Entity -> Dto, 코멘트 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
             commentList = commentEntityToDto(commentEntities, user);
-
-
-            /** 유저 팝업스토어 뷰 엔티티  조회 시간 업데이트 및 조회 수 + 1 */
-            userPopUpStoreView.updateViewedAt(LocalDateTime.now());
-            userPopUpStoreView.incrementViewCount();
 
         }
 
         /** 비로그인 유저 */
         else {
-            /** Entity -> Dto, 댓글 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
+            /** Entity -> Dto, 코멘트 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
             commentList = commentEntityToDto(commentEntities, null);
         }
 
@@ -125,15 +128,17 @@ public class PopUpStoreService {
         int retryCount = 0;
         int maxRetryCount = 3; // 최대 재시도 횟수
 
-        while (retryCount < maxRetryCount) {
-            try {
-                /** 팝업스토어 조회 수 + 1*/
-                popUpStore.incrementViewCount();
-                break;
-            } catch (OptimisticLockException e) {
-                retryCount++;
-                if (retryCount >= maxRetryCount) {
-                    throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+        if (viewCountYn) {  // 신규 진입 시에만 조회 수 증가
+            while (retryCount < maxRetryCount) {
+                try {
+                    /** 팝업스토어 조회 수 + 1*/
+                    popUpStore.incrementViewCount();
+                    break;
+                } catch (OptimisticLockException e) {
+                    retryCount++;
+                    if (retryCount >= maxRetryCount) {
+                        throw new ConcurrencyException(ErrorCode.CONCURRENCY_ERROR);
+                    }
                 }
             }
         }
