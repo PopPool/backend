@@ -17,6 +17,7 @@ public class GetMyCommentedPopUpStoreResponse {
         private Long popUpStoreId;
         private String popUpStoreName;
         private String desc;
+        private String mainImageUrl;
         private LocalDateTime startDate;
         private LocalDateTime endDate;
         private String address;
