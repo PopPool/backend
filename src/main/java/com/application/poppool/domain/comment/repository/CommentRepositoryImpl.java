@@ -3,7 +3,6 @@ package com.application.poppool.domain.comment.repository;
 import com.application.poppool.domain.comment.entity.CommentEntity;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.UserCommentCountByPopUpStore;
-import com.application.poppool.domain.user.dto.response.GetMyPageResponse;
 import com.application.poppool.global.enums.CommentSortCode;
 import com.application.poppool.global.utils.QueryDslUtils;
 import com.querydsl.core.types.OrderSpecifier;

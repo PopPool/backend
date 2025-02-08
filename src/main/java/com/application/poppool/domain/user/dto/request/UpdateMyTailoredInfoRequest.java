@@ -2,7 +2,6 @@ package com.application.poppool.domain.user.dto.request;
 
 import com.application.poppool.domain.user.enums.Gender;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.validation.constraints.Pattern;
 import lombok.Getter;
 
 @Getter
