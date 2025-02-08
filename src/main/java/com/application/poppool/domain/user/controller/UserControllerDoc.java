@@ -3,7 +3,6 @@ package com.application.poppool.domain.user.controller;
 import com.application.poppool.domain.comment.enums.CommentType;
 import com.application.poppool.domain.user.dto.request.CheckedSurveyListRequest;
 import com.application.poppool.domain.user.dto.response.*;
-import com.application.poppool.global.enums.CommentSortCode;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
@@ -40,7 +39,7 @@ public interface UserControllerDoc {
     
     
     @Operation(summary = "코멘트 단 유저의 일반/인스타 코멘트 전체 조회", description = "코멘트 단 유저의 일반/인스타 코멘트를 전체 조회합니다.")
-    ResponseEntity<GetCommenterCommentListResponse> GetCommenterCommentList(@RequestParam String commenterId,
+    ResponseEntity<GetCommenterPopUpStoreListResponse> GetCommenterCommentList(@RequestParam String commenterId,
                                                                             @RequestParam CommentType commentType,
                                                                             @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
 

@@ -75,10 +75,10 @@ public class UserController implements UserControllerDoc {
 
     @Override
     @GetMapping("/{commenterId}/comments")
-    public ResponseEntity<GetCommenterCommentListResponse> GetCommenterCommentList(@RequestParam String commenterId,
+    public ResponseEntity<GetCommenterPopUpStoreListResponse> GetCommenterCommentList(@RequestParam String commenterId,
                                                                                    @RequestParam CommentType commentType,
                                                                                    @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(userService.getCommenterCommentList(commenterId, commentType, pageable));
+        return ResponseEntity.ok(userService.getCommenterPopUpStoreList(commenterId, commentType, pageable));
     }
 
 

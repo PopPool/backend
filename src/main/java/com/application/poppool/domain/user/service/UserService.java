@@ -166,10 +166,9 @@ public class UserService {
      */
     @Transactional(readOnly = true)
     public GetMyCommentedPopUpStoreResponse getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
-        UserEntity user = this.findUserByUserId(userId);
 
         // 회원이 코멘트 단 팝업 스토어 전체 조회
-        List<PopUpStoreEntity> popUpStores = popUpStoreRepository.getMyCommentedPopUpStoreList(userId, pageable);
+        List<PopUpStoreEntity> popUpStores = popUpStoreRepository.getCommentedPopUpStoreList(userId, pageable);
 
         // Entity to Dto
         List<GetMyCommentedPopUpStoreResponse.PopUpInfo> popUpInfoList = popUpStores.stream()
@@ -190,50 +189,31 @@ public class UserService {
 
 
     /**
-     * 팝업 상세 다른 유저의 코멘트 목록 전체 조회
+     * 팝업 상세 다른 유저의 코멘트 팝업 전체 조회
      * @param commenterId
      * @param commentType
      * @param pageable
      * @return
      */
     @Transactional(readOnly = true)
-    public GetCommenterCommentListResponse getCommenterCommentList(String commenterId, CommentType commentType, Pageable pageable) {
-        // 팝업 상세 다른 유저의 코멘트 목록 전체 조회
-        List<CommentEntity> commenterCommentEntityList = commentRepository.findCommenterCommentsWithPopUpStore(commenterId, commentType, pageable);
+    public GetCommenterPopUpStoreListResponse getCommenterPopUpStoreList(String commenterId, CommentType commentType, Pageable pageable) {
+        // 팝업 상세 다른 유저의 코멘트 팝업 전체 조회
+        List<PopUpStoreEntity> popUpStores = popUpStoreRepository.getCommentedPopUpStoreList(commenterId, pageable);
 
-        // 댓글 리스트 dto 매핑
-        List<GetCommenterCommentListResponse.Comment> commenterCommentList = commenterCommentEntityList.stream()
-                .map(commentEntity -> {
-
-                    // 팝업스토어 정보 가져오기
-                    GetCommenterCommentListResponse.CommentedPopUpStore popUpStoreInfo = GetCommenterCommentListResponse.CommentedPopUpStore.builder()
-                            .popUpStoreId(commentEntity.getPopUpStore().getId())
-                            .popUpStoreName(commentEntity.getPopUpStore().getName())
-                            .mainImageUrl(commentEntity.getPopUpStore().getMainImageUrl())
-                            .closeYn(isClosedPopUp(commentEntity.getPopUpStore(), LocalDateTime.now()))
-                            .build();
-
-                    return GetCommenterCommentListResponse.Comment.builder()
-                            .commentId(commentEntity.getId())
-                            .content(commentEntity.getContent())
-                            .likeCount(commentEntity.getLikeCount())
-                            .createDateTime(commentEntity.getCreateDateTime())
-                            .popUpStoreInfo(popUpStoreInfo) // 팝업스토어 정보 포함
-                            .build();
-                })
+        // Entity to Dto
+        List<GetCommenterPopUpStoreListResponse.PopUpInfo> popUpInfoList = popUpStores.stream()
+                .map(popUpStore -> GetCommenterPopUpStoreListResponse.PopUpInfo.builder()
+                        .popUpStoreId(popUpStore.getId())
+                        .popUpStoreName(popUpStore.getName())
+                        .desc(popUpStore.getDesc())
+                        .startDate(popUpStore.getStartDate())
+                        .endDate(popUpStore.getEndDate())
+                        .address(popUpStore.getAddress())
+                        .closedYn(isClosedPopUp(popUpStore, LocalDateTime.now()))  // 종료 여부 설정
+                        .build())
                 .toList();
 
-        // 전체 코멘트 수
-        long totalElements = commentRepository.countCommenterComments(commenterId, commentType);
-
-        // 전체 페이지 수
-        int totalPages = (int) Math.ceil((double) totalElements / pageable.getPageSize());
-
-        return GetCommenterCommentListResponse.builder()
-                .commentList(commenterCommentList)
-                .totalPages(totalPages)
-                .totalElements(totalElements)
-                .build();
+        return GetCommenterPopUpStoreListResponse.builder().popUpInfoList(popUpInfoList).build();
     }
 
 
