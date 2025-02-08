@@ -449,7 +449,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
     }
 
 
-    public List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable) {
+    public List<PopUpStoreEntity> getCommentedPopUpStoreList(String userId, Pageable pageable) {
         return queryFactory.selectFrom(popUpStoreEntity)
                 .innerJoin(popUpStoreEntity.comments, commentEntity)
                 .where(commentEntity.user.userId.eq(userId))

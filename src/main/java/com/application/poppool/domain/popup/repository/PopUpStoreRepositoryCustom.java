@@ -83,7 +83,7 @@ public interface PopUpStoreRepositoryCustom {
     List<GetMyPageResponse.MyCommentedPopUpInfo> findMyCommentedPopUpInfo(String userId);
 
      // 전체보기
-    List<PopUpStoreEntity> getMyCommentedPopUpStoreList(String userId, Pageable pageable);
+    List<PopUpStoreEntity> getCommentedPopUpStoreList(String userId, Pageable pageable);
     
 
     /**
