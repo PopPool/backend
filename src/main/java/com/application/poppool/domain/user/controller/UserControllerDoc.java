@@ -37,7 +37,7 @@ public interface UserControllerDoc {
                                                                                   @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
     
     
-    @Operation(summary = "코멘트 단 유저의 일반/인스타 코멘트 전체 조회", description = "코멘트 단 유저의 일반/인스타 코멘트를 전체 조회합니다.")
+    @Operation(summary = "코멘트 단 유저의 팝업스토어 목록 조회", description = "코멘트 단 유저의 팝업스토어 목록을 조회합니다.")
     ResponseEntity<GetCommenterPopUpStoreListResponse> GetCommenterCommentList(@RequestParam String commenterId,
                                                                             @RequestParam CommentType commentType,
                                                                             @PageableDefault(page = 0, size = 20, sort = "createDateTime", direction = Sort.Direction.DESC) Pageable pageable);
