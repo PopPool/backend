@@ -208,6 +208,7 @@ public class UserService {
                         .popUpStoreId(popUpStore.getId())
                         .popUpStoreName(popUpStore.getName())
                         .desc(popUpStore.getDesc())
+                        .mainImageUrl(popUpStore.getMainImageUrl())
                         .startDate(popUpStore.getStartDate())
                         .endDate(popUpStore.getEndDate())
                         .address(popUpStore.getAddress())
