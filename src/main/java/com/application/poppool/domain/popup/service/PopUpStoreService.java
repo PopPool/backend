@@ -85,7 +85,18 @@ public class PopUpStoreService {
             UserEntity user = userRepository.findByUserId(userId)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
 
+
+            /** 찜 여부 체크 */
+            bookmarkYn = bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
+
             if (viewCountYn) { // 신규 진입 시에만 조회 수 증가
+                long bookmarkCount;
+                if (bookmarkYn == true) {
+                    bookmarkCount = 1L;
+                } else {
+                    bookmarkCount = 0L;
+                }
+
                 UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
                         .orElseGet(() -> {
                             UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
@@ -94,7 +105,7 @@ public class PopUpStoreService {
                                     .viewedAt(LocalDateTime.now())
                                     .viewCount(0)
                                     .commentCount(0)
-                                    .bookmarkCount(0)
+                                    .bookmarkCount(bookmarkCount)
                                     .build();
                             return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
                         });
@@ -105,8 +116,7 @@ public class PopUpStoreService {
 
             }
 
-            /** 찜 여부 체크 */
-            bookmarkYn = bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
+            /** 해당 팝업에 코멘트 달았는지 여부 */
             hasCommented = commentRepository.existsByUserAndPopUpStore(user, popUpStore);
 
             /** Entity -> Dto, 코멘트 좋아요(도움돼요) 여부 확인 , 좋아요 수 */
