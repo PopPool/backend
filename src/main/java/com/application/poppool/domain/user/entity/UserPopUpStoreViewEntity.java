@@ -28,15 +28,15 @@ public class UserPopUpStoreViewEntity {
 
     @Column(name = "VIEW_CNT")
     @Builder.Default
-    private long viewCount = 0;
+    private long viewCount = 0L;
 
     @Column(name = "COMMENT_CNT")
     @Builder.Default
-    private long commentCount = 0;
+    private long commentCount = 0L;
 
     @Column(name = "BOOKMARK_CNT")
     @Builder.Default
-    private long bookmarkCount = 0;
+    private long bookmarkCount = 0L;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "USER_ID", foreignKey = @ForeignKey(ConstraintMode.NO_CONSTRAINT))
