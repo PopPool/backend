@@ -277,19 +277,6 @@ public class UserService {
             throw new BadRequestException(ErrorCode.ALREADY_EXISTS_BOOKMARK);
         }
 
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
-                .orElseGet(() -> {
-                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
-                            .user(user)
-                            .popUpStore(popUpStore)
-                            .viewedAt(LocalDateTime.now())
-                            .viewCount(0)
-                            .commentCount(0)
-                            .bookmarkCount(0)
-                            .build();
-                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
-                });
-
         BookmarkPopUpStoreEntity bookmarkPopUpStore = BookmarkPopUpStoreEntity.builder()
                 .user(user)
                 .popUpStore(popUpStore)
@@ -314,8 +301,14 @@ public class UserService {
                 }
             }
         }
-        // 팝업 스토어 뷰 찜 수 + 1
-        userPopUpStoreView.incrementBookmarkCount();
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                .orElse(null);
+
+        if (userPopUpStoreView != null) {
+            // 팝업 스토어 뷰 찜 수 + 1
+            userPopUpStoreView.incrementBookmarkCount();
+        }
     }
 
     /**
@@ -329,19 +322,6 @@ public class UserService {
         UserEntity user = findUserByUserId(userId);
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
-
-        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
-                .orElseGet(() -> {
-                    UserPopUpStoreViewEntity newUserPopUpStoreView = UserPopUpStoreViewEntity.builder()
-                            .user(user)
-                            .popUpStore(popUpStore)
-                            .viewedAt(LocalDateTime.now())
-                            .viewCount(0)
-                            .commentCount(0)
-                            .bookmarkCount(0)
-                            .build();
-                    return userPopUpStoreViewRepository.save(newUserPopUpStoreView);
-                });
 
         BookmarkPopUpStoreEntity bookmarkPopUpStore = bookmarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BOOKMARK_NOT_FOUND));
@@ -365,8 +345,14 @@ public class UserService {
                 }
             }
         }
-        // 팝업 스토어 뷰 찜 수 - 1
-        userPopUpStoreView.decrementBookmarkCount();
+
+        UserPopUpStoreViewEntity userPopUpStoreView = userPopUpStoreViewRepository.findByUserAndPopUpStore(user, popUpStore)
+                .orElse(null);
+
+        if(userPopUpStoreView != null) {
+            // 팝업 스토어 뷰 찜 수 - 1
+            userPopUpStoreView.decrementBookmarkCount();
+        }
 
     }
 
