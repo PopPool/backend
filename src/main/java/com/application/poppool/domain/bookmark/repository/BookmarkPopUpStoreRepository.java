@@ -27,10 +27,6 @@ public interface BookmarkPopUpStoreRepository extends JpaRepository<BookmarkPopU
             "WHERE bp.user.id = :userId AND bp.popUpStore = :popUpStore")
     boolean existsByUserIdAndPopUpStore(@Param("userId") String userId, @Param("popUpStore") PopUpStoreEntity popUpStore);
 
-    /**
-     * FindByFK (외래키로 조회)
-     */
-    // findBy + "FK가 참조하는 엔티티명" + "_" + "FK가 참조하는 엔티티의 ID 필드명(첫글자 대문자)"
-    Optional<BookmarkPopUpStoreEntity> findByUser_UserIdAndPopUpStore_Id(String userId, Long popUpStoreId);
+    Optional<BookmarkPopUpStoreEntity> findByUserAndPopUpStore(UserEntity user, PopUpStoreEntity popUpStore);
 
 }

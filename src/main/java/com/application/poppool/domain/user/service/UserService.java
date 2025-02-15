@@ -323,7 +323,7 @@ public class UserService {
         PopUpStoreEntity popUpStore = popUpStoreRepository.findById(popUpStoreId)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.POPUP_STORE_NOT_FOUND));
 
-        BookmarkPopUpStoreEntity bookmarkPopUpStore = bookmarkPopUpStoreRepository.findByUser_UserIdAndPopUpStore_Id(userId, popUpStoreId)
+        BookmarkPopUpStoreEntity bookmarkPopUpStore = bookmarkPopUpStoreRepository.findByUserAndPopUpStore(user, popUpStore)
                 .orElseThrow(() -> new NotFoundException(ErrorCode.BOOKMARK_NOT_FOUND));
 
         // 찜 삭제
