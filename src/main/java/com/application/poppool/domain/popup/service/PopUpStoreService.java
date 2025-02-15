@@ -89,6 +89,7 @@ public class PopUpStoreService {
 
             UserEntity user = userRepository.findByUserId(userId)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
+            System.out.println(user.getUserId());
 
 
             /** 찜 여부 체크 */
