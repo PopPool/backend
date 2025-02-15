@@ -78,19 +78,12 @@ public class PopUpStoreService {
         List<CommentEntity> commentEntities = commentRepository.getPopUpStoreComments(userId, commentType, popUpStoreId);
         List<GetCommentsResponse.Comment> commentList = new ArrayList<>();
 
-        System.out.println("aaaa");
-        for (CommentEntity c : commentEntities) {
-            System.out.println(c.getUser().getUserId());
-        }
-        System.out.println("bbbb");
         /** 로그인 유저 */
         if (SecurityUtils.isAuthenticated()) {
             loginYn = true;
 
             UserEntity user = userRepository.findByUserId(userId)
                     .orElseThrow(() -> new NotFoundException(ErrorCode.USER_NOT_FOUND));
-            System.out.println(user.getUserId());
-
 
             /** 찜 여부 체크 */
             bookmarkYn = bookmarkPopUpStoreRepository.existsByUserAndPopUpStore(user, popUpStore);
