@@ -78,6 +78,11 @@ public class PopUpStoreService {
         List<CommentEntity> commentEntities = commentRepository.getPopUpStoreComments(userId, commentType, popUpStoreId);
         List<GetCommentsResponse.Comment> commentList = new ArrayList<>();
 
+        System.out.println("aaaa");
+        for (CommentEntity c : commentEntities) {
+            System.out.println(c.getUser().getUserId());
+        }
+        System.out.println("bbbb");
         /** 로그인 유저 */
         if (SecurityUtils.isAuthenticated()) {
             loginYn = true;
