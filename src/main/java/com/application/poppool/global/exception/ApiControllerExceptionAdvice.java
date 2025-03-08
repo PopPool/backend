@@ -45,7 +45,7 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         BindingResult bindingResult = ex.getBindingResult();
         if (bindingResult.hasErrors()) {
             List<FieldError> fieldErrorList = bindingResult.getFieldErrors();
-            fieldErrorList.forEach(fe -> log.debug("Validation Error - FieldName : {}, MSG : {}", fe.getField(), fe.getDefaultMessage()));
+            fieldErrorList.forEach(fe -> log.error("Validation Error - FieldName : {}, MSG : {}", fe.getField(), fe.getDefaultMessage()));
 
             if (!fieldErrorList.isEmpty()) {
                 FieldError fieldError = fieldErrorList.get(0);
