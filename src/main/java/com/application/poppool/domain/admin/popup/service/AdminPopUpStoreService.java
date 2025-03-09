@@ -115,6 +115,9 @@ public class AdminPopUpStoreService {
                 .markerSnippet(request.getMarkerSnippet())
                 .build();
 
+        log.info("aa" + request.getStartDate() );
+        log.info("aa" + request.getEndDate() );
+
         CategoryEntity category = categoryRepository.findByCategoryId(request.getCategoryId())
                 .orElseThrow(() -> new NotFoundException(ErrorCode.CATEGORY_NOT_FOUND));
 
