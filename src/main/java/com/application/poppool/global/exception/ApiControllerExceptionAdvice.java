@@ -91,7 +91,6 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         log.error("handleRunTimeException(unchecked exception) : {}", ex.getMessage(), ex);
 
         Object body = ExceptionResponse.builder()
-                .httpStatus(ErrorCode.RUNTIME_EXCEPTION.getStatus())
                 .message(ErrorCode.RUNTIME_EXCEPTION.getMessage())
                 .build();
 
@@ -109,7 +108,6 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         log.error("handleException(checked exception) : {}", ex.getMessage(), ex);
 
         Object body = ExceptionResponse.builder()
-                .httpStatus(ErrorCode.EXCEPTION.getStatus())
                 .message(ErrorCode.EXCEPTION.getMessage())
                 .build();
 
