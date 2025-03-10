@@ -23,10 +23,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(BaseException.class)
-    public ResponseEntity<Object> handleException(BaseException e, WebRequest request) {  //상속받는 모든 Exception 공통 핸들러
-        return handleExceptionInternal(e, e.buildExceptionResponseDTO(), new HttpHeaders(), e.getHttpStatus(), request);
-    }
 
     private ErrorCode getHttpMessageNotReadableErrorCode(HttpMessageNotReadableException ex) {
         return ex.getCause() instanceof InvalidFormatException
@@ -76,8 +72,7 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
      * @return
      */
     @ExceptionHandler(BaseException.class)
-    public ResponseEntity<Object> handleBaseException(BaseException e, WebRequest request) {
-        log.error("handleBaseException: {}", e.getMessage(), e);
+    public ResponseEntity<Object> handleException(BaseException e, WebRequest request) {  //상속받는 모든 Exception 공통 핸들러
         return handleExceptionInternal(e, e.buildExceptionResponseDTO(), new HttpHeaders(), e.getHttpStatus(), request);
     }
 
@@ -92,6 +87,7 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         log.error("handleRunTimeException(unchecked exception) : {}", ex.getMessage(), ex);
 
         Object body = ExceptionResponse.builder()
+                .httpStatus(ErrorCode.RUNTIME_EXCEPTION.getStatus())
                 .message(ErrorCode.RUNTIME_EXCEPTION.getMessage())
                 .build();
 
@@ -109,6 +105,7 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         log.error("handleException(checked exception) : {}", ex.getMessage(), ex);
 
         Object body = ExceptionResponse.builder()
+                .httpStatus(ErrorCode.EXCEPTION.getStatus())
                 .message(ErrorCode.EXCEPTION.getMessage())
                 .build();
 
