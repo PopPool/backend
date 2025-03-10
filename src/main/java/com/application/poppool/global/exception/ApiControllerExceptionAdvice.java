@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -67,14 +68,49 @@ public class ApiControllerExceptionAdvice extends ResponseEntityExceptionHandler
         return handleException(ex, request);
      }
 
-     @ExceptionHandler(Exception.class)
-     public ResponseEntity<Object> handleExceptionClass(Exception ex,  WebRequest request) {
-         // 여기서는 원래 체크예외든 런타임예외든 원래 예외의 메세지를 출력해서 어떤 예외가 발생했는지 알도록 함.
-         log.error("Exception : {}", ex.getMessage(), ex);
+    /**
+     * BaseException을 비롯해서 BaseException을 상속받는 모든 커스텀 예외를 이 핸들러가 처리
+     * @param e
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(BaseException.class)
+    public ResponseEntity<Object> handleBaseException(BaseException e, WebRequest request) {
+        log.error("handleBaseException: {}", e.getMessage(), e);
+        return handleExceptionInternal(e, e.buildExceptionResponseDTO(), new HttpHeaders(), e.getHttpStatus(), request);
+    }
 
-         // RuntimeException 이나 체크 예외가 발생한 경우, 공통적으로 처리할 수 있는 커스텀 예외로 변환
-         BaseException baseException = new BaseException(ErrorCode.EXCEPTION);
-         return handleException(baseException, request);
-     }
+    /**
+     * BaseException 보다 상위인 런타임 예외를 이 핸들러가 처리
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(RuntimeException.class)
+    public ResponseEntity<Object> handleRuntimeException(RuntimeException ex, WebRequest request) {
+        log.error("handleRunTimeException(unchecked exception) : {}", ex.getMessage(), ex);
 
+        Object body = ExceptionResponse.builder()
+                .message(ErrorCode.RUNTIME_EXCEPTION.getMessage())
+                .build();
+
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
+
+    /**
+     * 런타임 예외가 아닌 체크 예외를 이 핸들러가 처리
+     * @param ex
+     * @param request
+     * @return
+     */
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Object> handleCheckedException(Exception ex, WebRequest request) {
+        log.error("handleException(checked exception) : {}", ex.getMessage(), ex);
+
+        Object body = ExceptionResponse.builder()
+                .message(ErrorCode.EXCEPTION.getMessage())
+                .build();
+
+        return handleExceptionInternal(ex, body, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
+    }
 }
