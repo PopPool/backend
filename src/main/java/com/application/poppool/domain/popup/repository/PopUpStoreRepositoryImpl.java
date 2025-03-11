@@ -57,6 +57,7 @@ public class PopUpStoreRepositoryImpl implements PopUpStoreRepositoryCustom {
                 .from(popUpStoreEntity)
                 .where(isOpenPopUp(),
                         isBannerPopUp())
+                .groupBy(popUpStoreEntity.id)
                 .orderBy(popUpStoreEntity.startDate.desc())
                 .limit(3)
                 .fetch();
