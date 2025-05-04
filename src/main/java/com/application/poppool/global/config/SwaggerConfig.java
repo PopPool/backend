@@ -22,6 +22,7 @@ public class SwaggerConfig {
         SIGN_UP("sign_up", "/signup"),
         USER("user", "/users"),
         NOTICE("notice", "/notice"),
+        CATEGORY("category","/categories"),
         HOME("home", "/home"),
         POPUP_STORE("popup", "/popup"),
         COMMENT("comment", "/comments"),
@@ -81,6 +82,16 @@ public class SwaggerConfig {
                 .packagesToScan(BASE_PACKAGE + "." + ApiUrl.USER.getGroup())
                 .build();
     }
+    @Bean
+    public GroupedOpenApi categoryApi() {
+        final String name = ApiUrl.CATEGORY.getGroup();
+        return GroupedOpenApi.builder()
+                .group(name)
+                .pathsToMatch(ApiUrl.CATEGORY.getUrlPrefix() + "/**")
+                .packagesToScan(BASE_PACKAGE + "." + ApiUrl.CATEGORY.getGroup())
+                .build();
+    }
+
 
     @Bean
     public GroupedOpenApi noticeApi() {

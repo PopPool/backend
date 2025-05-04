@@ -65,7 +65,6 @@ public class SignUpController implements SignUpControllerDoc {
     @Override
     @GetMapping("/categories")
     public ResponseEntity<GetCategoryListResponse> getCategoryList() {
-        log.info("카테고리 목록 조회");
         return ResponseEntity.ok(signUpService.getCategoryList());
     }
 
