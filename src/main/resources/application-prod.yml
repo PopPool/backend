@@ -1,9 +1,9 @@
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://poppool-prod-db.cpgg2ekawa60.ap-northeast-2.rds.amazonaws.com:3306/poppool?serverTimezone=Asia/Seoul
-    username: poppool
-    password: poppool123!
+    url: ${POPPOOL_PROD_DB_URL}
+    username: ${POPPOOL_PROD_DB_USERNAME}
+    password: ${POPPOOL_PROD_DB_PASSWORD}
 
   jpa:
     generate-ddl: false
