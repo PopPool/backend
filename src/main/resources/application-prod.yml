@@ -1,3 +1,5 @@
+this_will_break: true
+
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
