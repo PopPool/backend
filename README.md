@@ -1,6 +1,8 @@
 ## 팝풀(PopPool)
 **흩어져 있는 팝업스토어 정보를 제공하고 인스타그램 연동으로 부가 기능을 제공하는 서비스**
 
+[앱 스토어 링크](https://apps.apple.com/kr/app/%ED%8C%9D%ED%92%80-poppool/id6740803210)
+
 <p align="left">
   <img src="https://avatars.githubusercontent.com/u/171132535?s=200&v=4"/>
 </p>
