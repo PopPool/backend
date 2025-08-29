@@ -1,11 +1,19 @@
-# Java 17 Alpine 버전을 사용
-FROM openjdk:17.0.4-alpine
+FROM amazoncorretto:17
 
-# 작업 디렉토리 설정
-WORKDIR /app
+# /deploy 디렉터리 생성
+RUN mkdir /deploy
 
-# 애플리케이션 JAR 파일을 컨테이너로 복사
-COPY build/libs/poppool-0.0.1-SNAPSHOT.jar /app/poppool-0.0.1-SNAPSHOT.jar
+# JAR 파일 변수 지정
+ARG JAR_FILE=build/libs/poppool-0.0.1-SNAPSHOT.jar
 
-# Spring Boot 애플리케이션 실행
-ENTRYPOINT ["java", "-Dspring.profiles.active=dev", "-jar", "/app/poppool-0.0.1-SNAPSHOT.jar"]
+# deploy 폴더로 jar 파일 복사
+ADD ${JAR_FILE} /deploy/poppool-0.0.1-SNAPSHOT.jar
+
+# 서버 포트 설정
+EXPOSE 8080
+
+# 환경 변수로 프로파일 설정
+ENV SPRING_PROFILES_ACTIVE=dev
+
+# jar 파일 실행
+ENTRYPOINT ["java", "-jar", "/deploy/poppool-0.0.1-SNAPSHOT.jar"]
