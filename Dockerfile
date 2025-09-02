@@ -16,4 +16,5 @@ EXPOSE 8080
 ENV SPRING_PROFILES_ACTIVE=dev
 
 # jar 파일 실행
-ENTRYPOINT ["java", "-jar", "/deploy/poppool-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-Duser.timezone=Asia/Seoul", "-jar", "/deploy/poppool-0.0.1-SNAPSHOT.jar"]
+
